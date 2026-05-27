@@ -290,6 +290,34 @@ html {
   }
 }
 
+/* ── Dialog/Drawer animations ── */
+@keyframes overlayShow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes drawerShow {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes modalContentShow {
+  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.animate-overlay-show {
+  animation: overlayShow 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-drawer-show {
+  animation: drawerShow 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-show {
+  animation: modalContentShow 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ── Accessibility: Respect User Reduced Motion Preferences ── */
 @media (prefers-reduced-motion: reduce) {
   *,

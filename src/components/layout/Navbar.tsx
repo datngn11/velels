@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export function Navbar() {
   const t = useTranslations("nav");
@@ -17,20 +18,8 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [menuOpen]);
-
   return (
-    <>
+    <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
       <nav
         className={`fixed top-0 w-full z-50 border-b border-outline-variant/30 transition-all duration-300 ${
           scrolled
@@ -55,22 +44,23 @@ export function Navbar() {
 
           {/* Mobile: Hamburger Button */}
           <div className="md:hidden flex items-center flex-1 justify-start">
-            <button
-              onClick={() => setMenuOpen(true)}
-              className="text-primary hover:opacity-70 transition-opacity"
-              aria-label="Open menu"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
+            <Dialog.Trigger asChild>
+              <button
+                className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
+                aria-label="Open menu"
               >
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              </svg>
-            </button>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path d="M3 6h18M3 12h18M3 18h18" />
+                </svg>
+              </button>
+            </Dialog.Trigger>
           </div>
 
           {/* Center: Logo (Responsive size & tracking) */}
@@ -112,72 +102,66 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Drawer Overlay */}
-      <div
-        className={`fixed inset-0 bg-black/45 z-50 transition-opacity duration-300 md:hidden ${
-          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setMenuOpen(false)}
-      />
+      {/* Portal for mobile drawer overlays */}
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/45 z-50 animate-overlay-show md:hidden" />
+        <Dialog.Content className="fixed top-0 left-0 bottom-0 w-[80%] max-w-[360px] bg-surface-container-lowest z-55 shadow-2xl p-8 flex flex-col justify-between animate-drawer-show md:hidden">
+          <Dialog.Title className="sr-only">Menu</Dialog.Title>
+          <Dialog.Description className="sr-only">Mobile navigation links</Dialog.Description>
+          <div>
+            {/* Drawer Header */}
+            <div className="flex justify-between items-center mb-12">
+              <span className="font-serif text-[24px] tracking-[0.2em] uppercase text-primary">
+                VELÉLS
+              </span>
+              <Dialog.Close asChild>
+                <button
+                  className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
+                  aria-label="Close menu"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </Dialog.Close>
+            </div>
 
-      {/* Mobile Drawer Panel */}
-      <div
-        className={`fixed top-0 left-0 bottom-0 w-[80%] max-w-[360px] bg-surface-container-lowest z-55 shadow-2xl p-8 flex flex-col justify-between transition-transform duration-300 ease-out md:hidden ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div>
-          {/* Drawer Header */}
-          <div className="flex justify-between items-center mb-12">
-            <span className="font-serif text-[24px] tracking-[0.2em] uppercase text-primary">
-              VELÉLS
-            </span>
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="text-primary hover:opacity-70 transition-opacity"
-              aria-label="Close menu"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
+            {/* Drawer Navigation Links */}
+            <div className="flex flex-col gap-8">
+              <Link
+                href="/#collection"
+                onClick={() => setMenuOpen(false)}
+                className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-primary font-semibold hover:opacity-75 transition-opacity"
               >
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
+                {t("collection")}
+              </Link>
+              <span
+                onClick={() => {
+                  setMenuOpen(false);
+                  // Trigger smooth scroll to philosophy if needed
+                  const el = document.getElementById("philosophy");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors cursor-pointer"
+              >
+                {t("story")}
+              </span>
+            </div>
           </div>
 
-          {/* Drawer Navigation Links */}
-          <div className="flex flex-col gap-8">
-            <Link
-              href="/#collection"
-              onClick={() => setMenuOpen(false)}
-              className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-primary font-semibold hover:opacity-75 transition-opacity"
-            >
-              {t("collection")}
-            </Link>
-            <span
-              onClick={() => {
-                setMenuOpen(false);
-                // Trigger smooth scroll to philosophy if needed
-                const el = document.getElementById("philosophy");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors cursor-pointer"
-            >
-              {t("story")}
-            </span>
+          {/* Drawer Footer */}
+          <div className="border-t border-outline-variant/30 pt-6">
+            <LocaleSwitcher />
           </div>
-        </div>
-
-        {/* Drawer Footer */}
-        <div className="border-t border-outline-variant/30 pt-6">
-          <LocaleSwitcher />
-        </div>
-      </div>
-    </>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
