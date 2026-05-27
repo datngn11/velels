@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ── Colors (from Stitch design system - Polished) ── */
+  --color-primary: #0f172a;
+  --color-on-primary: #f8fafc;
+  --color-primary-container: #1e293b;
+  --color-on-primary-container: #94a3b8;
+
+  --color-secondary: #475569;
+  --color-on-secondary: #f8fafc;
+  --color-secondary-container: #e2e8f0;
+  --color-on-secondary-container: #64748b;
+  --color-secondary-fixed-dim: #cbd5e1;
+
+  --color-tertiary: #0f172a;
+  --color-on-tertiary: #f8fafc;
+
+  --color-surface: #f8fafc;
+  --color-surface-dim: #e2e8f0;
+  --color-surface-bright: #f8fafc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f1f5f9;
+  --color-surface-container: #e2e8f0;
+  --color-surface-container-high: #cbd5e1;
+  --color-surface-container-highest: #94a3b8;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #334155;
+
+  --color-outline: #64748b;
+  --color-outline-variant: #cbd5e1;
+
+  --color-background: #f8fafc;
+  --color-on-background: #0f172a;
+  --color-inverse-surface: #1e293b;
+  --color-inverse-on-surface: #f1f5f9;
+
+  --color-error: #b91c1c;
+  --color-on-error: #ffffff;
+
+  /* ── Fonts ── */
+  --font-serif: var(--font-bodoni-moda), "Bodoni Moda", serif;
+  --font-sans: var(--font-inter), "Inter", sans-serif;
+
+  /* ── Spacing (from Stitch design system) ── */
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 20px;
+  --spacing-gutter: 24px;
+  --spacing-stack-xl: 120px;
+  --spacing-stack-lg: 80px;
+  --spacing-stack-md: 40px;
+  --spacing-stack-sm: 24px;
+  --spacing-container-max: 1440px;
+}
+
+/* ── Custom utilities ── */
+.aspect-4-5 {
+  aspect-ratio: 4 / 5;
+}
+
+.aspect-9-16 {
+  aspect-ratio: 9 / 16;
+}
+
+/* Hide scrollbar for carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2e2e2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #000000;
+}
+
+/* ── Base styles ── */
+body {
+  background-color: var(--color-surface-container-lowest);
+  color: var(--color-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Modern UX & Animation Utilities ── */
+
+/* Smooth, staggered scroll reveals */
+.reveal-base {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-fade-up {
+  transform: translateY(30px);
+}
+
+.reveal-fade-up.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-fade-in {
+  transform: scale(0.97);
+}
+
+.reveal-fade-in.is-revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Delay classes for staggered reveals */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* ── Micro-interactions ── */
+
+/* Premium animated underline for links */
+.hover-underline-anim {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.hover-underline-anim::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transform-origin: bottom right;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-underline-anim:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Image hover zoom effect */
+.hover-image-zoom {
+  overflow: hidden;
+}
+
+.hover-image-zoom img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-image-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* ── Existing Keyframes (Polished easing) ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Toast animation ── */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Hero subtle zoom ── */
+@keyframes heroZoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-hero-zoom {
+  animation: heroZoom 8s ease-out forwards;
+}
+
+/* Remove default summary marker */
+details summary::-webkit-details-marker {
+  display: none;
+}
+details summary {
+  list-style: none;
+}
+
+/* ── Premium Scroll UX ── */
+
+/* Smooth scroll for anchors, with fallback for older browsers */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px; /* Offset for sticky header */
+}
+
+/* Scroll progress bar (progressive enhancement) */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 100;
+  will-change: transform;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress-bar {
+    animation: grow-progress linear;
+    animation-timeline: scroll();
+  }
+}
+
+@keyframes grow-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* Native CSS Scroll Parallax for Hero section image */
+@keyframes heroScrollParallax {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(12%);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .hero-parallax-img {
+    animation: heroScrollParallax linear;
+    animation-timeline: scroll();
+    animation-range: exit 0% exit 100%;
+    will-change: transform;
+  }
+}
+
+/* ── Accessibility: Respect User Reduced Motion Preferences ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-base {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .hover-image-zoom img,
+  .hover-underline-anim::after {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+

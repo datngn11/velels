@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>VELÉLS - L'Aube One-Piece</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#c6c6c6",
+                      "on-primary-container": "#848484",
+                      "on-secondary-container": "#616363",
+                      "background": "#f9f9f9",
+                      "primary-fixed-dim": "#c6c6c6",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-surface-variant": "#4c4546",
+                      "on-secondary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#e2e2e2",
+                      "secondary-container": "#dfe0e0",
+                      "on-surface": "#1a1c1c",
+                      "surface-dim": "#dadada",
+                      "surface-container": "#eeeeee",
+                      "on-tertiary-fixed": "#1b1b1b",
+                      "surface": "#f9f9f9",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "outline": "#7e7576",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "secondary": "#5d5f5f",
+                      "surface-container-highest": "#e2e2e2",
+                      "primary-fixed": "#e2e2e2",
+                      "tertiary": "#000000",
+                      "surface-variant": "#e2e2e2",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "surface-tint": "#5e5e5e",
+                      "secondary-fixed": "#e2e2e2",
+                      "inverse-surface": "#2f3131",
+                      "on-tertiary-container": "#848484",
+                      "on-primary-fixed": "#1b1b1b",
+                      "tertiary-container": "#1b1b1b",
+                      "surface-container-high": "#e8e8e8",
+                      "error": "#ba1a1a",
+                      "surface-bright": "#f9f9f9",
+                      "surface-container-low": "#f3f3f3",
+                      "inverse-primary": "#c6c6c6",
+                      "primary-container": "#1b1b1b",
+                      "outline-variant": "#cfc4c5",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#000000",
+                      "inverse-on-surface": "#f1f1f1",
+                      "on-primary-fixed-variant": "#474747",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1a1c1c",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "gutter": "24px",
+                      "stack-xl": "120px",
+                      "stack-sm": "24px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "64px",
+                      "stack-md": "40px",
+                      "stack-lg": "80px"
+              },
+              "fontFamily": {
+                      "subheading": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "nav-link": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ]
+              },
+              "fontSize": {
+                      "subheading": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.2em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.15em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "nav-link": [
+                              "13px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "80px",
+                              {
+                                      "lineHeight": "90px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Hide scrollbar for carousel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased selection:bg-tertiary selection:text-on-tertiary">
+<!-- Top Navigation (Mobile) -->
+<nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant/30 px-margin-mobile py-6 flex justify-between items-center transition-all duration-300">
+<button aria-label="Menu" class="text-primary hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<a class="font-headline-lg-mobile text-headline-lg-mobile tracking-[0.3em] uppercase text-primary text-center absolute left-1/2 -translate-x-1/2" href="#">
+            VELÉLS
+        </a>
+<div class="w-6"></div> <!-- Spacer for centering -->
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-[88px] pb-stack-xl flex flex-col w-full max-w-md mx-auto">
+<!-- Product Image Carousel -->
+<section class="w-full aspect-[4/5] overflow-x-auto snap-x snap-mandatory flex no-scrollbar bg-surface-container-low mb-4">
+<div class="snap-center shrink-0 w-full h-full">
+<img class="w-full h-full object-cover grayscale" data-alt="A striking digital installation art piece featuring a minimal black swimsuit model on a white background. High-key soft white lighting creates a bright modern light-mode aesthetic. A sophisticated palette of deep blacks and pristine whites. The mood is serene yet highly editorial fashion. The composition is asymmetrical with generous negative space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNmdAEB6boCUr6Kce1mMYWeyRMDmZPClxUDhdZlJPsXysU9hU-VjRGMddvkfflndHm-gXBvAe0bDQw9dDpJkds0t3YGXTZnsXgFVn9VTZU4AKyjJ3hv9VD3w0kc_wjblZgCMRqB9oi14A_eklmwCHZ7jDv9Rh010obDibRDDd3di1cIfh5r25Rx55jyNGGQa7loU9ctkzIZkZCCc5Wp_EnbyELjhyZVFwXPJ2eq9FgYHBGrA6pjFbHp2-nQRQGRdWeBLzo8rLOWtI">
+</div>
+<div class="snap-center shrink-0 w-full h-full">
+<img class="w-full h-full object-cover grayscale" data-alt="A striking digital installation art piece featuring a close up detail of a minimalist black swimsuit. High-key soft white lighting creates a bright modern light-mode aesthetic. A sophisticated palette of deep blacks and pristine whites. The mood is serene yet highly editorial fashion. The composition focuses on texture and sharp lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6rOKpmetgc027txAkZi_eBOaEiJFoT279-iobM6TRmZcuzRUSnGcC8tJmqgqw9O-FenaeMgGcwO8AjCBDVnQCCJUvH0nVYGf1JRQpKkN3GkbEXUWe4D_qBoi5YiobS75NzUT_54155lbdT_o-A7xElWV1yQklDWMQFgwamBbsSACCygw_JzoJeOPEnsp-uiekzgbt2eqwFgxKgE4_ZKW4XnXCCMA7BGc7GgK3Efkko5w241hFV_Zoeq7dpEYQKOh26GY7NNpWA8Y">
+</div>
+</section><div class="flex justify-center gap-2 mb-stack-md px-margin-mobile">
+    <button onclick="document.querySelector('section.w-full.aspect-\\[4\\/5\\]').scrollTo({left: 0, behavior: 'smooth'})" class="w-12 h-16 border border-primary/10 hover:border-primary transition-all overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNmdAEB6boCUr6Kce1mMYWeyRMDmZPClxUDhdZlJPsXysU9hU-VjRGMddvkfflndHm-gXBvAe0bDQw9dDpJkds0t3YGXTZnsXgFVn9VTZU4AKyjJ3hv9VD3w0kc_wjblZgCMRqB9oi14A_eklmwCHZ7jDv9Rh010obDibRDDd3di1cIfh5r25Rx55jyNGGQa7loU9ctkzIZkZCCc5Wp_EnbyELjhyZVFwXPJ2eq9FgYHBGrA6pjFbHp2-nQRQGRdWeBLzo8rLOWtI" class="w-full h-full object-cover grayscale opacity-60 hover:opacity-100 transition-opacity" alt="Thumbnail 1">
+    </button>
+    <button onclick="document.querySelector('section.w-full.aspect-\\[4\\/5\\]').scrollTo({left: document.querySelector('section.w-full.aspect-\\[4\\/5\\]').clientWidth, behavior: 'smooth'})" class="w-12 h-16 border border-primary/10 hover:border-primary transition-all overflow-hidden">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6rOKpmetgc027txAkZi_eBOaEiJFoT279-iobM6TRmZcuzRUSnGcC8tJmqgqw9O-FenaeMgGcwO8AjCBDVnQCCJUvH0nVYGf1JRQpKkN3GkbEXUWe4D_qBoi5YiobS75NzUT_54155lbdT_o-A7xElWV1yQklDWMQFgwamBbsSACCygw_JzoJeOPEnsp-uiekzgbt2eqwFgxKgE4_ZKW4XnXCCMA7BGc7GgK3Efkko5w241hFV_Zoeq7dpEYQKOh26GY7NNpWA8Y" class="w-full h-full object-cover grayscale opacity-60 hover:opacity-100 transition-opacity" alt="Thumbnail 2">
+    </button>
+</div>
+<!-- Product Info Area -->
+<section class="px-margin-mobile flex flex-col gap-6">
+<!-- Header -->
+<div class="flex flex-col gap-2 border-b border-outline-variant/30 pb-6">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-wide">L'Aube One-Piece</h1>
+<p class="font-body-lg text-body-lg text-secondary">$180 USD</p>
+</div>
+<!-- Sizing -->
+<div class="flex flex-col gap-4 py-2 border-b border-outline-variant/30 pb-6">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-secondary tracking-widest uppercase">Size</span>
+<a class="font-label-caps text-label-caps text-secondary underline hover:text-primary transition-colors" href="#">Sizing Guide</a>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 flex items-center justify-center border border-primary text-primary font-body-md uppercase hover:bg-surface-container-low transition-colors">S</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant text-secondary font-body-md uppercase hover:border-primary hover:text-primary transition-colors">M</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant text-secondary font-body-md uppercase hover:border-primary hover:text-primary transition-colors">L</button>
+</div>
+</div>
+<!-- CTA -->
+<div class="py-4">
+<a class="w-full bg-primary text-on-primary py-4 flex items-center justify-center font-subheading text-subheading uppercase tracking-[0.2em] hover:opacity-90 transition-opacity" href="#">
+                    Order via Instagram Direct
+                </a>
+</div>
+<!-- Accordions -->
+<div class="flex flex-col border-t border-outline-variant/30 mt-4">
+<details class="group py-4 border-b border-outline-variant/30 cursor-pointer">
+<summary class="flex justify-between items-center font-label-caps text-label-caps text-primary uppercase tracking-widest list-none">
+<span class="">Details</span>
+<span class="material-symbols-outlined text-secondary group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="pt-4 font-body-md text-secondary leading-relaxed">
+                        A study in architectural minimalism. The L'Aube features a severe, plunging neckline and high-cut leg, crafted to contour and elongate. Double-lined for opacity and compression.
+                    </div>
+</details>
+<details class="group py-4 border-b border-outline-variant/30 cursor-pointer">
+<summary class="flex justify-between items-center font-label-caps text-label-caps text-primary uppercase tracking-widest list-none">
+<span class="">Care &amp; Composition</span>
+<span class="material-symbols-outlined text-secondary group-open:rotate-180 transition-transform duration-300">expand_more</span>
+</summary>
+<div class="pt-4 font-body-md text-secondary leading-relaxed">
+                        Material: 78% ECONYL® Regenerated Nylon, 22% Elastane. <br><br>
+                        Hand wash cold. Dry flat in shade. Avoid rough surfaces to maintain pristine texture.
+                    </div>
+</details>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-stack-lg border-t border-outline-variant/30 flex flex-col items-center gap-stack-sm px-margin-mobile">
+<a class="font-subheading text-subheading tracking-[0.4em] uppercase text-primary" href="#">VELÉLS</a>
+<div class="flex gap-6">
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors" href="#">Contact</a>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors" href="#">IG</a>
+</div>
+<p class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim mt-4">© 2024 VELÉLS</p>
+</footer>
+
+
+</body></html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>L'Aube One-Piece - VELÉLS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#eeeeee",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#c6c6c6",
+                      "on-primary-container": "#848484",
+                      "on-secondary-fixed-variant": "#454747",
+                      "on-surface-variant": "#4c4546",
+                      "error": "#ba1a1a",
+                      "secondary": "#5d5f5f",
+                      "primary-container": "#1b1b1b",
+                      "surface-tint": "#5e5e5e",
+                      "on-background": "#1a1c1c",
+                      "on-tertiary-fixed": "#1b1b1b",
+                      "primary-fixed": "#e2e2e2",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f3f3f3",
+                      "outline": "#7e7576",
+                      "outline-variant": "#cfc4c5",
+                      "surface": "#f9f9f9",
+                      "surface-variant": "#e2e2e2",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#dfe0e0",
+                      "inverse-primary": "#c6c6c6",
+                      "error-container": "#ffdad6",
+                      "background": "#f9f9f9",
+                      "inverse-surface": "#2f3131",
+                      "on-tertiary-container": "#848484",
+                      "surface-bright": "#f9f9f9",
+                      "on-surface": "#1a1c1c",
+                      "surface-container-high": "#e8e8e8",
+                      "primary-fixed-dim": "#c6c6c6",
+                      "tertiary": "#000000",
+                      "tertiary-container": "#1b1b1b",
+                      "surface-dim": "#dadada",
+                      "on-primary-fixed-variant": "#474747",
+                      "primary": "#000000",
+                      "on-tertiary-fixed-variant": "#474747",
+                      "surface-container-highest": "#e2e2e2",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-secondary-container": "#616363",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#1b1b1b",
+                      "on-error": "#ffffff",
+                      "secondary-fixed": "#e2e2e2",
+                      "inverse-on-surface": "#f1f1f1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "64px",
+                      "stack-xl": "120px",
+                      "container-max": "1440px",
+                      "gutter": "24px",
+                      "stack-lg": "80px",
+                      "margin-mobile": "20px",
+                      "stack-sm": "24px",
+                      "stack-md": "40px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "nav-link": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Bodoni Moda"
+                      ],
+                      "subheading": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Bodoni Moda"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "nav-link": [
+                              "13px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "15px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "80px",
+                              {
+                                      "lineHeight": "90px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "subheading": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.2em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.15em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        /* Custom scrollbar for minimal look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e2;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #000000;
+        }
+        
+        /* Modal Animation */
+        .modal-enter {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        .modal-enter-active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 300ms ease-out, transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-exit {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .modal-exit-active {
+            opacity: 0;
+            transform: translateX(100%);
+            transition: opacity 300ms ease-in, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+<style>
+    .carousel-scrollbar-hide::-webkit-scrollbar { display: none; }
+    .carousel-scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    .aspect-product { aspect-ratio: 4/5; }
+    .thumbnail-active { opacity: 1; filter: grayscale(0); border-color: #000; }
+    .thumbnail-inactive { opacity: 0.5; filter: grayscale(1); border-color: transparent; }
+</style></head>
+<body class="font-body-md text-body-md bg-surface-container-lowest text-primary antialiased min-h-screen flex flex-col pt-24">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant/30 flat no shadows">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+<!-- Navigation Links (Left) -->
+<div class="hidden md:flex items-center gap-gutter flex-1">
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-primary border-b border-primary pb-1 cursor-pointer transition-all duration-300" href="#">Collection</a>
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer" href="#">Story</a>
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer" href="#">IG</a>
+</div>
+<!-- Mobile Menu Toggle (Left) -->
+<div class="md:hidden flex items-center">
+<button class="hover:opacity-70 transition-opacity text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+</div>
+<!-- Brand Logo (Center) -->
+<a class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-[0.3em] uppercase text-primary hover:opacity-70 transition-opacity shrink-0" href="#">
+                VELÉLS
+            </a><div class="hidden md:flex flex-1 justify-end"></div>
+<!-- Trailing Icons (Right) -->
+<div class="flex items-center gap-4">
+<button class="hover:opacity-70 transition-opacity text-primary cursor-pointer transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="shopping_bag" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col md:flex-row gap-gutter md:gap-margin-desktop">
+<!-- Media Area (Left, Masonry Grid) -->
+<div class="w-full md:w-2/3 flex flex-col gap-6">
+<!-- Main Image Slider -->
+<div class="w-full overflow-x-auto flex snap-x snap-mandatory carousel-scrollbar-hide scroll-smooth" id="main-slider">
+<div class="min-w-full snap-center aspect-product bg-surface-container">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH4bW_5hCokJblTQmoCtHc3GMmouhKV-vk0XS-yfmGkr57IIMGipHn6OhyiCvtxFjvmWtBlEKpsWk0SLjGTZewzPtu9oBlWszpadjdysijws4IIMgL5qDagsiefN55k326AE1RqWmeFsYDvunZIyw9nxEQGOKQO8MHScNcKUNqqO764zIqRgNeuv4VOqqMf2nMCJDLb72eW9JPXzgHEU-Ah4qwGs27ibYjG4gQ3fmFBbE1I19E8QgL4Yt0uNTpttSvr1vMOq7F9aU"/>
+</div>
+<div class="min-w-full snap-center aspect-product bg-surface-container">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu7tX5frIu2d_IB8AtQ1Oo00pXGK25gmE7DQkpZVC48GAa1KiiJvfHHivx11EYmphNS3YAAEpebpRhXlusLfMevX_ajY5Dq1UPSJfcbYG0t0XoPYGGoRHNZWHqUJUtDgBb-uR1DSn4n8rFlUbS95ZP3L5gWxdco6vtfklpBfuZtY4sadVj6I7tX23Qexu3_qE16Xj2Qkkh14cWW7zE3wJu4A6d_Qy6Me3vDeeUb9EuuaRXM-4Kn-y88DH0aBdQ7bwz1izEWM0P11c"/>
+</div>
+<div class="min-w-full snap-center aspect-product bg-surface-container">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsJVHGlK-7qMlQsZLWaYLnoAP7_spjRdiu1tLrchxHVZsESVsKtnZv-RuoXuZmkDmrYDE4ef7IUyoOt40a5oZ8wpuhVbeLmjXk8L5ov7w-0lwRneDGVnre4-ziwC9UFbZZSql_DpyKIuulAYluUE0j8kkfUkOn5LVPVKQl86CaNmpdbxPoulz6biDw9KgRNQV7hjTNbwOYYaj96CCjX2d_wH5Pjf7DFBgPCmfW_YUukiV59iKy3Noe2kR2ZoYGtkLeKIaCDGuRTYo"/>
+</div>
+<div class="min-w-full snap-center aspect-product bg-surface-container">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQdh5pCqSVYdx1Ddz3JYaZ58LBrM1D2GD_jTpLLpSIJv0G6ILQiBqDXM9cY_ZjoKb4WHMNVtVv5YCUmxo-bFpeE1030DXYf0qKpOp2g2StnxTBS37m9J55OIXCEl8SIxNYSmnFV9IBE0nI5Z006HoG-5iyNbXKSHEt7YVn4tye46LzEveshJ9qPf5k9pQ04-TY9iR7c5ckgnT7eIiDSWHsYH7w4QLdPQ8hVX1wcH4m44Kfzc3u-CiIpjUuFKZMOiej4z69eb3VRWQ"/>
+</div>
+</div>
+<!-- Thumbnail Navigation -->
+<div class="flex justify-center gap-3" id="thumbnail-nav">
+<button class="w-16 h-20 border-b-2 thumbnail-active transition-all duration-300" data-index="0">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBH4bW_5hCokJblTQmoCtHc3GMmouhKV-vk0XS-yfmGkr57IIMGipHn6OhyiCvtxFjvmWtBlEKpsWk0SLjGTZewzPtu9oBlWszpadjdysijws4IIMgL5qDagsiefN55k326AE1RqWmeFsYDvunZIyw9nxEQGOKQO8MHScNcKUNqqO764zIqRgNeuv4VOqqMf2nMCJDLb72eW9JPXzgHEU-Ah4qwGs27ibYjG4gQ3fmFBbE1I19E8QgL4Yt0uNTpttSvr1vMOq7F9aU"/>
+</button>
+<button class="w-16 h-20 border-b-2 thumbnail-inactive transition-all duration-300" data-index="1">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu7tX5frIu2d_IB8AtQ1Oo00pXGK25gmE7DQkpZVC48GAa1KiiJvfHHivx11EYmphNS3YAAEpebpRhXlusLfMevX_ajY5Dq1UPSJfcbYG0t0XoPYGGoRHNZWHqUJUtDgBb-uR1DSn4n8rFlUbS95ZP3L5gWxdco6vtfklpBfuZtY4sadVj6I7tX23Qexu3_qE16Xj2Qkkh14cWW7zE3wJu4A6d_Qy6Me3vDeeUb9EuuaRXM-4Kn-y88DH0aBdQ7bwz1izEWM0P11c"/>
+</button>
+<button class="w-16 h-20 border-b-2 thumbnail-inactive transition-all duration-300" data-index="2">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsJVHGlK-7qMlQsZLWaYLnoAP7_spjRdiu1tLrchxHVZsESVsKtnZv-RuoXuZmkDmrYDE4ef7IUyoOt40a5oZ8wpuhVbeLmjXk8L5ov7w-0lwRneDGVnre4-ziwC9UFbZZSql_DpyKIuulAYluUE0j8kkfUkOn5LVPVKQl86CaNmpdbxPoulz6biDw9KgRNQV7hjTNbwOYYaj96CCjX2d_wH5Pjf7DFBgPCmfW_YUukiV59iKy3Noe2kR2ZoYGtkLeKIaCDGuRTYo"/>
+</button>
+<button class="w-16 h-20 border-b-2 thumbnail-inactive transition-all duration-300" data-index="3">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQdh5pCqSVYdx1Ddz3JYaZ58LBrM1D2GD_jTpLLpSIJv0G6ILQiBqDXM9cY_ZjoKb4WHMNVtVv5YCUmxo-bFpeE1030DXYf0qKpOp2g2StnxTBS37m9J55OIXCEl8SIxNYSmnFV9IBE0nI5Z006HoG-5iyNbXKSHEt7YVn4tye46LzEveshJ9qPf5k9pQ04-TY9iR7c5ckgnT7eIiDSWHsYH7w4QLdPQ8hVX1wcH4m44Kfzc3u-CiIpjUuFKZMOiej4z69eb3VRWQ"/>
+</button>
+</div>
+</div>
+<!-- Info Sidebar (Right, Sticky) -->
+<div class="w-full md:w-1/3 md:sticky md:top-32 h-max flex flex-col pt-stack-sm md:pt-0">
+<div class="border-b border-primary pb-8 mb-8">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4">
+                    L'Aube One-Piece
+                </h1>
+<p class="font-body-md text-body-md text-secondary">
+                    A daring silhouette crafted with architectural precision. Designed to frame the form with stark, minimalist intent.
+                </p>
+</div>
+<div class="mb-12">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label-caps text-label-caps tracking-widest uppercase text-primary">Size</span>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary underline hover:text-primary transition-colors" href="#">Sizing Guide</a>
+</div>
+<div class="flex gap-4">
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="size" type="radio" value="S"/>
+<div class="w-12 h-12 border border-outline-variant flex items-center justify-center font-subheading text-subheading uppercase text-secondary peer-checked:border-primary peer-checked:text-primary transition-all">S</div>
+<div class="absolute inset-0 bg-primary opacity-0 peer-checked:opacity-5 transition-opacity"></div>
+</label>
+<label class="cursor-pointer group relative">
+<input checked="" class="peer sr-only" name="size" type="radio" value="M"/>
+<div class="w-12 h-12 border border-outline-variant flex items-center justify-center font-subheading text-subheading uppercase text-secondary peer-checked:border-primary peer-checked:text-primary transition-all">M</div>
+<div class="absolute inset-0 bg-primary opacity-0 peer-checked:opacity-5 transition-opacity"></div>
+</label>
+<label class="cursor-pointer group relative">
+<input class="peer sr-only" name="size" type="radio" value="L"/>
+<div class="w-12 h-12 border border-outline-variant flex items-center justify-center font-subheading text-subheading uppercase text-secondary peer-checked:border-primary peer-checked:text-primary transition-all">L</div>
+<div class="absolute inset-0 bg-primary opacity-0 peer-checked:opacity-5 transition-opacity"></div>
+</label>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps tracking-widest uppercase py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2" id="inquiry-btn">
+                Order via Instagram
+                <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+<div class="mt-8 pt-8 border-t border-outline-variant/30 flex flex-col gap-4 font-body-md text-body-md text-secondary">
+<details class="group cursor-pointer">
+<summary class="flex justify-between items-center font-subheading text-subheading uppercase tracking-widest text-primary list-none">
+                        Details
+                        <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 pb-2 pl-4 border-l border-outline-variant/30 mt-2">
+                        High-cut leg, deep V back, minimal coverage. Handcrafted from premium Italian sustainable techno-fabric.
+                    </div>
+</details>
+<details class="group cursor-pointer">
+<summary class="flex justify-between items-center font-subheading text-subheading uppercase tracking-widest text-primary list-none">
+                        Care
+                        <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="pt-4 pb-2 pl-4 border-l border-outline-variant/30 mt-2">
+                        Hand wash cold. Dry flat in shade. Do not bleach or tumble dry.
+                    </div>
+</details>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-stack-lg bg-surface-container-lowest border-t border-outline-variant/30 flat no shadows mt-stack-xl">
+<div class="flex flex-col items-center gap-stack-sm w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-subheading text-subheading tracking-[0.4em] uppercase text-primary">
+                VELÉLS
+            </div>
+<div class="flex items-center gap-6">
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">Terms</a>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">Contact</a>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">IG</a>
+</div>
+<div class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim mt-4">
+                © 2024 VELÉLS
+            </div>
+</div>
+</footer>
+<!-- Inquiry Sheet Overlay (Slide-out panel) -->
+<div class="fixed inset-0 bg-surface-container-lowest/80 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300" id="inquiry-overlay">
+<!-- Overlay backdrop click target -->
+<div class="absolute inset-0 cursor-not-allowed" id="overlay-backdrop"></div>
+<!-- Panel -->
+<div class="absolute top-0 right-0 h-full w-full md:w-[480px] bg-surface-container-lowest border-l border-outline-variant/30 shadow-2xl flex flex-col transform translate-x-full transition-transform duration-400 ease-out" id="inquiry-panel">
+<!-- Panel Header -->
+<div class="flex justify-between items-center px-8 py-6 border-b border-outline-variant/30">
+<span class="font-subheading text-subheading tracking-widest uppercase text-primary">Inquiry</span>
+<button class="text-primary hover:opacity-50 transition-opacity" id="close-inquiry">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+<!-- Panel Content -->
+<div class="flex-grow p-8 flex flex-col gap-8 overflow-y-auto">
+<p class="font-body-md text-body-md text-secondary">
+                    Due to the exclusive nature of our collections, all orders are currently processed personally via Instagram Direct Message.
+                </p>
+<!-- Selected Product Summary -->
+<div class="flex gap-6 p-4 border border-outline-variant/30">
+<div class="w-20 h-24 bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover grayscale" data-alt="Thumbnail image of a minimalist black one-piece swimsuit on a clean white background. High contrast, luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBAPR7DyJp4v4dc8d8f5nP_ejU7IbHHYvRQofvW7VCy1fsc4wVmdc-VaV0F12OuVFMIvsN2fDQatbiODFzjQqgaVF5pqQYMTkefwmo12T2JTe1LEgiW_3DDi24tdvoXMbNG1qcqALywV6VChbQUj3UAFmfY94A-F_v2AvZ6p4uMa7LbeRQQb_NnmtCzMpofQtQxFmARjWhd7aaVm8yDJvtxid4rZed8AexnKs34lIZQ7WP5NRIQNAjLCaExj7YBEWwdsraLdcm8BA"/>
+</div>
+<div class="flex flex-col justify-center">
+<span class="font-headline-lg-mobile text-[24px] text-primary mb-1">L'Aube</span>
+<span class="font-label-caps text-label-caps tracking-widest uppercase text-secondary">Size: <span class="" id="selected-size-display">M</span></span>
+</div>
+</div>
+<!-- Messaging CTA -->
+<div class="mt-auto pt-8">
+<a class="w-full bg-primary text-on-primary font-label-caps text-label-caps tracking-widest uppercase py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-3" href="https://instagram.com/velels" target="_blank">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">send</span>
+                        Send Message to @VELELS
+                    </a>
+<p class="text-center font-label-caps text-[10px] text-secondary mt-4 tracking-widest">
+                        We typically respond within 24 hours.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inquiryBtn = document.getElementById('inquiry-btn');
+            const inquiryOverlay = document.getElementById('inquiry-overlay');
+            const inquiryPanel = document.getElementById('inquiry-panel');
+            const closeBtn = document.getElementById('close-inquiry');
+            const backdrop = document.getElementById('overlay-backdrop');
+            const sizeInputs = document.querySelectorAll('input[name="size"]');
+            const sizeDisplay = document.getElementById('selected-size-display');
+
+            // Update size in inquiry panel
+            sizeInputs.forEach(input => {
+                input.addEventListener('change', (e) => {
+                    sizeDisplay.textContent = e.target.value;
+                });
+            });
+
+            const openPanel = () => {
+                inquiryOverlay.classList.remove('hidden');
+                // Force reflow
+                void inquiryOverlay.offsetWidth;
+                
+                inquiryOverlay.classList.remove('opacity-0');
+                inquiryPanel.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            };
+
+            const closePanel = () => {
+                inquiryOverlay.classList.add('opacity-0');
+                inquiryPanel.classList.add('translate-x-full');
+                
+                setTimeout(() => {
+                    inquiryOverlay.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }, 400); // match duration
+            };
+
+            inquiryBtn.addEventListener('click', openPanel);
+            closeBtn.addEventListener('click', closePanel);
+            backdrop.addEventListener('click', closePanel);
+            
+            // Escape key to close
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !inquiryOverlay.classList.contains('hidden')) {
+                    closePanel();
+                }
+            });
+        });
+    </script>
+<script>
+    const mainSlider = document.getElementById('main-slider');
+    const thumbnails = document.querySelectorAll('#thumbnail-nav button');
+
+    const updateActiveThumbnail = (index) => {
+        thumbnails.forEach((thumb, i) => {
+            if (i === index) {
+                thumb.classList.replace('thumbnail-inactive', 'thumbnail-active');
+            } else {
+                thumb.classList.replace('thumbnail-active', 'thumbnail-inactive');
+            }
+        });
+    };
+
+    thumbnails.forEach((thumb, index) => {
+        thumb.addEventListener('click', () => {
+            const width = mainSlider.offsetWidth;
+            mainSlider.scrollTo({ left: width * index, behavior: 'smooth' });
+            updateActiveThumbnail(index);
+        });
+    });
+
+    mainSlider.addEventListener('scroll', () => {
+        const index = Math.round(mainSlider.scrollLeft / mainSlider.offsetWidth);
+        updateActiveThumbnail(index);
+    });
+</script></body></html>

@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "siteName": "VELÉLS",
+    "homeTitle": "VELÉLS — Premium Minimalist Swimwear",
+    "homeDescription": "Architectural precision in swimwear. Minimalist forms designed for the sun.",
+    "productTitleSuffix": "— VELÉLS"
+  },
+  "nav": {
+    "collection": "Collection",
+    "story": "Story",
+    "ig": "IG"
+  },
+  "hero": {
+    "title": "The VELÉLS Collection",
+    "subtitle": "Embracing the stark beauty of contrast. Minimalist forms designed for the sun.",
+    "cta": "Explore Collection"
+  },
+  "products": {
+    "sectionTitle": "Selected Pieces",
+    "viewAll": "View All",
+    "dimaya": {
+      "name": "Dimaya",
+      "colorName": "Black Matte",
+      "tagline": "A daring silhouette crafted with architectural precision. Designed to frame the form with stark, minimalist intent.",
+      "details": "High-cut leg, deep V back, minimal coverage. Handcrafted from premium Italian sustainable techno-fabric.",
+      "care": "Hand wash cold. Dry flat in shade. Do not bleach or tumble dry."
+    },
+    "lendai": {
+      "name": "Lendai",
+      "colorName": "Optic White",
+      "tagline": "An asymmetric cut that defies convention. Pure geometry on the body.",
+      "details": "Asymmetric shoulder, contour cut. Double-lined for opacity and compression. Italian sustainable fabric.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "lauri": {
+      "name": "Lauri",
+      "colorName": "Black Matte",
+      "tagline": "A two-piece ensemble refined to absolute simplicity. Structure without excess.",
+      "details": "Two-piece set. Bandeau top with minimal boning. High-waisted brief with contour cut. Italian ECONYL® fabric.",
+      "care": "Hand wash cold. Dry separately. Do not bleach."
+    },
+    "ezra": {
+      "name": "Ezra",
+      "colorName": "Black Velvet",
+      "tagline": "The classic one-piece reimagined through the lens of quiet luxury.",
+      "details": "Plunging neckline, high-cut leg. Double-lined for opacity and compression. 78% ECONYL® Regenerated Nylon, 22% Elastane.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces to maintain pristine texture."
+    }
+  },
+  "philosophy": {
+    "title": "The Aesthetic of Silence",
+    "body": "We believe in the power of negative space. Our monochrome vision strips away the superfluous, leaving only precise cuts, premium materials, and an architectural rigor that acts as a sophisticated frame for the wearer.",
+    "cta": "Read the Story"
+  },
+  "instagram": {
+    "heading": "As seen on @VELÉLS",
+    "follow": "Follow our journey"
+  },
+  "productDetail": {
+    "size": "Size",
+    "sizingGuide": "Sizing Guide",
+    "orderViaInstagram": "Order via Instagram",
+    "details": "Details",
+    "care": "Care",
+    "orderMessage": "Hi! I'd like to order {product} in size {size}. — via velels.com",
+    "copiedToClipboard": "Message copied ✓",
+    "sizeGuideTitle": "Sizing Guide",
+    "sizeGuideComingSoon": "Size guide coming soon"
+  },
+  "footer": {
+    "terms": "Terms",
+    "contact": "Contact",
+    "ig": "IG",
+    "copyright": "© 2024 VELÉLS"
+  }
+}
