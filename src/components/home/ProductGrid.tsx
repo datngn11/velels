@@ -14,7 +14,7 @@ export function ProductGrid() {
     >
       {/* Section header */}
       <ScrollReveal animation="reveal-fade-up">
-        <div className="flex justify-between items-end mb-stack-lg border-b border-outline-variant/30 pb-4">
+        <div className="flex justify-between items-end mb-stack-lg border-b border-primary pb-4">
           <h2 className="font-serif text-[32px] md:text-[48px] leading-[40px] md:leading-[56px] tracking-[0.05em] text-primary">
             {t("sectionTitle")}
           </h2>
@@ -25,43 +25,55 @@ export function ProductGrid() {
       </ScrollReveal>
 
       {/* Product grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-x-3 gap-y-8 md:gap-gutter">
-        {products.slice(0, 3).map((product, index) => {
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-gutter gap-y-stack-sm md:gap-y-stack-md">
+        {products.slice(0, 4).map((product, index) => {
           const slug = product.slug;
-          const delayClass =
-            index === 0 ? "" : index === 1 ? "delay-200" : "delay-400";
+          const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
+          const delayClass = delays[index] || "";
+          
+          const grayscaleClass =
+            product.slug === "dimaya" || product.slug === "lauri"
+              ? "grayscale"
+              : product.slug === "lendai"
+              ? "grayscale-[50%]"
+              : "grayscale-[80%]";
+
           return (
             <ScrollReveal
               key={product.id}
               animation="reveal-fade-up"
               delay={delayClass}
-              className={index === 2 ? "col-span-2 md:col-span-1" : ""}
             >
               <Link
                 href={`/product/${product.slug}`}
-                className={`group block ${index === 1 ? "md:mt-16" : ""}`}
+                className={`group block ${(index === 1 || index === 3) ? "md:mt-12" : ""}`}
               >
                 <div className="w-full aspect-4-5 bg-surface-container-low mb-4 relative hover-image-zoom">
+                  {product.slug === "lendai" && (
+                    <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-3 py-1.5 z-10 backdrop-blur-sm text-primary">
+                      New
+                    </span>
+                  )}
                   <Image
                     src={product.images[0].src}
                     alt={product.images[0].alt}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className={`object-cover ${grayscaleClass}`}
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-sans text-[14px] leading-[20px] tracking-[0.2em] font-semibold text-primary uppercase mb-1">
-                      {t(`${slug}.name`)}
-                    </h3>
-                    <p className="font-sans text-[15px] leading-[24px] tracking-[0.01em] text-secondary">
+                <div className="flex flex-col gap-1 text-left">
+                  <h3 className="font-sans text-[13px] leading-[18px] tracking-[0.2em] font-semibold text-primary uppercase">
+                    {t(`${slug}.name`)}
+                  </h3>
+                  <div className="flex justify-between items-center mt-1">
+                    <p className="font-sans text-[14px] leading-[20px] tracking-[0.01em] text-secondary">
                       {t(`${slug}.colorName`)}
                     </p>
+                    <span className="font-sans text-[14px] leading-[20px] tracking-[0.01em] text-primary font-medium">
+                      ${product.price}
+                    </span>
                   </div>
-                  <span className="font-sans text-[15px] leading-[24px] tracking-[0.01em] text-primary">
-                    ${product.price}
-                  </span>
                 </div>
               </Link>
             </ScrollReveal>

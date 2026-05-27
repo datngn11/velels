@@ -13,29 +13,30 @@ export function LocaleSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-1 font-sans text-[12px] tracking-[0.15em] uppercase">
+    <div className="flex items-center gap-4">
       <button
         onClick={() => switchLocale("uk")}
-        className={`transition-colors duration-200 px-1 ${
+        className={`font-sans text-[11px] tracking-[0.1em] transition-all duration-300 pb-1 ${
           locale === "uk"
-            ? "text-primary font-medium"
-            : "text-secondary hover:text-primary"
+            ? "text-primary border-b border-primary"
+            : "text-secondary hover:text-primary hover-underline-anim"
         }`}
-        aria-label="Українська"
+        aria-label="Switch to Ukrainian"
       >
-        UK
+        Українська
       </button>
-      <span className="text-outline-variant">|</span>
+      <span className="text-outline-variant/30 text-[10px]">|</span>
+
       <button
         onClick={() => switchLocale("en")}
-        className={`transition-colors duration-200 px-1 ${
+        className={`font-sans text-[11px] tracking-[0.1em] transition-all duration-300 pb-1 ${
           locale === "en"
-            ? "text-primary font-medium"
-            : "text-secondary hover:text-primary"
+            ? "text-primary border-b border-primary"
+            : "text-secondary hover:text-primary hover-underline-anim"
         }`}
-        aria-label="English"
+        aria-label="Switch to English"
       >
-        EN
+        English
       </button>
     </div>
   );

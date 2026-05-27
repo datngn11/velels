@@ -5,20 +5,16 @@ import { siteConfig } from "@/lib/config";
 
 const instagramImages = [
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAXeeBbjzJXs3NjrB6mNoROWCwiESW-xuMORS7RSAT0MTjaA_b86H7ShlFRuT0e_YFYiAIV0u3Isl67UikdGRo02Owp6-BHpVK62CkyF-9mEKJQBoIEkdZiLRhF_g6siLzM8yR9KRDK8M0PlHnMEFInI0p76Ijxyw-GhfMb6zd7Vi00TjavEhxdhWS5e-cOlDMIWevOC-O2178-h89GBPEhIwE_pRruRPjxjqM0Wz7VNMjoZZHAS0GXp6MFXzjaLZEZdOxtSRuqiu4",
-    alt: "Instagram — minimalist beach scene with geometric shadows",
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsOP8L0M-Qtx7ffizVGhV3DIoB0cDL5B6ezJZIGRJyQgFoyVcilumeWUAdkGxRpDfLrGmCdojxrc4WF_cOy6FICnKPo4FIWLsGXZozetNNsodFtq3gIwhJT0wc-t3jEQ9rnj5vTjOnJCMIBxisXswUVFpO1648ILnqGZHRBRsSKheJVkM395uoHVgwfgNgG36x12i8AEess9povejV2WVlPkOEtwvBEQOQujpyIbO6wMhIq2LNUFWK_Ukzz6KuzlO8-C7rteqNhxc",
+    alt: "Instagram — detail of a minimalist swimsuit strap against sun-tanned skin",
   },
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDPPQj-BpahrDNUD6-io6kzWJcCALPVlaKXCRABddjpW_bnlxqvZZYkxXu6BEyyb8IWtdLTmRSj3BlJr-Aujgj77aXPHM5aB7J_glUny4mnBjYaVjVRFzKCeh6Xpe3ySQJLuemjFyEnEDWJoY5tyfs307OU2Yd1n2cjGAis8Q78R5ZltAL4TL8uz2XNRi7w0gHOh6lZoxqhEcsfShAaLRK_wDH9kp1SaAOFVl1tvbkkPictoTY6kqj5WYxDeQ8mDqOU1EyOqKhua4Q",
-    alt: "Instagram — black swimsuit fabric detail against sun-kissed skin",
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDipGs8e8u1hHN6sfW_rG66y-k52npeavG77ddLeIsjrQivRnJ57b0zjpKB0gjXJLfn8P6NXzAbD1B93bU6rqqU-b0MYkr-riwkBjyl0axLPGIVI_297h7JACxgt5xtpAxsk7g_GuhAWxpEFXLOXiogVw-E_rupSFwuggCVnSU3wUxQG_h4-YMrCHWNl3yeCAzGx51kginBp4uy3ZFJz8lyYbPA5GjyaeFuSyMJTh6n9MfvGE7T1H31C3za_q0a8ed7XgTz39-tYPM",
+    alt: "Instagram — serene beach landscape at midday without vibrant colors",
   },
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKsqZfz7pBTMMrTK7Ex6mrNuh5Be5YYdF4FJuMhHtUiAjIVkkYBk9ILHOGGB4Ma78Lf1a03zh48MSq4ejnPwAuVyFBM4ieCmfKduruAp5U2OF6UBMZh52ZmMpHu-FwGJgBMQdTa0A9SlhA5d3JkBnn9jtsXtLgXIcUBh56t9sRN6FJmpNpmaERvSreuS6qNcW7va7pG9shIqvTQ8i6oTuZ7h8qlX7LCM8wCLAnmLVTnurljPLs9g26KQNmym9LXIBiIoz13WZdsYU",
-    alt: "Instagram — vast ocean horizon with minimal composition",
-  },
-  {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuC-Cq4ynIFwUn5w4PuUQgMEJI2if4jn80-l2wi9OqMvDzuHwNkiXtys0sYWIxnGhL_6kntDYTqeRDeecsBwgLbiKNL-5XuBpSa14R23KlZKQzaOuQJ19XphgZ05nIcsRCHxeXC-WeDeSp5CtmfO-3vHwFduZ5wxMNM8lZy-s1gX5-j3TsRnZ17mrLCLkP7jcncPLXVJFFSDsOOtKn52qYCo4GK6QcYqHMHaafJUIeHP_gsxDUOoCzoslu6T7SytWlQXOO0gKT2WPSQ",
-    alt: "Instagram — model silhouette in one-piece against hazy sky",
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuD7B_iUhBBN0Q-Ej444R5z8p58OGVaEEAxk0vHn8ERt_XnqTVIJ8zCLuqQ6pOq24I3WRQAVlsB5vZRUGPnG3Q3ymgpXxFrisYzpm2fELnnXIjZsxVenCn47_IsFz-aFBeh5hh2AM6ROQuMkrFg1xzF6QLHrPAXluR8VVe8Q2U22G1ApSM8Bc9iVgkAdMaKoQV1LCyW2DQDw4HfdeU6i-V5M71dkg5KzAXjgF5X03pNRe6ourWNwg35O7iHsTOuqmrdn1MXxJWyjajI",
+    alt: "Instagram — model in structural black swimsuit against pale sky",
   },
 ];
 
@@ -29,40 +25,72 @@ export function InstagramFeed() {
     <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl">
       {/* Header */}
       <ScrollReveal animation="reveal-fade-up">
-        <div className="text-center mb-stack-lg">
-          <h2 className="font-sans text-[14px] leading-[20px] tracking-[0.3em] font-semibold text-primary uppercase mb-2">
+        <div className="text-center mb-stack-md">
+          <h2 className="font-sans text-[12px] leading-[16px] tracking-[0.3em] font-semibold text-primary uppercase mb-2">
             {t("heading")}
           </h2>
-          <a
-            href={siteConfig.social.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans text-[13px] leading-[16px] tracking-[0.1em] text-secondary hover:text-primary transition-colors hover-underline-anim"
-          >
-            {t("follow")}
-          </a>
         </div>
       </ScrollReveal>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {instagramImages.map((img, i) => {
-          const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
+          const delays = ["", "delay-100", "delay-200"] as const;
 
           return (
             <ScrollReveal key={i} animation="reveal-fade-in" delay={delays[i]}>
-              <div className="aspect-square bg-surface-container-low hover-image-zoom relative">
+              <div className="aspect-[4/5] bg-surface-container-low hover-image-zoom relative overflow-hidden group">
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover grayscale"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
+                <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 duration-300">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="text-on-primary"
+                  >
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                  </svg>
+                </div>
               </div>
             </ScrollReveal>
           );
         })}
+
+        {/* 4th Card: Follow Us CTA */}
+        <ScrollReveal animation="reveal-fade-in" delay="delay-300">
+          <a
+            href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="aspect-[4/5] bg-surface-variant relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer group text-center p-4"
+          >
+            <div>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="mx-auto mb-2 text-primary transition-transform group-hover:translate-x-1 duration-300"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+              <p className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-primary font-medium">
+                {t("follow")}
+              </p>
+            </div>
+          </a>
+        </ScrollReveal>
       </div>
     </section>
   );

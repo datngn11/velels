@@ -1,34 +1,44 @@
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/lib/config";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function Footer() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="w-full py-stack-lg bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-xl">
-      <div className="flex flex-col items-center gap-stack-sm px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
-        <div className="font-sans text-[14px] leading-[20px] tracking-[0.4em] uppercase text-primary font-semibold mb-4">
+    <footer className="w-full py-16 lg:py-24 bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-xl">
+      <div className="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
+        
+        {/* Logo */}
+        <div className="font-sans text-[14px] leading-[20px] tracking-[0.4em] uppercase text-primary font-semibold">
           VELÉLS
         </div>
-        <div className="flex items-center gap-6 mb-4">
-          <span className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-secondary-fixed-dim hover:text-primary transition-colors cursor-pointer">
+
+        <div className="flex items-center gap-8">
+          <span className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
             {t("terms")}
           </span>
-          <span className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-secondary-fixed-dim hover:text-primary transition-colors cursor-pointer">
+          <span className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
             {t("contact")}
           </span>
           <a
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-secondary-fixed-dim hover:text-primary transition-colors"
+            className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim"
           >
             {t("ig")}
           </a>
         </div>
-        <div className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-secondary-fixed-dim">
-          {t("copyright")}
+
+        {/* Utilities */}
+        <div className="flex flex-col items-center gap-6 pt-4">
+          <LocaleSwitcher />
+          <div className="font-sans text-[10px] leading-[16px] tracking-[0.15em] uppercase text-secondary/70">
+            {t("copyright")}
+          </div>
         </div>
+
       </div>
     </footer>
   );

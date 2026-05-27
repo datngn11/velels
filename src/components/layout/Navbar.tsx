@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { LocaleSwitcher } from "./LocaleSwitcher";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -73,9 +72,6 @@ export function Navbar() {
 
           {/* Right: Locale switcher + bag */}
           <div className="flex items-center gap-4 flex-1 justify-end">
-            <div className="hidden md:block">
-              <LocaleSwitcher />
-            </div>
             <a
               href={siteConfig.social.instagram}
               target="_blank"
@@ -158,7 +154,7 @@ export function Navbar() {
 
           {/* Drawer Footer */}
           <div className="border-t border-outline-variant/30 pt-6">
-            <LocaleSwitcher />
+            {/* LocaleSwitcher moved to global Footer */}
           </div>
         </Dialog.Content>
       </Dialog.Portal>

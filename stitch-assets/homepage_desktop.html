@@ -1,105 +1,176 @@
-<!DOCTYPE html><html class="light" lang="en"><head>
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>VELÉLS - Editorial Homepage</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Bodoni+Moda:wght@400;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container": "#eeeeee",
-                        "on-secondary-fixed": "#1a1c1c",
-                        "secondary-fixed-dim": "#c6c6c7",
-                        "on-tertiary": "#ffffff",
-                        "tertiary-fixed-dim": "#c6c6c6",
-                        "on-primary-container": "#848484",
-                        "on-secondary-fixed-variant": "#454747",
-                        "on-surface-variant": "#4c4546",
-                        "error": "#ba1a1a",
-                        "secondary": "#5d5f5f",
-                        "primary-container": "#1b1b1b",
-                        "surface-tint": "#5e5e5e",
-                        "on-background": "#1a1c1c",
-                        "on-tertiary-fixed": "#1b1b1b",
-                        "primary-fixed": "#e2e2e2",
-                        "on-primary": "#ffffff",
-                        "surface-container-low": "#f3f3f3",
-                        "outline": "#7e7576",
-                        "outline-variant": "#cfc4c5",
-                        "surface": "#f9f9f9",
-                        "surface-variant": "#e2e2e2",
-                        "on-error-container": "#93000a",
-                        "secondary-container": "#dfe0e0",
-                        "inverse-primary": "#c6c6c6",
-                        "error-container": "#ffdad6",
-                        "background": "#f9f9f9",
-                        "inverse-surface": "#2f3131",
-                        "on-tertiary-container": "#848484",
-                        "surface-bright": "#f9f9f9",
-                        "on-surface": "#1a1c1c",
-                        "surface-container-high": "#e8e8e8",
-                        "primary-fixed-dim": "#c6c6c6",
-                        "tertiary": "#000000",
-                        "tertiary-container": "#1b1b1b",
-                        "surface-dim": "#dadada",
-                        "on-primary-fixed-variant": "#474747",
-                        "primary": "#000000",
-                        "on-tertiary-fixed-variant": "#474747",
-                        "surface-container-highest": "#e2e2e2",
-                        "tertiary-fixed": "#e2e2e2",
-                        "on-secondary-container": "#616363",
-                        "on-secondary": "#ffffff",
-                        "on-primary-fixed": "#1b1b1b",
-                        "on-error": "#ffffff",
-                        "secondary-fixed": "#e2e2e2",
-                        "inverse-on-surface": "#f1f1f1"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "margin-desktop": "64px",
-                        "stack-xl": "120px",
-                        "container-max": "1440px",
-                        "gutter": "24px",
-                        "stack-lg": "80px",
-                        "margin-mobile": "20px",
-                        "stack-sm": "24px",
-                        "stack-md": "40px"
-                    },
-                    "fontFamily": {
-                        "body-lg": ["Inter"],
-                        "nav-link": ["Inter"],
-                        "headline-lg": ["Bodoni Moda"],
-                        "body-md": ["Inter"],
-                        "display-lg": ["Bodoni Moda"],
-                        "subheading": ["Inter"],
-                        "headline-lg-mobile": ["Bodoni Moda"],
-                        "label-caps": ["Inter"]
-                    },
-                    "fontSize": {
-                        "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }],
-                        "nav-link": ["13px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "400" }],
-                        "headline-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "0.05em", "fontWeight": "400" }],
-                        "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }],
-                        "display-lg": ["80px", { "lineHeight": "90px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
-                        "subheading": ["14px", { "lineHeight": "20px", "letterSpacing": "0.2em", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "0.05em", "fontWeight": "400" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.15em", "fontWeight": "500" }]
-                    }
-                }
-            }
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "tertiary-container": "#1b1b1b",
+                "surface-container": "#eeeeee",
+                "inverse-primary": "#c6c6c6",
+                "background": "#ffffff",
+                "surface-dim": "#dadada",
+                "primary-container": "#1b1b1b",
+                "on-primary-container": "#848484",
+                "primary-fixed-dim": "#c6c6c6",
+                "on-tertiary-fixed": "#1b1b1b",
+                "tertiary-fixed-dim": "#c6c6c6",
+                "secondary-fixed": "#e2e2e2",
+                "surface-container-high": "#e8e8e8",
+                "on-primary-fixed": "#1b1b1b",
+                "surface-container-highest": "#e2e2e2",
+                "surface-container-lowest": "#ffffff",
+                "on-surface-variant": "#4c4546",
+                "surface-variant": "#e2e2e2",
+                "on-background": "#1a1c1c",
+                "on-primary": "#ffffff",
+                "on-error": "#ffffff",
+                "primary-fixed": "#e2e2e2",
+                "secondary-fixed-dim": "#c6c6c7",
+                "on-secondary-fixed-variant": "#454747",
+                "surface": "#ffffff",
+                "on-tertiary-fixed-variant": "#474747",
+                "inverse-on-surface": "#f1f1f1",
+                "on-tertiary": "#ffffff",
+                "on-tertiary-container": "#848484",
+                "on-primary-fixed-variant": "#474747",
+                "secondary-container": "#dfe0e0",
+                "on-secondary": "#ffffff",
+                "outline-variant": "#cfc4c5",
+                "primary": "#000000",
+                "surface-container-low": "#f3f3f3",
+                "surface-bright": "#f9f9f9",
+                "outline": "#7e7576",
+                "surface-tint": "#5e5e5e",
+                "on-surface": "#1a1c1c",
+                "on-secondary-fixed": "#1a1c1c",
+                "inverse-surface": "#2f3131",
+                "error": "#ba1a1a",
+                "tertiary-fixed": "#e2e2e2",
+                "tertiary": "#000000",
+                "secondary": "#5d5f5f",
+                "on-secondary-container": "#616363",
+                "error-container": "#ffdad6",
+                "on-error-container": "#93000a"
+        },
+        "borderRadius": {
+                "DEFAULT": "0px",
+                "lg": "0px",
+                "xl": "0px",
+                "full": "0px"
+        },
+        "spacing": {
+                "margin-desktop": "64px",
+                "margin-mobile": "20px",
+                "gutter": "24px",
+                "stack-md": "40px",
+                "stack-xl": "120px",
+                "stack-sm": "24px",
+                "container-max": "1440px",
+                "stack-lg": "80px"
+        },
+        "fontFamily": {
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Bodoni Moda"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "subheading": [
+                        "Inter"
+                ],
+                "nav-link": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Bodoni Moda"
+                ],
+                "display-lg": [
+                        "Bodoni Moda"
+                ],
+                "label-caps": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-md": [
+                        "15px",
+                        {
+                                "lineHeight": "24px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "subheading": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.2em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "nav-link": [
+                        "13px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.1em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "display-lg": [
+                        "80px",
+                        {
+                                "lineHeight": "90px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.15em",
+                                "fontWeight": "500"
+                        }
+                ]
         }
-    </script>
+},
+    },
+  }
+</script>
 <style>
         body {
             background-color: #ffffff;
@@ -113,125 +184,163 @@
         }
     </style>
 </head>
-<body class="bg-surface-container-lowest text-primary font-body-md antialiased overflow-x-hidden">
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary selection:text-on-primary">
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-surface-container-lowest border-b border-outline-variant/30 transition-all duration-300" id="topNav">
-<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-container-max mx-auto"><div class="flex-1 flex gap-8 items-center justify-start">
-    <a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-primary border-b border-primary pb-1 transition-colors duration-300" href="#">Collection</a>
-    <a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300" href="#">Story</a>
-    <a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300" href="#">IG</a>
+<nav class="fixed top-0 w-full z-50 bg-surface-container-lowest dark:bg-surface-container-lowest border-b border-outline-variant/30 transition-all duration-300" id="topNav">
+<div class="flex justify-between items-center px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+<div class="flex-1 flex gap-8 items-center justify-start">
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-primary border-b border-primary pb-1 transition-colors duration-300" href="#">Collection</a>
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300" href="#">Story</a>
+<a class="font-nav-link text-nav-link tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300" href="#">IG</a>
 </div>
 <div class="flex-none flex justify-center items-center">
-    <a class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-[0.3em] uppercase text-primary shrink-0" href="#">VELÉLS</a>
+<a class="font-headline-lg text-headline-lg tracking-[0.3em] uppercase text-primary dark:text-primary shrink-0" href="#">VELÉLS</a>
 </div>
 <div class="flex-1 flex gap-4 items-center justify-end">
-    <button class="text-primary hover:opacity-70 transition-opacity cursor-pointer">
-        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
-    </button>
-</div></div>
+<button class="text-primary hover:opacity-70 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0; font-weight: 300;">shopping_bag</span>
+</button>
+</div>
+</div>
 </nav>
-<main class="mt-[80px]">
+<main class="mt-[88px]">
 <!-- Hero Section -->
-<section class="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center">
-<div class="absolute inset-0 bg-black/20 z-10"></div>
-<img alt="Hero Image" class="absolute inset-0 w-full h-full object-cover" data-alt="A stunning full-color beach lifestyle photo featuring a model wearing minimalist luxury swimwear. The setting is a pristine, sun-drenched beach with warm, glowing natural lighting that contrasts beautifully with the stark, high-fashion aesthetic of the brand. The composition is highly editorial, capturing the essence of 'Quiet Luxury' with expansive negative space and atmospheric tension." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp4XkLdYE2wwmWSlIqGIEEPxHQxxetZ80Dm7DwmKO9Rg4-3G-qLchhosxt-6ZJg_K2-tpUnpe3OGaUD8pf4XUruHJtOQAR-lD0DeJu3CmNyI9cfQcysHOcJR7r9gbogbZxsF-Gn-WE1WDNR40UrnAIB0VoNBKsaiNIpZB6ZZtfYdse_7d8Htmw4_01s3QQLVi-c0yZ_GlZPTQT4ei9uw0wLQwAhOW5rLgh5YBl4EtPqsxR3OsHsGyz8UhTqQGXpDy2mSm-hIidEK0">
-<div class="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-stack-sm max-w-3xl">
-<h1 class="font-display-lg text-display-lg text-on-primary tracking-tight">The VELÉLS Collection</h1>
-<p class="font-body-lg text-body-lg text-on-primary/90 max-w-xl mb-6">Embracing the stark beauty of contrast. Minimalist forms designed for the sun.</p>
-<a class="inline-block bg-primary text-on-primary font-label-caps text-label-caps tracking-widest uppercase px-8 py-4 hover:opacity-90 transition-opacity" href="#">Explore Collection</a>
+<section class="w-full h-[85vh] min-h-[700px] relative overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent z-10"></div>
+<img alt="Hero Image" class="absolute inset-0 w-full h-full object-cover object-center grayscale-[20%]" data-alt="A high-fashion editorial photograph of a model wearing a sleek, black one-piece swimsuit, posing elegantly against a stark white architectural wall in bright, natural sunlight. The image is composed with extensive negative space, adhering to a minimalist, quiet luxury aesthetic. High contrast between the deep blacks of the swimwear and the pristine whites of the background creates an atmospheric tension." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCppzZuA1MLqHIxvQr280wkEvwlIenlxKEtn1T5qFyxrJbXw6cvfiiy1tF_dS6_2AKj_8o-1aCkT5ceisb8VsJsjUwYaaeASR0rb7Glfp511DNgfTWaOHqnu3ddShvkugL9fHfSQakAN4k7IVIh0xvtYB7zNMIFmp-hpcsaNP7ggTcENl3ShtCgxE2jUa_DTWAWB86s7kKsj5nRT05b0K0SIqjgZlekVcdOL2PMsKNX_vwXUqm7LwkqpYkCe_MIQeNxgJS6x820elw">
+
+<div class="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-end h-full pb-stack-xl max-w-3xl">
+<h1 class="font-display-lg text-display-lg text-on-primary tracking-tight mb-stack-sm">The VELÉLS Collection</h1>
+<p class="font-body-lg text-body-lg text-on-primary/90 max-w-xl mb-8 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">Embracing the stark beauty of contrast. Minimalist forms designed for the sun.</p>
+<a class="inline-block bg-on-primary text-primary font-label-caps text-label-caps tracking-widest uppercase px-10 py-5 hover:opacity-90 transition-opacity" href="#">Explore Collection</a>
 </div>
 </section>
-<!-- Bestsellers Grid -->
+<!-- Selected Pieces Grid -->
 <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl">
-<div class="flex justify-between items-end mb-stack-lg border-b border-outline-variant/30 pb-4">
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Selected Pieces</h2>
-<a class="font-nav-link text-nav-link tracking-widest uppercase text-secondary hover:text-primary transition-colors pb-1 border-b border-transparent hover:border-primary" href="#">View All</a>
+<div class="flex justify-between items-end mb-stack-md border-b border-primary pb-4">
+<h3 class="font-label-caps text-label-caps tracking-widest uppercase text-primary">Selected Pieces</h3>
+<a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary hover:text-primary transition-colors" href="#">View All</a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
 <!-- Product 1 -->
 <a class="group block" href="#">
-<div class="w-full aspect-4-5 bg-surface-container-low mb-4 overflow-hidden relative">
-<img alt="Black One-Piece Swimsuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="High-fashion full-color photography of a sleek black one-piece swimsuit modeled against a minimalist, sun-drenched architectural background. The lighting is harsh and directional, creating strong, dramatic shadows that emphasize the sharp geometric cut of the swimwear. The aesthetic is strictly editorial, embodying a minimalist-high-contrast style characteristic of premium luxury brands." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1MQbMFPDt00NDztHZ9WzxEayyH1ZS8TuCA7Ad5dWQa1tzxWZ4zdSWriF8M1v98K7zRIGgRGmEPo6lbMPKfClr1_WSq9_rsLgkPdbEzqGbKt8RsT1gXqvK8sYnjO463AQ3_M4fwV16mx3pCtUd3zCwkkwVe7f1ivTlhLU_PywSYRxUFP2oSqL66Z81U1RnbHljnGzjr35UTEdUsSw3F2EoXqCtvJUSo7RJviPSC7SX_vhk4hXfuI4OnGKFlJggATh6Z-YUHG94kbg">
+<div class="w-full aspect-[4/5] bg-surface-container mb-4 overflow-hidden relative">
+<img alt="The Noir Contour" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out grayscale" data-alt="A close-up fashion shot of a minimalist black one-piece swimsuit lying flat on a pristine white marble surface. Sharp, angular shadows from natural light cut across the frame, emphasizing the architectural rigor of the design. The aesthetic is strictly black and white, exuding quiet luxury and exclusivity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_c8YI4IEMwlRDVwIbj6_0iq-1XjrhpG5k63nxXmSEsGr14RYhKW9y1eAwoViy_qiGaFuUAc0R5Wx733ksdZM01RSv8qm9zH2x2V8dAPOIwVs1RUYhgVPW0EyRUIjcQfBmXLIHPMQvVQWJveK6--mdLN8OxGrc0S7O8outxxfuw0ikn3s9O7nJRD5bl4H49t3GbbNKw2ZRDI3ee-kib3JXsQk23KmglWDcSCtHBPT6Zo8eTzZlN1g4vhMwIvpRh02UHv--saJBawo">
 </div>
 <div class="flex justify-between items-start">
 <div>
-<h3 class="font-subheading text-subheading text-primary uppercase mb-1">The Noir Contour</h3>
-<p class="font-body-md text-body-md text-secondary">Black Matte</p>
+<h4 class="font-subheading text-subheading text-primary uppercase mb-1">The Noir Contour</h4>
+<p class="font-body-md text-secondary">$240</p>
 </div>
-<span class="font-body-md text-body-md text-primary">$240</span>
 </div>
 </a>
 <!-- Product 2 -->
-<a class="group block md:mt-16" href="#">
-<div class="w-full aspect-4-5 bg-surface-container-low mb-4 overflow-hidden relative">
-<img alt="White Asymmetric Swimsuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="Editorial style full-color photograph featuring a minimalist white asymmetric swimsuit on a model. The setting is a stark, textured concrete environment bathed in intense, warm sunlight. The image prioritizes negative space and crisp lines, perfectly capturing a luxurious, disciplined 'Quiet Luxury' visual identity with high contrast between the bright white fabric and deep shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSlj59WX-piKLDb30zULsQjKmLqzROd7obtPZ_CbfYywgYUZx8gTlHjUQwX6WrHQF3gLtyNenvuT1stVsuJH0cJpCeqPGpj8mS60whum9aRW7q2lgG75lOHLQXNEd5V9MCKg9_hVfUPA5Rdf7CXwI12o3EegSFA-upDv5HW_ioChjudpL73YAgM1DTIfWACMbyT4ARQH21WXh5mDhNUiv9aoam2kwGewLjI-0qwxFsEaUtPjT6x94QW2-koz5fNzd6Xeaz8jRAEfU">
+<a class="group block md:mt-12" href="#">
+<div class="w-full aspect-[4/5] bg-surface-container mb-4 overflow-hidden relative">
+<span class="absolute top-4 left-4 text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-3 py-1.5 z-10 backdrop-blur-sm">New</span>
+<img alt="The Blanc Asymmetry" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out grayscale-[50%]" data-alt="An editorial style image of a white bikini set displayed against a stark, shadowed concrete background. The minimalist layout highlights the sharp, razor-thin geometry of the swimsuit's straps. High contrast lighting enhances the textures, fitting perfectly within a monochrome, luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1aHLgmRt93gbPyaqgt52mJgL25yf6iirM4GjVII-hjbK1Lwr6dOwKkSLIf9wccNz1l0MG3BPn8v_M82MTAWxiEEcdHB6tFGbtS2cfhbZpv3bMfQWV43XNfaYF97FENJ_k4o0nC4Xd_2biRglhl7QyGWXaHsw9v_aEYQ-qZ8ywUwt7U60VYx3ZkeAJf6Tg9sAJfdKGucQ50n5G6Le97tKveQNwMWPiUJEpYu31Ceyt5ErBsSkHjGyKvR99iTinUjBZ_qI7vUFS9IE">
 </div>
 <div class="flex justify-between items-start">
 <div>
-<h3 class="font-subheading text-subheading text-primary uppercase mb-1">The Blanc Asymmetry</h3>
-<p class="font-body-md text-body-md text-secondary">Optic White</p>
+<h4 class="font-subheading text-subheading text-primary uppercase mb-1">The Blanc Asymmetry</h4>
+<p class="font-body-md text-secondary">$260</p>
 </div>
-<span class="font-body-md text-body-md text-primary">$260</span>
 </div>
 </a>
 <!-- Product 3 -->
 <a class="group block" href="#">
-<div class="w-full aspect-4-5 bg-surface-container-low mb-4 overflow-hidden relative">
-<img alt="Black Two-Piece Swimsuit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out" data-alt="A striking editorial photograph showcasing a sophisticated black two-piece swimsuit. The model is positioned against a pristine, whitewashed wall under bright, direct sunlight, creating a high-contrast interplay of deep blacks and stark whites. The visual style is rooted in high-end fashion magazines, focusing on architectural rigor and extreme whitespace to convey exclusivity and elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLkcYPVk_cfsyW7yrtBFQMVgWxny8vjF1aQZoeTppi3ppzZYtfsoRcEMjMaz2OlAJnM-b5irl-9lU_2OhPA3R84pTPrOXNqjfs7J-oVY8zka-bNOTjwKSGnoPtBQkoABkTsYXugzUYE7BndTvLT9RB24m20ATJ5f0Y0yJYwyxRCIfQ2QNf8Gq8l8FLoB-5_gZ0i_gTA-a-P-IpWpsh3UL0ULM2HDHznDzBxFlAPOhHLnffUEhnYfITcaXTRT-vCbdTuNc3fUMUX0g">
+<div class="w-full aspect-[4/5] bg-surface-container mb-4 overflow-hidden relative">
+<img alt="The Obsidian Sculpt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out grayscale" data-alt="A model standing in profile against a blank white backdrop, wearing an asymmetrical black bikini top that demonstrates clean, severe lines. The lighting is harsh and directional, creating strong silhouettes and enforcing an atmosphere of discipline and timeless elegance typical of high-end editorial magazines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_qSWGDH5cfrlgGtyg9JFATM24zdgEAQ0tAxbdGp9dOJyoxR5De9_fTKPAAjgOzCqkT8MJKaCXtbwe0KRMGxTSB-WrJFGtmJjm5yf_pxiq8-htq5B0xbS6So8YUmNNWetNvSy6mmI9LbvKFLnolpVy6xfBgw0TVOhlQ5ijAEKwDy9V1p5VXI9-cuvogvfPgGZ5HxsyC3ksPbr0PnquV4ZWAsJ48xidt8ifa_5yuSAnydmaX4G3VGlpC9TBXxTx0Z8uyVExMXg5-bw">
 </div>
 <div class="flex justify-between items-start">
 <div>
-<h3 class="font-subheading text-subheading text-primary uppercase mb-1">The Obsidian Sculpt</h3>
-<p class="font-body-md text-body-md text-secondary">Black Matte</p>
+<h4 class="font-subheading text-subheading text-primary uppercase mb-1">The Obsidian Sculpt</h4>
+<p class="font-body-md text-secondary">$220</p>
 </div>
-<span class="font-body-md text-body-md text-primary">$220</span>
+</div>
+</a>
+<!-- Product 4 -->
+<a class="group block md:mt-12" href="#">
+<div class="w-full aspect-[4/5] bg-surface-container mb-4 overflow-hidden relative">
+<img alt="High-Waist Bottom" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out grayscale-[80%]" data-alt="A minimalist composition showing just the lower half of a figure wearing high-waisted, sharply tailored black swimwear bottoms. The background is a soft, textured off-white wall. The lack of decorative elements and reliance on geometric shapes communicates a stark, high-contrast visual hierarchy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcilnuYkUcFfNWwwIWgYC08tq9g5Rd3OAY6iGguLNPZyIdM5otz2p0TzRM6tBZciazzC2d5L3oCgaNFp_4KNes6JeTfaYmknp2YHyTkxDKzkTNRQm_GVsGzyFnWuJlqj-90AuzoWxhuBwf_fK2ZNk0sxN-XZcPDiTuBsVnQCDL5Rjk-5OMzke41HelKBQ0VXDY30abzlDCxh6J2b3ih-p41sgQdlH_WASivQlLgpC3lEe6zr_C8px7q2eInEtco1LLDv2E5D_PXxc">
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-body-md text-primary mb-1">High-Waist Bottom</h4>
+<p class="font-body-md text-secondary">$90</p>
+</div>
 </div>
 </a>
 </div>
+<div class="mt-stack-lg flex justify-center">
+<button class="w-full md:w-auto min-w-[300px] border border-primary text-primary font-label-caps text-label-caps tracking-widest uppercase py-5 px-10 hover:bg-primary hover:text-on-primary transition-colors duration-300">
+                    Shop The Collection
+                </button>
+</div>
 </section>
-<!-- Brand Philosophy -->
-<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl flex flex-col items-center justify-center text-center">
-<div class="w-[1px] h-[80px] bg-outline-variant mb-stack-md"></div>
-<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-stack-sm max-w-2xl">The Aesthetic of Silence</h2>
-<p class="font-body-lg text-body-lg text-secondary max-w-xl mx-auto mb-stack-md">
-                We believe in the power of negative space. Our monochrome vision strips away the superfluous, leaving only precise cuts, premium materials, and an architectural rigor that acts as a sophisticated frame for the wearer.
-            </p>
-<a class="inline-block border border-primary text-primary font-label-caps text-label-caps tracking-widest uppercase px-8 py-4 hover:bg-primary hover:text-on-primary transition-colors duration-300" href="#">Read the Story</a>
-<div class="w-[1px] h-[80px] bg-outline-variant mt-stack-md"></div>
+<!-- Editorial Feature -->
+<section class="w-full bg-surface-container-low py-stack-xl">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center">
+<div class="aspect-[3/4] w-full overflow-hidden relative">
+<img alt="Editorial Focus" class="w-full h-full object-cover grayscale" data-alt="A sun-drenched, high-contrast black and white editorial photo of a woman in a structural swimsuit sitting on a brutalist concrete edge. The deep shadows and intense highlights create a compelling visual friction. The minimalist composition acts as a sophisticated frame for the model, embodying a quiet luxury ethos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ9o0cTt8K6FqlDkXDI_ji-NSgT2bDeOl2mvOukQHh-hhJ7RoAubfal5-tI2erJMIW-bHrMHJcque1e7msi131VwkmkVhMW8_b9oJ3g89_Ksax4g2YlDiq5kMwLu1-4gc5FjwLbDisYeGiZzGcYUN4-BUZHrZQu0uGNqGuBccVxFHpzl_uFnEHCIeeydrcNebbmt4Y68PrSqlDkPKL_VaFCcHDfSgqUDZPSsJ_GzBtCQ5EB21zO1m0pENFCkf8wFLJfY_14yOLhE4">
+<div class="absolute bottom-8 left-8 md:bottom-12 md:left-12 font-display-lg text-display-lg text-on-primary mix-blend-difference">
+                        Form.<br>Function.
+                    </div>
+</div>
+<div class="flex flex-col justify-center max-w-lg">
+<p class="font-body-lg text-body-lg text-primary mb-8 leading-relaxed">
+                        We view swimwear not as mere apparel, but as architecture for the body. Every seam is intentional, every cut designed to elevate rather than expose.
+                    </p>
+<a class="inline-flex items-center gap-3 border-b border-primary pb-2 font-label-caps text-label-caps tracking-widest uppercase text-primary hover:opacity-70 transition-opacity w-fit" href="#">
+                        Read The Story <span class="material-symbols-outlined text-[16px] font-light">arrow_forward</span>
+</a>
+</div>
+</div>
 </section>
 <!-- Instagram Feed -->
 <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl">
-<div class="text-center mb-stack-lg">
-<h2 class="font-subheading text-subheading text-primary uppercase tracking-[0.3em] mb-2">As seen on @VELÉLS</h2>
-<a class="font-nav-link text-nav-link text-secondary hover:text-primary transition-colors" href="#">Follow our journey</a>
+<div class="text-center mb-stack-md">
+<h3 class="font-label-caps text-label-caps tracking-widest uppercase text-primary">As seen on @VELÉLS</h3>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4">
-<div class="aspect-square bg-surface-container-low overflow-hidden">
-<img alt="Instagram Post 1" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Square lifestyle photograph showing a minimalist beach scene. High contrast lighting with a focus on geometric shadows cast by an umbrella on stark white sand. The mood is serene and exclusive, fitting a luxury editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXeeBbjzJXs3NjrB6mNoROWCwiESW-xuMORS7RSAT0MTjaA_b86H7ShlFRuT0e_YFYiAIV0u3Isl67UikdGRo02Owp6-BHpVK62CkyF-9mEKJQBoIEkdZiLRhF_g6siLzM8yR9KRDK8M0PlHnMEFInI0p76Ijxyw-GhfMb6zd7Vi00TjavEhxdhWS5e-cOlDMIWevOC-O2178-h89GBPEhIwE_pRruRPjxjqM0Wz7VNMjoZZHAS0GXp6MFXzjaLZEZdOxtSRuqiu4">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="aspect-[4/5] bg-surface-variant relative group overflow-hidden">
+<img alt="Instagram Post 1" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsOP8L0M-Qtx7ffizVGhV3DIoB0cDL5B6ezJZIGRJyQgFoyVcilumeWUAdkGxRpDfLrGmCdojxrc4WF_cOy6FICnKPo4FIWLsGXZozetNNsodFtq3gIwhJT0wc-t3jEQ9rnj5vTjOnJCMIBxisXswUVFpO1648ILnqGZHRBRsSKheJVkM395uoHVgwfgNgG36x12i8AEess9povejV2WVlPkOEtwvBEQOQujpyIbO6wMhIq2LNUFWK_Ukzz6KuzlO8-C7rteqNhxc">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-primary">open_in_new</span>
 </div>
-<div class="aspect-square bg-surface-container-low overflow-hidden">
-<img alt="Instagram Post 2" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Square editorial shot focusing on the details of a black swimsuit fabric against sun-kissed skin. The lighting is warm and atmospheric, providing emotional depth while maintaining the stark, rigorous brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPPQj-BpahrDNUD6-io6kzWJcCALPVlaKXCRABddjpW_bnlxqvZZYkxXu6BEyyb8IWtdLTmRSj3BlJr-Aujgj77aXPHM5aB7J_glUny4mnBjYaVjVRFzKCeh6Xpe3ySQJLuemjFyEnEDWJoY5tyfs307OU2Yd1n2cjGAis8Q78R5ZltAL4TL8uz2XNRi7w0gHOh6lZoxqhEcsfShAaLRK_wDH9kp1SaAOFVl1tvbkkPictoTY6kqj5WYxDeQ8mDqOU1EyOqKhua4Q">
 </div>
-<div class="aspect-square bg-surface-container-low overflow-hidden">
-<img alt="Instagram Post 3" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Square landscape photo of a vast, uncrowded ocean horizon. The composition uses extreme whitespace and minimal elements to evoke a sense of quiet luxury and atmospheric tension. High-key lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKsqZfz7pBTMMrTK7Ex6mrNuh5Be5YYdF4FJuMhHtUiAjIVkkYBk9ILHOGGB4Ma78Lf1a03zh48MSq4ejnPwAuVyFBM4ieCmfKduruAp5U2OF6UBMZh52ZmMpHu-FwGJgBMQdTa0A9SlhA5d3JkBnn9jtsXtLgXIcUBh56t9sRN6FJmpNpmaERvSreuS6qNcW7va7pG9shIqvTQ8i6oTuZ7h8qlX7LCM8wCLAnmLVTnurljPLs9g26KQNmym9LXIBiIoz13WZdsYU">
+<div class="aspect-[4/5] bg-surface-variant relative group overflow-hidden">
+<img alt="Instagram Post 2" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDipGs8e8u1hHN6sfW_rG66y-k52npeavG77ddLeIsjrQivRnJ57b0zjpKB0gjXJLfn8P6NXzAbD1B93bU6rqqU-b0MYkr-riwkBjyl0axLPGIVI_297h7JACxgt5xtpAxsk7g_GuhAWxpEFXLOXiogVw-E_rupSFwuggCVnSU3wUxQG_h4-YMrCHWNl3yeCAzGx51kginBp4uy3ZFJz8lyYbPA5GjyaeFuSyMJTh6n9MfvGE7T1H31C3za_q0a8ed7XgTz39-tYPM">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-primary">open_in_new</span>
 </div>
-<div class="aspect-square bg-surface-container-low overflow-hidden">
-<img alt="Instagram Post 4" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" data-alt="Square lifestyle image featuring a silhouette of a model in a one-piece swimsuit against a bright, hazy sky. The image relies on tonal layering and stark visual hierarchy, stripping away decorative color for a timeless elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-Cq4ynIFwUn5w4PuUQgMEJI2if4jn80-l2wi9OqMvDzuHwNkiXtys0sYWIxnGhL_6kntDYTqeRDeecsBwgLbiKNL-5XuBpSa14R23KlZKQzaOuQJ19XphgZ05nIcsRCHxeXC-WeDeSp5CtmfO-3vHwFduZ5wxMNM8lZy-s1gX5-j3TsRnZ17mrLCLkP7jcncPLXVJFFSDsOOtKn52qYCo4GK6QcYqHMHaafJUIeHP_gsxDUOoCzoslu6T7SytWlQXOO0gKT2WPSQ">
+</div>
+<div class="aspect-[4/5] bg-surface-variant relative group overflow-hidden">
+<img alt="Instagram Post 3" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7B_iUhBBN0Q-Ej444R5z8p58OGVaEEAxk0vHn8ERt_XnqTVIJ8zCLuqQ6pOq24I3WRQAVlsB5vZRUGPnG3Q3ymgpXxFrisYzpm2fELnnXIjZsxVenCn47_IsFz-aFBeh5hh2AM6ROQuMkrFg1xzF6QLHrPAXluR8VVe8Q2U22G1ApSM8Bc9iVgkAdMaKoQV1LCyW2DQDw4HfdeU6i-V5M71dkg5KzAXjgF5X03pNRe6ourWNwg35O7iHsTOuqmrdn1MXxJWyjajI">
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined text-on-primary">open_in_new</span>
+</div>
+</div>
+<div class="aspect-[4/5] bg-surface-variant relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="text-center p-4">
+<span class="material-symbols-outlined text-primary mb-2 transition-transform group-hover:translate-x-1" style="font-variation-settings: 'wght' 300;">arrow_forward</span>
+<p class="font-label-caps text-label-caps tracking-widest uppercase text-primary">Follow Us</p>
+</div>
 </div>
 </div>
 </section>
 </main>
 <!-- Footer -->
-<footer class="w-full py-stack-lg bg-surface-container-lowest border-t border-outline-variant/30 flex flex-col items-center gap-stack-sm px-margin-mobile md:px-margin-desktop mt-stack-xl">
-<div class="font-subheading text-subheading tracking-[0.4em] uppercase text-primary mb-4">
+<footer class="w-full py-stack-xl bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/30 flex flex-col items-center gap-stack-sm w-full px-margin-desktop">
+<div class="font-subheading text-subheading tracking-[0.4em] uppercase text-primary dark:text-primary">
             VELÉLS
         </div>
-<div class="flex gap-8 mb-4">
+<div class="flex gap-8">
 <a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">Terms</a>
 <a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">Contact</a>
 <a class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim hover:text-primary transition-colors hover:opacity-80" href="#">IG</a>
 </div>
-<div class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim">
+<div class="font-label-caps text-label-caps tracking-widest uppercase text-secondary-fixed-dim mt-2">
             © 2024 VELÉLS
         </div>
 </footer>
