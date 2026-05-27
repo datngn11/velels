@@ -51,14 +51,6 @@ export function Navbar() {
             <span className="font-sans text-[13px] leading-[16px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
               {t("story")}
             </span>
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-[13px] leading-[16px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim"
-            >
-              {t("ig")}
-            </a>
           </div>
 
           {/* Mobile: Hamburger Button */}
@@ -94,9 +86,12 @@ export function Navbar() {
             <div className="hidden md:block">
               <LocaleSwitcher />
             </div>
-            <button
+            <a
+              href={siteConfig.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
-              aria-label="Shopping bag"
+              aria-label="Instagram"
             >
               <svg
                 width="24"
@@ -105,12 +100,14 @@ export function Navbar() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                <path d="M3 6h18" />
-                <path d="M16 10a4 4 0 01-8 0" />
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
-            </button>
+            </a>
           </div>
         </div>
       </nav>
@@ -173,15 +170,6 @@ export function Navbar() {
             >
               {t("story")}
             </span>
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors"
-            >
-              {t("ig")}
-            </a>
           </div>
         </div>
 

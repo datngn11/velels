@@ -72,5 +72,16 @@
     "contact": "Contact",
     "ig": "IG",
     "copyright": "© 2024 VELÉLS"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "subtitle": "The page you are looking for does not exist or has been moved.",
+    "cta": "Return to Home"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "subtitle": "An unexpected error occurred. Please try again.",
+    "retry": "Try again",
+    "cta": "Return to Home"
   }
 }
