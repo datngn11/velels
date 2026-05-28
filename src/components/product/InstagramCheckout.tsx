@@ -54,7 +54,7 @@ export function InstagramCheckout({
     <>
       <button
         onClick={handleOrder}
-        className="w-full bg-primary text-on-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2"
+        className="w-full bg-primary text-on-primary text-label-md py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2"
         id="order-via-instagram-btn"
       >
         {t("orderViaInstagram")}

@@ -16,7 +16,7 @@ export function LocaleSwitcher() {
     <div className="flex items-center gap-4">
       <button
         onClick={() => switchLocale("uk")}
-        className={`font-sans text-[11px] tracking-[0.1em] transition-all duration-300 pb-1 ${
+        className={`text-label-sm tracking-[0.1em] transition-all duration-300 pb-1 ${
           locale === "uk"
             ? "text-primary border-b border-primary"
             : "text-secondary hover:text-primary hover-underline-anim"
@@ -25,11 +25,11 @@ export function LocaleSwitcher() {
       >
         Українська
       </button>
-      <span className="text-outline-variant/30 text-[10px]">|</span>
+      <span className="text-outline-variant/30 text-label-xs">|</span>
 
       <button
         onClick={() => switchLocale("en")}
-        className={`font-sans text-[11px] tracking-[0.1em] transition-all duration-300 pb-1 ${
+        className={`text-label-sm tracking-[0.1em] transition-all duration-300 pb-1 ${
           locale === "en"
             ? "text-primary border-b border-primary"
             : "text-secondary hover:text-primary hover-underline-anim"

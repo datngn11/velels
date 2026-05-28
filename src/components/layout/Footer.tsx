@@ -6,26 +6,26 @@ export function Footer() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="w-full py-16 lg:py-24 bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-xl">
+    <footer className="w-full py-16 lg:py-24 bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-md md:mt-stack-xl">
       <div className="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
         
         {/* Logo */}
-        <div className="font-sans text-[14px] leading-[20px] tracking-[0.4em] uppercase text-primary font-semibold">
+        <div className="text-label-lg tracking-[0.4em] text-primary">
           VELÉLS
         </div>
 
         <div className="flex items-center gap-8">
-          <span className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
+          <span className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
             {t("terms")}
           </span>
-          <span className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
+          <span className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
             {t("contact")}
           </span>
           <a
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim"
+            className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim"
           >
             {t("ig")}
           </a>
@@ -34,7 +34,7 @@ export function Footer() {
         {/* Utilities */}
         <div className="flex flex-col items-center gap-6 pt-4">
           <LocaleSwitcher />
-          <div className="font-sans text-[10px] leading-[16px] tracking-[0.15em] uppercase text-secondary/70">
+          <div className="text-label-xs text-secondary/70">
             {t("copyright")}
           </div>
         </div>

@@ -19,7 +19,7 @@ export function EditorialFeature() {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div
-              className="absolute bottom-4 left-4 md:bottom-12 md:left-12 font-serif text-[40px] md:text-[80px] leading-[48px] md:leading-[90px] tracking-[-0.02em] text-on-primary mix-blend-difference text-left"
+              className="absolute bottom-4 left-4 md:bottom-12 md:left-12 text-display-lg text-on-primary mix-blend-difference text-left"
               dangerouslySetInnerHTML={{ __html: t("title") }}
             />
           </div>
@@ -27,10 +27,10 @@ export function EditorialFeature() {
 
         {/* Right Column: Narrative content */}
         <ScrollReveal animation="reveal-fade-up" delay="delay-200" className="flex flex-col justify-center max-w-lg pt-4 md:pt-0">
-          <p className="font-sans text-[15px] md:text-[18px] leading-[24px] md:leading-[28px] text-primary mb-6 md:mb-8 leading-relaxed">
+          <p className="text-body-lg text-primary mb-6 md:mb-8 leading-relaxed">
             {t("body")}
           </p>
-          <span className="inline-flex items-center gap-3 border-b border-primary pb-2 font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase text-primary hover:opacity-70 transition-opacity w-fit cursor-pointer hover-underline-anim">
+          <span className="inline-flex items-center gap-3 border-b border-primary pb-2 text-label-md text-primary hover:opacity-70 transition-opacity w-fit cursor-pointer hover-underline-anim">
             {t("cta")}
             <svg
               width="16"

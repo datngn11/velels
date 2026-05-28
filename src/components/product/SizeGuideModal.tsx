@@ -21,7 +21,7 @@ export function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps) {
         <Dialog.Content className="fixed top-1/2 left-1/2 bg-surface-container-lowest max-w-lg w-[calc(100%-40px)] md:w-full z-55 shadow-2xl animate-modal-show focus:outline-none p-8">
           {/* Header */}
           <div className="flex justify-between items-center mb-8 border-b border-outline-variant/30 pb-4">
-            <Dialog.Title className="font-sans text-[14px] leading-[20px] tracking-[0.2em] font-semibold uppercase text-primary">
+            <Dialog.Title className="text-label-lg text-primary">
               {t("sizeGuideTitle")}
             </Dialog.Title>
             <Dialog.Close asChild>
@@ -50,25 +50,25 @@ export function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps) {
           {/* Modal Content */}
           <div className="flex flex-col items-center justify-center py-6 text-center">
             <div className="w-full aspect-[4/3] bg-surface-container-low flex items-center justify-center mb-6">
-              <p className="font-sans text-[15px] leading-[24px] text-secondary">
+              <p className="text-body-md text-secondary">
                 {t("sizeGuideComingSoon")}
               </p>
             </div>
 
             {/* Fallback text-based size chart */}
-            <table className="w-full text-left font-sans text-[13px] leading-[20px] text-secondary">
+            <table className="w-full text-left text-body-sm text-secondary">
               <thead>
                 <tr className="border-b border-outline-variant/30">
-                  <th className="py-3 font-semibold text-primary uppercase tracking-[0.1em] text-[12px]">
+                  <th className="py-3 font-semibold text-primary uppercase tracking-widest text-xs">
                     {t("size")}
                   </th>
-                  <th className="py-3 font-semibold text-primary uppercase tracking-[0.1em] text-[12px]">
+                  <th className="py-3 font-semibold text-primary uppercase tracking-widest text-xs">
                     EU
                   </th>
-                  <th className="py-3 font-semibold text-primary uppercase tracking-[0.1em] text-[12px]">
+                  <th className="py-3 font-semibold text-primary uppercase tracking-widest text-xs">
                     US
                   </th>
-                  <th className="py-3 font-semibold text-primary uppercase tracking-[0.1em] text-[12px]">
+                  <th className="py-3 font-semibold text-primary uppercase tracking-widest text-xs">
                     UK
                   </th>
                 </tr>

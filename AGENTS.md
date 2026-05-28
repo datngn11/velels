@@ -25,4 +25,14 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
 4. **Animations & Accessibility**:
    - Use GPU-accelerated keyframe animations (e.g., `overlayShow`, `contentShow` defined in `globals.css`).
    - All transitions and animations MUST respect `prefers-reduced-motion: reduce`.
+
+5. **Typography & Styling (Semantic Extraction)**:
+   - **CRITICAL**: Do NOT use arbitrary bracket values for text sizing or tracking (e.g., `text-[12px]`, `tracking-[0.15em]`).
+   - Always use the semantic `@utility` classes defined in `globals.css`.
+   - **Available Typography Utilities**:
+     - `.text-display-lg`, `.text-display-md` (Hero/Section titles)
+     - `.text-heading-lg`, `.text-heading-md` (Branding/Large headers)
+     - `.text-body-lg`, `.text-body-md`, `.text-body-sm` (Paragraphs)
+     - `.text-label-lg`, `.text-label-md`, `.text-label-sm`, `.text-label-xs` (Tags, uppercase labels)
+     - `.text-nav-link`, `.text-nav-link-lg` (Navigation links)
 <!-- END:project-rules -->

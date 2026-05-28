@@ -17,7 +17,10 @@ const inter = Inter({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html className={`${bodoniModa.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html
+      className={`${bodoniModa.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <body className="min-h-screen flex flex-col">
         <SmoothScrollHandler />
         <div className="scroll-progress-bar" />

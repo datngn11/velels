@@ -26,7 +26,7 @@ export function InstagramFeed() {
       {/* Header */}
       <ScrollReveal animation="reveal-fade-up">
         <div className="text-center mb-stack-md">
-          <h2 className="font-sans text-[12px] leading-[16px] tracking-[0.3em] font-semibold text-primary uppercase mb-2">
+          <h2 className="text-label-md tracking-[0.3em] font-semibold text-primary mb-2">
             {t("heading")}
           </h2>
         </div>
@@ -85,7 +85,7 @@ export function InstagramFeed() {
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-              <p className="font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase text-primary font-medium">
+              <p className="text-label-md text-primary">
                 {t("follow")}
               </p>
             </div>

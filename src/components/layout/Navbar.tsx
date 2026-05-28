@@ -32,11 +32,11 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-gutter flex-1">
             <Link
               href="/#collection"
-              className="font-sans text-[13px] leading-[16px] tracking-[0.2em] uppercase text-primary transition-colors duration-300 hover-underline-anim"
+              className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim"
             >
               {t("collection")}
             </Link>
-            <span className="font-sans text-[13px] leading-[16px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
+            <span className="text-nav-link text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
               {t("story")}
             </span>
           </div>
@@ -65,7 +65,7 @@ export function Navbar() {
           {/* Center: Logo (Responsive size & tracking) */}
           <Link
             href="/"
-            className="font-serif text-[24px] md:text-[48px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-primary shrink-0 hover:opacity-70 transition-opacity"
+            className="text-heading-lg text-primary shrink-0 hover:opacity-70 transition-opacity"
           >
             VELÉLS
           </Link>
@@ -107,7 +107,7 @@ export function Navbar() {
           <div>
             {/* Drawer Header */}
             <div className="flex justify-between items-center mb-12">
-              <span className="font-serif text-[24px] tracking-[0.2em] uppercase text-primary">
+              <span className="text-heading-md text-primary">
                 VELÉLS
               </span>
               <Dialog.Close asChild>
@@ -134,7 +134,7 @@ export function Navbar() {
               <Link
                 href="/#collection"
                 onClick={() => setMenuOpen(false)}
-                className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-primary font-semibold hover:opacity-75 transition-opacity"
+                className="text-nav-link-lg text-primary font-semibold hover:opacity-75 transition-opacity"
               >
                 {t("collection")}
               </Link>
@@ -145,7 +145,7 @@ export function Navbar() {
                   const el = document.getElementById("philosophy");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="font-sans text-[16px] leading-[24px] tracking-[0.2em] uppercase text-secondary hover:text-primary transition-colors cursor-pointer"
+                className="text-nav-link-lg text-secondary hover:text-primary transition-colors cursor-pointer"
               >
                 {t("story")}
               </span>

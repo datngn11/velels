@@ -26,7 +26,7 @@ export function Toast({
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] animate-slide-up">
-      <div className="bg-primary text-on-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase px-8 py-4 flex items-center gap-3">
+      <div className="bg-primary text-on-primary text-label-md px-8 py-4 flex items-center gap-3">
         <svg
           width="16"
           height="16"
