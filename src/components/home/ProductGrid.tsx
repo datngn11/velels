@@ -9,12 +9,12 @@ export function ProductGrid() {
 
   return (
     <section
-      className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl"
+      className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl"
       id="collection"
     >
       {/* Section header */}
       <ScrollReveal animation="reveal-fade-up">
-        <div className="flex justify-between items-end mb-stack-lg border-b border-primary pb-4">
+        <div className="flex justify-between items-end mb-8 md:mb-stack-lg border-b border-primary pb-4">
           <h2 className="text-display-md text-primary">
             {t("sectionTitle")}
           </h2>

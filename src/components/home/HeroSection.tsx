@@ -22,7 +22,7 @@ export function HeroSection() {
       />
 
       {/* Content positioned towards the bottom as in new designs */}
-      <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-end h-full pb-stack-xl max-w-3xl">
+      <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center justify-end h-full pb-12 md:pb-stack-xl max-w-3xl">
         <h1 className="text-display-lg text-on-primary animate-fade-in-up mb-stack-sm">
           {t("title")}
         </h1>

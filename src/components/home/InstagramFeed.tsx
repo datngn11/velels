@@ -22,7 +22,7 @@ export function InstagramFeed() {
   const t = useTranslations("instagram");
 
   return (
-    <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl">
+    <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
       {/* Header */}
       <ScrollReveal animation="reveal-fade-up">
         <div className="text-center mb-stack-md">

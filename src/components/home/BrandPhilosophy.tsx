@@ -5,7 +5,7 @@ export function BrandPhilosophy() {
   const t = useTranslations("philosophy");
 
   return (
-    <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-xl flex flex-col items-center justify-center text-center">
+    <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl flex flex-col items-center justify-center text-center">
       <ScrollReveal animation="reveal-fade-up">
         {/* Top decorative line */}
         <div className="w-[1px] h-[80px] bg-outline-variant mb-stack-md mx-auto" />
