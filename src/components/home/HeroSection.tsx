@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
@@ -27,12 +29,12 @@ export function HeroSection() {
         <p className="font-sans text-[18px] leading-[28px] text-on-primary/90 max-w-xl mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           {t("subtitle")}
         </p>
-        <a
-          href="#collection"
-          className="inline-block bg-on-primary text-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase px-10 py-5 opacity-0 animate-fade-in-up hover:opacity-90 transition-opacity rounded-none" style={{ animationDelay: '400ms' }}
+        <button
+          onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
+          className="inline-block bg-on-primary text-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase px-10 py-5 opacity-0 animate-fade-in-up hover:opacity-90 transition-opacity rounded-none cursor-pointer" style={{ animationDelay: '400ms' }}
         >
           {t("cta")}
-        </a>
+        </button>
       </div>
     </section>
   );
