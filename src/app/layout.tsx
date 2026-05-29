@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Bodoni_Moda, Inter } from "next/font/google";
+import { Bodoni_Moda, Inter, Cormorant_Garamond } from "next/font/google";
 import { SmoothScrollHandler } from "@/components/ui/SmoothScrollHandler";
 import "./globals.css";
 
@@ -15,10 +15,17 @@ const inter = Inter({
   display: "swap",
 });
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      className={`${bodoniModa.variable} ${inter.variable}`}
+      className={`${bodoniModa.variable} ${inter.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">

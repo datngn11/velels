@@ -36,9 +36,6 @@ export function Navbar() {
             >
               {t("collection")}
             </Link>
-            <span className="text-nav-link text-secondary hover:text-primary transition-colors duration-300 cursor-pointer hover-underline-anim">
-              {t("story")}
-            </span>
           </div>
 
           {/* Mobile: Hamburger Button */}
@@ -65,7 +62,7 @@ export function Navbar() {
           {/* Center: Logo (Responsive size & tracking) */}
           <Link
             href="/"
-            className="text-heading-lg text-primary shrink-0 hover:opacity-70 transition-opacity"
+            className="font-logo text-[24px] md:text-[48px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-primary z-50 hover:opacity-80 transition-opacity"
           >
             VELÉLS
           </Link>
@@ -103,13 +100,13 @@ export function Navbar() {
         <Dialog.Overlay className="fixed inset-0 bg-black/45 z-50 animate-overlay-show md:hidden" />
         <Dialog.Content className="fixed top-0 left-0 bottom-0 w-[80%] max-w-[360px] bg-surface-container-lowest z-55 shadow-2xl p-8 flex flex-col justify-between animate-drawer-show md:hidden">
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
-          <Dialog.Description className="sr-only">Mobile navigation links</Dialog.Description>
+          <Dialog.Description className="sr-only">
+            Mobile navigation links
+          </Dialog.Description>
           <div>
             {/* Drawer Header */}
             <div className="flex justify-between items-center mb-12">
-              <span className="text-heading-md text-primary">
-                VELÉLS
-              </span>
+              <span className="text-heading-md text-primary">VELÉLS</span>
               <Dialog.Close asChild>
                 <button
                   className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
@@ -138,17 +135,6 @@ export function Navbar() {
               >
                 {t("collection")}
               </Link>
-              <span
-                onClick={() => {
-                  setMenuOpen(false);
-                  // Trigger smooth scroll to philosophy if needed
-                  const el = document.getElementById("philosophy");
-                  if (el) el.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="text-nav-link-lg text-secondary hover:text-primary transition-colors cursor-pointer"
-              >
-                {t("story")}
-              </span>
             </div>
           </div>
 

@@ -15,9 +15,7 @@ export function ProductGrid() {
       {/* Section header */}
       <ScrollReveal animation="reveal-fade-up">
         <div className="flex justify-between items-end mb-8 md:mb-stack-lg border-b border-primary pb-4">
-          <h2 className="text-display-md text-primary">
-            {t("sectionTitle")}
-          </h2>
+          <h2 className="text-display-md text-primary">{t("sectionTitle")}</h2>
           <span className="text-nav-link text-secondary hover:text-primary transition-colors pb-1 border-b border-transparent hover-underline-anim cursor-pointer">
             {t("viewAll")}
           </span>
@@ -30,13 +28,13 @@ export function ProductGrid() {
           const slug = product.slug;
           const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
           const delayClass = delays[index] || "";
-          
+
           const grayscaleClass =
             product.slug === "dimaya" || product.slug === "lauri"
               ? "grayscale"
               : product.slug === "lendai"
-              ? "grayscale-[50%]"
-              : "grayscale-[80%]";
+                ? "grayscale-[50%]"
+                : "grayscale-[80%]";
 
           return (
             <ScrollReveal
@@ -46,7 +44,7 @@ export function ProductGrid() {
             >
               <Link
                 href={`/product/${product.slug}`}
-                className={`group block ${(index === 1 || index === 3) ? "md:mt-12" : ""}`}
+                className={`group block ${index === 1 || index === 3 ? "md:mt-12" : ""}`}
               >
                 <div className="w-full aspect-4-5 bg-surface-container-low mb-4 relative hover-image-zoom">
                   {product.slug === "lendai" && (

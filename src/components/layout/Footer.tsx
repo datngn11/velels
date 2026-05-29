@@ -10,7 +10,7 @@ export function Footer() {
       <div className="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
         
         {/* Logo */}
-        <div className="text-label-lg tracking-[0.4em] text-primary">
+        <div className="font-logo text-[24px] tracking-[0.4em] uppercase font-semibold text-primary">
           VELÉLS
         </div>
 
