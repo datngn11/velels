@@ -19,19 +19,36 @@ const instagramImages = [
   },
 ];
 
+function getRandomPosts<T>(posts: T[], count: number): T[] {
+  const shuffled = [...posts];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, count);
+}
+
 export async function InstagramFeed() {
   const t = await getTranslations("instagram");
-  const posts = await getInstagramPosts(3);
+  const posts = await getInstagramPosts(100);
+  const photoPosts = posts.filter((post) => post.media_type !== "VIDEO");
+  const selectedPosts = getRandomPosts(photoPosts, 3);
 
-  const displayItems = posts.length > 0 ? posts.map(post => ({
-    src: post.media_type === 'VIDEO' && post.thumbnail_url ? post.thumbnail_url : post.media_url,
-    alt: post.caption || "Instagram post",
-    href: post.permalink
-  })) : instagramImages.map(img => ({
-    src: img.src,
-    alt: img.alt,
-    href: siteConfig.social.instagram
-  }));
+  const displayItems =
+    selectedPosts.length > 0
+      ? selectedPosts?.map((post) => ({
+          src:
+            post.media_type === "VIDEO" && post.thumbnail_url
+              ? post.thumbnail_url
+              : post.media_url,
+          alt: post.caption || "Instagram post",
+          href: post.permalink,
+        }))
+      : instagramImages.map((img) => ({
+          src: img.src,
+          alt: img.alt,
+          href: siteConfig.social.instagram,
+        }));
 
   return (
     <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
@@ -44,24 +61,29 @@ export async function InstagramFeed() {
         </div>
       </ScrollReveal>
 
-      {/* Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Mobile Carousel / Desktop Grid */}
+      <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 pb-4 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
         {displayItems.map((item, i) => {
           const delays = ["", "delay-100", "delay-200"] as const;
 
           return (
-            <ScrollReveal key={i} animation="reveal-fade-in" delay={delays[i]}>
-              <a 
+            <ScrollReveal
+              key={i}
+              animation="reveal-fade-in"
+              delay={delays[i]}
+              className="flex-none w-[75vw] sm:w-[45vw] md:w-auto snap-center"
+            >
+              <a
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block aspect-[4/5] bg-surface-container-low hover-image-zoom relative overflow-hidden group"
+                className="block w-full aspect-4/5 bg-surface-container-low hover-image-zoom relative overflow-hidden group"
               >
                 <Image
                   src={item.src}
                   alt={item.alt}
                   fill
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 duration-300">
@@ -83,12 +105,16 @@ export async function InstagramFeed() {
         })}
 
         {/* 4th Card: Follow Us CTA */}
-        <ScrollReveal animation="reveal-fade-in" delay="delay-300">
+        <ScrollReveal
+          animation="reveal-fade-in"
+          delay="delay-300"
+          className="flex-none w-[75vw] sm:w-[45vw] md:w-auto snap-center"
+        >
           <a
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="aspect-[4/5] bg-surface-variant relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer group text-center p-4"
+            className="w-full aspect-4/5 bg-surface-variant relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer group text-center p-4"
           >
             <div>
               <svg
@@ -102,9 +128,7 @@ export async function InstagramFeed() {
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-              <p className="text-label-md text-primary">
-                {t("follow")}
-              </p>
+              <p className="text-label-md text-primary">{t("follow")}</p>
             </div>
           </a>
         </ScrollReveal>
