@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/config";
+import { getInstagramPosts } from "@/lib/instagram";
 
 const instagramImages = [
   {
@@ -18,8 +19,19 @@ const instagramImages = [
   },
 ];
 
-export function InstagramFeed() {
-  const t = useTranslations("instagram");
+export async function InstagramFeed() {
+  const t = await getTranslations("instagram");
+  const posts = await getInstagramPosts(3);
+
+  const displayItems = posts.length > 0 ? posts.map(post => ({
+    src: post.media_type === 'VIDEO' && post.thumbnail_url ? post.thumbnail_url : post.media_url,
+    alt: post.caption || "Instagram post",
+    href: post.permalink
+  })) : instagramImages.map(img => ({
+    src: img.src,
+    alt: img.alt,
+    href: siteConfig.social.instagram
+  }));
 
   return (
     <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
@@ -34,15 +46,20 @@ export function InstagramFeed() {
 
       {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {instagramImages.map((img, i) => {
+        {displayItems.map((item, i) => {
           const delays = ["", "delay-100", "delay-200"] as const;
 
           return (
             <ScrollReveal key={i} animation="reveal-fade-in" delay={delays[i]}>
-              <div className="aspect-[4/5] bg-surface-container-low hover-image-zoom relative overflow-hidden group">
+              <a 
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block aspect-[4/5] bg-surface-container-low hover-image-zoom relative overflow-hidden group"
+              >
                 <Image
-                  src={img.src}
-                  alt={img.alt}
+                  src={item.src}
+                  alt={item.alt}
                   fill
                   className="w-full h-full object-cover grayscale"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -60,7 +77,7 @@ export function InstagramFeed() {
                     <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
                   </svg>
                 </div>
-              </div>
+              </a>
             </ScrollReveal>
           );
         })}
