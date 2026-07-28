@@ -11,36 +11,37 @@
     "ig": "IG"
   },
   "hero": {
-    "title": "The VELÉLS Collection",
-    "subtitle": "Embracing the stark beauty of contrast. Minimalist forms designed for the sun.",
+    "title": "VELÉLS",
+    "subtitle": "Swimwear",
+    "description": "Swimwear created to fit and sculpt.",
     "cta": "Explore Collection"
   },
   "products": {
     "sectionTitle": "Selected Pieces",
     "viewAll": "View All",
     "dimaya": {
-      "name": "The Noir Contour",
+      "name": "Dimaya",
       "colorName": "Black Matte",
       "tagline": "A daring silhouette crafted with architectural precision. Designed to frame the form with stark, minimalist intent.",
       "details": "High-cut leg, deep V back, minimal coverage. Handcrafted from premium Italian sustainable techno-fabric.",
       "care": "Hand wash cold. Dry flat in shade. Do not bleach or tumble dry."
     },
     "lendai": {
-      "name": "The Blanc Asymmetry",
+      "name": "Lendai",
       "colorName": "Optic White",
       "tagline": "An asymmetric cut that defies convention. Pure geometry on the body.",
       "details": "Asymmetric shoulder, contour cut. Double-lined for opacity and compression. Italian sustainable fabric.",
       "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
     },
     "lauri": {
-      "name": "The Obsidian Sculpt",
+      "name": "Lauri",
       "colorName": "Black Matte",
       "tagline": "A two-piece ensemble refined to absolute simplicity. Structure without excess.",
       "details": "Two-piece set. Bandeau top with minimal boning. High-waisted brief with contour cut. Italian ECONYL® fabric.",
       "care": "Hand wash cold. Dry separately. Do not bleach."
     },
     "ezra": {
-      "name": "High-Waist Bottom",
+      "name": "Ezra",
       "colorName": "Black Velvet",
       "tagline": "The classic one-piece reimagined through the lens of quiet luxury.",
       "details": "Plunging neckline, high-cut leg. Double-lined for opacity and compression. 78% ECONYL® Regenerated Nylon, 22% Elastane.",

@@ -14,9 +14,9 @@ export function ProductGrid() {
     >
       {/* Section header */}
       <ScrollReveal animation="reveal-fade-up">
-        <div className="flex justify-between items-end mb-8 md:mb-stack-lg border-b border-primary pb-4">
-          <h2 className="text-display-md text-primary">{t("sectionTitle")}</h2>
-          <span className="text-nav-link text-secondary hover:text-primary transition-colors pb-1 border-b border-transparent hover-underline-anim cursor-pointer">
+        <div className="flex justify-between items-end gap-4 mb-8 md:mb-stack-lg border-b border-primary pb-2">
+          <h2 className="text-label-md text-primary">{t("sectionTitle")}</h2>
+          <span className="text-label-md text-secondary hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 cursor-pointer hover-underline-anim">
             {t("viewAll")}
           </span>
         </div>
@@ -60,18 +60,13 @@ export function ProductGrid() {
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
-                <div className="flex flex-col gap-1 text-left">
-                  <h3 className="text-nav-link font-semibold text-primary">
+                <div className="text-left">
+                  <h3 className="text-body-md text-primary mb-1">
                     {t(`${slug}.name`)}
                   </h3>
-                  <div className="flex justify-between items-center mt-1">
-                    <p className="text-body-md text-secondary">
-                      {t(`${slug}.colorName`)}
-                    </p>
-                    <span className="text-body-md text-primary font-medium">
-                      ${product.price}
-                    </span>
-                  </div>
+                  <span className="text-body-md text-secondary">
+                    ${product.price}
+                  </span>
                 </div>
               </Link>
             </ScrollReveal>

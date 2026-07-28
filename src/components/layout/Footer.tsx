@@ -8,7 +8,6 @@ export function Footer() {
   return (
     <footer className="w-full py-16 lg:py-24 bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-md md:mt-stack-xl">
       <div className="flex flex-col items-center gap-8 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto">
-        
         {/* Logo */}
         <div className="font-logo text-[24px] tracking-[0.4em] uppercase font-semibold text-primary">
           VELÉLS
@@ -38,7 +37,6 @@ export function Footer() {
             {t("copyright")}
           </div>
         </div>
-
       </div>
     </footer>
   );

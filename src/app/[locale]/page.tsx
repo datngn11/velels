@@ -18,7 +18,7 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="mt-[80px]">
+      <main className="mt-[64px]">
         <HeroSection />
         <ProductGrid />
         <EditorialFeature />

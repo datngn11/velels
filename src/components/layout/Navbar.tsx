@@ -27,7 +27,7 @@ export function Navbar() {
         }`}
         id="top-nav"
       >
-        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-6 w-full max-w-[1440px] mx-auto">
+        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 md:py-2 w-full max-w-[1440px] mx-auto">
           {/* Left: Nav links (desktop only) */}
           <div className="hidden md:flex items-center gap-gutter flex-1">
             <Link
@@ -62,7 +62,7 @@ export function Navbar() {
           {/* Center: Logo (Responsive size & tracking) */}
           <Link
             href="/"
-            className="font-logo text-[24px] md:text-[48px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-primary z-50 hover:opacity-80 transition-opacity"
+            className="font-logo text-[20px] md:text-[32px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase text-primary z-50 hover:opacity-80 transition-opacity"
           >
             VELÉLS
           </Link>

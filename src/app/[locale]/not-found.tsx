@@ -9,7 +9,7 @@ export default function NotFoundPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[80px]">
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[64px]">
         <h1 className="font-serif text-[72px] md:text-[120px] leading-none tracking-[-0.04em] text-primary mb-6 animate-fade-in-up">
           404
         </h1>

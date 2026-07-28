@@ -19,20 +19,38 @@ const instagramImages = [
   },
 ];
 
-function getRandomPosts<T>(posts: T[], count: number): T[] {
-  const shuffled = [...posts];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled.slice(0, count);
-}
+const TARGET_SHORTCODES = ["Cxx5HT-q5sr", "Cx0P_KYqUxm", "DU5ecVdCX5i"];
 
 export async function InstagramFeed() {
   const t = await getTranslations("instagram");
+  // Fetch a larger pool just in case the posts are a bit older
   const posts = await getInstagramPosts(100);
-  const photoPosts = posts.filter((post) => post.media_type !== "VIDEO");
-  const selectedPosts = getRandomPosts(photoPosts, 3);
+
+  let selectedPosts = posts.filter((post) =>
+    TARGET_SHORTCODES.some((code) => post.permalink.includes(code)),
+  );
+
+  // If some hardcoded posts aren't found in the latest 100, pad with the most recent ones
+  if (selectedPosts.length < 3) {
+    const missingCount = 3 - selectedPosts.length;
+    const fallbackPosts = posts
+      .filter((p) => !selectedPosts.includes(p))
+      .slice(0, missingCount);
+    selectedPosts = [...selectedPosts, ...fallbackPosts];
+  }
+
+  // Sort them to match the exact order provided
+  selectedPosts.sort((a, b) => {
+    const aIndex = TARGET_SHORTCODES.findIndex((code) =>
+      a.permalink.includes(code),
+    );
+    const bIndex = TARGET_SHORTCODES.findIndex((code) =>
+      b.permalink.includes(code),
+    );
+    const aRank = aIndex === -1 ? 999 : aIndex;
+    const bRank = bIndex === -1 ? 999 : bIndex;
+    return aRank - bRank;
+  });
 
   const displayItems =
     selectedPosts.length > 0

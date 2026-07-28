@@ -22,7 +22,7 @@ export default function ErrorPage({ error, reset }: Props) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[80px]">
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[64px]">
         <h1 className="font-serif text-[48px] md:text-[80px] leading-none tracking-[-0.02em] text-primary mb-6 animate-fade-in-up">
           {t("title")}
         </h1>

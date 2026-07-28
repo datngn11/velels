@@ -123,11 +123,21 @@ body {
 }
 
 /* Delay classes for staggered reveals */
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
+.delay-100 {
+  transition-delay: 100ms;
+}
+.delay-200 {
+  transition-delay: 200ms;
+}
+.delay-300 {
+  transition-delay: 300ms;
+}
+.delay-400 {
+  transition-delay: 400ms;
+}
+.delay-500 {
+  transition-delay: 500ms;
+}
 
 /* ── Micro-interactions ── */
 
@@ -139,7 +149,7 @@ body {
 }
 
 .hover-underline-anim::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   transform: scaleX(0);
@@ -268,8 +278,12 @@ html {
 }
 
 @keyframes grow-progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 /* Native CSS Scroll Parallax for Hero section image */
@@ -293,18 +307,32 @@ html {
 
 /* ── Dialog/Drawer animations ── */
 @keyframes overlayShow {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes drawerShow {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes modalContentShow {
-  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .animate-overlay-show {
@@ -335,7 +363,7 @@ html {
     transform: none !important;
     transition: none !important;
   }
-  
+
   .hover-image-zoom img,
   .hover-underline-anim::after {
     transition: none !important;
@@ -345,35 +373,35 @@ html {
 
 /* ── Typography Utilities (Semantic Extraction) ── */
 @utility text-display-lg {
-  @apply font-serif text-[40px] md:text-[80px] leading-[48px] md:leading-[90px] tracking-[-0.02em];
+  @apply font-serif text-[36px] md:text-[80px] leading-[48px] md:leading-[90px] tracking-[-0.02em];
 }
 
 @utility text-display-md {
-  @apply font-serif text-[32px] md:text-[48px] leading-[40px] md:leading-[56px] tracking-[0.05em];
+  @apply font-serif text-[28px] md:text-[48px] leading-[40px] md:leading-[56px] tracking-[0.05em];
 }
 
 @utility text-heading-lg {
-  @apply font-serif text-[24px] md:text-[48px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase;
+  @apply font-serif text-[20px] md:text-[48px] leading-[32px] md:leading-[56px] tracking-[0.2em] md:tracking-[0.3em] uppercase;
 }
 
 @utility text-heading-md {
-  @apply font-serif text-[24px] tracking-[0.2em] uppercase;
+  @apply font-serif text-[20px] md:text-[24px] tracking-[0.2em] uppercase;
 }
 
 @utility text-body-lg {
-  @apply font-sans text-[15px] md:text-[18px] leading-[24px] md:leading-[28px];
+  @apply font-sans text-[16px] md:text-[18px] leading-[24px] md:leading-[28px];
 }
 
 @utility text-body-md {
-  @apply font-sans text-[14px] md:text-[15px] leading-[20px] md:leading-[24px] tracking-[0.01em];
+  @apply font-sans text-[16px] md:text-[16px] leading-[20px] md:leading-[24px] tracking-[0.01em];
 }
 
 @utility text-body-sm {
-  @apply font-sans text-[13px] leading-[20px];
+  @apply font-sans text-[14px] leading-[20px];
 }
 
 @utility text-nav-link {
-  @apply font-sans text-[13px] leading-[16px] tracking-[0.2em] uppercase;
+  @apply font-sans text-[14px] leading-[16px] tracking-[0.2em] uppercase;
 }
 
 @utility text-nav-link-lg {
@@ -389,10 +417,9 @@ html {
 }
 
 @utility text-label-sm {
-  @apply font-sans text-[11px] leading-[16px] tracking-[0.15em] uppercase;
+  @apply font-sans text-[12px] leading-[16px] tracking-[0.15em] uppercase;
 }
 
 @utility text-label-xs {
-  @apply font-sans text-[10px] leading-[16px] tracking-[0.15em] uppercase;
+  @apply font-sans text-[12px] leading-[16px] tracking-[0.1em] uppercase;
 }
-
