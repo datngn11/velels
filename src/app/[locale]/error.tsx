@@ -22,7 +22,7 @@ export default function ErrorPage({ error, reset }: Props) {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="flex-grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[64px]">
+      <main className="grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[64px]">
         <h1 className="font-serif text-[48px] md:text-[80px] leading-none tracking-[-0.02em] text-primary mb-6 animate-fade-in-up">
           {t("title")}
         </h1>
@@ -32,13 +32,13 @@ export default function ErrorPage({ error, reset }: Props) {
         <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-200">
           <button
             onClick={() => reset()}
-            className="inline-block bg-primary text-on-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300 cursor-pointer"
+            className="inline-block bg-primary text-on-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             {t("retry")}
           </button>
           <Link
             href="/"
-            className="inline-block border border-outline text-primary font-sans text-[12px] leading-[16px] tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300"
+            className="inline-block border border-outline text-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300"
           >
             {t("cta")}
           </Link>
