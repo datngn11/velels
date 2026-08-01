@@ -3,10 +3,13 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+// Set basePath for GitHub Pages subpath (e.g. https://datngn11.github.io/velels).
+// If deploying to a custom domain (e.g. velels.com), set NEXT_PUBLIC_BASE_PATH="".
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? process.env.BASE_PATH ?? "/velels";
+
 const nextConfig: NextConfig = {
-  ...(process.env.NODE_ENV === "production"
-    ? { output: "export", basePath: "/velels" }
-    : {}),
+  output: "export",
+  ...(basePath ? { basePath } : {}),
   images: {
     unoptimized: true,
     remotePatterns: [
