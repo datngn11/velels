@@ -7,8 +7,8 @@
   },
   "nav": {
     "catalogue": "Catalogue",
-    "onePiece": "One-piece swimsuits",
-    "twoPiece": "Two-piece swimsuits",
+    "onePiece": "One-Pieces",
+    "twoPiece": "Bikinis",
     "dresses": "Dresses",
     "about": "Our Story",
     "story": "Story",
@@ -19,6 +19,15 @@
     "subtitle": "Swimwear",
     "description": "Swimwear created to fit and sculpt.",
     "cta": "Explore Collection"
+  },
+  "catalog": {
+    "title": "The Collection",
+    "metaDescription": "Full collection of VELÉLS swimwear — one-pieces, two-pieces, and dresses.",
+    "all": "All",
+    "onePiece": "One-Pieces",
+    "twoPiece": "Two-Pieces",
+    "dresses": "Dresses",
+    "noProducts": "No items found in this category."
   },
   "products": {
     "sectionTitle": "Bestsellers",
@@ -52,14 +61,9 @@
       "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces to maintain pristine texture."
     }
   },
-  "philosophy": {
-    "title": "The Aesthetic of Silence",
-    "body": "We believe in the power of negative space. Our monochrome vision strips away the superfluous, leaving only precise cuts, premium materials, and an architectural rigor that acts as a sophisticated frame for the wearer.",
-    "cta": "Read the Story"
-  },
   "editorial": {
     "title": "Form.<br />Function.",
-    "body": "We view swimwear not as mere apparel, but as architecture for the body. Every seam is intentional, every cut designed to elevate rather than expose.",
+    "body": "VELÉLS is a Ukrainian swimwear brand created for women who appreciate minimalist design, flawless fit, and attention to detail. Each piece is created in small batches and undergoes strict quality control.",
     "cta": "Read The Story"
   },
   "instagram": {
@@ -104,7 +108,7 @@
         },
         {
           "heading": "International Delivery",
-          "body": "We ship worldwide. Orders are dispatched via international delivery services (Nova Poshta Global, Ukrposhta, or other carriers) depending on the destination country. Delivery time depends on the receiving country and the chosen delivery service."
+          "body": "We ship worldwide. Orders are dispatched via Nova Poshta Global or Ukrposhta depending on the destination country. Delivery time depends on the receiving country and the chosen delivery service."
         }
       ]
     },
@@ -117,7 +121,7 @@
           "body": "According to Decree No. 172 of the Cabinet of Ministers of Ukraine dated March 19, 1994, swimwear belongs to the category of underwear items and is non-returnable and non-exchangeable."
         },
         {
-          "body": "However, we understand that situations vary, so we offer a one-time size exchange or exchange for another swimsuit model in case of fit issues within 7 calendar days of order receipt."
+          "body": "However, we understand that situations vary, so we offer a one-time size exchange or exchange for another swimsuit model in case of fit issues within 14 calendar days of order receipt."
         },
         {
           "heading": "Exchange Conditions",
@@ -133,7 +137,12 @@
         },
         {
           "heading": "How to Request an Exchange or Return",
-          "body": "If you wish to initiate an exchange or return for clothing, or have questions regarding your order, contact us via Instagram @velelswim or email velelswim@gmail.com. Our team will assist you with the procedure according to the policy above."
+          "body": "If you wish to initiate an exchange or return for clothing, or have questions regarding your order, contact us:",
+          "list": [
+            "Instagram: @velelswim",
+            "E-mail: velelswim@gmail.com"
+          ],
+          "bodyAfter": "Our team will assist you with the procedure according to the policy above."
         }
       ]
     },
@@ -188,7 +197,6 @@
           "body": "Two options are available: full prepayment or cash on delivery (COD via Nova Poshta). When ordering COD, a 500 UAH prepayment is required. This prepayment is non-refundable if the package is not collected or refused."
         },
         {
-          "heading": "Receiving COD Packages",
           "body": "Upon receiving a COD order, you may inspect the swimsuit. If the item does not fit, you have the right to refuse it directly at the branch. For clothing, you may try it on and refuse if it doesn't fit. The remaining balance is paid upon pickup."
         },
         {

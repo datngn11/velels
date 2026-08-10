@@ -1,5 +1,6 @@
 export type Size = "S" | "M" | "L";
 export type ProductSlug = "dimaya" | "lendai" | "lauri" | "ezra";
+export type ProductCategory = "one-piece" | "two-piece" | "dresses";
 
 export interface ProductImage {
   src: string;
@@ -9,6 +10,7 @@ export interface ProductImage {
 export interface Product {
   id: string;
   slug: ProductSlug;
+  category: ProductCategory;
   price: number;
   currency: string;
   sizes: Size[];
@@ -19,6 +21,7 @@ export const products: Product[] = [
   {
     id: "1",
     slug: "dimaya",
+    category: "one-piece",
     price: 240,
     currency: "USD",
     sizes: ["S", "M", "L"],
@@ -44,6 +47,7 @@ export const products: Product[] = [
   {
     id: "2",
     slug: "lendai",
+    category: "one-piece",
     price: 260,
     currency: "USD",
     sizes: ["S", "M", "L"],
@@ -61,6 +65,7 @@ export const products: Product[] = [
   {
     id: "3",
     slug: "lauri",
+    category: "two-piece",
     price: 220,
     currency: "USD",
     sizes: ["S", "M", "L"],
@@ -78,6 +83,7 @@ export const products: Product[] = [
   {
     id: "4",
     slug: "ezra",
+    category: "one-piece",
     price: 180,
     currency: "USD",
     sizes: ["S", "M", "L"],

@@ -16,9 +16,12 @@ export function ProductGrid() {
       <ScrollReveal animation="reveal-fade-up">
         <div className="flex justify-between items-end gap-4 mb-8 md:mb-stack-lg border-b border-primary pb-2">
           <h2 className="text-label-md text-primary">{t("sectionTitle")}</h2>
-          <span className="text-label-md text-secondary hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 cursor-pointer hover-underline-anim">
+          <Link
+            href="/catalog"
+            className="text-label-md text-secondary hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 cursor-pointer hover-underline-anim"
+          >
             {t("viewAll")}
-          </span>
+          </Link>
         </div>
       </ScrollReveal>
 
@@ -60,11 +63,11 @@ export function ProductGrid() {
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
-                <div className="text-left">
-                  <h3 className="text-body-md text-primary mb-1">
+                <div className="flex justify-between items-baseline px-1 gap-2">
+                  <h3 className="text-body-md text-primary font-medium">
                     {t(`${slug}.name`)}
                   </h3>
-                  <span className="text-body-md text-secondary">
+                  <span className="text-body-md text-secondary whitespace-nowrap">
                     ${product.price}
                   </span>
                 </div>

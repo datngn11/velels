@@ -107,9 +107,23 @@ export default async function InfoPage({ params }: Props) {
                       {section.heading}
                     </h2>
                   )}
-                  <p className="text-body-md text-secondary leading-relaxed">
-                    {section.body}
-                  </p>
+                  {section.body && (
+                    <p className="text-body-md text-secondary leading-relaxed">
+                      {section.body}
+                    </p>
+                  )}
+                  {section.list && (
+                    <ul className="list-disc list-inside flex flex-col gap-1.5 text-body-md text-secondary leading-relaxed">
+                      {(section.list as unknown as string[]).map((item: string, i: number) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {section.bodyAfter && (
+                    <p className="text-body-md text-secondary leading-relaxed">
+                      {section.bodyAfter}
+                    </p>
+                  )}
                 </>
               )}
             </section>

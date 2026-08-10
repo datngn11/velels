@@ -1,7 +1,6 @@
 import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -9,17 +8,6 @@ export function Footer() {
   return (
     <footer className="w-full py-16 lg:py-24 bg-surface-container-lowest border-t border-outline-variant/30 mt-stack-md md:mt-stack-lg">
       <div className="flex flex-col items-center gap-12 md:gap-16 px-margin-mobile md:px-margin-desktop max-w-container mx-auto">
-        {/* Logo */}
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          <Image
-            src="/logo_black.png"
-            alt="VELÉLS"
-            width={256}
-            height={64}
-            className="h-16 w-auto object-contain"
-          />
-        </Link>
-
         {/* 2-Column Links Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 w-full max-w-140">
           {/* Customer Care */}

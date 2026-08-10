@@ -53,7 +53,7 @@ export function Navbar() {
               onMouseLeave={handleMouseLeave}
             >
               <Link
-                href="/#collection"
+                href="/catalog"
                 className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim py-4"
               >
                 {t("catalogue")}
@@ -68,21 +68,21 @@ export function Navbar() {
                 }`}
               >
                 <Link
-                  href="/#collection"
+                  href="/catalog?category=one-piece"
                   onClick={() => setDesktopDropdownOpen(false)}
                   className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
                 >
                   {t("onePiece")}
                 </Link>
                 <Link
-                  href="/#collection"
+                  href="/catalog?category=two-piece"
                   onClick={() => setDesktopDropdownOpen(false)}
                   className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
                 >
                   {t("twoPiece")}
                 </Link>
                 <Link
-                  href="/#collection"
+                  href="/catalog?category=dresses"
                   onClick={() => setDesktopDropdownOpen(false)}
                   className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
                 >
@@ -220,21 +220,21 @@ export function Navbar() {
                   }`}
                 >
                   <Link
-                    href="/#collection"
+                    href="/catalog?category=one-piece"
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >
                     {t("onePiece")}
                   </Link>
                   <Link
-                    href="/#collection"
+                    href="/catalog?category=two-piece"
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >
                     {t("twoPiece")}
                   </Link>
                   <Link
-                    href="/#collection"
+                    href="/catalog?category=dresses"
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >
