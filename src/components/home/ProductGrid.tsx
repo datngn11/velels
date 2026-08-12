@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { products } from "@/lib/data/products";
+import { formatPrice } from "@/lib/utils/formatPrice";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export function ProductGrid() {
@@ -68,7 +69,7 @@ export function ProductGrid() {
                     {t(`${slug}.name`)}
                   </h3>
                   <span className="text-body-md text-secondary whitespace-nowrap">
-                    ${product.price}
+                    {formatPrice(product.price)}
                   </span>
                 </div>
               </Link>

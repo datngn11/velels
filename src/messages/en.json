@@ -32,33 +32,82 @@
   "products": {
     "sectionTitle": "Bestsellers",
     "viewAll": "View All",
+    "azure": {
+      "name": "Azure",
+      "colorName": "Black Matte",
+      "tagline": "One-piece swimsuit with architectural cutouts and an open back.",
+      "details": "Dense double fabric without padding is non-see-through and holds its shape exceptionally well. High-leg cut visually lengthens legs and accentuates the waist. Suitable for beach, pool, and as a bodysuit for urban looks.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "linear": {
+      "name": "Linear",
+      "colorName": "Black Matte",
+      "tagline": "One-piece swimsuit with architectural cutouts that accentuate the waist and décolletage.",
+      "details": "Elongates the silhouette, highlights the figure, and creates a striking, sensual look without excess. Dense double fabric without padding is non-see-through and holds its shape. Suitable for beach, pool, and as a bodysuit for urban looks.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "glacier": {
+      "name": "Glacier",
+      "colorName": "White",
+      "tagline": "Structured molded cup bra top that beautifully supports and accentuates the silhouette.",
+      "details": "Draped design with high-waisted bottom visually lengthens legs and flatters the figure. Comes with 2 bottom options to choose from. Can be mixed and matched with other bottoms.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
     "dimaya": {
       "name": "Dimaya",
-      "colorName": "Black Matte",
-      "tagline": "A daring silhouette crafted with architectural precision. Designed to frame the form with stark, minimalist intent.",
-      "details": "High-cut leg, deep V back, minimal coverage. Handcrafted from premium Italian sustainable techno-fabric.",
-      "care": "Hand wash cold. Dry flat in shade. Do not bleach or tumble dry."
+      "colorName": "Black / White",
+      "tagline": "The top is designed as a bandeau with an internal silicone grip, ensuring a stay-put fit.",
+      "details": "Double fabric and soft lining ensure complete opacity. High-waisted cut accentuates the waist, visually elongating and slimming the figure.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
     },
     "lendai": {
       "name": "Lendai",
-      "colorName": "Optic White",
-      "tagline": "An asymmetric cut that defies convention. Pure geometry on the body.",
-      "details": "Asymmetric shoulder, contour cut. Double-lined for opacity and compression. Italian sustainable fabric.",
+      "colorName": "Black / White",
+      "tagline": "A versatile convertible swimsuit — Lendai can be styled in 3 ways or worn as a bodysuit.",
+      "details": "Deep cutouts add femininity, while the high-waisted cut visually slims and accentuates the waist. Double fabric without padding, completely non-see-through.",
       "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
     },
     "lauri": {
       "name": "Lauri",
-      "colorName": "Black Matte",
-      "tagline": "A two-piece ensemble refined to absolute simplicity. Structure without excess.",
-      "details": "Two-piece set. Bandeau top with minimal boning. High-waisted brief with contour cut. Italian ECONYL® fabric.",
+      "colorName": "Black / White",
+      "tagline": "Underwired bra top without padding — provides light support and creates a natural, elegant silhouette.",
+      "details": "Soft double fabric with an additional lining layer delicately covers sensitive areas, ensuring complete opacity. Can be mixed and matched with the Naevi swimsuit.",
       "care": "Hand wash cold. Dry separately. Do not bleach."
     },
     "ezra": {
       "name": "Ezra",
-      "colorName": "Black Velvet",
-      "tagline": "The classic one-piece reimagined through the lens of quiet luxury.",
-      "details": "Plunging neckline, high-cut leg. Double-lined for opacity and compression. 78% ECONYL® Regenerated Nylon, 22% Elastane.",
-      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces to maintain pristine texture."
+      "colorName": "Black with white / White with black",
+      "tagline": "Elegant and minimalist one-piece swimsuit that beautifully flatters the figure.",
+      "details": "Unpadded and unlined, the double-layered Italian biflex with an additional lining provides full opacity for delicate areas. Features a Brazilian cut bottom.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "naevi": {
+      "name": "Naevi",
+      "colorName": "Black / White",
+      "tagline": "A two-piece swimsuit featuring a classic triangle top and high-waisted bottoms — accentuating body lines and elegance.",
+      "details": "Unpadded and unlined for the lightest, most natural fit with no excess. Perfect for tanning and swimming. Mix and match with the Lauri swimsuit for a stylish new look.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "laydee": {
+      "name": "Laydee",
+      "colorName": "Black / White",
+      "tagline": "A high-coverage silhouette with an elegant profile — comfortable and subtly sensual.",
+      "details": "Features a closed back and full coverage bottom. Detailed with a gold-plated medical steel chain necklace that will not tarnish in salt water. Wear it as a swimsuit, bodysuit, or top for effortless pairing with everyday looks.",
+      "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
+    },
+    "lunar": {
+      "name": "Lunar",
+      "colorName": "Black / White",
+      "tagline": "A dress combining the delicacy of Asian aesthetics with modern femininity.",
+      "details": "Exquisite Chantilly lace, statement collar, flawless silhouette, and a seductive side slit create a look that captivates effortlessly. Easily adapts to any mood: special evenings, events, resort getaways, or editorial photoshoots.",
+      "care": "Dry clean or delicate hand wash cold. Hang dry in shade. Avoid sharp objects to protect lace."
+    },
+    "noblesse": {
+      "name": "Noblesse",
+      "colorName": "Black",
+      "tagline": "Noblesse — the embodiment of effortless resort elegance.",
+      "details": "Crafted from semi-transparent Chantilly lace with a subtle shimmer, this dress is created for moments that make every vacation day feel special. From morning coffee poolside to sunset dinners, Noblesse softly accentuates the silhouette and pairs harmoniously with any VELÉLS swimsuit.",
+      "care": "Dry clean or delicate hand wash cold. Hang dry in shade. Avoid sharp objects to protect lace."
     }
   },
   "editorial": {
@@ -72,11 +121,14 @@
   },
   "productDetail": {
     "size": "Size",
+    "color": "Color",
+    "colorBlack": "Black",
+    "colorWhite": "White",
     "sizingGuide": "Sizing Guide",
     "orderViaInstagram": "Order via Instagram",
     "details": "Details",
     "care": "Care",
-    "orderMessage": "Hi! I'd like to order {product} in size {size}. — via velels.com",
+    "orderMessage": "Hi! I'd like to order {product}, color: {color}, size: {size}. — via velels.com",
     "copiedToClipboard": "Message copied ✓",
     "sizeGuideTitle": "Sizing Guide",
     "sizeGuideComingSoon": "Size guide coming soon"

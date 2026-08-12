@@ -2,7 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import type { Product, Size } from "@/lib/data/products";
+import type { Product, Size, ProductColor } from "@/lib/data/products";
+import { formatPrice } from "@/lib/utils/formatPrice";
 import { InstagramCheckout } from "./InstagramCheckout";
 import { SizeGuideModal } from "./SizeGuideModal";
 
@@ -14,6 +15,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const t = useTranslations("productDetail");
   const tProduct = useTranslations("products");
   const [selectedSize, setSelectedSize] = useState<Size>("M");
+  const [selectedColor, setSelectedColor] = useState<ProductColor>(
+    product.colors && product.colors.length > 0 ? product.colors[0] : "black"
+  );
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const slug = product.slug;
@@ -32,11 +36,48 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <p className="text-body-md text-secondary">
           {tProduct(`${slug}.tagline`)}
         </p>
-        {/* Price visible on mobile */}
-        <p className="text-body-lg text-secondary mt-2 md:hidden">
-          ${product.price} {product.currency}
+        {/* Price */}
+        <p className="text-body-lg text-secondary mt-3 font-medium">
+          {formatPrice(product.price)}
         </p>
       </div>
+
+      {/* Color selector */}
+      {product.colors && product.colors.length > 0 && (
+        <div className="mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-label-md text-primary">
+              {t("color")}:{" "}
+              <span className="font-normal text-secondary">
+                {t(selectedColor === "black" ? "colorBlack" : "colorWhite")}
+              </span>
+            </span>
+          </div>
+          <div className="flex gap-3">
+            {product.colors.map((color) => {
+              const isSelected = selectedColor === color;
+              const bgColorClass = color === "black" ? "bg-black" : "bg-white";
+              const colorLabel = t(
+                color === "black" ? "colorBlack" : "colorWhite"
+              );
+
+              return (
+                <button
+                  key={color}
+                  onClick={() => setSelectedColor(color)}
+                  className={`w-9 h-9 border transition-all cursor-pointer ${bgColorClass} ${
+                    isSelected
+                      ? "border-primary ring-1 ring-primary ring-offset-2"
+                      : "border-outline-variant/60 hover:border-primary"
+                  }`}
+                  aria-label={colorLabel}
+                  title={colorLabel}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Size selector */}
       <div className="mb-12">
@@ -51,14 +92,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
             {t("sizingGuide")}
           </button>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-3">
           {product.sizes.map((size) => (
             <button
               key={size}
               onClick={() => setSelectedSize(size)}
-              className={`w-12 h-12 border flex items-center justify-center text-label-lg transition-all ${
+              className={`min-w-11 h-11 px-3 border flex items-center justify-center text-label-md transition-all cursor-pointer ${
                 selectedSize === size
-                  ? "border-primary text-primary bg-primary/5"
+                  ? "border-primary text-primary bg-primary/5 font-semibold"
                   : "border-outline-variant text-secondary hover:border-primary hover:text-primary"
               }`}
               aria-label={`Size ${size}`}
@@ -73,6 +114,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <InstagramCheckout
         productName={productName}
         selectedSize={selectedSize}
+        selectedColor={selectedColor}
       />
 
       {/* Details & Care accordions */}

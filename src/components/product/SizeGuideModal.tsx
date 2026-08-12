@@ -75,19 +75,31 @@ export function SizeGuideModal({ isOpen, onClose }: SizeGuideModalProps) {
               </thead>
               <tbody>
                 <tr className="border-b border-outline-variant/15">
-                  <td className="py-3">S</td>
+                  <td className="py-3 font-medium text-primary">XXS</td>
+                  <td className="py-3">32</td>
+                  <td className="py-3">0</td>
+                  <td className="py-3">4</td>
+                </tr>
+                <tr className="border-b border-outline-variant/15">
+                  <td className="py-3 font-medium text-primary">XS</td>
+                  <td className="py-3">34</td>
+                  <td className="py-3">2</td>
+                  <td className="py-3">6</td>
+                </tr>
+                <tr className="border-b border-outline-variant/15">
+                  <td className="py-3 font-medium text-primary">S</td>
                   <td className="py-3">36</td>
                   <td className="py-3">4</td>
                   <td className="py-3">8</td>
                 </tr>
                 <tr className="border-b border-outline-variant/15">
-                  <td className="py-3">M</td>
+                  <td className="py-3 font-medium text-primary">M</td>
                   <td className="py-3">38</td>
                   <td className="py-3">6</td>
                   <td className="py-3">10</td>
                 </tr>
                 <tr>
-                  <td className="py-3">L</td>
+                  <td className="py-3 font-medium text-primary">L</td>
                   <td className="py-3">40</td>
                   <td className="py-3">8</td>
                   <td className="py-3">12</td>

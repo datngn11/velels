@@ -1,31 +1,48 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useTransition } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { products, ProductCategory } from "@/lib/data/products";
+import { formatPrice } from "@/lib/utils/formatPrice";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type FilterTab = "all" | ProductCategory;
 
-function CatalogContent() {
+const CatalogContent = () => {
   const t = useTranslations("catalog");
   const tProducts = useTranslations("products");
   const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
-  const [activeFilter, setActiveFilter] = useState<FilterTab>("all");
-
-  useEffect(() => {
-    const categoryParam = searchParams.get("category") as FilterTab | null;
-    if (
-      categoryParam &&
-      ["all", "one-piece", "two-piece", "dresses"].includes(categoryParam)
-    ) {
-      setActiveFilter(categoryParam);
+  const setFilter = (filter: FilterTab) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (filter === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", filter);
     }
-  }, [searchParams]);
+    const query = params.toString();
+    startTransition(() => {
+      replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    });
+  };
+
+  const validFilters: FilterTab[] = [
+    "all",
+    "one-piece",
+    "two-piece",
+    "dresses",
+  ];
+  const categoryParam = searchParams.get("category") as FilterTab | null;
+  const activeFilter: FilterTab =
+    categoryParam && validFilters.includes(categoryParam)
+      ? categoryParam
+      : "all";
 
   const filteredProducts =
     activeFilter === "all"
@@ -40,7 +57,7 @@ function CatalogContent() {
   ];
 
   return (
-    <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-6 md:pt-stack-md pb-stack-lg">
+    <div className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop pt-6 md:pt-stack-md pb-stack-lg">
       {/* Header Section */}
       <section className="mb-8 md:mb-stack-lg flex flex-col items-center text-center">
         <h1 className="font-serif text-3xl md:text-5xl text-primary text-center mb-6 md:mb-8 tracking-tight">
@@ -55,7 +72,7 @@ function CatalogContent() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveFilter(tab.id)}
+                  onClick={() => setFilter(tab.id)}
                   className={`text-label-sm uppercase tracking-widest transition-all duration-300 cursor-pointer pb-1 ${
                     isActive
                       ? "text-primary font-semibold border-b border-primary"
@@ -72,7 +89,11 @@ function CatalogContent() {
 
       {/* Mobile-First Product Grid: 2 columns on mobile, 3 on tablet, 4 on desktop */}
       {filteredProducts.length > 0 ? (
-        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-gutter gap-y-stack-md md:gap-y-stack-lg">
+        <section
+          className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-gutter gap-y-stack-md md:gap-y-stack-lg transition-opacity duration-300 ${
+            isPending ? "opacity-40 pointer-events-none" : ""
+          }`}
+        >
           {filteredProducts.map((product, index) => {
             const slug = product.slug;
             const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
@@ -118,7 +139,7 @@ function CatalogContent() {
                       {tProducts(`${slug}.name`)}
                     </h3>
                     <span className="text-body-md text-secondary whitespace-nowrap">
-                      ${product.price}
+                      {formatPrice(product.price)}
                     </span>
                   </div>
                 </Link>
@@ -133,13 +154,13 @@ function CatalogContent() {
       )}
     </div>
   );
-}
+};
 
 export function CatalogClient() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-[400px] flex items-center justify-center text-secondary">
+        <div className="min-h-100 flex items-center justify-center text-secondary">
           ...
         </div>
       }

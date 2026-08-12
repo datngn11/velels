@@ -2,25 +2,31 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import type { Size } from "@/lib/data/products";
+import type { Size, ProductColor } from "@/lib/data/products";
 import { Toast } from "@/components/ui/Toast";
 import { siteConfig } from "@/lib/config";
 
 interface InstagramCheckoutProps {
   productName: string;
   selectedSize: Size;
+  selectedColor?: ProductColor;
 }
 
 export function InstagramCheckout({
   productName,
   selectedSize,
+  selectedColor = "black",
 }: InstagramCheckoutProps) {
   const t = useTranslations("productDetail");
   const [showToast, setShowToast] = useState(false);
 
   const handleOrder = useCallback(async () => {
+    const colorLabel =
+      selectedColor === "black" ? t("colorBlack") : t("colorWhite");
+
     const message = t("orderMessage", {
       product: productName,
+      color: colorLabel,
       size: selectedSize,
     });
 
@@ -48,7 +54,7 @@ export function InstagramCheckout({
         window.open(siteConfig.social.instagramDm, "_blank");
       }, 300);
     }
-  }, [productName, selectedSize, t]);
+  }, [productName, selectedSize, selectedColor, t]);
 
   return (
     <>
