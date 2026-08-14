@@ -60,19 +60,19 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
           <button
             key={i}
             onClick={() => scrollToIndex(i)}
-            className={`w-14 h-18 md:w-16 md:h-20 shrink-0 border-b-2 transition-all duration-300 overflow-hidden cursor-pointer ${
+            className={`w-14 h-18 md:w-16 md:h-20 shrink-0 relative border-b-2 transition-all duration-300 overflow-hidden cursor-pointer ${
               i === activeIndex
-                ? "opacity-100 grayscale-0 border-primary"
-                : "opacity-50 grayscale border-transparent hover:opacity-80"
+                ? "opacity-100 border-primary"
+                : "opacity-60 border-transparent hover:opacity-90"
             }`}
             aria-label={`View image ${i + 1}`}
           >
             <Image
               src={image.src}
               alt={`Thumbnail ${i + 1}`}
-              width={64}
-              height={80}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="64px"
             />
           </button>
         ))}

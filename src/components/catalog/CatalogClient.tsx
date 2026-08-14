@@ -99,13 +99,6 @@ const CatalogContent = () => {
             const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
             const delayClass = delays[index % 4] || "";
 
-            const grayscaleClass =
-              product.slug === "dimaya" || product.slug === "lauri"
-                ? "grayscale"
-                : product.slug === "lendai"
-                  ? "grayscale-[50%]"
-                  : "grayscale-[80%]";
-
             // Editorial staggered offset for mobile (even index items slightly shifted down on mobile)
             const staggeredClass = index % 2 === 1 ? "mt-6 md:mt-0" : "";
 
@@ -130,7 +123,7 @@ const CatalogContent = () => {
                       src={product.images[0].src}
                       alt={product.images[0].alt}
                       fill
-                      className={`object-cover ${grayscaleClass} transition-transform duration-700 ease-in-out group-hover:scale-105`}
+                      className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                       sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
                   </div>

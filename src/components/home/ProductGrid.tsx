@@ -33,13 +33,6 @@ export function ProductGrid() {
           const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
           const delayClass = delays[index] || "";
 
-          const grayscaleClass =
-            product.slug === "dimaya" || product.slug === "lauri"
-              ? "grayscale"
-              : product.slug === "lendai"
-                ? "grayscale-[50%]"
-                : "grayscale-[80%]";
-
           return (
             <ScrollReveal
               key={product.id}
@@ -60,7 +53,7 @@ export function ProductGrid() {
                     src={product.images[0].src}
                     alt={product.images[0].alt}
                     fill
-                    className={`object-cover ${grayscaleClass}`}
+                    className="object-cover"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </div>
