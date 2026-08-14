@@ -12,21 +12,18 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const scrollToIndex = useCallback(
-    (index: number) => {
-      if (sliderRef.current) {
-        const width = sliderRef.current.offsetWidth;
-        sliderRef.current.scrollTo({ left: width * index, behavior: "smooth" });
-        setActiveIndex(index);
-      }
-    },
-    []
-  );
+  const scrollToIndex = useCallback((index: number) => {
+    if (sliderRef.current) {
+      const width = sliderRef.current.offsetWidth;
+      sliderRef.current.scrollTo({ left: width * index, behavior: "smooth" });
+      setActiveIndex(index);
+    }
+  }, []);
 
   const handleScroll = useCallback(() => {
     if (sliderRef.current) {
       const index = Math.round(
-        sliderRef.current.scrollLeft / sliderRef.current.offsetWidth
+        sliderRef.current.scrollLeft / sliderRef.current.offsetWidth,
       );
       setActiveIndex(index);
     }
@@ -58,15 +55,15 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
       </div>
 
       {/* Thumbnail navigation */}
-      <div className="flex justify-center gap-3">
+      <div className="flex justify-start md:justify-center gap-2 md:gap-3 overflow-x-auto no-scrollbar max-w-full pb-1 px-1">
         {images.map((image, i) => (
           <button
             key={i}
             onClick={() => scrollToIndex(i)}
-            className={`w-16 h-20 border-b-2 transition-all duration-300 overflow-hidden ${
+            className={`w-14 h-18 md:w-16 md:h-20 shrink-0 border-b-2 transition-all duration-300 overflow-hidden cursor-pointer ${
               i === activeIndex
                 ? "opacity-100 grayscale-0 border-primary"
-                : "opacity-50 grayscale border-transparent"
+                : "opacity-50 grayscale border-transparent hover:opacity-80"
             }`}
             aria-label={`View image ${i + 1}`}
           >
