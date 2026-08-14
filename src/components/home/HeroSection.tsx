@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { getAssetPath } from "@/lib/utils/assetPath";
 
 const smoothScrollTo = (targetId: string) => {
   const target = document.getElementById(targetId);
@@ -53,7 +54,7 @@ export function HeroSection() {
 
       {/* Desktop Hero image */}
       <Image
-        src="/hero/hero_desktop.jpg"
+        src={getAssetPath("/hero/hero_desktop.jpg")}
         alt="VELÉLS editorial hero — model in luxury swimwear"
         fill
         className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
@@ -63,7 +64,7 @@ export function HeroSection() {
 
       {/* Mobile Hero image */}
       <Image
-        src="/hero/hero_mobile.jpg"
+        src={getAssetPath("/hero/hero_mobile.jpg")}
         alt="VELÉLS editorial hero — model in luxury swimwear"
         fill
         className="block md:hidden object-cover animate-hero-zoom hero-parallax-img"

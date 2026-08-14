@@ -1,3 +1,5 @@
+import { getAssetPath } from "@/lib/utils/assetPath";
+
 export type Size = "XXS" | "XS" | "S" | "M" | "L";
 export type ProductSlug = "azure" | "linear" | "glacier" | "dimaya" | "lendai" | "lauri" | "ezra" | "naevi" | "laydee" | "lunar" | "noblesse";
 export type ProductCategory = "one-piece" | "two-piece" | "dresses";
@@ -30,7 +32,7 @@ export const products: Product[] = [
     colors: ["black"],
     images: [
       {
-        src: "/products/azure.png",
+        src: getAssetPath("/products/azure.png"),
         alt: "Azure black one-piece swimsuit with architectural cutouts",
       },
     ],
@@ -45,7 +47,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/dimaya.png",
+        src: getAssetPath("/products/dimaya.png"),
         alt: "Dimaya black one-piece swimsuit - editorial shot",
       },
     ],
@@ -60,7 +62,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/lendai.png",
+        src: getAssetPath("/products/lendai.png"),
         alt: "Lendai white asymmetric swimsuit - front view",
       },
     ],
@@ -75,7 +77,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/lauri.png",
+        src: getAssetPath("/products/lauri.png"),
         alt: "Lauri black two-piece swimsuit - editorial shot",
       },
     ],
@@ -90,7 +92,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/ezra.png",
+        src: getAssetPath("/products/ezra.png"),
         alt: "Ezra black one-piece swimsuit - editorial shot",
       },
     ],
@@ -105,7 +107,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/naevi.png",
+        src: getAssetPath("/products/naevi.png"),
         alt: "Naevi white two-piece swimsuit - editorial shot",
       },
     ],
@@ -120,7 +122,7 @@ export const products: Product[] = [
     colors: ["black"],
     images: [
       {
-        src: "/products/linear.png",
+        src: getAssetPath("/products/linear.png"),
         alt: "Linear black one-piece swimsuit with architectural cutouts",
       },
     ],
@@ -135,7 +137,7 @@ export const products: Product[] = [
     colors: ["white"],
     images: [
       {
-        src: "/products/glacier.png",
+        src: getAssetPath("/products/glacier.png"),
         alt: "Glacier white two-piece bikini with molded cup top",
       },
     ],
@@ -150,7 +152,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/laydee.png",
+        src: getAssetPath("/products/laydee.png"),
         alt: "Laydee black full-coverage one-piece swimsuit - editorial shot",
       },
     ],
@@ -165,7 +167,7 @@ export const products: Product[] = [
     colors: ["black", "white"],
     images: [
       {
-        src: "/products/lunar.png",
+        src: getAssetPath("/products/lunar.png"),
         alt: "Lunar black Chantilly lace dress with mandarin collar - editorial shot",
       },
     ],
@@ -180,7 +182,7 @@ export const products: Product[] = [
     colors: ["black"],
     images: [
       {
-        src: "/products/noblesse.png",
+        src: getAssetPath("/products/noblesse.png"),
         alt: "Noblesse black Chantilly lace resort dress - editorial shot",
       },
     ],
