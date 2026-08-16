@@ -314,7 +314,7 @@ export const products: Product[] = [
     category: "dresses",
     price: 5900,
     currency: "UAH",
-    sizes: ["XXS", "XS", "S", "M", "L"],
+    sizes: ["XS", "S", "M", "L"],
     colors: ["black", "white"],
     images: [
       {
@@ -341,7 +341,7 @@ export const products: Product[] = [
     category: "dresses",
     price: 6000,
     currency: "UAH",
-    sizes: ["XXS", "XS", "S", "M", "L"],
+    sizes: ["XS", "S", "M", "L"],
     colors: ["black"],
     images: [
       {

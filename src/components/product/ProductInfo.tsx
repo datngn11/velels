@@ -164,6 +164,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <SizeGuideModal
         isOpen={sizeGuideOpen}
         onClose={handleSizeGuideClose}
+        category={product.category}
       />
     </div>
   );

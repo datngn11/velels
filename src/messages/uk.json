@@ -131,7 +131,13 @@
     "orderMessage": "Привіт! Хочу замовити {product}, колір: {color}, розмір: {size}. — via velels.com",
     "copiedToClipboard": "Повідомлення скопійовано ✓",
     "sizeGuideTitle": "Таблиця розмірів",
-    "sizeGuideComingSoon": "Таблиця розмірів незабаром"
+    "sizeGuideSubtitle": "Усі параметри вказані в сантиметрах (см)",
+    "swimwearCategory": "Купальники",
+    "dressesCategory": "Сукні",
+    "bust": "Груди",
+    "waist": "Талія",
+    "hips": "Стегна",
+    "sizeGuideHelp": "Якщо ви сумніваєтесь між двома розмірами — напишіть нам в Instagram, і ми допоможемо підібрати ідеальний розмір."
   },
   "footer": {
     "copyright": "© 2026 VELÉLS",

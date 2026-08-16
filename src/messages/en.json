@@ -131,7 +131,13 @@
     "orderMessage": "Hi! I'd like to order {product}, color: {color}, size: {size}. — via velels.com",
     "copiedToClipboard": "Message copied ✓",
     "sizeGuideTitle": "Sizing Guide",
-    "sizeGuideComingSoon": "Size guide coming soon"
+    "sizeGuideSubtitle": "All measurements are in centimeters (cm)",
+    "swimwearCategory": "Swimwear",
+    "dressesCategory": "Dresses",
+    "bust": "Bust",
+    "waist": "Waist",
+    "hips": "Hips",
+    "sizeGuideHelp": "If you are between two sizes, send us a message on Instagram and we will help you choose the perfect size."
   },
   "footer": {
     "copyright": "© 2026 VELÉLS",
