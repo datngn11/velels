@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils/assetPath";
@@ -46,6 +47,33 @@ const smoothScrollTo = (targetId: string) => {
 
 export function HeroSection() {
   const t = useTranslations("hero");
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Start video playback on the very first user interaction if blocked by Low Power Mode
+    const startPlaybackOnGesture = () => {
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener("touchstart", startPlaybackOnGesture, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener("scroll", startPlaybackOnGesture, {
+      once: true,
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("touchstart", startPlaybackOnGesture);
+      window.removeEventListener("scroll", startPlaybackOnGesture);
+    };
+  }, []);
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center">
@@ -62,16 +90,20 @@ export function HeroSection() {
         sizes="100vw"
       />
 
-      {/* Mobile Hero video (Native HTML5 standard) */}
+      {/* Mobile Hero video */}
       <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
+          controls={false}
+          disablePictureInPicture
+          disableRemotePlayback
           poster={getAssetPath("/hero/hero_mobile_poster.webp")}
-          className="w-full h-full object-cover max-w-full"
+          className="w-full h-full object-cover max-w-full pointer-events-none"
         >
           <source
             src={getAssetPath("/hero/hero_mobile.mp4")}
