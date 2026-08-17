@@ -44,7 +44,7 @@ export function Navbar() {
         }`}
         id="top-nav"
       >
-        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 md:py-2 w-full max-w-[1440px] mx-auto">
+        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-2 md:py-1 w-full max-w-[1440px] mx-auto">
           {/* Left: Nav links (desktop only) */}
           <div className="hidden md:flex items-center gap-8 flex-1">
             {/* Catalogue Dropdown Trigger & Panel */}
@@ -55,7 +55,7 @@ export function Navbar() {
             >
               <Link
                 href="/catalog"
-                className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim py-4"
+                className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim py-2"
               >
                 {t("catalogue")}
               </Link>
