@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils/assetPath";
@@ -47,32 +47,21 @@ const smoothScrollTo = (targetId: string) => {
 
 export function HeroSection() {
   const t = useTranslations("hero");
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Start video playback on the very first user interaction if blocked by Low Power Mode
-    const startPlaybackOnGesture = () => {
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    };
-
-    window.addEventListener("touchstart", startPlaybackOnGesture, {
-      once: true,
-      passive: true,
-    });
-    window.addEventListener("scroll", startPlaybackOnGesture, {
-      once: true,
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("touchstart", startPlaybackOnGesture);
-      window.removeEventListener("scroll", startPlaybackOnGesture);
-    };
+    // Detect Low Power Mode or browser autoplay restriction
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay rejected by OS (Low Power Mode) -> switch to static image
+        setAutoplayBlocked(true);
+      });
+    }
   }, []);
 
   return (
@@ -90,27 +79,35 @@ export function HeroSection() {
         sizes="100vw"
       />
 
-      {/* Mobile Hero video */}
-      <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          controls={false}
-          disablePictureInPicture
-          disableRemotePlayback
-          poster={getAssetPath("/hero/hero_mobile_poster.webp")}
-          className="w-full h-full object-cover max-w-full pointer-events-none"
-        >
-          <source
-            src={getAssetPath("/hero/hero_mobile.mp4")}
-            type="video/mp4"
-          />
-        </video>
-      </div>
+      {/* Mobile Hero Media: Static photo in Low Power Mode, Looping video in Normal Mode */}
+      {autoplayBlocked ? (
+        <Image
+          src={getAssetPath("/hero/hero_mobile_poster.webp")}
+          alt="VELÉLS editorial hero — model in luxury swimwear"
+          fill
+          className="block md:hidden object-cover animate-hero-zoom hero-parallax-img"
+          priority
+          sizes="100vw"
+        />
+      ) : (
+        <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster={getAssetPath("/hero/hero_mobile_poster.webp")}
+            className="w-full h-full object-cover max-w-full"
+          >
+            <source
+              src={getAssetPath("/hero/hero_mobile.mp4")}
+              type="video/mp4"
+            />
+          </video>
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-stack-sm max-w-3xl">
