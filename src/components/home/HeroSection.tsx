@@ -54,7 +54,7 @@ export function HeroSection() {
 
       {/* Desktop Hero image */}
       <Image
-        src={getAssetPath("/hero/hero_desktop.jpg")}
+        src={getAssetPath("/hero/hero_desktop.webp")}
         alt="VELÉLS editorial hero — model in luxury swimwear"
         fill
         className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
@@ -62,32 +62,36 @@ export function HeroSection() {
         sizes="100vw"
       />
 
-      {/* Mobile Hero image */}
-      <Image
-        src={getAssetPath("/hero/hero_mobile.jpg")}
-        alt="VELÉLS editorial hero — model in luxury swimwear"
-        fill
-        className="block md:hidden object-cover animate-hero-zoom hero-parallax-img"
-        priority
-        sizes="100vw"
-      />
+      {/* Mobile Hero video */}
+      <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          src={getAssetPath("/hero/hero_mobile.mp4")}
+          poster={getAssetPath("/hero/hero_mobile.webp")}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          className="w-full h-full object-cover max-w-full"
+        />
+      </div>
 
       {/* Content */}
       <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-stack-sm max-w-3xl">
         <div>
-          <h1 className="text-display-lg text-on-primary animate-fade-in-up tracking-[12px]">
+          <h1 className="text-display-lg text-on-primary opacity-0 animate-fade-in-up [animation-delay:200ms] tracking-[8px] md:tracking-[12px] max-w-full">
             {t("title")}
           </h1>
-          <p className="text-[10px] text-on-primary/90 max-w-xl opacity-0 animate-fade-in-up [animation-delay:100ms] uppercase tracking-[4px]">
+          <p className="text-[10px] text-on-primary/90 max-w-xl opacity-0 animate-fade-in-up [animation-delay:450ms] uppercase tracking-[4px]">
             {t("subtitle")}
           </p>
         </div>
-        <p className="text-body-lg text-on-primary/90 max-w-xl mb-6 opacity-0 animate-fade-in-up [animation-delay:100ms]">
+        <p className="text-body-lg text-on-primary/90 max-w-xl mb-6 opacity-0 animate-fade-in-up [animation-delay:700ms]">
           {t("description")}
         </p>
         <button
           onClick={() => smoothScrollTo("collection")}
-          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-md px-6 py-4 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:100ms] rounded-3xl"
+          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-md px-6 py-4 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
         >
           {t("cta")}
         </button>

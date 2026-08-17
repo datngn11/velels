@@ -19,7 +19,7 @@ export function ProductGrid() {
           <h2 className="text-label-md text-primary">{t("sectionTitle")}</h2>
           <Link
             href="/catalog"
-            className="text-label-md text-secondary hover:text-primary transition-colors whitespace-nowrap flex-shrink-0 cursor-pointer hover-underline-anim"
+            className="text-label-md text-secondary hover:text-primary transition-colors whitespace-nowrap shrink-0 cursor-pointer hover-underline-anim"
           >
             {t("viewAll")}
           </Link>

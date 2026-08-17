@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Link } from "@/i18n/navigation";
 import { getAssetPath } from "@/lib/utils/assetPath";
@@ -9,18 +10,15 @@ export function EditorialFeature() {
   return (
     <section className="w-full bg-surface-container-low py-12 md:py-stack-xl">
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-stack-lg items-center">
-        {/* Left Column: Clean Video */}
+        {/* Left Column: Editorial Photo */}
         <ScrollReveal animation="reveal-fade-in" className="w-full">
-          <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container">
-            <video
-              src={getAssetPath("/about_video.mp4")}
-              poster={getAssetPath("/about_video_poster.webp")}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              className="w-full h-full object-cover"
+          <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container hover-image-zoom">
+            <Image
+              src={getAssetPath("/about/about.webp")}
+              alt="VELÉLS Editorial Focus"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </ScrollReveal>
