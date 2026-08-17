@@ -147,6 +147,14 @@ export const products: Product[] = [
         src: getAssetPath("/products/lauri/5.webp"),
         alt: "Lauri two-piece swimsuit - back view",
       },
+      {
+        src: getAssetPath("/products/lauri/6.webp"),
+        alt: "Lauri two-piece swimsuit - alternate angle view",
+      },
+      {
+        src: getAssetPath("/products/lauri/7.webp"),
+        alt: "Lauri two-piece swimsuit - styling detail",
+      },
     ],
   },
   {
