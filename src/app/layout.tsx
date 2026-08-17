@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       className={`${bodoniModa.variable} ${inter.variable} ${cormorant.variable}`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
