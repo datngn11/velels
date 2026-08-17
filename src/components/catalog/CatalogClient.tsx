@@ -99,15 +99,11 @@ const CatalogContent = () => {
             const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
             const delayClass = delays[index % 4] || "";
 
-            // Editorial staggered offset for mobile (even index items slightly shifted down on mobile)
-            const staggeredClass = index % 2 === 1 ? "mt-6 md:mt-0" : "";
-
             return (
               <ScrollReveal
                 key={product.id}
                 animation="reveal-fade-up"
                 delay={delayClass}
-                className={staggeredClass}
               >
                 <Link
                   href={`/product/${product.slug}`}

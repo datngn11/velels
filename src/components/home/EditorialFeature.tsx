@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Link } from "@/i18n/navigation";
+import { getAssetPath } from "@/lib/utils/assetPath";
 
 export function EditorialFeature() {
   const t = useTranslations("editorial");
@@ -9,19 +9,18 @@ export function EditorialFeature() {
   return (
     <section className="w-full bg-surface-container-low py-12 md:py-stack-xl">
       <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-stack-lg items-center">
-        {/* Left Column: Image with mixed-blend title */}
+        {/* Left Column: Clean Video */}
         <ScrollReveal animation="reveal-fade-in" className="w-full">
-          <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container hover-image-zoom">
-            <Image
-              alt="Editorial Swimwear Focus"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQ9o0cTt8K6FqlDkXDI_ji-NSgT2bDeOl2mvOukQHh-hhJ7RoAubfal5-tI2erJMIW-bHrMHJcque1e7msi131VwkmkVhMW8_b9oJ3g89_Ksax4g2YlDiq5kMwLu1-4gc5FjwLbDisYeGiZzGcYUN4-BUZHrZQu0uGNqGuBccVxFHpzl_uFnEHCIeeydrcNebbmt4Y68PrSqlDkPKL_VaFCcHDfSgqUDZPSsJ_GzBtCQ5EB21zO1m0pENFCkf8wFLJfY_14yOLhE4"
-              fill
-              className="object-cover grayscale"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div
-              className="absolute bottom-4 left-4 md:bottom-12 md:left-12 text-display-lg text-on-primary mix-blend-difference text-left"
-              dangerouslySetInnerHTML={{ __html: t("title") }}
+          <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container">
+            <video
+              src={getAssetPath("/about_video.mp4")}
+              poster={getAssetPath("/about_video_poster.webp")}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              className="w-full h-full object-cover"
             />
           </div>
         </ScrollReveal>
