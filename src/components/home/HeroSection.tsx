@@ -1,68 +1,14 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils/assetPath";
-
-const smoothScrollTo = (targetId: string) => {
-  const target = document.getElementById(targetId);
-  if (!target) return;
-
-  const targetPosition = target.getBoundingClientRect().top + window.scrollY;
-  const startPosition = window.scrollY;
-  const distance = targetPosition - startPosition;
-  const duration = 1400;
-  let start: number | null = null;
-
-  // Custom easing: easeInOutExpo for a luxury, dramatic feel
-  const easing = (t: number) => {
-    if (t === 0) return 0;
-    if (t === 1) return 1;
-    if (t < 0.5) return Math.pow(2, 20 * t - 10) / 2;
-    return (2 - Math.pow(2, -20 * t + 10)) / 2;
-  };
-
-  // Temporarily disable native smooth scrolling to prevent conflict jitter
-  const html = document.documentElement;
-  html.style.scrollBehavior = "auto";
-
-  const animation = (currentTime: number) => {
-    if (start === null) start = currentTime;
-    const timeElapsed = currentTime - start;
-    const progress = Math.min(timeElapsed / duration, 1);
-
-    window.scrollTo(0, startPosition + distance * easing(progress));
-
-    if (timeElapsed < duration) {
-      requestAnimationFrame(animation);
-    } else {
-      // Restore native scrolling once animation is complete
-      html.style.scrollBehavior = "";
-    }
-  };
-
-  requestAnimationFrame(animation);
-};
+import { smoothScrollTo } from "@/lib/utils/smoothScroll";
+import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
 export function HeroSection() {
   const t = useTranslations("hero");
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    // Detect Low Power Mode or browser autoplay restriction
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Autoplay rejected by OS (Low Power Mode) -> switch to static image
-        setAutoplayBlocked(true);
-      });
-    }
-  }, []);
+  const videoRef = useVideoAutoplay();
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center">
@@ -76,38 +22,38 @@ export function HeroSection() {
         fill
         className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
         priority
-        sizes="100vw"
+        sizes="(min-width: 768px) 100vw, 1px"
       />
 
-      {/* Mobile Hero Media: Static photo in Low Power Mode, Looping video in Normal Mode */}
-      {autoplayBlocked ? (
-        <Image
-          src={getAssetPath("/hero/hero_mobile_poster.webp")}
-          alt="VELÉLS editorial hero — model in luxury swimwear"
-          fill
-          className="block md:hidden object-cover animate-hero-zoom hero-parallax-img"
-          priority
-          sizes="100vw"
-        />
-      ) : (
-        <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            poster={getAssetPath("/hero/hero_mobile_poster.webp")}
-            className="w-full h-full object-cover max-w-full"
-          >
-            <source
-              src={getAssetPath("/hero/hero_mobile.mp4")}
-              type="video/mp4"
-            />
-          </video>
-        </div>
-      )}
+      {/* Mobile Hero video */}
+      <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          ref={videoRef}
+          src={getAssetPath("/hero/hero_mobile.mp4")}
+          poster={getAssetPath("/hero/hero_mobile_poster.webp")}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          onLoadedData={(e) => {
+            if (e.currentTarget.paused) {
+              e.currentTarget.play().catch(() => {});
+            }
+          }}
+          onCanPlay={(e) => {
+            if (e.currentTarget.paused) {
+              e.currentTarget.play().catch(() => {});
+            }
+          }}
+          className="w-full h-full object-cover max-w-full pointer-events-none"
+        >
+          <source
+            src={getAssetPath("/hero/hero_mobile.mp4")}
+            type="video/mp4"
+          />
+        </video>
+      </div>
 
       {/* Content */}
       <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-stack-sm max-w-3xl">
