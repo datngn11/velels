@@ -9,15 +9,18 @@ import { SizeGuideModal } from "./SizeGuideModal";
 
 interface ProductInfoProps {
   product: Product;
+  selectedColor: ProductColor;
+  onSelectColor: (color: ProductColor) => void;
 }
 
-export function ProductInfo({ product }: ProductInfoProps) {
+export function ProductInfo({
+  product,
+  selectedColor,
+  onSelectColor,
+}: ProductInfoProps) {
   const t = useTranslations("productDetail");
   const tProduct = useTranslations("products");
   const [selectedSize, setSelectedSize] = useState<Size>("M");
-  const [selectedColor, setSelectedColor] = useState<ProductColor>(
-    product.colors && product.colors.length > 0 ? product.colors[0] : "black"
-  );
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const slug = product.slug;
@@ -64,7 +67,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
               return (
                 <button
                   key={color}
-                  onClick={() => setSelectedColor(color)}
+                  onClick={() => onSelectColor(color)}
                   className={`w-9 h-9 border transition-all cursor-pointer ${bgColorClass} ${
                     isSelected
                       ? "border-primary ring-1 ring-primary ring-offset-2"

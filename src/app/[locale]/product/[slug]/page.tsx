@@ -4,8 +4,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ImageCarousel } from "@/components/product/ImageCarousel";
-import { ProductInfo } from "@/components/product/ProductInfo";
+import { ProductView } from "@/components/product/ProductView";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
 
 type Props = {
@@ -98,8 +97,7 @@ export default async function ProductPage({ params }: Props) {
     <>
       <Navbar />
       <main className="mt-[96px] flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col md:flex-row gap-gutter md:gap-margin-desktop">
-        <ImageCarousel images={product.images} />
-        <ProductInfo product={product} />
+        <ProductView product={product} />
       </main>
       <Footer />
 
