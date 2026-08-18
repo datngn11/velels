@@ -119,12 +119,12 @@ export function HeroSection() {
             {t("subtitle")}
           </p>
         </div>
-        <p className="text-body-lg text-on-primary/90 max-w-xl mb-6 opacity-0 animate-fade-in-up [animation-delay:700ms]">
+        <p className="text-body-lg text-on-primary/90 max-w-xl px-4 md:px-8 mb-6 opacity-0 animate-fade-in-up [animation-delay:700ms]">
           {t("description")}
         </p>
         <button
           onClick={() => smoothScrollTo("collection")}
-          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-md px-6 py-4 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
+          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-sm px-4 py-2.5 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
         >
           {t("cta")}
         </button>
