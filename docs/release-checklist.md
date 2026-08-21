@@ -177,13 +177,39 @@ The core of the release.
       so three category links are unreachable without a mouse. The mobile drawer is
       fine — Radix handles it.
       → `src/components/layout/Navbar.tsx`
-- [ ] **M — Hero video loading.** `preload="none"`, start via IntersectionObserver
-      instead of on mount, and skip loading entirely when `prefers-reduced-motion`
-      is set or `navigator.connection.saveData` is true. The 7.9 MB file stays, per
-      decision — this makes it behave.
+- [x] **M — Hero video loading.** `preload="none"`, IntersectionObserver instead
+      of on mount, and no request at all when `prefers-reduced-motion` is set or
+      `navigator.connection.saveData` is true. The 7.9 MB file stays, per decision.
+      The mobile poster is now a real `next/image` base layer rather than the
+      video's `poster` attribute. The `<video>` mounts only in order to be
+      probed — it is fully transparent until a `playing` event, and unmounts the
+      moment the probe fails — so **iOS Low Power Mode ends up on the static
+      poster with no video element left in the tree**. There is no API for that
+      setting; the single gesture-less `play()` is the detection, and a refusal
+      is final for the page view. `pause`, `error` and a 5 s deadline all resolve
+      to the poster too, so a stall cannot leave the file downloading unseen.
       → `src/components/home/HeroSection.tsx`, `src/hooks/useVideoAutoplay.ts`
-- [ ] **S — Stop fighting reduced-motion.** The hook re-triggers playback on
-      `touchstart`, `pointerdown` and `scroll`. That violates AGENTS.md rule 4.
+- [x] **S — Stop fighting reduced-motion.** The `touchstart` / `pointerdown` /
+      `scroll` retries are gone. They were also what made the video ambush people
+      mid-scroll in Low Power Mode: a gesture is the one thing iOS *will* accept
+      there, so the "fallback" defeated the OS setting it claimed to respect.
+- [ ] **S — Both hero images download *and* preload on every device.**
+      `images.unoptimized: true` means `next/image` emits no `srcset`, so `sizes`
+      is inert: the `hidden md:block` / `block md:hidden` pair fetches ~170 KB of
+      hero on both breakpoints, and each eager `<Image>` adds its own
+      `<link rel="preload">`, so two viewport-dependent LCP candidates compete in
+      the `<head>`. `loading="eager"` emits that link on its own — verified
+      against the export, so swapping off the deprecated `priority` does not
+      avoid it. The fix is art direction: one `<picture>` with `media`-scoped
+      `<source>`s replacing both `<Image>`s, which removes the double download
+      and the double preload together. `next/image` buys nothing here while
+      `unoptimized` is set.
+
+      Not a regression from the hero video work, which cut far more than it
+      added: the old markup rendered the `<video preload="auto">` into the static
+      HTML on *every* device, hidden only by CSS, so desktop was buffering the
+      7.9 MB file as well. It now never mounts outside mobile.
+      → `src/components/home/HeroSection.tsx`
 - [ ] **S — Lighthouse pass on mobile**, throttled. Record the numbers so later
       regressions are visible.
 - [ ] *Optional, ~15 min:* re-encode `hero_mobile.mp4` to ~1.5 MB — cap at

@@ -6,53 +6,70 @@ import { getAssetPath } from "@/lib/utils/assetPath";
 import { smoothScrollTo } from "@/lib/utils/smoothScroll";
 import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
+const HERO_ALT = "VELÉLS editorial hero — model in luxury swimwear";
+
 export function HeroSection() {
   const t = useTranslations("hero");
-  const videoRef = useVideoAutoplay();
+  const { containerRef, videoRef, shouldRenderVideo, isPlaying } =
+    useVideoAutoplay();
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center">
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
-      {/* Desktop Hero image */}
+      {/* Desktop Hero image. `loading="eager"` + `fetchPriority` rather than the
+          deprecated `priority`, per the Next 16 image docs. Note this does NOT
+          drop the head preload — measured: eager emits one regardless — so this
+          and the mobile poster still preload as competing LCP candidates. Only
+          art direction fixes that; see the `<picture>` item in
+          `docs/release-checklist.md`. */}
       <Image
         src={getAssetPath("/hero/hero_desktop.webp")}
-        alt="VELÉLS editorial hero — model in luxury swimwear"
+        alt={HERO_ALT}
         fill
         className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
-        priority
+        loading="eager"
+        fetchPriority="high"
         sizes="(min-width: 768px) 100vw, 1px"
       />
 
-      {/* Mobile Hero video */}
-      <div className="block md:hidden absolute inset-0 w-full h-full overflow-hidden">
-        <video
-          ref={videoRef}
-          src={getAssetPath("/hero/hero_mobile.mp4")}
-          poster={getAssetPath("/hero/hero_mobile_poster.webp")}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          onLoadedData={(e) => {
-            if (e.currentTarget.paused) {
-              e.currentTarget.play().catch(() => {});
-            }
-          }}
-          onCanPlay={(e) => {
-            if (e.currentTarget.paused) {
-              e.currentTarget.play().catch(() => {});
-            }
-          }}
-          className="w-full h-full object-cover max-w-full pointer-events-none"
-        >
-          <source
+      {/* Mobile Hero — the poster is the base layer, and the whole treatment
+          whenever the platform will not autoplay (Low Power Mode, reduced
+          motion, Data Saver). The video mounts only to be probed, stays fully
+          transparent until it is genuinely playing, and unmounts again the
+          moment that falls through. */}
+      <div
+        ref={containerRef}
+        className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
+      >
+        <Image
+          src={getAssetPath("/hero/hero_mobile_poster.webp")}
+          alt={HERO_ALT}
+          fill
+          className="object-cover"
+          loading="eager"
+          fetchPriority="high"
+          sizes="(max-width: 767px) 100vw, 1px"
+        />
+
+        {shouldRenderVideo && (
+          <video
+            ref={videoRef}
             src={getAssetPath("/hero/hero_mobile.mp4")}
-            type="video/mp4"
+            loop
+            muted
+            playsInline
+            preload="none"
+            controls={false}
+            disablePictureInPicture
+            aria-hidden="true"
+            tabIndex={-1}
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
+              isPlaying ? "opacity-100" : "opacity-0"
+            }`}
           />
-        </video>
+        )}
       </div>
 
       {/* Content */}
