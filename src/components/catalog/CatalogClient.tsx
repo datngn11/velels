@@ -110,7 +110,7 @@ const CatalogContent = () => {
                   className="group flex flex-col gap-3 cursor-pointer"
                 >
                   <div className="aspect-4-5 w-full bg-surface-container-low relative overflow-hidden hover-image-zoom">
-                    {product.slug === "lendai" && (
+                    {product.isNew && (
                       <span className="absolute top-3 left-3 text-[9px] md:text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-2.5 py-1 z-10 backdrop-blur-sm text-primary">
                         New
                       </span>

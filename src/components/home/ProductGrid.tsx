@@ -1,12 +1,22 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { products } from "@/lib/data/products";
+import { getProductBySlug, Product, ProductSlug } from "@/lib/data/products";
 import { formatPrice } from "@/lib/utils/formatPrice";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
+const BESTSELLER_SLUGS: ProductSlug[] = [
+  "lendai",
+  "dimaya",
+  "linear",
+  "lauri",
+];
+
 export function ProductGrid() {
   const t = useTranslations("products");
+  const bestsellerProducts = BESTSELLER_SLUGS.map((slug) =>
+    getProductBySlug(slug)
+  ).filter((p): p is Product => Boolean(p));
 
   return (
     <section
@@ -28,7 +38,7 @@ export function ProductGrid() {
 
       {/* Product grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-gutter gap-y-stack-sm md:gap-y-stack-md">
-        {products.slice(0, 4).map((product, index) => {
+        {bestsellerProducts.map((product, index) => {
           const slug = product.slug;
           const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
           const delayClass = delays[index] || "";
@@ -44,7 +54,7 @@ export function ProductGrid() {
                 className={`group block ${index === 1 || index === 3 ? "md:mt-12" : ""}`}
               >
                 <div className="w-full aspect-4-5 bg-surface-container-low mb-4 relative hover-image-zoom">
-                  {product.slug === "lendai" && (
+                  {product.isNew && (
                     <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-3 py-1.5 z-10 backdrop-blur-sm text-primary">
                       New
                     </span>
