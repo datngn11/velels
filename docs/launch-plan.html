@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>План запуска VELÉLS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground: #F1F4F3;
+    --surface: #FFFFFF;
+    --surface-sunk: #E9EEEC;
+    --ink: #151F1E;
+    --ink-soft: #566361;
+    --ink-faint: #869592;
+    --accent: #0F4D46;
+    --flag: #8A5620;
+    --flag-soft: #F0E4D6;
+    --line: #D3DBD9;
+    --line-soft: #E3E9E7;
+
+    --display: "Cormorant Garamond", "Times New Roman", serif;
+    --body: "Golos Text", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+
+    --measure: 66ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0F1413;
+      --surface: #161C1B;
+      --surface-sunk: #1B2221;
+      --ink: #E7EDEB;
+      --ink-soft: #9CA9A6;
+      --ink-faint: #6E7B78;
+      --accent: #7CC4B7;
+      --flag: #D9A65E;
+      --flag-soft: #2C2419;
+      --line: #26302E;
+      --line-soft: #1E2726;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0F1413;
+    --surface: #161C1B;
+    --surface-sunk: #1B2221;
+    --ink: #E7EDEB;
+    --ink-soft: #9CA9A6;
+    --ink-faint: #6E7B78;
+    --accent: #7CC4B7;
+    --flag: #D9A65E;
+    --flag-soft: #2C2419;
+    --line: #26302E;
+    --line-soft: #1E2726;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16.5px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+  }
+
+  /* ── Шапка ──────────────────────────────── */
+
+  .masthead {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(38px, 7vw, 62px);
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    max-width: 62ch;
+    margin: 0;
+    font-size: 18px;
+    color: var(--ink-soft);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-top: 26px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  .meta b { font-weight: 500; color: var(--ink-soft); }
+
+  /* ── Каркас ─────────────────────────────── */
+
+  .frame {
+    display: grid;
+    gap: 48px;
+    padding-top: 40px;
+  }
+
+  @media (min-width: 1000px) {
+    .frame {
+      grid-template-columns: 208px minmax(0, 1fr);
+      gap: 64px;
+    }
+  }
+
+  nav.toc {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 1000px) {
+    nav.toc {
+      position: sticky;
+      top: 32px;
+      align-self: start;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+    }
+  }
+
+  nav.toc p {
+    margin: 0 0 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    max-width: none;
+  }
+
+  nav.toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  nav.toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 120ms ease, border-color 120ms ease;
+  }
+  nav.toc a:hover,
+  nav.toc a:focus-visible {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  main { min-width: 0; }
+
+  /* ── Секции ─────────────────────────────── */
+
+  section { padding-bottom: 56px; }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(26px, 3.6vw, 34px);
+    line-height: 1.14;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+  }
+
+  h3 {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 16px;
+    margin: 34px 0 12px;
+  }
+
+  section p, section > ul, section > ol { max-width: var(--measure); }
+
+  section p { margin: 0 0 16px; }
+
+  .lede {
+    font-size: 17.5px;
+    color: var(--ink-soft);
+    margin-bottom: 26px;
+  }
+
+  a { color: var(--accent); }
+  strong { font-weight: 600; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.84em;
+    background: var(--surface-sunk);
+    padding: 1px 5px;
+    border-radius: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  /* ── Цифры ──────────────────────────────── */
+
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(146px, 1fr));
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+    margin: 0 0 30px;
+  }
+
+  .fig {
+    background: var(--surface);
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fig b {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fig span {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.35;
+  }
+
+  /* ── Таблицы ────────────────────────────── */
+
+  .scroller {
+    overflow-x: auto;
+    border: 1px solid var(--line-soft);
+    margin: 0 0 24px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 560px;
+    background: var(--surface);
+    font-size: 15px;
+  }
+
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  thead th {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    background: var(--surface-sunk);
+    border-bottom: 1px solid var(--line);
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  td.was { color: var(--ink-faint); }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ── Шаги ───────────────────────────────── */
+
+  ol.flow {
+    list-style: none;
+    counter-reset: step;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  ol.flow > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    padding: 15px 18px;
+  }
+
+  ol.flow > li::before {
+    content: counter(step);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+    padding-top: 3px;
+  }
+
+  ol.flow .step b { font-weight: 600; }
+  ol.flow .step p {
+    margin: 3px 0 0;
+    max-width: none;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ── Поля формы ─────────────────────────── */
+
+  .fields {
+    display: grid;
+    gap: 16px;
+    margin: 0 0 26px;
+  }
+  @media (min-width: 760px) {
+    .fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  .fieldset {
+    background: var(--surface);
+    border: 1px solid var(--line-soft);
+    border-top: 2px solid var(--accent);
+    padding: 16px 18px 18px;
+    min-width: 0;
+  }
+  .fieldset.optional { border-top-color: var(--line); }
+
+  .fieldset > p {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+    max-width: none;
+  }
+
+  .fieldset ul {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  .fieldset li small {
+    display: block;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
+  /* ── Списки работ ───────────────────────── */
+
+  ul.tasks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  ul.tasks > li {
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    max-width: var(--measure);
+  }
+  ul.tasks > li.critical { border-left-color: var(--flag); }
+
+  ul.tasks b { font-weight: 600; }
+  ul.tasks p {
+    margin: 2px 0 0;
+    max-width: none;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  ul.tasks .where {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+
+  /* ── Врезка ─────────────────────────────── */
+
+  .note {
+    background: var(--flag-soft);
+    border-left: 2px solid var(--flag);
+    padding: 16px 20px;
+    margin: 0 0 22px;
+    max-width: var(--measure);
+  }
+  .note p { margin: 0; }
+  .note p + p { margin-top: 10px; }
+
+  /* ── Глоссарий ──────────────────────────── */
+
+  dl.glossary {
+    margin: 0;
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  dl.glossary dt {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  dl.glossary dd {
+    margin: 4px 0 0;
+    color: var(--ink-soft);
+  }
+
+  footer.colophon {
+    border-top: 1px solid var(--line);
+    padding-top: 22px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    line-height: 1.75;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    nav.toc { display: none; }
+    .frame { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <header class="masthead">
+    <p class="eyebrow">VELÉLS · рабочая сессия</p>
+    <h1>План запуска VELÉLS</h1>
+    <p class="standfirst">
+      Итог разбора перед публичным запуском: что решено о приёме заказов, что сайт
+      должен уметь и что в нём сейчас сломано. Документ для владельца и
+      разработчика — один источник, чтобы не пересобирать договорённости заново.
+    </p>
+    <div class="meta">
+      <span><b>19 августа 2026</b></span>
+      <span>Участники: <b>владелец бренда, разработчик</b></span>
+      <span>Глоссарий: <b><a href="../CONTEXT.md">CONTEXT.md</a></b></span>
+    </div>
+  </header>
+
+  <div class="frame">
+
+    <nav class="toc" aria-label="Содержание">
+      <p>Содержание</p>
+      <ol>
+        <li><a href="#facts">Бизнес в цифрах</a></li>
+        <li><a href="#changed">Что поправил владелец</a></li>
+        <li><a href="#flow">Путь заказа</a></li>
+        <li><a href="#form">Состав заявки</a></li>
+        <li><a href="#build">Что делаем на сайте</a></li>
+        <li><a href="#broken">Что сейчас сломано</a></li>
+        <li><a href="#open">Осталось решить</a></li>
+        <li><a href="#words">Заявка и заказ</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <section id="facts">
+        <p class="kicker">Основание</p>
+        <h2>Бизнес в цифрах</h2>
+        <p class="lede">
+          Все решения ниже опираются на эти числа, а не на общие практики
+          электронной торговли. При других числах решения были бы другими.
+        </p>
+
+        <div class="figures">
+          <div class="fig"><b>10</b><span>заказов в месяц, стабильно весь год</span></div>
+          <div class="fig"><b>2–8</b><span>изделий в неделю, одна швея</span></div>
+          <div class="fig"><b>40</b><span>заказов — пройденный пик за месяц</span></div>
+          <div class="fig"><b>1–2</b><span>невыкупа из 10 посылок</span></div>
+          <div class="fig"><b>1</b><span>обмен по размеру в месяц</span></div>
+          <div class="fig"><b>7–22</b><span>часы ответа, ежедневно, Киев</span></div>
+        </div>
+
+        <p>
+          Сезонности нет — заказы идут ровно круглый год. Материалы закуплены заранее
+          в больших объёмах, поставка ткани ничего не задерживает. Обработка заказа
+          обещана как <strong>4 рабочих дня</strong> (раньше стояло 2); при задержке
+          владелец предупреждает клиентку лично, и это работает.
+        </p>
+        <p>
+          Мощность эластичная и упирается в одну швею. Порог обозначен явно:
+          <strong>при выходе на 30 заказов в месяц владелец идёт искать небольшое
+          производство.</strong> Значит сайту нужно показывать текущую загрузку —
+          иначе порог заметят с опозданием.
+        </p>
+
+        <h3>Экономика невыкупа</h3>
+        <p>
+          Предоплата 500 грн при наложенном платеже покрывает 250 грн доставки в обе
+          стороны, ещё 250 грн — материалы. <strong>Работа швеи не покрыта.</strong>
+          Предоплата не возвращается. При пошиве под заказ каждый невыкуп — это
+          готовая вещь, которая ложится ждать случайную клиентку с тем же размером и
+          цветом.
+        </p>
+        <p>
+          Вывод для приоритетов: <strong>невыкуп случается в разы чаще, чем проблема
+          с размером.</strong> Обмен просят раз в месяц. Поэтому обещание обмена почти
+          ничего не стоит и его можно смело делать громким на карточке товара — а с
+          невыкупом работает разговор консультанта, а не правило на сайте.
+        </p>
+      </section>
+
+      <section id="changed">
+        <p class="kicker">Правки</p>
+        <h2>Что поправил владелец</h2>
+        <p class="lede">
+          Шесть решений, принятых до разговора с владельцем, оказались неверными.
+          Большинство правок <strong>сокращают</strong> объём работ.
+        </p>
+
+        <div class="scroller">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Было предположено</th>
+                <th scope="col">Как на самом деле</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="was">Форма на сайте — это заказ, клиентка выбирает способ оплаты и отделение Новой Почты</td>
+                <td><strong>Форма — это заявка.</strong> Оплата и отделение обсуждаются с консультантом. Интеграция с API Новой Почты на старте не нужна вообще</td>
+              </tr>
+              <tr>
+                <td class="was">Клиентка выбирает ростовку из трёх вариантов</td>
+                <td><strong>Клиентка вводит свой рост числом.</strong> Ростовку определяет швея — клиентке этот термин знать не нужно</td>
+              </tr>
+              <tr>
+                <td class="was">Instagram Direct становится каналом консультаций, покупка — на сайте</td>
+                <td><strong>Директ остаётся полноценным способом купить</strong>, наравне с сайтом. Там же и консультация</td>
+              </tr>
+              <tr>
+                <td class="was">Индивидуального пошива нет</td>
+                <td>Бывает, за доплату и с полной предоплатой — но <strong>на сайте не предлагается</strong>, и мерки сайт не собирает</td>
+              </tr>
+              <tr>
+                <td class="was">Готовые вещи с полки стоит показывать как «отправим завтра»</td>
+                <td><strong>Не показывать.</strong> Их мало и они непредсказуемы — механика под них не оправдана</td>
+              </tr>
+              <tr>
+                <td class="was">Скидки на сайте не нужны</td>
+                <td><strong>Нужна цена «было / стало».</strong> Пики продаж делают акции, а сайт сейчас про них не знает вовсе</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          Подтверждено без изменений: уход с GitHub Pages до публичного запуска;
+          ручное подтверждение каждого заказа вместо автоматической оплаты картой;
+          отсутствие складского учёта; международные заказы остаются, но с полной
+          предоплатой и по договорённости.
+        </p>
+      </section>
+
+      <section id="flow">
+        <p class="kicker">Процесс</p>
+        <h2>Путь заказа</h2>
+        <p class="lede">
+          Порядок шагов важен: ткань не режется до того, как заявка стала заказом.
+        </p>
+
+        <ol class="flow">
+          <li>
+            <div class="step">
+              <b>Клиентка выбирает модель, цвет и размер на карточке товара</b>
+              <p>Эти три параметра подставляются в заявку автоматически, вручную их вводить не нужно.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step">
+              <b>Отправляет заявку</b>
+              <p>Видит номер заявки и обещание: «напишем вам в Telegram в течение дня, отвечаем с 7:00 до 22:00». Номер нужен, чтобы сопоставить её, если она всё-таки напишет в Директ.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step">
+              <b>Владельцу приходит уведомление в Telegram</b>
+              <p>Со всеми полями сразу — перезвонить или написать можно не заходя в админку. Заявка одновременно пишется в базу.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step">
+              <b>Консультант связывается в выбранном канале</b>
+              <p>Проверяет размер по росту и параметрам, договаривается об оплате и отделении Новой Почты. Здесь же решается предоплата — гибко, а не по правилу с сайта.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step">
+              <b>Заявка становится заказом</b>
+              <p>Только теперь известны условия оплаты, адрес и место в очереди на пошив.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step">
+              <b>Пошив и отправка</b>
+              <p>Обещано 4 рабочих дня, дальше отправка Новой Почтой на следующий рабочий день. При задержке владелец предупреждает лично.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="form">
+        <p class="kicker">Форма</p>
+        <h2>Состав заявки</h2>
+        <p class="lede">
+          Каждое поле стоит части заявок. Обязательным становится только то, без чего
+          заявку невозможно обработать.
+        </p>
+
+        <div class="fields">
+          <div class="fieldset">
+            <p>Подставляется само</p>
+            <ul>
+              <li>Модель</li>
+              <li>Цвет</li>
+              <li>Размер</li>
+            </ul>
+          </div>
+          <div class="fieldset">
+            <p>Обязательно</p>
+            <ul>
+              <li>ФИО<small>нужно для накладной Новой Почты</small></li>
+              <li>Рост, см<small>по нему швея определяет ростовку</small></li>
+              <li>Телефон<small>для доставки, не для связи</small></li>
+              <li>Канал связи и ник в нём<small>Telegram или Instagram — на выбор клиентки</small></li>
+            </ul>
+          </div>
+          <div class="fieldset optional">
+            <p>По желанию</p>
+            <ul>
+              <li>Обхваты груди, талии, бёдер<small>спрятаны под строкой «знаете свои параметры? проверим размер до пошива»</small></li>
+              <li>E-mail<small>с отдельной галочкой согласия на рассылку, не отмеченной заранее</small></li>
+              <li>Комментарий</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note">
+          <p>
+            <strong>Ник обязателен вместе с выбором канала.</strong> Выбор «Telegram»
+            без ника бесполезен: по номеру телефона Telegram находит человека далеко
+            не всегда — приватность у многих закрыта. То же с Instagram.
+          </p>
+          <p>
+            <strong>Параметры — только необязательные.</strong> Три поля с сантиметрами
+            это самое сильное трение из всего, что бывает в формах: многие не знают
+            своих обхватов и мерить себя ради заявки не станут. А решают они проблему,
+            которая случается раз в месяц на десять заказов. Платить за это конверсией
+            всех заявок невыгодно.
+          </p>
+        </div>
+      </section>
+
+      <section id="build">
+        <p class="kicker">Работы</p>
+        <h2>Что делаем на сайте</h2>
+
+        <h3>До публичного запуска</h3>
+        <ul class="tasks">
+          <li class="critical">
+            <b>Переезд с GitHub Pages</b>
+            <p>Vercel или Cloudflare. Снимает сразу четыре проблемы: путь <code>/velels</code> в ссылках, отключённую оптимизацию картинок, замороженную ленту Instagram и отсутствие места, куда форма может отправить заявку.</p>
+          </li>
+          <li class="critical">
+            <b>Рост как поле заявки</b>
+            <p>Без него каждая заявка требует отдельного вопроса о росте — то есть утечка на каждом заказе.</p>
+          </li>
+          <li class="critical">
+            <b>Форма заявки и приём заявок</b>
+            <p>Серверный обработчик → запись в базу Postgres → уведомление в Telegram владельцу. Экран после отправки с номером заявки и часами ответа.</p>
+          </li>
+          <li>
+            <b>Цена «было / стало»</b>
+            <p>Вторая цена и признак акции у модели. Зачёркнутая цена в каталоге и на карточке. Без этого в дни акции форма считает неверную сумму — а это самые важные дни года.</p>
+          </li>
+          <li>
+            <b>Админка на Payload, на той же базе, что и заявки</b>
+            <p>Заявки со статусами и товары в одном месте. Полный доступ у разработчика, владелец тоже может править — жёстких ролей не делаем.</p>
+          </li>
+          <li>
+            <b>Условия на карточке товара</b>
+            <p>Срок изготовления, обмен и условия оплаты — текст уже написан в разделах сайта, но лежит в подвале, где его никто не читает перед покупкой. Для пошива под заказ это и есть весь набор возражений.</p>
+          </li>
+          <li>
+            <b>Аналитика без cookie</b>
+            <p>Plausible или Umami. Без баннера согласия, лёгкий скрипт, работает во встроенном браузере Instagram. События: просмотр карточки, открытие размерной таблицы, начало заявки, отправка заявки, переход в Директ.</p>
+          </li>
+          <li>
+            <b>Подписка в подвале</b>
+            <p>Одно поле, формулировка «новые модели и распродажи — первыми». Смысл один: канал для анонса акции, который нельзя потерять вместе с аккаунтом в Instagram.</p>
+          </li>
+          <li>
+            <b>Данные ФОП на странице контактов</b>
+            <p>Сейчас там только ник в Instagram и адрес на gmail. Для клиентки, которая платит вперёд незнакомому бренду, это разница между «бренд» и «чей-то инстаграм».</p>
+          </li>
+        </ul>
+
+        <h3>Сразу после запуска</h3>
+        <ul class="tasks">
+          <li>
+            <b>Напоминание по зависшим заявкам</b>
+            <p>Заявка без ответа больше суток — повторное уведомление в Telegram. При десяти заказах в месяц терять даже одну обидно.</p>
+          </li>
+          <li>
+            <b>Счётчик загрузки</b>
+            <p>Сколько заявок и заказов в работе прямо сейчас и сколько заказов за месяц. Нужен, чтобы порог 30 заказов был виден заранее, а не по факту.</p>
+          </li>
+          <li>
+            <b>Рост модели и её размер на фотографиях</b>
+            <p>Прямой ответ на «а как это сядет на меня» — сильнее любой таблицы. Особенно для платьев: длина 131 см фиксированная, и на 157 см это одно платье, а на 175 см совсем другое.</p>
+          </li>
+          <li>
+            <b>Ориентировочная цена в валюте на английской версии</b>
+            <p>Сейчас клиентка в Лондоне видит «3 750 ₴» без пересчёта.</p>
+          </li>
+          <li>
+            <b>Промокоды</b>
+            <p>Когда в подписке наберутся живые люди — иначе измерить эффект рассылки нечем.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="broken">
+        <p class="kicker">Долг</p>
+        <h2>Что сейчас сломано</h2>
+        <p class="lede">
+          Это не улучшения, а дефекты: они работают против вас уже сегодня, молча.
+        </p>
+
+        <h3>Видно клиенткам и поисковикам</h3>
+        <ul class="tasks">
+          <li class="critical">
+            <b>Английские страницы запрещают себя индексировать</b>
+            <p>Canonical на всех языках жёстко указывает на украинскую версию, поэтому Google считает английские страницы копией и выбрасывает их. Весь англоязычный сайт сейчас невидим в поиске.
+            <span class="where">src/app/[locale]/layout.tsx · src/app/[locale]/product/[slug]/page.tsx</span></p>
+          </li>
+          <li class="critical">
+            <b>При отправке ссылки на товар не открывается картинка</b>
+            <p>Адрес превью собирается неверно из-за пути <code>/velels</code>. Каждая ссылка, которой делятся клиентки, выглядит пустой. У главной страницы картинка ещё и лежит на временном хостинге <code>lh3.googleusercontent.com/aida-public/…</code> и однажды просто исчезнет.</p>
+          </li>
+          <li>
+            <b>Нет иконки сайта</b>
+            <p>В закладках и на вкладке — пустой лист вместо логотипа.</p>
+          </li>
+          <li>
+            <b>Нет карты сайта и файла robots</b>
+            <p>Поисковик обходит сайт наугад. Плюс тестовая версия на GitHub Pages сейчас разрешена к индексации — на запуске вы будете конкурировать со своей же копией.</p>
+          </li>
+          <li>
+            <b>Дырки в размерной таблице платьев</b>
+            <p>Обхват груди 85 не попадает ни в один размер: диапазоны 82–84, затем сразу 86–88. Клиентка не находит себя и уходит.
+            <span class="where">src/components/product/SizeGuideModal.tsx</span></p>
+          </li>
+          <li>
+            <b>Размер M выбран заранее</b>
+            <p>Клиентка может отправить заявку, вообще не выбрав размер.
+            <span class="where">src/components/product/ProductInfo.tsx</span></p>
+          </li>
+          <li>
+            <b>Метка «New» приклеена к одной модели</b>
+            <p>Прописана в коде на Lendai. Следующая новинка метку не получит, а Lendai останется новинкой навсегда.
+            <span class="where">src/components/catalog/CatalogClient.tsx</span></p>
+          </li>
+        </ul>
+
+        <h3>Скорость и доступность</h3>
+        <ul class="tasks">
+          <li class="critical">
+            <b>Мобильное видео 7,9 МБ грузится целиком</b>
+            <p>Оно показывается только на телефонах — то есть тем, кому этот вес тяжелее всего, и часто в мобильном интернете. Решено: файл оставляем, но грузим по-человечески — не заранее, а по мере прокрутки. Перекодировать до ~1,5 МБ без потери вида — примерно четверть часа работы, если захотите.
+            <span class="where">public/hero/hero_mobile.mp4 · src/components/home/HeroSection.tsx</span></p>
+          </li>
+          <li>
+            <b>Автозапуск видео игнорирует «уменьшить движение»</b>
+            <p>У клиентки с чувствительностью к движению видео всё равно запускается, а если система его остановит — код запускает снова. Это нарушение правила 4 из AGENTS.md.
+            <span class="where">src/hooks/useVideoAutoplay.ts</span></p>
+          </li>
+          <li>
+            <b>Меню каталога на десктопе недоступно с клавиатуры</b>
+            <p>Раскрывается только при наведении мыши, поэтому три ссылки на категории с клавиатуры недостижимы. Плюс на сайте нигде нет видимой рамки фокуса — непонятно, где ты находишься.
+            <span class="where">src/components/layout/Navbar.tsx · src/app/globals.css</span></p>
+          </li>
+        </ul>
+
+        <h3>Тихо ломается со временем</h3>
+        <ul class="tasks">
+          <li>
+            <b>Лента Instagram замерзает</b>
+            <p>Подгружается один раз при сборке сайта, а ключ доступа истекает примерно каждые 60 дней — молча. После этого лента показывает старые запасные картинки.
+            <span class="where">src/lib/instagram.ts</span></p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="open">
+        <p class="kicker">Открыто</p>
+        <h2>Осталось решить</h2>
+        <ul class="tasks">
+          <li>
+            <b>Правило ростовки на границах диапазонов</b>
+            <p>155–165 и 165–170 пересекаются на 165, а 170–171 не покрыт. Клиентка вводит рост, так что вопрос внутренний — но швее нужно однозначное правило.</p>
+          </li>
+          <li>
+            <b>Статусы заявки в админке</b>
+            <p>Какой минимальный набор: новая, связались, подтверждена, шьётся, отправлена, не сложилось. Больше статусов — больше ручной работы, меньше — теряется картина.</p>
+          </li>
+          <li>
+            <b>Что показывать при большой очереди</b>
+            <p>Обещание «4 рабочих дня» держится, пока в работе не больше трёх изделий. Стоит ли сделать этот срок полем в админке, чтобы в акцию менять его самим — или продолжать предупреждать лично.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="words">
+        <p class="kicker">Язык</p>
+        <h2>Заявка и заказ</h2>
+        <p class="lede">
+          Два слова, которые нельзя путать — в админке это два разных состояния, и от
+          них зависит, режется ли ткань.
+        </p>
+
+        <dl class="glossary">
+          <dt>Заявка</dt>
+          <dd>
+            То, что создаёт форма на сайте: интерес, а не продажа. Несёт модель, цвет,
+            размер, рост, ФИО, телефон и канал связи. Не несёт способа оплаты и
+            отделения доставки. Может не превратиться ни во что.
+          </dd>
+          <dt>Заказ</dt>
+          <dd>
+            Подтверждённая продажа: заявка, по которой консультант поговорил с
+            клиенткой и всё согласовал. Только здесь появляются условия оплаты, адрес
+            и место в очереди на пошив. <strong>До заказа ничего не режется.</strong>
+          </dd>
+          <dt>Консультант</dt>
+          <dd>
+            Тот, кто принимает заявку, советует по размеру, договаривается об оплате и
+            подтверждает заказ. На практике — владелец, через него проходит 95%
+            заказов.
+          </dd>
+          <dt>Ростовка</dt>
+          <dd>
+            Внутренняя градация по длине корпуса для слитных купальников: 155–165,
+            165–170, 171–175 см. Швея выводит её из роста клиентки. Клиентка ростовку
+            не выбирает и слова этого знать не должна.
+          </dd>
+        </dl>
+      </section>
+
+      <footer class="colophon">
+        Полный глоссарий предметной области — <a href="../CONTEXT.md">CONTEXT.md</a> в корне репозитория.<br>
+        Документ отражает договорённости на 19 августа 2026 и обновляется при их изменении.
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
