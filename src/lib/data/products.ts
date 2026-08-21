@@ -36,43 +36,6 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "0",
-    slug: "azure",
-    category: "one-piece",
-    price: 3750,
-    currency: "UAH",
-    sizes: ["XXS", "XS", "S", "M", "L"],
-    colors: ["black"],
-    isNew: true,
-    images: [
-      {
-        src: getAssetPath("/products/azure/black_1.webp"),
-        alt: "Azure black one-piece swimsuit - side silhouette",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/azure/black_2.webp"),
-        alt: "Azure black one-piece swimsuit - front view",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/azure/black_3.webp"),
-        alt: "Azure black one-piece swimsuit - back detail",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/azure/black_4.webp"),
-        alt: "Azure black one-piece swimsuit - fabric close-up",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/azure/black_5.webp"),
-        alt: "Azure black one-piece swimsuit - editorial portrait",
-        color: "black",
-      },
-    ],
-  },
-  {
     id: "1",
     slug: "dimaya",
     category: "one-piece",
@@ -185,6 +148,80 @@ export const products: Product[] = [
       {
         src: getAssetPath("/products/lendai/black_5.webp"),
         alt: "Lendai black one-piece swimsuit - full standing back view along shoreline",
+        color: "black",
+      },
+    ],
+  },
+  {
+    id: "5",
+    slug: "linear",
+    category: "one-piece",
+    price: 3750,
+    currency: "UAH",
+    sizes: ["XXS", "XS", "S", "M", "L"],
+    colors: ["black"],
+    isNew: true,
+    images: [
+      {
+        src: getAssetPath("/products/linear/black_1.webp"),
+        alt: "Linear one-piece swimsuit - architectural cutouts front view",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/linear/black_2.webp"),
+        alt: "Linear one-piece swimsuit - side view",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/linear/black_3.webp"),
+        alt: "Linear one-piece swimsuit - back cutout",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/linear/black_4.webp"),
+        alt: "Linear one-piece swimsuit - detail close-up",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/linear/black_5.webp"),
+        alt: "Linear one-piece swimsuit - editorial portrait",
+        color: "black",
+      },
+    ],
+  },
+  {
+    id: "0",
+    slug: "azure",
+    category: "one-piece",
+    price: 3750,
+    currency: "UAH",
+    sizes: ["XXS", "XS", "S", "M", "L"],
+    colors: ["black"],
+    isNew: true,
+    images: [
+      {
+        src: getAssetPath("/products/azure/black_1.webp"),
+        alt: "Azure black one-piece swimsuit - side silhouette",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/azure/black_2.webp"),
+        alt: "Azure black one-piece swimsuit - front view",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/azure/black_3.webp"),
+        alt: "Azure black one-piece swimsuit - back detail",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/azure/black_4.webp"),
+        alt: "Azure black one-piece swimsuit - fabric close-up",
+        color: "black",
+      },
+      {
+        src: getAssetPath("/products/azure/black_5.webp"),
+        alt: "Azure black one-piece swimsuit - editorial portrait",
         color: "black",
       },
     ],
@@ -389,43 +426,6 @@ export const products: Product[] = [
         src: getAssetPath("/products/naevi/white_4.webp"),
         alt: "Naevi white two-piece swimsuit - detail shot",
         color: "white",
-      },
-    ],
-  },
-  {
-    id: "5",
-    slug: "linear",
-    category: "one-piece",
-    price: 3750,
-    currency: "UAH",
-    sizes: ["XXS", "XS", "S", "M", "L"],
-    colors: ["black"],
-    isNew: true,
-    images: [
-      {
-        src: getAssetPath("/products/linear/black_1.webp"),
-        alt: "Linear one-piece swimsuit - architectural cutouts front view",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/linear/black_2.webp"),
-        alt: "Linear one-piece swimsuit - side view",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/linear/black_3.webp"),
-        alt: "Linear one-piece swimsuit - back cutout",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/linear/black_4.webp"),
-        alt: "Linear one-piece swimsuit - detail close-up",
-        color: "black",
-      },
-      {
-        src: getAssetPath("/products/linear/black_5.webp"),
-        alt: "Linear one-piece swimsuit - editorial portrait",
-        color: "black",
       },
     ],
   },
