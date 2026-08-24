@@ -18,12 +18,10 @@ export function HeroSection() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
-      {/* Desktop Hero image. `loading="eager"` + `fetchPriority` rather than the
-          deprecated `priority`, per the Next 16 image docs. Note this does NOT
-          drop the head preload — measured: eager emits one regardless — so this
-          and the mobile poster still preload as competing LCP candidates. Only
-          art direction fixes that; see the `<picture>` item in
-          `docs/release-checklist.md`. */}
+      {/* Desktop Hero image. Eager + `fetchPriority` rather than the deprecated
+          `priority`. Eager still emits a head preload, so this and the mobile
+          poster compete as LCP candidates until they become one `<picture>` —
+          see `docs/release-checklist.md`. */}
       <Image
         src={getAssetPath("/hero/hero_desktop.webp")}
         alt={HERO_ALT}
@@ -61,10 +59,8 @@ export function HeroSection() {
             muted
             playsInline
             preload="none"
-            controls={false}
             disablePictureInPicture
             aria-hidden="true"
-            tabIndex={-1}
             className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
               isPlaying ? "opacity-100" : "opacity-0"
             }`}
