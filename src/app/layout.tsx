@@ -1,7 +1,17 @@
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { Bodoni_Moda, Inter, Cormorant_Garamond } from "next/font/google";
 import { SmoothScrollHandler } from "@/components/ui/SmoothScrollHandler";
+import { shouldAllowIndexing } from "@/lib/seo/indexing";
 import "./globals.css";
+
+// Declared at the root so every route inherits it — including `/`, which is a
+// client-side redirect to `/uk` outside the `[locale]` tree, and the 404.
+export const metadata: Metadata = {
+  robots: shouldAllowIndexing()
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
+};
 
 const bodoniModa = Bodoni_Moda({
   subsets: ["latin", "latin-ext"],

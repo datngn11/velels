@@ -20,6 +20,17 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment variables
+
+`.env` is gitignored, so these are set per environment — locally, and on the
+host once the Vercel migration lands.
+
+| Variable | Effect |
+| --- | --- |
+| `NEXT_PUBLIC_ALLOW_INDEXING` | `"true"` allows search engines to index the build. **Anything else — unset included — emits `noindex, nofollow` on every route.** Indexing is opt-in on purpose: the GitHub Pages build declares a canonical pointing at `velels.com`, so an accidentally indexed preview competes with production. Set it only on the production deployment. |
+| `NEXT_PUBLIC_BASE_PATH` | Overrides the `/velels` GitHub Pages subpath. Set to `""` for a custom domain. Removed in Phase 1 of [the release checklist](./docs/release-checklist.md). |
+| `INSTAGRAM_ACCESS_TOKEN`, `INSTAGRAM_ACCOUNT_ID` | Graph API credentials for the homepage feed. Server-side only. |
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

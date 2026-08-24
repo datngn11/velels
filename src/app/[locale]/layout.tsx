@@ -57,7 +57,6 @@ export async function generateMetadata({
         en: "/en",
       },
     },
-    robots: { index: true, follow: true },
   };
 }
 

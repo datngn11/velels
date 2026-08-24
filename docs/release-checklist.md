@@ -15,11 +15,18 @@ Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or mo
 
 Cheap things that are actively costing something while they wait.
 
-- [ ] **S — `noindex` the GitHub Pages build.** It's indexable right now with a
-      canonical pointing at a domain that isn't serving. Launching against your own
-      duplicate is avoidable. Gate `robots` on an env flag so production later flips
-      it back on.
-      → `src/app/[locale]/layout.tsx`
+- [x] **S — `noindex` the GitHub Pages build.** Indexing is now opt-in:
+      `NEXT_PUBLIC_ALLOW_INDEXING="true"` is the only thing that emits
+      `index, follow`, so an unset flag — a fresh clone, a machine without
+      `.env`, a CI runner — fails toward `noindex` rather than toward an indexed
+      duplicate. Phase 1 sets it on Vercel production only. The gate lives in the
+      **root** layout, not the locale one: `/` is a client-side redirect to `/uk`
+      outside the `[locale]` tree, so a locale-only gate would have left the one
+      URL GitHub Pages actually serves at `/velels/` indexable. Every route
+      inherits from the root, so there is a single call site. Verified across all
+      47 exported pages in both flag states. `robots.txt` stays a Phase 2 item —
+      a `Disallow` would block the recrawl that drops the existing entries.
+      → `src/lib/seo/indexing.ts`, `src/app/layout.tsx`
 - [ ] **S — Owner: provide ФОП details** (legal name, registration number, address)
       for the contact page.
 - [ ] **S — Owner: decide the ростовка boundary rule.** 165 falls in two ranges,
