@@ -4,7 +4,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/config";
 import { getAssetPath } from "@/lib/utils/assetPath";
 
-export const instagramPosts = [
+const instagramPosts = [
   {
     src: getAssetPath("/instagram/post_1.webp"),
     alt: "VELÉLS editorial swim look",

@@ -1,17 +1,20 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
 <!-- END:nextjs-agent-rules -->
 
 <!-- BEGIN:project-rules -->
+
 # Project Guidelines & Rules
 
 This project is a luxury e-commerce site utilizing modern frontend architecture. All AI agents must strictly follow these rules:
 
-1. **Tailwind CSS v4**: 
-   - This project uses Tailwind CSS v4 which is CSS-first. 
-   - We use the `@theme` directive in `src/app/globals.css`. 
+1. **Tailwind CSS v4**:
+   - This project uses Tailwind CSS v4 which is CSS-first.
+   - We use the `@theme` directive in `src/app/globals.css`.
    - **CRITICAL**: Do NOT attempt to create, modify, or use `tailwind.config.js` or `tailwind.config.ts`.
 
 2. **Component Strategy (Radix UI)**:
@@ -29,24 +32,20 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
 5. **Typography & Styling (Semantic Extraction)**:
    - **CRITICAL**: Do NOT use arbitrary bracket values for text sizing or tracking (e.g., `text-[12px]`, `tracking-[0.15em]`).
    - Always use the semantic `@utility` classes defined in `globals.css`.
-   - **Available Typography Utilities**:
-     - `.text-display-lg`, `.text-display-md` (Hero/Section titles)
-     - `.text-heading-lg`, `.text-heading-md` (Branding/Large headers)
-     - `.text-body-lg`, `.text-body-md`, `.text-body-sm` (Paragraphs)
-     - `.text-label-lg`, `.text-label-md`, `.text-label-sm`, `.text-label-xs` (Tags, uppercase labels)
-     - `.text-nav-link`, `.text-nav-link-lg` (Navigation links)
-<!-- END:project-rules -->
+   - **Available Typography Utilities**: - `.text-display-lg`, `.text-display-md` (Hero/Section titles) - `.text-heading-lg`, `.text-heading-md` (Branding/Large headers) - `.text-body-lg`, `.text-body-md`, `.text-body-sm` (Paragraphs) - `.text-label-lg`, `.text-label-md`, `.text-label-sm`, `.text-label-xs` (Tags, uppercase labels) - `.text-nav-link`, `.text-nav-link-lg` (Navigation links)
+   <!-- END:project-rules -->
 
 <!-- BEGIN:domain-rules -->
+
 # Domain Language
 
 `CONTEXT.md` in the repository root is the authoritative glossary. Read it before
 naming a type, a route, a column, or a UI label. The following distinctions are
 load-bearing and agents get them wrong by default:
 
-- **Order Request ≠ Order.** The site form produces an *Order Request* — an
+- **Order Request ≠ Order.** The site form produces an _Order Request_ — an
   expression of interest carrying no payment method and no delivery branch. A
-  *Consultant* contacts the customer and turns it into an *Order*. **Nothing is
+  _Consultant_ contacts the customer and turns it into an _Order_. **Nothing is
   produced before an Order exists.** Never model these as one entity, and never
   name the form's output "order".
 - **Height, not ростовка.** The customer supplies her **height in centimetres**.
@@ -77,7 +76,7 @@ not be started before its dependency.
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two
   locale files must stay key-identical** (231 keys as of the last audit); adding a
   key to one and not the other breaks the build.
-- Order Requests are business records. They go to Postgres *and* a Telegram
+- Order Requests are business records. They go to Postgres _and_ a Telegram
   notification — never only to a notification.
 
 # Accessibility Beyond The CSS Rule
@@ -97,24 +96,25 @@ Rule 4 above covers CSS transitions. JavaScript is not exempt:
 Each of these was considered and rejected for a stated reason. Do not add them,
 and do not add scaffolding "in preparation" for them.
 
-| Do not build | Why |
-| --- | --- |
-| Inventory / stock tracking | Made to order — nothing is ever out of stock |
-| Cart / multi-item checkout | ~10 orders a month, one item each |
-| Card payments, ПРРО receipts | Manual confirmation by design at this volume |
-| Nova Poshta API / branch picker | The Consultant asks for the branch |
-| Payment method choice in the form | Agreed in conversation, case by case |
-| Made-to-measure flow, measurement collection as a purchase path | Happens only by arrangement in Direct |
-| "Ready to ship" surfacing of Returns Stock | Incidental and unpredictable |
-| Reviews / UGC / ratings | Dropped by the owner |
-| Seasonal homepage variants | No seasonality — demand is flat year-round |
-| Admin role permissions | Owner and developer both have full access by choice |
+| Do not build                                                    | Why                                                 |
+| --------------------------------------------------------------- | --------------------------------------------------- |
+| Inventory / stock tracking                                      | Made to order — nothing is ever out of stock        |
+| Cart / multi-item checkout                                      | ~10 orders a month, one item each                   |
+| Card payments, ПРРО receipts                                    | Manual confirmation by design at this volume        |
+| Nova Poshta API / branch picker                                 | The Consultant asks for the branch                  |
+| Payment method choice in the form                               | Agreed in conversation, case by case                |
+| Made-to-measure flow, measurement collection as a purchase path | Happens only by arrangement in Direct               |
+| "Ready to ship" surfacing of Returns Stock                      | Incidental and unpredictable                        |
+| Reviews / UGC / ratings                                         | Dropped by the owner                                |
+| Seasonal homepage variants                                      | No seasonality — demand is flat year-round          |
+| Admin role permissions                                          | Owner and developer both have full access by choice |
 
 # Documentation Map
 
-| File | What it holds |
-| --- | --- |
-| `CONTEXT.md` | Domain glossary. No implementation detail |
-| `docs/release-checklist.md` | Ordered pre-launch execution plan, by phase |
-| `docs/launch-plan.html` | Business decisions and rationale, in Russian, for the owner |
+| File                        | What it holds                                               |
+| --------------------------- | ----------------------------------------------------------- |
+| `CONTEXT.md`                | Domain glossary. No implementation detail                   |
+| `docs/release-checklist.md` | Ordered pre-launch execution plan, by phase                 |
+| `docs/launch-plan.html`     | Business decisions and rationale, in Russian, for the owner |
+
 <!-- END:domain-rules -->

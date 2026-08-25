@@ -45,7 +45,7 @@ Nothing else can start until this lands. It removes four problems at once.
 - [ ] **S — Provision Postgres.** Neon or Supabase, free tier. One database serves
       both Payload and order requests.
 - [ ] **S — Create the Vercel project**, connect the repo, set env vars
-      (`DATABASE_URL`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `INSTAGRAM_*`).
+      (`DATABASE_URL`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`).
 - [ ] **M — Drop static export.** Remove `output: "export"`, remove `basePath`,
       set `images.unoptimized: false`.
       → `next.config.ts`
@@ -60,8 +60,7 @@ Nothing else can start until this lands. It removes four problems at once.
       Preview URLs are public.
 - [ ] **S — Point `velels.com` DNS at Vercel**, drive `metadataBase` from an env var
       instead of a hardcoded string.
-- [ ] **S — Verify:** every route renders, images serve as optimized srcsets, the
-      Instagram feed actually revalidates now that `revalidate` is no longer a no-op.
+- [ ] **S — Verify:** every route renders and images serve as optimized srcsets.
 
 ---
 
@@ -89,10 +88,6 @@ All cheap now that `basePath` is gone. These are defects, not improvements.
 - [ ] **S — Replace the hardcoded "New" badge** (`slug === "lendai"`) with a
       `releasedAt` date so the badge computes itself.
       → `src/components/catalog/CatalogClient.tsx`
-- [ ] **S — Instagram feed resilience.** The long-lived token expires ~every 60
-      days, silently. Log loudly on failure and fall back to a curated local set,
-      not to rotting remote URLs.
-      → `src/lib/instagram.ts`
 - [ ] **S — Organization / WebSite JSON-LD** on the homepage; `BreadcrumbList` on
       product pages. Product JSON-LD already exists.
 
@@ -301,3 +296,4 @@ Decided against, with reasons. Listed so they don't creep back in.
 | Reviews / UGC | Dropped by the owner for now |
 | Seasonal homepage variants | No seasonality — orders are flat year-round |
 | Role permissions in the admin | Developer and owner both have full access by choice |
+| Instagram Graph API feed | Built, then removed. The long-lived token expires ~every 60 days and fails silently, and the CDN URLs it returns rot. The homepage strip is now three curated local images in `src/components/home/InstagramFeed.tsx`, each linking to its post — swapped by hand when the owner wants different ones |

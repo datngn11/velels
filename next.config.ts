@@ -24,16 +24,6 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/aida/**",
       },
-      {
-        protocol: "https",
-        hostname: "*.cdninstagram.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "video-*.cdninstagram.com",
-        pathname: "/**",
-      },
     ],
   },
 };
