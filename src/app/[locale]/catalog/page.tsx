@@ -30,7 +30,7 @@ export default async function CatalogPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="mt-[64px] grow w-full">
+      <main className="mt-16 md:mt-14 grow w-full">
         <CatalogClient />
       </main>
       <Footer />

@@ -2,9 +2,8 @@
 
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { Link } from "@/i18n/navigation";
+import { StatusPage } from "@/components/layout/StatusPage";
 
 type Props = {
   error: Error & { digest?: string };
@@ -20,16 +19,11 @@ export default function ErrorPage({ error, reset }: Props) {
   }, [error]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-[64px]">
-        <h1 className="font-serif text-[48px] md:text-[80px] leading-none tracking-[-0.02em] text-primary mb-6 animate-fade-in-up">
-          {t("title")}
-        </h1>
-        <p className="font-sans text-[14px] md:text-[16px] text-secondary max-w-[480px] mb-12 leading-relaxed animate-fade-in-up delay-100">
-          {t("subtitle")}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-200">
+    <StatusPage
+      title={t("title")}
+      subtitle={t("subtitle")}
+      actions={
+        <>
           <button
             onClick={() => reset()}
             className="inline-block bg-primary text-on-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300 cursor-pointer"
@@ -42,9 +36,8 @@ export default function ErrorPage({ error, reset }: Props) {
           >
             {t("cta")}
           </Link>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </>
+      }
+    />
   );
 }

@@ -37,14 +37,14 @@ export function Navbar() {
   return (
     <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
       <nav
-        className={`fixed top-0 w-full z-50 border-b border-outline-variant/30 transition-all duration-300 ${
+        className={`fixed top-0 w-full z-50 h-16 md:h-14 border-b border-outline-variant/30 transition-all duration-300 ${
           scrolled
             ? "bg-surface-container-lowest/90 backdrop-blur-xl shadow-sm"
             : "bg-surface-container-lowest"
         }`}
         id="top-nav"
       >
-        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-2 md:py-1 w-full max-w-[1440px] mx-auto">
+        <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-full w-full max-w-container mx-auto">
           {/* Left: Nav links (desktop only) */}
           <div className="hidden md:flex items-center gap-8 flex-1">
             {/* Catalogue Dropdown Trigger & Panel */}
