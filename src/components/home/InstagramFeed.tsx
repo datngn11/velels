@@ -2,71 +2,28 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/config";
-import { getInstagramPosts } from "@/lib/instagram";
+import { getAssetPath } from "@/lib/utils/assetPath";
 
-const instagramImages = [
+export const instagramPosts = [
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsOP8L0M-Qtx7ffizVGhV3DIoB0cDL5B6ezJZIGRJyQgFoyVcilumeWUAdkGxRpDfLrGmCdojxrc4WF_cOy6FICnKPo4FIWLsGXZozetNNsodFtq3gIwhJT0wc-t3jEQ9rnj5vTjOnJCMIBxisXswUVFpO1648ILnqGZHRBRsSKheJVkM395uoHVgwfgNgG36x12i8AEess9povejV2WVlPkOEtwvBEQOQujpyIbO6wMhIq2LNUFWK_Ukzz6KuzlO8-C7rteqNhxc",
-    alt: "Instagram — detail of a minimalist swimsuit strap against sun-tanned skin",
+    src: getAssetPath("/instagram/post_1.webp"),
+    alt: "VELÉLS editorial swim look",
+    href: "https://www.instagram.com/reel/DHTmsWRSp-5/",
   },
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuDipGs8e8u1hHN6sfW_rG66y-k52npeavG77ddLeIsjrQivRnJ57b0zjpKB0gjXJLfn8P6NXzAbD1B93bU6rqqU-b0MYkr-riwkBjyl0axLPGIVI_297h7JACxgt5xtpAxsk7g_GuhAWxpEFXLOXiogVw-E_rupSFwuggCVnSU3wUxQG_h4-YMrCHWNl3yeCAzGx51kginBp4uy3ZFJz8lyYbPA5GjyaeFuSyMJTh6n9MfvGE7T1H31C3za_q0a8ed7XgTz39-tYPM",
-    alt: "Instagram — serene beach landscape at midday without vibrant colors",
+    src: getAssetPath("/instagram/post_2.webp"),
+    alt: "VELÉLS editorial collection detail",
+    href: "https://www.instagram.com/p/DGxiw-LRcEj/",
   },
   {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuD7B_iUhBBN0Q-Ej444R5z8p58OGVaEEAxk0vHn8ERt_XnqTVIJ8zCLuqQ6pOq24I3WRQAVlsB5vZRUGPnG3Q3ymgpXxFrisYzpm2fELnnXIjZsxVenCn47_IsFz-aFBeh5hh2AM6ROQuMkrFg1xzF6QLHrPAXluR8VVe8Q2U22G1ApSM8Bc9iVgkAdMaKoQV1LCyW2DQDw4HfdeU6i-V5M71dkg5KzAXjgF5X03pNRe6ourWNwg35O7iHsTOuqmrdn1MXxJWyjajI",
-    alt: "Instagram — model in structural black swimsuit against pale sky",
+    src: getAssetPath("/instagram/post_3.webp"),
+    alt: "VELÉLS editorial swimwear campaign",
+    href: "https://www.instagram.com/reel/DF5ao-NySgD/",
   },
 ];
 
-const TARGET_SHORTCODES = ["Cxx5HT-q5sr", "Cx0P_KYqUxm", "DU5ecVdCX5i"];
-
 export async function InstagramFeed() {
   const t = await getTranslations("instagram");
-  // Fetch a larger pool just in case the posts are a bit older
-  const posts = await getInstagramPosts(100);
-
-  let selectedPosts = posts.filter((post) =>
-    TARGET_SHORTCODES.some((code) => post.permalink.includes(code)),
-  );
-
-  // If some hardcoded posts aren't found in the latest 100, pad with the most recent ones
-  if (selectedPosts.length < 3) {
-    const missingCount = 3 - selectedPosts.length;
-    const fallbackPosts = posts
-      .filter((p) => !selectedPosts.includes(p))
-      .slice(0, missingCount);
-    selectedPosts = [...selectedPosts, ...fallbackPosts];
-  }
-
-  // Sort them to match the exact order provided
-  selectedPosts.sort((a, b) => {
-    const aIndex = TARGET_SHORTCODES.findIndex((code) =>
-      a.permalink.includes(code),
-    );
-    const bIndex = TARGET_SHORTCODES.findIndex((code) =>
-      b.permalink.includes(code),
-    );
-    const aRank = aIndex === -1 ? 999 : aIndex;
-    const bRank = bIndex === -1 ? 999 : bIndex;
-    return aRank - bRank;
-  });
-
-  const displayItems =
-    selectedPosts.length > 0
-      ? selectedPosts?.map((post) => ({
-          src:
-            post.media_type === "VIDEO" && post.thumbnail_url
-              ? post.thumbnail_url
-              : post.media_url,
-          alt: post.caption || "Instagram post",
-          href: post.permalink,
-        }))
-      : instagramImages.map((img) => ({
-          src: img.src,
-          alt: img.alt,
-          href: siteConfig.social.instagram,
-        }));
 
   return (
     <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
@@ -80,8 +37,8 @@ export async function InstagramFeed() {
       </ScrollReveal>
 
       {/* Mobile Carousel / Desktop Grid */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 pb-4 md:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
-        {displayItems.map((item, i) => {
+      <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 pb-4 md:pb-0 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+        {instagramPosts.map((item, i) => {
           const delays = ["", "delay-100", "delay-200"] as const;
 
           return (
