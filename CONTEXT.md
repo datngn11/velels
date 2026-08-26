@@ -147,5 +147,5 @@ Money taken before dispatch. Forms:
 
 - **Full prepayment** — required for Individual Tailoring and for all
   international orders (goods and shipping both paid in advance).
-- **500 UAH partial prepayment** — secures a domestic COD (післяплата) order.
-  Non-refundable if the parcel is refused or uncollected.
+- **500 UAH partial prepayment per item** — secures a domestic COD (післяплата)
+  order. Non-refundable if the parcel is refused or uncollected.
