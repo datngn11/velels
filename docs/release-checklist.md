@@ -7,6 +7,12 @@ unless noted.
 Context: [`launch-plan.html`](./launch-plan.html) (decisions, in Russian) ·
 [`CONTEXT.md`](../CONTEXT.md) (domain glossary).
 
+If the goal is a catalogue-only launch with Instagram Direct as the single order
+channel, work from [`release-checklist-lite.md`](./release-checklist-lite.md)
+instead. It is the must-ship subset of this document, targets Cloudflare rather
+than Vercel, and records which phases below it defers. This document stays the
+destination.
+
 Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or more.
 
 ---

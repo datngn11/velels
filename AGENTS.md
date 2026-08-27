@@ -115,6 +115,7 @@ and do not add scaffolding "in preparation" for them.
 | --------------------------- | ----------------------------------------------------------- |
 | `CONTEXT.md`                | Domain glossary. No implementation detail                   |
 | `docs/release-checklist.md` | Ordered pre-launch execution plan, by phase                 |
+| `docs/release-checklist-lite.md` | Must-ship subset for a catalogue-only launch on Cloudflare |
 | `docs/launch-plan.html`     | Business decisions and rationale, in Russian, for the owner |
 
 <!-- END:domain-rules -->
