@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { siteConfig } from "@/lib/config";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -28,11 +29,11 @@ export async function generateMetadata({
       template: `%s ${t("productTitleSuffix")}`,
     },
     description: t("homeDescription"),
-    metadataBase: new URL("https://velels.com"),
+    metadataBase: new URL(siteConfig.url),
     openGraph: {
       title: t("homeTitle"),
       description: t("homeDescription"),
-      url: "https://velels.com",
+      url: siteConfig.url,
       siteName: t("siteName"),
       locale: locale === "uk" ? "uk_UA" : "en_US",
       type: "website",
@@ -51,7 +52,7 @@ export async function generateMetadata({
       description: t("homeDescription"),
     },
     alternates: {
-      canonical: "https://velels.com",
+      canonical: siteConfig.url,
       languages: {
         uk: "/",
         en: "/en",

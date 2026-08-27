@@ -28,6 +28,7 @@ export function InstagramCheckout({
       product: productName,
       color: colorLabel,
       size: selectedSize,
+      site: siteConfig.host,
     });
 
     try {

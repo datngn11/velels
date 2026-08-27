@@ -128,7 +128,7 @@
     "orderViaInstagram": "Замовити через Instagram",
     "details": "Деталі",
     "care": "Догляд",
-    "orderMessage": "Привіт! Хочу замовити {product}, колір: {color}, розмір: {size}. — via velels.com",
+    "orderMessage": "Привіт! Хочу замовити {product}, колір: {color}, розмір: {size}. — via {site}",
     "copiedToClipboard": "Повідомлення скопійовано ✓",
     "sizeGuideTitle": "Таблиця розмірів",
     "sizeGuideSubtitle": "Усі параметри вказані в сантиметрах (см)",

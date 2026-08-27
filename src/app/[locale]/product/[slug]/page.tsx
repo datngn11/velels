@@ -6,6 +6,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ProductView } from "@/components/product/ProductView";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
+import { absoluteUrl } from "@/lib/config";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${productName} — VELÉLS`,
       description: tagline,
-      url: `https://velels.com/${locale === "uk" ? "" : "en/"}product/${slug}`,
+      url: absoluteUrl(`/${locale === "uk" ? "" : "en/"}product/${slug}`),
       siteName: "VELÉLS",
       locale: locale === "uk" ? "uk_UA" : "en_US",
       type: "website",
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [product.images[0].src],
     },
     alternates: {
-      canonical: `https://velels.com/product/${slug}`,
+      canonical: absoluteUrl(`/product/${slug}`),
       languages: {
         uk: `/product/${slug}`,
         en: `/en/product/${slug}`,
@@ -86,7 +87,7 @@ export default async function ProductPage({ params }: Props) {
     },
     offers: {
       "@type": "Offer",
-      url: `https://velels.com/product/${slug}`,
+      url: absoluteUrl(`/product/${slug}`),
       priceCurrency: product.currency,
       price: product.price.toString(),
       availability: "https://schema.org/InStock",
