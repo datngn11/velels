@@ -2,21 +2,20 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/config";
-import { getAssetPath } from "@/lib/utils/assetPath";
 
 const instagramPosts = [
   {
-    src: getAssetPath("/instagram/post_1.webp"),
+    src: "/instagram/post_1.webp",
     alt: "VELÉLS editorial swim look",
     href: "https://www.instagram.com/reel/DHTmsWRSp-5/",
   },
   {
-    src: getAssetPath("/instagram/post_2.webp"),
+    src: "/instagram/post_2.webp",
     alt: "VELÉLS editorial collection detail",
     href: "https://www.instagram.com/p/DGxiw-LRcEj/",
   },
   {
-    src: getAssetPath("/instagram/post_3.webp"),
+    src: "/instagram/post_3.webp",
     alt: "VELÉLS editorial swimwear campaign",
     href: "https://www.instagram.com/reel/DF5ao-NySgD/",
   },

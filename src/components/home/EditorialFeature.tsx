@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { Link } from "@/i18n/navigation";
-import { getAssetPath } from "@/lib/utils/assetPath";
 
 export function EditorialFeature() {
   const t = useTranslations("editorial");
@@ -14,7 +13,7 @@ export function EditorialFeature() {
         <ScrollReveal animation="reveal-fade-in" className="w-full">
           <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container hover-image-zoom">
             <Image
-              src={getAssetPath("/about/about.webp")}
+              src={"/about/about.webp"}
               alt="VELÉLS Editorial Focus"
               fill
               className="object-cover"

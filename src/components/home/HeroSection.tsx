@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { getAssetPath } from "@/lib/utils/assetPath";
 import { smoothScrollTo } from "@/lib/utils/smoothScroll";
 import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
@@ -23,7 +22,7 @@ export function HeroSection() {
           poster compete as LCP candidates until they become one `<picture>` —
           see `docs/release-checklist.md`. */}
       <Image
-        src={getAssetPath("/hero/hero_desktop.webp")}
+        src={"/hero/hero_desktop.webp"}
         alt={HERO_ALT}
         fill
         className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
@@ -42,7 +41,7 @@ export function HeroSection() {
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
       >
         <Image
-          src={getAssetPath("/hero/hero_mobile_poster.webp")}
+          src={"/hero/hero_mobile_poster.webp"}
           alt={HERO_ALT}
           fill
           className="object-cover"
@@ -54,7 +53,7 @@ export function HeroSection() {
         {shouldRenderVideo && (
           <video
             ref={videoRef}
-            src={getAssetPath("/hero/hero_mobile.mp4")}
+            src={"/hero/hero_mobile.mp4"}
             loop
             muted
             playsInline

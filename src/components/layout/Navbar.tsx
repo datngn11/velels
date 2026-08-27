@@ -7,7 +7,6 @@ import { siteConfig } from "@/lib/config";
 import * as Dialog from "@radix-ui/react-dialog";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import Image from "next/image";
-import { getAssetPath } from "@/lib/utils/assetPath";
 
 export function Navbar() {
   const t = useTranslations("nav");
@@ -120,7 +119,7 @@ export function Navbar() {
             className="z-50 hover:opacity-80 transition-opacity flex items-center justify-center"
           >
             <Image
-              src={getAssetPath("/logo_black.png")}
+              src={"/logo_black.png"}
               alt="VELÉLS"
               width={128}
               height={48}
