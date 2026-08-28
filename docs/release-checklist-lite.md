@@ -44,6 +44,16 @@ Ordering is dependency-first. L1 unblocks most of L3.
       stays available to anyone. Still to register, see L1. The site URL comes from
       `NEXT_PUBLIC_SITE_URL`, so a later change is one line.
 
+- [ ] **S — Owner: the sale.** A sale is running as of 2026-08-28 and the site knows
+      nothing about it. Which Models, at what price, and when does it end? Needed
+      before the L4 sale item can be built. Ask in the same message as the ФОП
+      details above — each round trip costs days.
+- [ ] **S — Owner: the dress size chart.** Bust runs 82–84, 86–88, 90–92, 94–98, so
+      85, 89 and 93 cm fit no size. The swimwear chart is fine — it overlaps at the
+      boundaries rather than gapping. Closing the gap is a manufacturing decision,
+      not a developer's guess, and in lite the size she reads is the size she puts in
+      the Direct message. See L4.
+
 Deferred from Phase 0: the ростовка boundary rule and the Telegram bot. Neither is
 reachable from a site that collects no height and sends no notifications.
 
@@ -174,11 +184,21 @@ the full plan, not less.
 
 A catalogue that cannot be found or cannot be shared has no function. Depends on L1.
 
-- [ ] **M — Self-referencing canonicals per locale, plus `x-default`.** Two separate
-      defects live here. Every English page declares the Ukrainian URL canonical, so
-      the English site opts itself out of search. And the layout-level
-      `alternates.canonical` is the bare homepage, so every page inheriting it points
-      at `/`, not at itself.
+- [ ] **M — Self-referencing canonicals per locale, plus `x-default`.** **Three**
+      defects, not two — verified against the built output 2026-08-28.
+      1. Every English page declares the Ukrainian URL canonical, so the English
+         site opts itself out of search. `out/en/product/dimaya.html` says
+         `canonical: https://velels.com/product/dimaya`.
+      2. The layout-level `alternates.canonical` is the bare origin, so both
+         homepages point at `/` rather than at themselves.
+      3. **The canonical target does not exist.** `absoluteUrl("/product/" + slug)`
+         yields `https://velels.com/product/dimaya`, but the export emits only
+         `/uk/product/dimaya` and `/en/product/dimaya`. There is no locale-less
+         route — confirmed, `out/product/` is not a directory. So *every* product
+         and info page currently declares a canonical pointing at a 404, which is
+         worse than the English-only problem: it means both locales disown
+         themselves, not just one. The identical bug in `offers.url` is noted below.
+      There is also no `x-default`.
       → `src/app/[locale]/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`,
       `src/app/[locale]/info/[slug]/page.tsx`
 - [ ] **S — Replace the homepage OG image.** It points at
@@ -253,11 +273,38 @@ answer on its own.
       the document that is not strictly blocking, and I would ship it if there is any
       slack at all.
 
-Conditional, not automatic:
+- [ ] **M — Sale price. No longer conditional: a sale is running as of 2026-08-28.**
+      `products.ts` carries a single `price` and there is no sale field anywhere, so
+      the catalogue currently shows the pre-sale price with no indication a sale
+      exists. `CONTEXT.md` already defines the term: a reduced price that belongs to
+      the Model, applies to everyone, has an active period, and is shown beside the
+      original struck through.
 
-- [ ] **M — Sale price.** Only if a sale is planned before or shortly after launch.
-      Without it the price shown is the price messaged, and a manual override across
-      11 products during a sale is how the wrong number reaches a customer.
+      Five parts, and the third is the one that costs money if skipped:
+
+      1. **Data.** `salePrice?: number` on `Product`, plus the active period. Ask the
+         owner which Models are on sale, at what price, and the end date (L0).
+      2. **Display.** Struck-through original beside the sale price at all three
+         call sites — `ProductInfo.tsx` (PDP), `CatalogClient.tsx`, and
+         `ProductGrid.tsx` (homepage). Plus a sale badge, which needs a key in both
+         locale files.
+      3. **The Direct message must carry the sale price.** `orderMessage` is built
+         from product data; if it sends the original while the page shows the sale
+         price, she messages one number and the Consultant quotes another. Same
+         defect class as the preselected size `M`, and the same reason it matters
+         more in lite: the message *is* the Order Request.
+      4. **JSON-LD.** `offers.price` is `product.price.toString()` today. On sale
+         that publishes a stale price to Google.
+      5. **No urgency theatre.** No countdown, no "only today". The out-of-scope
+         table bans low-stock urgency and a timer is the same species. Show the
+         reduction, do not pressure.
+
+      **A static export cannot expire its own sale.** Under `output: "export"` the
+      end date is evaluated at build time, so the sale ends when someone rebuilds,
+      not when the date passes. Either accept that and rebuild deliberately, or add
+      a Cloudflare Cron Trigger to rebuild daily. Do not evaluate it client-side —
+      that trades a stale price for a hydration mismatch. Same shape as the
+      `isNew` → `releasedAt` item above, and worth solving once for both.
 
 ---
 
