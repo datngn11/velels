@@ -20,7 +20,8 @@ export function ProductInfo({
 }: ProductInfoProps) {
   const t = useTranslations("productDetail");
   const tProduct = useTranslations("products");
-  const [selectedSize, setSelectedSize] = useState<Size>("M");
+  // No default: a size she never chose must not travel in the Direct message.
+  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
 
   const slug = product.slug;

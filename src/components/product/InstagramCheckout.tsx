@@ -8,10 +8,24 @@ import { siteConfig } from "@/lib/config";
 
 interface InstagramCheckoutProps {
   productName: string;
-  selectedSize: Size;
+  /** `null` until she picks one — the message then carries a blank, not a guess. */
+  selectedSize: Size | null;
   selectedColor?: ProductColor;
 }
 
+/** Stands in for a size she never chose, so the Consultant knows to ask. */
+const SIZE_PLACEHOLDER = "___";
+
+/**
+ * Hands the visitor to Instagram Direct with the order details on her clipboard.
+ *
+ * This is a plain anchor, not a button calling `window.open()`. iOS Safari and the
+ * Instagram in-app browser — where nearly all of this traffic arrives — only allow
+ * a new window while the user activation from the tap is still live, and both an
+ * `await` and a `setTimeout` end it. A native anchor navigation is never subject to
+ * that heuristic. The clipboard write is therefore fire-and-forget: it may fail,
+ * and the handoff still happens.
+ */
 export function InstagramCheckout({
   productName,
   selectedSize,
@@ -20,27 +34,31 @@ export function InstagramCheckout({
   const t = useTranslations("productDetail");
   const [showToast, setShowToast] = useState(false);
 
-  const handleOrder = useCallback(async () => {
+  const copyMessage = useCallback(() => {
     const colorLabel =
       selectedColor === "black" ? t("colorBlack") : t("colorWhite");
 
     const message = t("orderMessage", {
       product: productName,
       color: colorLabel,
-      size: selectedSize,
+      size: selectedSize ?? SIZE_PLACEHOLDER,
       site: siteConfig.host,
     });
 
+    // Everything below runs synchronously inside the click handler so it cannot
+    // interrupt the anchor's own navigation. Nothing here is awaited.
     try {
-      await navigator.clipboard.writeText(message);
-      setShowToast(true);
+      const written = navigator.clipboard?.writeText(message);
+      if (written) {
+        written.then(
+          () => setShowToast(true),
+          () => {},
+        );
+        return;
+      }
 
-      // Open Instagram DM after a short delay
-      setTimeout(() => {
-        window.open(siteConfig.social.instagramDm, "_blank");
-      }, 300);
-    } catch {
-      // Fallback for older browsers
+      // No async clipboard (insecure context, older in-app webview): the legacy
+      // path is synchronous, which is exactly what is wanted here.
       const textarea = document.createElement("textarea");
       textarea.value = message;
       textarea.style.position = "fixed";
@@ -49,18 +67,19 @@ export function InstagramCheckout({
       textarea.select();
       document.execCommand("copy");
       document.body.removeChild(textarea);
-
       setShowToast(true);
-      setTimeout(() => {
-        window.open(siteConfig.social.instagramDm, "_blank");
-      }, 300);
+    } catch {
+      // The copy is the part that is allowed to fail. The handoff is not.
     }
   }, [productName, selectedSize, selectedColor, t]);
 
   return (
     <>
-      <button
-        onClick={handleOrder}
+      <a
+        href={siteConfig.social.instagramDm}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={copyMessage}
         className="w-full bg-primary text-on-primary text-label-md py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2"
         id="order-via-instagram-btn"
       >
@@ -72,10 +91,15 @@ export function InstagramCheckout({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          aria-hidden="true"
         >
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
-      </button>
+      </a>
+
+      <p className="text-body-sm text-secondary mt-3 text-center">
+        {t("responseTime")}
+      </p>
 
       <Toast
         message={t("copiedToClipboard")}
