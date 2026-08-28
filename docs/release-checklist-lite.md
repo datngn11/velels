@@ -240,6 +240,15 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       → `src/app/icon.png`, `src/app/apple-icon.png`
 - [ ] **S — `sitemap.ts` and `robots.ts`.** Both locales, all 11 products, all nine
       info pages. Both emit static files under `output: "export"`.
+
+      **Cloudflare already serves a `robots.txt` we did not write.** Found on the
+      first deploy 2026-08-28: `/robots.txt` returns 200 with Cloudflare's managed
+      "Content Signals Policy" (the `search` / `ai-input` / `ai-train` preamble),
+      while `/sitemap.xml` correctly 404s. So when `robots.ts` lands, confirm our
+      file actually wins at the edge rather than assuming it does — and decide
+      whether to keep the content-signals block, which is a reasonable thing to want
+      on a catalogue of original photography. It is managed in the zone settings,
+      not in the repo.
 - [ ] **S — Fix the Product JSON-LD.** Two problems. `availability` is
       `https://schema.org/InStock`, which claims stock the business does not have and
       contradicts the rule in `AGENTS.md`. Use `https://schema.org/MadeToOrder`. And
