@@ -111,9 +111,21 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       match the exact hostname, so `velels.com` does not catch `www.velels.com`. A
       redirect rule from `www` to the apex is better than two Custom Domains,
       because it keeps one canonical hostname.
+      *Put the apex in `wrangler.jsonc` rather than clicking it in the dashboard, so
+      it reapplies on every deploy:* `"routes": [{ "pattern": "velels.com",
+      "custom_domain": true }]`. Note this is the `custom_domain` form, not the
+      `route` + `zone_name` form in the docs' example — that one routes a script at
+      a URL pattern, which is not what a whole-site static deploy wants. The `www`
+      redirect rule stays a dashboard job either way.
 - [ ] **S — Keep preview and `workers.dev` URLs out of the index.** The existing
       `NEXT_PUBLIC_ALLOW_INDEXING` gate already fails closed. Set it only on the
-      production build, and confirm the `*.workers.dev` hostname stays `noindex`.
+      production build.
+      **Better than `noindex`: set `"workers_dev": false` in `wrangler.jsonc` once the
+      custom domain resolves.** That removes the `velels.workers.dev` hostname
+      altogether — no page to crawl beats a page asking not to be crawled, and it
+      also removes a duplicate-content source whose canonicals point at the real
+      domain. It has to stay enabled until then, because it is the only URL the
+      first deploy can be smoke-tested on.
 - [ ] *Optional, **S**:* replace the client-side `/` to `/uk` redirect with a Worker
       redirect on that one path. Only `/` would invoke Worker code, which is
       thousands of requests a month against a free ceiling of 100,000 a day.
