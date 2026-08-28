@@ -202,8 +202,21 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       → `src/app/[locale]/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`,
       `src/app/[locale]/info/[slug]/page.tsx`
 - [ ] **S — Replace the homepage OG image.** It points at
-      `lh3.googleusercontent.com/aida-public/…`, a temporary host that will rot. Use
-      a real file.
+      `lh3.googleusercontent.com/aida-public/…`, a temporary host that will rot.
+
+      Spec for the replacement:
+      - **exactly 1200×630 px** — so the declared dimensions stop being a lie
+      - **JPG or PNG, not WebP** — WebP support in preview crawlers is still patchy
+      - **under 500 KB** — crawlers time out
+      - drop it in `public/og/`, reference it as `/og/home.jpg`; `metadataBase`
+        already resolves that to the absolute URL the OG spec requires
+      - keep the wordmark clear of the edges: apps crop a few percent and render it
+        around 500px wide
+
+      Change the tag and the declared dimensions in the same commit as the file
+      landing — the current URL still resolves, so wiring the code first would
+      break previews sooner rather than later.
+      → `src/app/[locale]/layout.tsx`
 - [ ] **S — Stop declaring portrait product photos as 1200×630.**
       `generateMetadata` hardcodes `width: 1200, height: 630` on the first product
       image, but every product photo is 2:3 portrait — `dimaya/black_1.webp` is
