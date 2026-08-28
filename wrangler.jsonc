@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "velels",
+  "compatibility_date": "2026-08-28",
+
+  // No `main`: this is an assets-only Worker. There is no Worker script, so no
+  // code runs on a page view and static-asset requests are free and unlimited.
+  "assets": {
+    "directory": "./out",
+
+    // Default is "none", which serves a bare Cloudflare error page. "404-page"
+    // serves out/404.html with a real 404 status.
+    // Never "single-page-application": it returns 200 for every unmatched path,
+    // which would feed the index duplicate homepages.
+    "not_found_handling": "404-page",
+
+    // Already the default, pinned so a future default change cannot silently
+    // rewrite every URL. Serves out/uk/product/azure.html at /uk/product/azure.
+    "html_handling": "auto-trailing-slash"
+  }
+}

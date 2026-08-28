@@ -52,6 +52,7 @@ reachable from a site that collects no height and sends no notifications.
 ## L1 — Infrastructure (Cloudflare)
 
 Replaces Phase 1 of the full checklist. Same goal, different platform, no database.
+Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-setup.md).
 
 - [ ] **S — Register the domain** at Cloudflare Registrar. `.com` at wholesale,
       about $10.44/year, same price on renewal. Requires Cloudflare nameservers,
@@ -83,12 +84,18 @@ Replaces Phase 1 of the full checklist. Same goal, different platform, no databa
       `orderMessage` signature now takes a `{site}` placeholder. Documented in
       `.env.example`. Confirmed by building against the other domain: every
       canonical, OG url, image url and JSON-LD offer url followed.
-- [ ] **S — Move `hero_mobile.mp4` to R2.** 7.7 MB is 30% of the site's total weight
-      and it is the single asset every mobile visitor downloads. R2's free tier is
-      10 GB with no egress charge, and Cloudflare's terms name R2 as the compliant
-      way to serve video, rather than proxying a large file through the CDN on a
-      free plan.
-- [ ] **S — Re-encode the hero video to about 1.5 MB.** Cap at 720×1280, drop the
+- [ ] *Optional, **S**:* **move `hero_mobile.mp4` to R2.** R2's free tier is 10 GB
+      with no egress charge, and a custom domain on the bucket is required — the
+      `r2.dev` subdomain is rate-limited and documented as development-only.
+      **Corrected 2026-08-28:** this was previously listed as compliance-driven, on
+      the grounds that Cloudflare's terms name R2 as the only compliant way to serve
+      video. That is out of date — Section 2.8 was removed from the Self-Serve
+      Subscription Agreement in May 2023, and the current Service-Specific Terms put
+      no file-type restriction on the Developer Platform. The file is 7.5 MB, under
+      the 25 MiB per-asset limit, so Workers can serve it directly. Re-encoding
+      below is the item that actually matters; this one is now a judgement call.
+- [ ] **S — Re-encode the hero video to about 1.5 MB.** *Do this before deciding
+      about R2 above; at 1.5 MB the move is largely moot.* Cap at 720×1280, drop the
       muted audio track, 6 to 8 second loop, add a WebM source. Listed as optional
       in the full checklist. It is not optional when the audience is on Ukrainian
       mobile data arriving from an Instagram link.
@@ -100,6 +107,10 @@ Replaces Phase 1 of the full checklist. Same goal, different platform, no databa
       all, and the product carousels are the heaviest thing a visitor loads.
       *If time runs out, the minimum acceptable version is the hero `<picture>` fix
       in L5 alone, leaving `unoptimized: true` in place.*
+- [ ] **S — Add `www.velels.com` as well as the apex.** Workers Custom Domains
+      match the exact hostname, so `velels.com` does not catch `www.velels.com`. A
+      redirect rule from `www` to the apex is better than two Custom Domains,
+      because it keeps one canonical hostname.
 - [ ] **S — Keep preview and `workers.dev` URLs out of the index.** The existing
       `NEXT_PUBLIC_ALLOW_INDEXING` gate already fails closed. Set it only on the
       production build, and confirm the `*.workers.dev` hostname stays `noindex`.
