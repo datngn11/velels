@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { siteConfig } from "@/lib/config";
+import { siteConfig, localeUrl, localeAlternates } from "@/lib/config";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -33,7 +33,7 @@ export async function generateMetadata({
     openGraph: {
       title: t("homeTitle"),
       description: t("homeDescription"),
-      url: siteConfig.url,
+      url: localeUrl(locale),
       siteName: t("siteName"),
       locale: locale === "uk" ? "uk_UA" : "en_US",
       type: "website",
@@ -52,11 +52,10 @@ export async function generateMetadata({
       description: t("homeDescription"),
     },
     alternates: {
-      canonical: siteConfig.url,
-      languages: {
-        uk: "/",
-        en: "/en",
-      },
+      // Self-referencing: the uk homepage is /uk, not the bare origin. Inheriting
+      // subpages override this with their own path.
+      canonical: localeUrl(locale),
+      languages: localeAlternates(),
     },
   };
 }
