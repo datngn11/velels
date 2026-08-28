@@ -4,6 +4,12 @@ Shared language for the VELÉLS storefront. Glossary only — no implementation
 details, no specs, no decisions. If it belongs in code or an ADR, it does not
 belong here.
 
+These terms define the language, not the current build. Order Request, Request
+Number, Contact Channel, Measurements and Sale Price all describe a site form that
+does not exist yet, and the lite catalogue launch ships without it — see
+`docs/release-checklist-lite.md`. The vocabulary stands regardless of what has been
+built.
+
 ## Model
 
 A garment design, identified by name (Azure, Dimaya, Lunar). Referred to in code
@@ -12,8 +18,13 @@ as a product. Belongs to exactly one Category.
 ## Category
 
 The garment family a Model belongs to: **one-piece**, **two-piece**, or
-**dress**. Category determines which sizing dimensions apply — most importantly,
+**dresses**. Category determines which sizing dimensions apply — most importantly,
 only one-pieces have a Ростовка.
+
+Those three strings are the identifiers, in code and in the `?category=` query
+parameter. Note the plural on `dresses` — it is inconsistent with its two siblings,
+but it is load-bearing in `ProductCategory`, in the `catalog` message keys and in
+public catalogue URLs. Do not "correct" it to `dress`.
 
 ## Standard Size
 
@@ -125,9 +136,9 @@ the Request.
 Where an Order originates. Both channels are full purchase paths of equal
 standing:
 
-- **Site** — the form on velels.com, producing an Order Request.
+- **Site** — the form on velels.com, producing an Order Request. Not built yet.
 - **Direct** — an Instagram Direct conversation, which serves as size
-  consultation and checkout at once.
+  consultation and checkout at once. Currently the only channel that exists.
 
 ## Exchange
 

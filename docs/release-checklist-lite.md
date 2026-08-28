@@ -36,12 +36,13 @@ Ordering is dependency-first. L1 unblocks most of L3.
       customer. Three options remain, all waiting on the owner: her own registered
       ФОП address, a paid virtual address in Kyiv at roughly 500 to 1500 UAH a
       month, or city plus email with a known shortfall against Article 7.
-- [ ] **S — Confirm the domain name.** Provisionally `velels.com`, not final and
-      not registered. `velelswim.com` is the alternative and matches the Instagram
-      handle, the DM link and the `velelswim@gmail.com` address; both were
-      unregistered as of 2026-08-27. Only one will be bought, so whichever loses
-      stays available to anyone. This no longer blocks L1: the site URL now comes
-      from `NEXT_PUBLIC_SITE_URL` and switching is a one-line change.
+- [x] **S — Confirm the domain name.** Decided 2026-08-27: `velels.com`. The
+      brand mark is VELÉLS and the catalogue already carries dresses, so `swim` in
+      the permanent address names a category the brand has outgrown.
+      `velelswim.com` was the alternative, matching the Instagram handle, the DM
+      link and the `velelswim@gmail.com` address; it is not being bought, so it
+      stays available to anyone. Still to register, see L1. The site URL comes from
+      `NEXT_PUBLIC_SITE_URL`, so a later change is one line.
 
 Deferred from Phase 0: the ростовка boundary rule and the Telegram bot. Neither is
 reachable from a site that collects no height and sends no notifications.
@@ -60,6 +61,13 @@ Replaces Phase 1 of the full checklist. Same goal, different platform, no databa
       in March 2026 and is the recommended path for new projects. Keep
       `output: "export"`, so every page is a prebuilt file served as a static asset
       and no Worker code runs on a page view.
+
+      Set `not_found_handling = "404-page"` in the Worker's `[assets]` block. The
+      default, `none`, serves a bare Cloudflare error page. Do **not** use
+      `single-page-application`: it returns HTTP 200 for every unmatched path, which
+      hands the index an unlimited supply of duplicate homepages and quietly undoes
+      the canonical work in L3. Note that `out/404.html` is emitted but is Next's
+      unstyled built-in page, not the `StatusPage` 404 — see L3.
 - [x] **M — Remove `basePath` and retire `getAssetPath()`.** Every call site loses
       the `/velels` prefix. This is what actually fixes the broken share previews,
       and share previews are the entire distribution channel for a catalogue whose
@@ -153,6 +161,25 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
 - [ ] **S — Replace the homepage OG image.** It points at
       `lh3.googleusercontent.com/aida-public/…`, a temporary host that will rot. Use
       a real file.
+- [ ] **S — Stop declaring portrait product photos as 1200×630.**
+      `generateMetadata` hardcodes `width: 1200, height: 630` on the first product
+      image, but every product photo is 2:3 portrait — `dimaya/black_1.webp` is
+      1167×1750, and the whole shoot is that shape. Crawlers re-crop from the real
+      file, so the false numbers mostly cost a mis-laid-out first paint, but it is a
+      lie in the markup and the fix is one line. Declare the actual dimensions, or
+      drop the fields and let the crawler read them.
+      → `src/app/[locale]/product/[slug]/page.tsx`
+- [ ] *Conditional on L1, **M**:* **landscape 1200×630 share cards.** The real defect
+      under the item above: a 2:3 photo in a `summary_large_image` card is
+      centre-cropped by the platform, so what renders in Telegram is a horizontal
+      slice from the middle of a 1750px-tall image — fabric, no face, no hemline, no
+      wordmark. On a catalogue whose entire distribution is links pasted out of
+      Instagram, the crop is the advert. `/cdn-cgi/image/width=1200,height=630,fit=cover`
+      can generate them, but this is not free work: OG metadata does not pass through
+      `next/image`, so the L1 loader gives nothing here and the URL is hand-written,
+      and someone has to choose the crop for all 11 products — top-biased gives a
+      face, centred gives the garment. Cannot be verified until the domain is behind
+      Cloudflare. Judge the result in L8's share-preview pass.
 - [ ] **S — Favicon, `apple-icon`, web manifest.** There is no tab icon at all.
       → `src/app/icon.png`, `src/app/apple-icon.png`
 - [ ] **S — `sitemap.ts` and `robots.ts`.** Both locales, all 11 products, all nine
@@ -167,6 +194,14 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       product pages.
 - [ ] **S — `?ref=ig` on the Instagram bio and story links.** Referrer data from
       Instagram is unreliable, and in lite the bio link is the main entrance.
+- [ ] *Optional, **S**:* **a branded page for stray URLs.** With
+      `not_found_handling = "404-page"` set in L1, an unmatched path serves
+      `out/404.html`, which is Next's built-in "This page could not be found." in
+      English on white — no navbar, no locale, none of the site. The designed 404
+      (`StatusPage`, via `src/app/[locale]/not-found.tsx`) only renders for paths
+      inside the `[locale]` segment, because there is no root `src/app/not-found.tsx`.
+      Adding one would fix it. Whether eleven products draw enough stray traffic to
+      be worth a page is a judgement call; the status code is correct either way.
 
 ---
 
@@ -312,8 +347,8 @@ Do all of it before flipping indexing on.
       debugger.
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
       dropdown.
-- [ ] **S — Confirm the locale files are still key-identical.** 231 keys as of the
-      last audit. Several items above touch `uk.json` and `en.json`, and a key added
+- [ ] **S — Confirm the locale files are still key-identical.** 150 leaf keys across
+      12 namespaces, verified 2026-08-28 (the "231" in earlier drafts was wrong). Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 - [ ] **S — Flip indexing on**, submit the sitemap in Search Console, verify the
       property.
