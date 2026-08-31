@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { localeUrl, localeAlternates } from "@/lib/config";
+import { pageMetadata } from "@/lib/seo/openGraph";
 
 const INFO_SLUGS = [
   "delivery",
@@ -38,22 +38,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = t(`${slug}.title`);
   const description = t(`${slug}.metaDescription`);
 
-  return {
+  return pageMetadata({
+    locale,
+    path: `/info/${slug}`,
     title,
     description,
-    openGraph: {
-      title: `${title} — VELÉLS`,
-      description,
-      url: localeUrl(locale, `/info/${slug}`),
-      siteName: "VELÉLS",
-      locale: locale === "uk" ? "uk_UA" : "en_US",
-      type: "website",
-    },
-    alternates: {
-      canonical: localeUrl(locale, `/info/${slug}`),
-      languages: localeAlternates(`/info/${slug}`),
-    },
-  };
+  });
 }
 
 export default async function InfoPage({ params }: Props) {

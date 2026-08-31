@@ -64,10 +64,10 @@ reachable from a site that collects no height and sends no notifications.
 Replaces Phase 1 of the full checklist. Same goal, different platform, no database.
 Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-setup.md).
 
-- [ ] **S — Register the domain** at Cloudflare Registrar. `.com` at wholesale,
+- [x] **S — Register the domain** at Cloudflare Registrar. `.com` at wholesale,
       about $10.44/year, same price on renewal. Requires Cloudflare nameservers,
       which is what the rest of this phase assumes anyway.
-- [ ] **S — Create a Cloudflare Worker with static assets**, connected to the repo.
+- [x] **S — Create a Cloudflare Worker with static assets**, connected to the repo.
       Not Pages. Workers reached parity for static assets, SSR and custom domains
       in March 2026 and is the recommended path for new projects. Keep
       `output: "export"`, so every page is a prebuilt file served as a static asset
@@ -79,6 +79,10 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       hands the index an unlimited supply of duplicate homepages and quietly undoes
       the canonical work in L3. Note that `out/404.html` is emitted but is Next's
       unstyled built-in page, not the `StatusPage` 404 — see L3.
+      -> Done 2026-08-29. `wrangler.jsonc` written and validated, deployed to
+      `velels.datngn11.workers.dev` (588 files). Verified at the edge: every route
+      200, stray URLs a real 404, trailing slash 307, video and RSC payloads serve.
+      Custom domain and `workers_dev: false` still to do.
 - [x] **M — Remove `basePath` and retire `getAssetPath()`.** Every call site loses
       the `/velels` prefix. This is what actually fixes the broken share previews,
       and share previews are the entire distribution channel for a catalogue whose
@@ -150,7 +154,7 @@ export has no middleware, and locale-prefixed routes work without it.
 In lite this is the whole conversion funnel. It gets more scrutiny than it does in
 the full plan, not less.
 
-- [ ] **M — Fix the Direct handoff for in-app browsers.** `InstagramCheckout`
+- [x] **M — Fix the Direct handoff for in-app browsers.** `InstagramCheckout`
       currently awaits `navigator.clipboard.writeText()` and then calls
       `window.open()` inside a `setTimeout(…, 300)`. Both the await and the timeout
       break the user-activation chain, which is what iOS Safari and the Instagram
@@ -161,20 +165,24 @@ the full plan, not less.
       allowed to fail.
       → `src/components/product/InstagramCheckout.tsx`
       **Verify on a real phone before believing it is fixed.**
-- [ ] **S — Stop preselecting size `M`.** `useState<Size>("M")` means a customer who
+      -> Done 2026-08-29. Rewritten as a plain anchor, so no popup heuristic applies and
+      it works before hydration — confirmed in the prerendered HTML, and
+      `window.open` no longer appears in any chunk. The clipboard write is
+      fire-and-forget. **Still unverified on a real phone.**
+- [x] **S — Stop preselecting size `M`.** `useState<Size>("M")` means a customer who
       never chose a size sends a Direct message stating one. Harmless when a
       Consultant also sees a form; actively misleading when the message is the whole
       Order Request.
       → `src/components/product/ProductInfo.tsx`
-- [ ] **S — Add a height line to the copied message.** The Consultant asks for height
+- [x] **S — Add a height line to the copied message.** The Consultant asks for height
       in every conversation. A blank `Мій зріст: ___ см` in the prefilled text costs
       nothing, collects nothing, and removes one round trip. This is not a form and
       must not grow into one.
       → `src/messages/{uk,en}.json` `productDetail.orderMessage`
-- [ ] **S — Make the button the primary and only call to action.** In the full plan
+- [x] **S — Make the button the primary and only call to action.** In the full plan
       Direct is demoted to a quiet secondary under "Замовити". That instruction is
       inverted here, and should be re-inverted when the form lands.
-- [ ] **S — Say what happens next.** The button hands the visitor to another app with
+- [x] **S — Say what happens next.** The button hands the visitor to another app with
       no confirmation. Set the same expectation the form's success screen would have:
       answering hours, 7:00 to 22:00.
 
@@ -184,7 +192,7 @@ the full plan, not less.
 
 A catalogue that cannot be found or cannot be shared has no function. Depends on L1.
 
-- [ ] **M — Self-referencing canonicals per locale, plus `x-default`.** **Three**
+- [x] **M — Self-referencing canonicals per locale, plus `x-default`.** **Three**
       defects, not two — verified against the built output 2026-08-28.
       1. Every English page declares the Ukrainian URL canonical, so the English
          site opts itself out of search. `out/en/product/dimaya.html` says
@@ -199,6 +207,10 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
          worse than the English-only problem: it means both locales disown
          themselves, not just one. The identical bug in `offers.url` is noted below.
       There is also no `x-default`.
+      -> Done 2026-08-29. Two helpers in `config.ts`, `localeUrl()` and
+      `localeAlternates()`, now make the locale segment hard to omit. Canonicals
+      self-reference per locale, `x-default` points at Ukrainian, and `og:url` and
+      `offers.url` carry the locale. Verified in the built HTML for both locales.
       → `src/app/[locale]/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`,
       `src/app/[locale]/info/[slug]/page.tsx`
 - [ ] **S — Replace the homepage OG image.** It points at
@@ -217,7 +229,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       landing — the current URL still resolves, so wiring the code first would
       break previews sooner rather than later.
       → `src/app/[locale]/layout.tsx`
-- [ ] **S — Stop declaring portrait product photos as 1200×630.**
+- [x] **S — Stop declaring portrait product photos as 1200×630.**
       `generateMetadata` hardcodes `width: 1200, height: 630` on the first product
       image, but every product photo is 2:3 portrait — `dimaya/black_1.webp` is
       1167×1750, and the whole shoot is that shape. Crawlers re-crop from the real
@@ -236,9 +248,28 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       and someone has to choose the crop for all 11 products — top-biased gives a
       face, centred gives the garment. Cannot be verified until the domain is behind
       Cloudflare. Judge the result in L8's share-preview pass.
-- [ ] **S — Favicon, `apple-icon`, web manifest.** There is no tab icon at all.
-      → `src/app/icon.png`, `src/app/apple-icon.png`
-- [ ] **S — `sitemap.ts` and `robots.ts`.** Both locales, all 11 products, all nine
+- [ ] **S — Favicon and `apple-icon`. Blocked: needs a brand mark from the owner.**
+      There is no tab icon at all. `logo_black.png` is a 1326x499 wordmark and is
+      illegible at 32px, so a favicon needs a square mark — a monogram or a symbol —
+      and that is the owner's decision, not something to crop out of the wordmark.
+
+      Spec, so the file is right first time:
+      - `src/app/icon.png` at 256x256, PNG. Transparency is fine.
+      - `src/app/apple-icon.png` at 180x180, PNG, **opaque** — iOS fills
+        transparency with black.
+      - `src/app/` rather than `public/`: Next's file metadata convention emits the
+        `<link rel="icon">` tags automatically, with a content hash.
+      - then add both to the `icons` array in `src/app/manifest.ts`.
+
+      Ask alongside the L0 questions. Note the wordmark still reads SWIMWEAR, the
+      same problem that ruled out `velelswim.com`.
+- [x] **S — Web manifest.**
+      -> Done 2026-08-29. `manifest.ts` at `display: "minimal-ui"` rather than
+      `standalone`: this is a catalogue whose main call to action hands the visitor
+      to Instagram, and stripping browser chrome from a site that deliberately sends
+      people elsewhere makes leaving harder. Icons array is empty pending the item
+      above.
+- [x] **S — `sitemap.ts` and `robots.ts`.** Both locales, all 11 products, all nine
       info pages. Both emit static files under `output: "export"`.
 
       **Cloudflare already serves a `robots.txt` we did not write.** Found on the
@@ -249,17 +280,54 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       whether to keep the content-signals block, which is a reasonable thing to want
       on a catalogue of original photography. It is managed in the zone settings,
       not in the repo.
-- [ ] **S — Fix the Product JSON-LD.** Two problems. `availability` is
+      -> Done 2026-08-29. Both shipped, 44 sitemap URLs with hreflang alternates, both
+      failing closed on the indexing gate — verified in both states. Both need
+      `export const dynamic = "force-static"` or the export build fails outright.
+      **Not yet confirmed at the edge that ours beats Cloudflare's managed file.**
+- [x] **S — Fix the Product JSON-LD.** Two problems. `availability` is
       `https://schema.org/InStock`, which claims stock the business does not have and
       contradicts the rule in `AGENTS.md`. Use `https://schema.org/MadeToOrder`. And
       `offers.url` omits the locale segment, so it points at a URL that does not
       exist.
       → `src/app/[locale]/product/[slug]/page.tsx`
-- [ ] **S — Organization and WebSite JSON-LD** on the homepage, `BreadcrumbList` on
+- [x] **S — Organization and WebSite JSON-LD** on the homepage, `BreadcrumbList` on
       product pages.
+      -> Done 2026-08-29. In `src/lib/seo/jsonLd.ts`. Organization and WebSite are emitted
+      once on the homepage rather than site-wide. No `SearchAction`: there is no
+      site search, and advertising one would claim something the site cannot honour.
+- [ ] **S — `<html>` carries no `lang` attribute.** Confirmed in the build: both
+      `out/uk.html` and `out/en.html` open `<html class="..." data-scroll-behavior>`
+      with no language declared. This undercuts the rest of L3 — the site tells
+      crawlers which page is which language via canonicals and `hreflang`, while the
+      document itself declares none — and a screen reader gets no signal to switch
+      to a Ukrainian voice for Cyrillic copy.
+
+      Not a quick fix: the root `layout.tsx` owns the `<html>` element and sits
+      outside `[locale]`, so it cannot know the locale. Needs `<html>` moved into
+      `[locale]/layout.tsx`, with `/` and the 404 given their own. Do it
+      deliberately rather than squeezing it into another change.
+- [ ] **S — The deployed 404 is always Ukrainian.** A static export emits one
+      `out/404.html` and no per-locale variant, so Cloudflare's
+      `not_found_handling` serves the Ukrainian page for `/en/mistyped` too. An
+      English visitor arriving from a bad Instagram link gets a page she cannot
+      read. Worse, the `LocaleSwitcher` in the navbar on that page calls
+      `router.replace(pathname, { locale: "en" })`, which sends her to
+      `/en/<the stray path>` — a second 404.
+
+      `src/app/[locale]/not-found.tsx` only ever renders for a not-found triggered
+      during client-side navigation, never on a direct hit. Fixing this means
+      reading the locale from the path at runtime in the root 404.
+      → `src/app/not-found.tsx`, `src/components/layout/LocaleSwitcher.tsx`
+- [ ] **S — A visible breadcrumb on the PDP, or drop the `BreadcrumbList`.** The
+      markup shipped 2026-08-29 with nothing on the page corresponding to it.
+      Google's guidance is that structured data should represent visible content, so
+      an invisible trail is at best ignored. A breadcrumb is also genuinely useful on
+      a PDP reached cold from an Instagram link, where the visitor has no idea what
+      else the catalogue holds — which argues for adding the trail rather than
+      deleting the markup.
 - [ ] **S — `?ref=ig` on the Instagram bio and story links.** Referrer data from
       Instagram is unreliable, and in lite the bio link is the main entrance.
-- [ ] *Optional, **S**:* **a branded page for stray URLs.** With
+- [x] *Optional, **S**:* **a branded page for stray URLs.** With
       `not_found_handling = "404-page"` set in L1, an unmatched path serves
       `out/404.html`, which is Next's built-in "This page could not be found." in
       English on white — no navbar, no locale, none of the site. The designed 404

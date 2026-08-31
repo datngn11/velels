@@ -1,4 +1,9 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import {
+  organizationJsonLd,
+  webSiteJsonLd,
+  serialiseJsonLd,
+} from "@/lib/seo/jsonLd";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
@@ -14,6 +19,16 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const tMeta = await getTranslations({ locale, namespace: "meta" });
+  const siteName = tMeta("siteName");
+
+  // Both emitted only here: the brand and the site are described once, not on
+  // every page.
+  const jsonLd = [
+    organizationJsonLd(siteName),
+    webSiteJsonLd(locale, siteName),
+  ];
+
   return (
     <>
       <Navbar />
@@ -24,6 +39,14 @@ export default async function HomePage({ params }: Props) {
         <InstagramFeed />
       </main>
       <Footer />
+
+      {jsonLd.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serialiseJsonLd(schema) }}
+        />
+      ))}
     </>
   );
 }

@@ -20,6 +20,14 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/velelswim",
     instagramDm: "https://ig.me/m/velelswim",
   },
+  /**
+   * Share-preview image. Still the temporary Google host the design tool produced;
+   * replacing it is lite L3. Declared once so the swap is a one-line change.
+   * Replacement spec: exactly 1200x630, JPG or PNG (not WebP), under 500 KB, at
+   * /og/home.jpg.
+   */
+  ogImage:
+    "https://lh3.googleusercontent.com/aida-public/AB6AXuAp4XkLdYE2wwmWSlIqGIEEPxHQxxetZ80Dm7DwmKO9Rg4-3G-qLchhosxt-6ZJg_K2-tpUnpe3OGaUD8pf4XUruHJtOQAR-lD0DeJu3CmNyI9cfQcysHOcJR7r9gbogbZxsF-Gn-WE1WDNR40UrnAIB0VoNBKsaiNIpZB6ZZtfYdse_7d8Htmw4_01s3QQLVi-c0yZ_GlZPTQT4ei9uw0wLQwAhOW5rLgh5YBl4EtPqsxR3OsHsGyz8UhTqQGXpDy2mSm-hIidEK0",
 };
 
 /**

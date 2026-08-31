@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CatalogClient } from "@/components/catalog/CatalogClient";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo/openGraph";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -17,10 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "catalog" });
 
-  return {
-    title: `${t("title")} — VELÉLS`,
+  return pageMetadata({
+    locale,
+    path: "/catalog",
+    title: t("title"),
     description: t("metaDescription"),
-  };
+  });
 }
 
 export default async function CatalogPage({ params }: Props) {
