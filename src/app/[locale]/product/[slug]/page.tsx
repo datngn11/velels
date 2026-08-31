@@ -9,6 +9,7 @@ import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import { breadcrumbJsonLd, serialiseJsonLd } from "@/lib/seo/jsonLd";
+import { priceView } from "@/lib/utils/price";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -58,6 +59,8 @@ export default async function ProductPage({ params }: Props) {
   const productKey = product.slug;
   const productName = t(`${productKey}.name`);
 
+  const price = priceView(product);
+
   // JSON-LD structured data
   const jsonLd = {
     "@context": "https://schema.org",
@@ -75,7 +78,10 @@ export default async function ProductPage({ params }: Props) {
       "@type": "Offer",
       url: localeUrl(locale, `/product/${slug}`),
       priceCurrency: product.currency,
-      price: product.price.toString(),
+      // The price on the page, not the list price — otherwise a sale is advertised
+      // to visitors and hidden from Google, or the reverse.
+      price: price.current.toString(),
+      ...(price.validUntil ? { priceValidUntil: price.validUntil } : {}),
       // Nothing is stocked — every garment is sewn after the Order. InStock
       // claimed availability the business cannot back.
       availability: "https://schema.org/MadeToOrder",

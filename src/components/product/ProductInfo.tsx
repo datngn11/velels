@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import type { Product, Size, ProductColor } from "@/lib/data/products";
-import { formatPrice } from "@/lib/utils/formatPrice";
+import { Price } from "./Price";
 import { InstagramCheckout } from "./InstagramCheckout";
 import { SizeGuideModal } from "./SizeGuideModal";
 
@@ -41,9 +41,10 @@ export function ProductInfo({
           {tProduct(`${slug}.tagline`)}
         </p>
         {/* Price */}
-        <p className="text-body-lg text-secondary mt-3 font-medium">
-          {formatPrice(product.price)}
-        </p>
+        <Price
+          product={product}
+          className="text-body-lg text-secondary mt-3 font-medium block"
+        />
       </div>
 
       {/* Color selector */}

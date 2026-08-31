@@ -363,7 +363,7 @@ answer on its own.
       the document that is not strictly blocking, and I would ship it if there is any
       slack at all.
 
-- [ ] **M — Sale price. No longer conditional: a sale is running as of 2026-08-28.**
+- [x] **M — Sale price mechanism.** *A sale was running as of 2026-08-28 and has since ended, so no product carries sale data. The mechanism is built and idle.*
       `products.ts` carries a single `price` and there is no sale field anywhere, so
       the catalogue currently shows the pre-sale price with no indication a sale
       exists. `CONTEXT.md` already defines the term: a reduced price that belongs to
@@ -395,6 +395,37 @@ answer on its own.
       a Cloudflare Cron Trigger to rebuild daily. Do not evaluate it client-side —
       that trades a stale price for a hydration mismatch. Same shape as the
       `isNew` → `releasedAt` item above, and worth solving once for both.
+      -> Done 2026-08-31. `salePrice` and `saleEndsAt` on `Product`; one resolver,
+      `priceView()` in `src/lib/utils/price.ts`, so the page, the cards and the
+      structured data cannot disagree; a shared `<Price>` component using `<del>`
+      and `<ins>` with visually hidden labels, because strikethrough carries no
+      meaning to a screen reader. JSON-LD publishes the sale price and
+      `priceValidUntil`. Turning a sale on is two lines in `products.ts`.
+      Verified with temporary data before reverting it: an active sale renders both
+      prices and the reduced JSON-LD price; a lapsed `saleEndsAt` renders the regular
+      price only, with no sale markup and no `priceValidUntil`.
+      **Correction to part 3 above:** the Direct message carries no price at all —
+      it is product, colour, size and height. Whether it *should* name the price so
+      a Consultant replying after a sale ends knows which number she saw is a real
+      question, and still open.
+
+- [ ] **L — The catalogue page renders no product content.** Found 2026-08-31 while
+      testing the sale display on cards. `out/uk/catalog.html` contains no product
+      names, no prices and not one `₴` — `<main>` is empty. `CatalogClient` calls
+      `useSearchParams()` for the category filter, which cannot be prerendered under
+      `output: "export"`, so the entire grid is client-only.
+
+      This is worse than it sounds. The collection page is the main category landing
+      page, the one the sitemap and every Navbar link point at, and it is blank to a
+      crawler — which undoes much of L3, since the canonicals now point search
+      engines at an empty page. On Ukrainian mobile data nothing appears until the
+      JavaScript has downloaded and hydrated.
+
+      Two ways out: server-render the full grid and filter on the client, or move
+      category from a query parameter to a route segment (`/catalog/[category]`),
+      which prerenders per category but changes the URLs the Navbar uses. The first
+      is smaller; the second is better for search.
+      → `src/components/catalog/CatalogClient.tsx`
 
 ---
 
