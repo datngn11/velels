@@ -15,6 +15,15 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+/**
+ * Site-wide defaults. Two things here are inherited in ways that surprise people:
+ *
+ * - `title.template` appends " — VELÉLS", so pages must pass a bare title or the
+ *   suffix lands twice.
+ * - `alternates.canonical` is this locale's homepage. Any page that does not set
+ *   its own canonical therefore declares itself to be the homepage, which is what
+ *   the catalogue did until `pageMetadata()` was introduced.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -39,7 +48,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: "https://lh3.googleusercontent.com/aida-public/AB6AXuAp4XkLdYE2wwmWSlIqGIEEPxHQxxetZ80Dm7DwmKO9Rg4-3G-qLchhosxt-6ZJg_K2-tpUnpe3OGaUD8pf4XUruHJtOQAR-lD0DeJu3CmNyI9cfQcysHOcJR7r9gbogbZxsF-Gn-WE1WDNR40UrnAIB0VoNBKsaiNIpZB6ZZtfYdse_7d8Htmw4_01s3QQLVi-c0yZ_GlZPTQT4ei9uw0wLQwAhOW5rLgh5YBl4EtPqsxR3OsHsGyz8UhTqQGXpDy2mSm-hIidEK0",
+          url: siteConfig.ogImage,
           width: 1200,
           height: 630,
           alt: "VELÉLS — Premium Minimalist Swimwear",
@@ -60,6 +69,11 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * The locale gate. Rejects an unrecognised segment with `notFound()`, and is the
+ * only place a `NextIntlClientProvider` is mounted — which is why anything rendering
+ * `Navbar` or `Footer` from outside this tree has to supply its own.
+ */
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 

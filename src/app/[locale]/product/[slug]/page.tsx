@@ -6,7 +6,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ProductView } from "@/components/product/ProductView";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
-import { localeUrl, localeAlternates } from "@/lib/config";
+import { localeUrl, absoluteUrl } from "@/lib/config";
+import { pageMetadata } from "@/lib/seo/openGraph";
+import { breadcrumbJsonLd, serialiseJsonLd } from "@/lib/seo/jsonLd";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -17,49 +19,32 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
+/**
+ * Overrides the share image with the product's own first photo, and returns empty
+ * metadata for an unknown slug so the page can call `notFound()`.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) return {};
 
   const t = await getTranslations({ locale, namespace: "products" });
-  const tMeta = await getTranslations({ locale, namespace: "meta" });
   const productKey = product.slug;
   const productName = t(`${productKey}.name`);
   const tagline = t(`${productKey}.tagline`);
 
-  return {
-    title: `${productName} ${tMeta("productTitleSuffix")}`,
+  // No image width/height anywhere here: the shoot is 2:3 portrait and the 88
+  // product images span 18 distinct sizes, so no declared pair could be true for
+  // all of them. Crawlers read the real dimensions off the file. Declare them again
+  // once the landscape 1200x630 cards land (lite L3).
+  return pageMetadata({
+    locale,
+    path: `/product/${slug}`,
+    title: productName,
     description: tagline,
-    openGraph: {
-      title: `${productName} — VELÉLS`,
-      description: tagline,
-      url: localeUrl(locale, `/product/${slug}`),
-      siteName: "VELÉLS",
-      locale: locale === "uk" ? "uk_UA" : "en_US",
-      type: "website",
-      images: [
-        {
-          // No width/height: the shoot is 2:3 portrait and the 88 product images
-          // span 18 distinct sizes, so no declared pair could be true for all of
-          // them. Crawlers read the real dimensions off the file. Declare them
-          // again once the landscape 1200x630 cards land (lite L3).
-          url: product.images[0].src,
-          alt: `${productName} by VELÉLS`,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${productName} — VELÉLS`,
-      description: tagline,
-      images: [product.images[0].src],
-    },
-    alternates: {
-      canonical: localeUrl(locale, `/product/${slug}`),
-      languages: localeAlternates(`/product/${slug}`),
-    },
-  };
+    image: absoluteUrl(product.images[0].src),
+    imageAlt: `${productName} by VELÉLS`,
+  });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -79,7 +64,9 @@ export default async function ProductPage({ params }: Props) {
     "@type": "Product",
     name: productName,
     description: t(`${productKey}.tagline`),
-    image: product.images.map((img) => img.src),
+    // Absolute: a bare path in JSON-LD is not resolvable, so these images were
+    // invisible to Google despite being listed.
+    image: product.images.map((img) => absoluteUrl(img.src)),
     brand: {
       "@type": "Brand",
       name: "VELÉLS",
@@ -95,6 +82,15 @@ export default async function ProductPage({ params }: Props) {
     },
   };
 
+  const tCatalog = await getTranslations({ locale, namespace: "catalog" });
+  const tMeta = await getTranslations({ locale, namespace: "meta" });
+
+  const breadcrumbs = breadcrumbJsonLd(locale, [
+    { name: tMeta("siteName"), path: "" },
+    { name: tCatalog("title"), path: "/catalog" },
+    { name: productName, path: `/product/${slug}` },
+  ]);
+
   return (
     <>
       <Navbar />
@@ -106,7 +102,11 @@ export default async function ProductPage({ params }: Props) {
       {/* JSON-LD structured data for SEO */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serialiseJsonLd(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serialiseJsonLd(breadcrumbs) }}
       />
     </>
   );
