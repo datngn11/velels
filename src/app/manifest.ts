@@ -8,6 +8,13 @@ import { routing } from "@/i18n/routing";
  */
 export const dynamic = "force-static";
 
+/**
+ * What a phone reads when someone saves the site to their home screen: name,
+ * colours, start URL.
+ *
+ * A manifest sits outside the `[locale]` tree, so it can only describe one
+ * language — it uses the default locale rather than inventing a neutral string.
+ */
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
   // A manifest sits outside the [locale] tree, so it can only describe one
   // language. Use the default locale rather than inventing a neutral string.

@@ -39,6 +39,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: `${t("title")} — VELÉLS` };
 }
 
+/**
+ * Renders the styled 404. Supplies its own `NextIntlClientProvider` because
+ * `StatusPage` pulls in `Navbar` and `Footer`, which call `useTranslations`, and
+ * only `[locale]/layout.tsx` mounts a provider.
+ */
 export default async function RootNotFound() {
   const locale = routing.defaultLocale;
   setRequestLocale(locale);

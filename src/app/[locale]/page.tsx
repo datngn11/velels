@@ -15,6 +15,11 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+/**
+ * Also the one place Organization and WebSite structured data is emitted. Repeating
+ * it on every page would add bytes without adding information, and would risk
+ * describing the brand more than once.
+ */
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);

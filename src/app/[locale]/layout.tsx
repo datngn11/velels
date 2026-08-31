@@ -15,6 +15,15 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+/**
+ * Site-wide defaults. Two things here are inherited in ways that surprise people:
+ *
+ * - `title.template` appends " — VELÉLS", so pages must pass a bare title or the
+ *   suffix lands twice.
+ * - `alternates.canonical` is this locale's homepage. Any page that does not set
+ *   its own canonical therefore declares itself to be the homepage, which is what
+ *   the catalogue did until `pageMetadata()` was introduced.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -60,6 +69,11 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * The locale gate. Rejects an unrecognised segment with `notFound()`, and is the
+ * only place a `NextIntlClientProvider` is mounted — which is why anything rendering
+ * `Navbar` or `Footer` from outside this tree has to supply its own.
+ */
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 

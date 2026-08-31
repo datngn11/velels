@@ -28,6 +28,10 @@ export function generateStaticParams() {
   return INFO_SLUGS.map((slug) => ({ slug }));
 }
 
+/**
+ * Returns empty metadata for a slug outside `INFO_SLUGS`, letting the page itself
+ * call `notFound()` rather than describing a page that does not exist.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
 
@@ -46,6 +50,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+/**
+ * Reads the raw message object rather than using `useTranslations`, because each
+ * info page's body is an array of sections of varying shape — heading, body, list,
+ * bodyAfter — and the translation helpers return strings, not structures.
+ */
 export default async function InfoPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);

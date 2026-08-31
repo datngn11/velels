@@ -19,6 +19,10 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
+/**
+ * Overrides the share image with the product's own first photo, and returns empty
+ * metadata for an unknown slug so the page can call `notFound()`.
+ */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const product = getProductBySlug(slug);

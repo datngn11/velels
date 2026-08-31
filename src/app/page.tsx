@@ -48,6 +48,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/**
+ * Renders nothing on purpose. The value of this route is its metadata, above; the
+ * redirect is a client component so this one can stay a server component.
+ */
 export default function RootPage() {
   return <RootRedirect />;
 }
