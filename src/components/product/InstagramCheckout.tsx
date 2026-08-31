@@ -97,10 +97,6 @@ export function InstagramCheckout({
         </svg>
       </a>
 
-      <p className="text-body-sm text-secondary mt-3 text-center">
-        {t("responseTime")}
-      </p>
-
       <Toast
         message={t("copiedToClipboard")}
         visible={showToast}
