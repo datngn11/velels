@@ -3,46 +3,29 @@
 import { Suspense, useTransition } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { Link } from "@/i18n/navigation";
 import { products, ProductCategory } from "@/lib/data/products";
-import { Price } from "@/components/product/Price";
+import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type FilterTab = "all" | ProductCategory;
 
-const CatalogContent = () => {
+const VALID_FILTERS: FilterTab[] = ["all", "one-piece", "two-piece", "dresses"];
+
+interface CatalogGridProps {
+  activeFilter: FilterTab;
+  /** Absent while prerendering, where there is nothing to click yet. */
+  onFilter?: (filter: FilterTab) => void;
+  isPending?: boolean;
+}
+
+/**
+ * The collection page itself: heading, filter tabs, product grid.
+ *
+ * Deliberately knows nothing about the URL. That is what lets it render during
+ * prerender as well as after hydration — see the note on `CatalogClient`.
+ */
+function CatalogGrid({ activeFilter, onFilter, isPending }: CatalogGridProps) {
   const t = useTranslations("catalog");
-  const tProducts = useTranslations("products");
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathname = usePathname();
-  const [isPending, startTransition] = useTransition();
-
-  const setFilter = (filter: FilterTab) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (filter === "all") {
-      params.delete("category");
-    } else {
-      params.set("category", filter);
-    }
-    const query = params.toString();
-    startTransition(() => {
-      replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-    });
-  };
-
-  const validFilters: FilterTab[] = [
-    "all",
-    "one-piece",
-    "two-piece",
-    "dresses",
-  ];
-  const categoryParam = searchParams.get("category") as FilterTab | null;
-  const activeFilter: FilterTab =
-    categoryParam && validFilters.includes(categoryParam)
-      ? categoryParam
-      : "all";
 
   const filteredProducts =
     activeFilter === "all"
@@ -72,7 +55,7 @@ const CatalogContent = () => {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setFilter(tab.id)}
+                  onClick={onFilter ? () => onFilter(tab.id) : undefined}
                   className={`text-label-sm uppercase tracking-widest transition-all duration-300 cursor-pointer pb-1 ${
                     isActive
                       ? "text-primary font-semibold border-b border-primary"
@@ -95,7 +78,6 @@ const CatalogContent = () => {
           }`}
         >
           {filteredProducts.map((product, index) => {
-            const slug = product.slug;
             const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
             const delayClass = delays[index % 4] || "";
 
@@ -105,34 +87,10 @@ const CatalogContent = () => {
                 animation="reveal-fade-up"
                 delay={delayClass}
               >
-                <Link
-                  href={`/product/${product.slug}`}
-                  className="group flex flex-col gap-3 cursor-pointer"
-                >
-                  <div className="aspect-4-5 w-full bg-surface-container-low relative overflow-hidden hover-image-zoom">
-                    {product.isNew && (
-                      <span className="absolute top-3 left-3 text-[9px] md:text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-2.5 py-1 z-10 backdrop-blur-sm text-primary">
-                        New
-                      </span>
-                    )}
-                    <Image
-                      src={product.images[0].src}
-                      alt={product.images[0].alt}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
-                  </div>
-                  <div className="flex justify-between items-baseline px-1 gap-2">
-                    <h3 className="text-body-md text-primary tracking-wide font-medium">
-                      {tProducts(`${slug}.name`)}
-                    </h3>
-                    <Price
-                      product={product}
-                      className="text-body-md text-secondary whitespace-nowrap"
-                    />
-                  </div>
-                </Link>
+                <ProductCard
+                  product={product}
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                />
               </ScrollReveal>
             );
           })}
@@ -144,17 +102,53 @@ const CatalogContent = () => {
       )}
     </div>
   );
-};
+}
 
+/** Reads the category from the URL and keeps it there as the tabs change. */
+function CatalogContent() {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  const setFilter = (filter: FilterTab) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (filter === "all") {
+      params.delete("category");
+    } else {
+      params.set("category", filter);
+    }
+    const query = params.toString();
+    startTransition(() => {
+      replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    });
+  };
+
+  const categoryParam = searchParams.get("category") as FilterTab | null;
+  const activeFilter: FilterTab =
+    categoryParam && VALID_FILTERS.includes(categoryParam)
+      ? categoryParam
+      : "all";
+
+  return (
+    <CatalogGrid
+      activeFilter={activeFilter}
+      onFilter={setFilter}
+      isPending={isPending}
+    />
+  );
+}
+
+/**
+ * `useSearchParams()` cannot be prerendered under `output: "export"`, so React emits
+ * the Suspense fallback at build time and the real component only after hydration.
+ *
+ * The fallback must therefore be the full grid, not a placeholder — otherwise the
+ * collection page ships to crawlers with no products in it. Keep it that way.
+ */
 export function CatalogClient() {
   return (
-    <Suspense
-      fallback={
-        <div className="min-h-100 flex items-center justify-center text-secondary">
-          ...
-        </div>
-      }
-    >
+    <Suspense fallback={<CatalogGrid activeFilter="all" />}>
       <CatalogContent />
     </Suspense>
   );

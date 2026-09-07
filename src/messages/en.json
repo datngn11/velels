@@ -32,6 +32,7 @@
   "products": {
     "sectionTitle": "Bestsellers",
     "viewAll": "View All",
+    "newBadge": "New",
     "azure": {
       "name": "Azure",
       "colorName": "Black Matte",

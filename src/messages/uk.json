@@ -32,6 +32,7 @@
   "products": {
     "sectionTitle": "Бестселлери",
     "viewAll": "Переглянути все",
+    "newBadge": "Новинка",
     "azure": {
       "name": "Azure",
       "colorName": "Чорний матовий",
