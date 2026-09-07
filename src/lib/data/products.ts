@@ -30,6 +30,13 @@ export interface Product {
   colors: ProductColor[];
   images: ProductImage[];
   isNew?: boolean;
+  /**
+   * Reduced price while a sale is running, in the same currency as `price`.
+   * Belongs to the Model and applies to everyone — see Sale Price in CONTEXT.md.
+   * Ignored unless it is below `price`. A sale runs until this is removed; there is
+   * no end date, and `priceView()` explains why.
+   */
+  salePrice?: number;
 }
 
 export const products: Product[] = [

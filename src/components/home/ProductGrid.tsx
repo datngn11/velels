@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getProductBySlug, Product, ProductSlug } from "@/lib/data/products";
-import { formatPrice } from "@/lib/utils/formatPrice";
+import { Price } from "@/components/product/Price";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const BESTSELLER_SLUGS: ProductSlug[] = [
@@ -71,9 +71,10 @@ export function ProductGrid() {
                   <h3 className="text-body-md text-primary font-medium">
                     {t(`${slug}.name`)}
                   </h3>
-                  <span className="text-body-md text-secondary whitespace-nowrap">
-                    {formatPrice(product.price)}
-                  </span>
+                  <Price
+                    product={product}
+                    className="text-body-md text-secondary whitespace-nowrap"
+                  />
                 </div>
               </Link>
             </ScrollReveal>

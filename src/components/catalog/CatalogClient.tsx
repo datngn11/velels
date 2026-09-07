@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { products, ProductCategory } from "@/lib/data/products";
-import { formatPrice } from "@/lib/utils/formatPrice";
+import { Price } from "@/components/product/Price";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type FilterTab = "all" | ProductCategory;
@@ -127,9 +127,10 @@ const CatalogContent = () => {
                     <h3 className="text-body-md text-primary tracking-wide font-medium">
                       {tProducts(`${slug}.name`)}
                     </h3>
-                    <span className="text-body-md text-secondary whitespace-nowrap">
-                      {formatPrice(product.price)}
-                    </span>
+                    <Price
+                      product={product}
+                      className="text-body-md text-secondary whitespace-nowrap"
+                    />
                   </div>
                 </Link>
               </ScrollReveal>
