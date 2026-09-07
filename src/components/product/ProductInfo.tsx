@@ -6,6 +6,7 @@ import type { Product, Size, ProductColor } from "@/lib/data/products";
 import { Price } from "./Price";
 import { InstagramCheckout } from "./InstagramCheckout";
 import { SizeGuideModal } from "./SizeGuideModal";
+import { ProductAccordion } from "./ProductAccordion";
 
 interface ProductInfoProps {
   product: Product;
@@ -122,47 +123,35 @@ export function ProductInfo({
         selectedColor={selectedColor}
       />
 
-      {/* Details & Care accordions */}
-      <div className="mt-8 pt-8 border-t border-outline-variant/30 flex flex-col gap-4">
-        <details className="group cursor-pointer">
-          <summary className="flex justify-between items-center text-label-lg text-primary">
-            {t("details")}
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="group-open:rotate-180 transition-transform duration-300"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </summary>
-          <div className="pt-4 pb-2 pl-4 border-l border-outline-variant/30 mt-2 text-body-md text-secondary">
-            {tProduct(`${slug}.details`)}
-          </div>
-        </details>
+      {/* The three doubts a visitor has while deciding — when it arrives, what if
+          it does not fit, how soon does anyone reply. Visible rather than collapsed:
+          an accordion is where information goes to be ignored, and these are the
+          answers most likely to close the sale. */}
+      <ul className="mt-5 pt-5 border-t border-outline-variant/30 flex flex-col gap-2 text-body-sm text-secondary">
+        <li>{t("productionTime")}</li>
+        <li>{t("exchangeNote")}</li>
+        <li>{t("responseTime")}</li>
+      </ul>
 
-        <details className="group cursor-pointer">
-          <summary className="flex justify-between items-center text-label-lg text-primary">
-            {t("care")}
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="group-open:rotate-180 transition-transform duration-300"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </summary>
-          <div className="pt-4 pb-2 pl-4 border-l border-outline-variant/30 mt-2 text-body-md text-secondary">
-            {tProduct(`${slug}.care`)}
-          </div>
-        </details>
+      {/* Reference material, safe to collapse */}
+      <div className="mt-8 pt-8 border-t border-outline-variant/30 flex flex-col gap-4">
+        <ProductAccordion title={t("details")}>
+          {tProduct(`${slug}.details`)}
+        </ProductAccordion>
+
+        <ProductAccordion title={t("care")}>
+          {tProduct(`${slug}.care`)}
+        </ProductAccordion>
+
+        {/* Payment and delivery are one question to a customer — how does this
+            reach me and what do I pay when — so they are one row, not two. */}
+        <ProductAccordion title={t("paymentDelivery")}>
+          <ul className="flex flex-col gap-3">
+            {(t.raw("paymentDeliveryPoints") as string[]).map((point, index) => (
+              <li key={index}>{point}</li>
+            ))}
+          </ul>
+        </ProductAccordion>
       </div>
 
       {/* Size Guide Modal */}

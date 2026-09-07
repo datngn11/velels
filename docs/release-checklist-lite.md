@@ -354,14 +354,35 @@ answer on its own.
       The hardcoded `slug === "lendai"` check is already gone; `products.ts` carries
       `isNew?: boolean` and `CatalogClient.tsx` reads it. Only the manual flag remains.
       → `src/lib/data/products.ts`, `src/components/catalog/CatalogClient.tsx`
-- [ ] **S — Make the exchange promise loud**, on the product page rather than only in
+- [x] **S — Make the exchange promise loud**, on the product page rather than only in
       the footer. It is requested about once a month, costs almost nothing, and is
       the direct answer to "I cannot try it on". In lite it also has to work harder,
       because there is no form to capture a hesitant visitor.
-- [ ] **M — Objection accordions on the PDP:** production time, exchange, payment
+      -> Done 2026-08-31, as one of the visible lines under the call to action rather
+      than a section of its own.
+- [x] **M — Objection accordions on the PDP:** production time, exchange, payment
       terms. The copy already exists in `/info/*`. This is the highest-value item in
       the document that is not strictly blocking, and I would ship it if there is any
       slack at all.
+      -> Done 2026-08-31, **not as three accordions.** Five collapsed rows would have
+      meant nothing was emphasised, and the two answers most likely to close a sale
+      would have been the two nobody taps. Split by length instead:
+
+      *Visible under the CTA,* three quiet lines in `text-body-sm text-secondary` —
+      production time, the one-time size exchange, and the Direct answering hours.
+      These are the doubts a visitor has while deciding, so they are not behind a tap.
+
+      *Collapsed,* three rows: the existing Деталі and Догляд, plus one new
+      "Оплата і доставка". Payment and delivery are one question to a customer — how
+      does this reach me and what do I pay when — so they are one row, not two, and
+      the conditional COD detail is reference material read after deciding.
+
+      `ProductAccordion` was extracted rather than copying the chevron markup a third
+      time; it stays `<details>`/`<summary>`, which is keyboard operable with no
+      JavaScript. Note its `summary` still has no `:focus-visible` style — that is
+      L5, not a gap introduced here.
+      → `src/components/product/ProductInfo.tsx`,
+      `src/components/product/ProductAccordion.tsx`
 
 - [x] **M — Sale price mechanism.** *A sale was running as of 2026-08-28 and has since ended, so no product carries sale data. The mechanism is built and idle.*
       `products.ts` carries a single `price` and there is no sale field anywhere, so
