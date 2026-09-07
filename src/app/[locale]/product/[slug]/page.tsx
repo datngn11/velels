@@ -81,7 +81,6 @@ export default async function ProductPage({ params }: Props) {
       // The price on the page, not the list price — otherwise a sale is advertised
       // to visitors and hidden from Google, or the reverse.
       price: price.current.toString(),
-      ...(price.validUntil ? { priceValidUntil: price.validUntil } : {}),
       // Nothing is stocked — every garment is sewn after the Order. InStock
       // claimed availability the business cannot back.
       availability: "https://schema.org/MadeToOrder",

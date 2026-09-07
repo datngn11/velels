@@ -4,7 +4,7 @@ import { formatPrice } from "@/lib/utils/formatPrice";
 import { priceView } from "@/lib/utils/price";
 
 interface PriceProps {
-  product: Pick<Product, "price" | "salePrice" | "saleEndsAt">;
+  product: Pick<Product, "price" | "salePrice">;
   /** Typography for the price itself — the three call sites use different sizes. */
   className?: string;
 }

@@ -33,18 +33,10 @@ export interface Product {
   /**
    * Reduced price while a sale is running, in the same currency as `price`.
    * Belongs to the Model and applies to everyone — see Sale Price in CONTEXT.md.
-   * Ignored unless it is below `price`.
+   * Ignored unless it is below `price`. A sale runs until this is removed; there is
+   * no end date, and `priceView()` explains why.
    */
   salePrice?: number;
-  /**
-   * Last day the sale price applies, `YYYY-MM-DD`, inclusive. Omit for a sale with
-   * no announced end.
-   *
-   * Interpreted in the Kyiv calendar, and compared against the **build** date, so a
-   * sale ends on the next build rather than when the day passes. See `priceView()`
-   * in `src/lib/utils/price.ts` for why that is pinned rather than live.
-   */
-  saleEndsAt?: string;
 }
 
 export const products: Product[] = [
