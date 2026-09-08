@@ -25,7 +25,7 @@ export async function InstagramFeed() {
   const t = await getTranslations("instagram");
 
   return (
-    <section className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
+    <section className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl">
       {/* Header */}
       <ScrollReveal animation="reveal-fade-up">
         <div className="text-center mb-stack-md">

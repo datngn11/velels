@@ -51,7 +51,10 @@
   --spacing-stack-lg: 80px;
   --spacing-stack-md: 40px;
   --spacing-stack-sm: 24px;
-  --spacing-container-max: 1440px;
+  /* Generates `max-w-container`, which Navbar, Footer, the catalogue and the PDP
+     breadcrumb all rely on. Renaming this breaks all four silently — Tailwind emits
+     no CSS for an unknown utility rather than erroring. */
+  --spacing-container: 1440px;
 }
 
 /* ── Custom utilities ── */
