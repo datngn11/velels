@@ -8,7 +8,7 @@ export function EditorialFeature() {
 
   return (
     <section className="w-full bg-surface-container-low py-12 md:py-stack-xl">
-      <div className="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-stack-lg items-center">
+      <div className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-stack-lg items-center">
         {/* Left Column: Editorial Photo */}
         <ScrollReveal animation="reveal-fade-in" className="w-full">
           <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container hover-image-zoom">
