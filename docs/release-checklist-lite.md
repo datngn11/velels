@@ -369,7 +369,7 @@ answer on its own.
       → `src/components/product/SizeGuideModal.tsx`
 - [ ] **S — State the dress length.** 131 cm is fixed rather than height-scaled, so
       the same dress is floor-length on 157 cm and midi on 175 cm.
-- [ ] **S — Replace the `isNew` boolean with a `releasedAt` date**, so the badge
+- [x] **S — Replace the `isNew` boolean with a `releasedAt` date**, so the badge
       expires on its own instead of being a claim someone has to remember to remove.
       Five of eleven products carry `isNew: true` today and nothing will ever clear
       them.
@@ -385,6 +385,21 @@ answer on its own.
       build. That is weaker than it sounds here, though — unlike a sale, nobody is
       watching for the badge to lapse, so a date that self-clears on the next
       deploy is still better than a boolean nobody will ever revisit.
+      -> Done 2026-09-08. `releasedAt` replaces the boolean; `isNewRelease()` in
+      `src/lib/utils/newness.ts` derives the badge from a 60-day window. The dates
+      are not invented — git records all five flagged products entering
+      `products.ts` on 2026-08-12, so they expire on 2026-10-11 with no action.
+
+      Needed the build date pinned and inlined, because `ProductCard` renders inside
+      a client component on the catalogue and a live `new Date()` would disagree with
+      the prerendered HTML across a day boundary. Three lines, unlike the version
+      removed from the sale price: a 60-day window does not care about timezones, so
+      no `Intl` or calendar handling. The distinction is that a sale needs a human to
+      set the price correctly anyway, whereas nobody watches a badge — self-expiry is
+      the whole feature here.
+
+      Window boundaries unit-tested: day 27 and day 59 true, day 60 false, future
+      date false, missing `releasedAt` or missing build env false.
 - [x] **S — Make the exchange promise loud**, on the product page rather than only in
       the footer. It is requested about once a month, costs almost nothing, and is
       the direct answer to "I cannot try it on". In lite it also has to work harder,

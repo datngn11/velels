@@ -29,13 +29,9 @@ export interface Product {
   sizes: Size[];
   colors: ProductColor[];
   images: ProductImage[];
-  isNew?: boolean;
-  /**
-   * Reduced price while a sale is running, in the same currency as `price`.
-   * Belongs to the Model and applies to everyone — see Sale Price in CONTEXT.md.
-   * Ignored unless it is below `price`. A sale runs until this is removed; there is
-   * no end date, and `priceView()` explains why.
-   */
+  /** The day this Model entered the catalogue, `YYYY-MM-DD`. */
+  releasedAt?: string;
+  /** Reduced price while a sale runs. Ignored unless below `price`. */
   salePrice?: number;
 }
 
@@ -165,7 +161,7 @@ export const products: Product[] = [
     currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
-    isNew: true,
+    releasedAt: "2026-08-12",
     images: [
       {
         src: "/products/linear/black_1.webp",
@@ -202,7 +198,7 @@ export const products: Product[] = [
     currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
-    isNew: true,
+    releasedAt: "2026-08-12",
     images: [
       {
         src: "/products/azure/black_1.webp",
@@ -442,7 +438,7 @@ export const products: Product[] = [
     currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white"],
-    isNew: true,
+    releasedAt: "2026-08-12",
     images: [
       {
         src: "/products/glacier/white_1.webp",
@@ -540,7 +536,7 @@ export const products: Product[] = [
     currency: "UAH",
     sizes: ["XS", "S", "M", "L"],
     colors: ["black", "white"],
-    isNew: true,
+    releasedAt: "2026-08-12",
     images: [
       {
         src: "/products/lunar/black_1.webp",
@@ -592,7 +588,7 @@ export const products: Product[] = [
     currency: "UAH",
     sizes: ["XS", "S", "M", "L"],
     colors: ["black"],
-    isNew: true,
+    releasedAt: "2026-08-12",
     images: [
       {
         src: "/products/noblesse/black_1.webp",

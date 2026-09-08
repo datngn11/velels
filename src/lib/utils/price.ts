@@ -9,14 +9,8 @@ export interface PriceView {
   original: number | null;
 }
 
-/**
- * Resolves what a product actually costs. The page, the catalogue cards and the
- * structured data all read this, so they cannot show different numbers.
- *
- * No end date by design: a sale runs until `salePrice` is removed. A static export
- * has no server to expire one, so a date would need a rebuild to take effect — and
- * if someone has to act anyway, deleting the price is the same work.
- */
+/** The page, the cards and the structured data all read this, so they cannot show
+ *  different numbers. A sale runs until `salePrice` is removed. */
 export function priceView(
   product: Pick<Product, "price" | "salePrice">,
 ): PriceView {
