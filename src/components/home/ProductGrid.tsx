@@ -1,8 +1,7 @@
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getProductBySlug, Product, ProductSlug } from "@/lib/data/products";
-import { Price } from "@/components/product/Price";
+import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 const BESTSELLER_SLUGS: ProductSlug[] = [
@@ -39,7 +38,6 @@ export function ProductGrid() {
       {/* Product grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-x-gutter gap-y-stack-sm md:gap-y-stack-md">
         {bestsellerProducts.map((product, index) => {
-          const slug = product.slug;
           const delays = ["", "delay-100", "delay-200", "delay-300"] as const;
           const delayClass = delays[index] || "";
 
@@ -49,34 +47,11 @@ export function ProductGrid() {
               animation="reveal-fade-up"
               delay={delayClass}
             >
-              <Link
-                href={`/product/${product.slug}`}
-                className={`group block ${index === 1 || index === 3 ? "md:mt-12" : ""}`}
-              >
-                <div className="w-full aspect-4-5 bg-surface-container-low mb-4 relative hover-image-zoom">
-                  {product.isNew && (
-                    <span className="absolute top-4 left-4 text-[10px] uppercase tracking-widest font-medium bg-surface-container-lowest/80 px-3 py-1.5 z-10 backdrop-blur-sm text-primary">
-                      New
-                    </span>
-                  )}
-                  <Image
-                    src={product.images[0].src}
-                    alt={product.images[0].alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                  />
-                </div>
-                <div className="flex justify-between items-baseline px-1 gap-2">
-                  <h3 className="text-body-md text-primary font-medium">
-                    {t(`${slug}.name`)}
-                  </h3>
-                  <Price
-                    product={product}
-                    className="text-body-md text-secondary whitespace-nowrap"
-                  />
-                </div>
-              </Link>
+              <ProductCard
+                product={product}
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className={index === 1 || index === 3 ? "md:mt-12" : ""}
+              />
             </ScrollReveal>
           );
         })}
