@@ -44,10 +44,16 @@ Ordering is dependency-first. L1 unblocks most of L3.
       stays available to anyone. Still to register, see L1. The site URL comes from
       `NEXT_PUBLIC_SITE_URL`, so a later change is one line.
 
-- [ ] **S — Owner: the sale.** A sale is running as of 2026-08-28 and the site knows
-      nothing about it. Which Models, at what price, and when does it end? Needed
-      before the L4 sale item can be built. Ask in the same message as the ФОП
-      details above — each round trip costs days.
+- [ ] **S — Owner: is another sale coming, and the missing product facts.** The
+      2026-08-28 sale has ended and the mechanism is built and idle (L4), so this is
+      no longer blocking — but three product facts still are:
+      - which Models go on sale next, at what price
+      - the **height ranges per size**, for the size-guide column the direct
+        competitor has and this site does not
+      - **fabric composition** per product, e.g. "nylon 80%, spandex 20%"
+
+      Plus the ФОП details and the size-chart gaps above. Five things, one message —
+      each round trip costs days, and this is the longest pole in the plan.
 - [ ] **S — Owner: the dress size chart.** Bust runs 82–84, 86–88, 90–92, 94–98, so
       85, 89 and 93 cm fit no size. The swimwear chart is fine — it overlaps at the
       boundaries rather than gapping. Closing the gap is a manufacturing decision,
@@ -351,9 +357,20 @@ answer on its own.
       the same dress is floor-length on 157 cm and midi on 175 cm.
 - [ ] **S — Replace the `isNew` boolean with a `releasedAt` date**, so the badge
       expires on its own instead of being a claim someone has to remember to remove.
-      The hardcoded `slug === "lendai"` check is already gone; `products.ts` carries
-      `isNew?: boolean` and `CatalogClient.tsx` reads it. Only the manual flag remains.
-      → `src/lib/data/products.ts`, `src/components/catalog/CatalogClient.tsx`
+      Five of eleven products carry `isNew: true` today and nothing will ever clear
+      them.
+      → `src/lib/data/products.ts`
+
+      **Partly addressed 2026-09-08.** The badge itself is fixed: it now has one
+      definition in `ProductCard`, is translated (it rendered the English word "New"
+      on the Ukrainian site), and uses `text-label-xs` rather than bracket values.
+      What remains is only the data question — the flag is still manual.
+
+      Note the same caveat the sale price ran into: a static export cannot expire
+      anything by itself, so a `releasedAt` window only takes effect on the next
+      build. That is weaker than it sounds here, though — unlike a sale, nobody is
+      watching for the badge to lapse, so a date that self-clears on the next
+      deploy is still better than a boolean nobody will ever revisit.
 - [x] **S — Make the exchange promise loud**, on the product page rather than only in
       the footer. It is requested about once a month, costs almost nothing, and is
       the direct answer to "I cannot try it on". In lite it also has to work harder,
@@ -430,7 +447,7 @@ answer on its own.
       a Consultant replying after a sale ends knows which number she saw is a real
       question, and still open.
 
-- [ ] **L — The catalogue page renders no product content.** Found 2026-08-31 while
+- [x] **L — The catalogue page renders no product content.** Found 2026-08-31 while
       testing the sale display on cards. `out/uk/catalog.html` contains no product
       names, no prices and not one `₴` — `<main>` is empty. `CatalogClient` calls
       `useSearchParams()` for the category filter, which cannot be prerendered under
@@ -447,6 +464,13 @@ answer on its own.
       which prerenders per category but changes the URLs the Navbar uses. The first
       is smaller; the second is better for search.
       → `src/components/catalog/CatalogClient.tsx`
+      -> Done 2026-09-08, the first way. `CatalogGrid` was split out so it knows
+      nothing about the URL, and the Suspense fallback is now that grid unfiltered
+      rather than a placeholder. Prerender emits all eleven products; hydration
+      swaps in the same grid narrowed by the query parameter. URLs unchanged, so the
+      `?category=` links in the Navbar still work, and a visitor without JavaScript
+      sees the whole collection. Verified: `<main>` went from the three characters
+      "..." to 11 names, 11 prices and 11 links in both locales.
 
 ---
 
@@ -559,8 +583,10 @@ Do all of it before flipping indexing on.
       debugger.
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
       dropdown.
-- [ ] **S — Confirm the locale files are still key-identical.** 150 leaf keys across
-      12 namespaces, verified 2026-08-28 (the "231" in earlier drafts was wrong). Several items above touch `uk.json` and `en.json`, and a key added
+- [ ] **S — Confirm the locale files are still key-identical.** 191 keys including
+      intermediate objects, 159 of them leaves, across 12 namespaces — verified
+      2026-09-08. The number has grown with every copy addition, so re-count rather
+      than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 - [ ] **S — Flip indexing on**, submit the sitemap in Search Console, verify the
       property.

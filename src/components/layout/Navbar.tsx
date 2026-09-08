@@ -2,30 +2,22 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import Image from "next/image";
+
+// The NavigationMenu item value, shared by the Item and the focus handler.
+const CATALOGUE_MENU = "catalogue";
 
 export function Navbar() {
   const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
+  const [navMenuValue, setNavMenuValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalogueOpen, setCatalogueOpen] = useState(true);
-  const [desktopDropdownOpen, setDesktopDropdownOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setDesktopDropdownOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setDesktopDropdownOpen(false);
-    }, 150);
-  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -46,50 +38,64 @@ export function Navbar() {
         <div className="flex justify-between items-center px-margin-mobile md:px-margin-desktop h-full w-full max-w-container mx-auto">
           {/* Left: Nav links (desktop only) */}
           <div className="hidden md:flex items-center gap-8 flex-1">
-            {/* Catalogue Dropdown Trigger & Panel */}
-            <div
-              className="relative"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Link
-                href="/catalog"
-                className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim py-2"
-              >
-                {t("catalogue")}
-              </Link>
+            {/*
+              Keep this a Radix primitive: it handles hover, Escape and
+              click-outside, and unmounts the closed panel. A hover panel hidden
+              with opacity leaves its links in the tab order, so keyboard users
+              land on invisible content.
 
-              {/* Desktop Flyout Dropdown */}
-              <div
-                className={`absolute top-full left-0 w-64 bg-surface-container-lowest/95 backdrop-blur-xl border border-outline-variant/30 shadow-xl p-6 flex flex-col gap-4 transition-all duration-300 origin-top-left ${
-                  desktopDropdownOpen
-                    ? "opacity-100 scale-100 pointer-events-auto"
-                    : "opacity-0 scale-95 pointer-events-none"
-                }`}
-              >
-                <Link
-                  href="/catalog?category=one-piece"
-                  onClick={() => setDesktopDropdownOpen(false)}
-                  className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
-                >
-                  {t("onePiece")}
-                </Link>
-                <Link
-                  href="/catalog?category=two-piece"
-                  onClick={() => setDesktopDropdownOpen(false)}
-                  className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
-                >
-                  {t("twoPiece")}
-                </Link>
-                <Link
-                  href="/catalog?category=dresses"
-                  onClick={() => setDesktopDropdownOpen(false)}
-                  className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
-                >
-                  {t("dresses")}
-                </Link>
-              </div>
-            </div>
+              `asChild` keeps the trigger an anchor, so clicking "Каталог" still
+              navigates to /catalog. Radix opens the panel on hover and on click,
+              but a click on an anchor navigates instead — so the menu is opened
+              from `onFocus` as well, which is what AGENTS.md requires of anything
+              that opens on hover.
+            */}
+            <NavigationMenu.Root
+              value={navMenuValue}
+              onValueChange={setNavMenuValue}
+              delayDuration={0}
+              className="relative"
+            >
+              <NavigationMenu.List className="flex items-center gap-8 list-none m-0 p-0">
+                <NavigationMenu.Item value={CATALOGUE_MENU}>
+                  <NavigationMenu.Trigger asChild>
+                    <Link
+                      href="/catalog"
+                      onFocus={() => setNavMenuValue(CATALOGUE_MENU)}
+                      className="text-nav-link text-primary transition-colors duration-300 hover-underline-anim py-2"
+                    >
+                      {t("catalogue")}
+                    </Link>
+                  </NavigationMenu.Trigger>
+
+                  <NavigationMenu.Content className="absolute top-full left-0 w-64 bg-surface-container-lowest/95 backdrop-blur-xl border border-outline-variant/30 shadow-xl p-6 flex flex-col gap-4">
+                    {[
+                      {
+                        href: "/catalog?category=one-piece",
+                        label: t("onePiece"),
+                      },
+                      {
+                        href: "/catalog?category=two-piece",
+                        label: t("twoPiece"),
+                      },
+                      {
+                        href: "/catalog?category=dresses",
+                        label: t("dresses"),
+                      },
+                    ].map((item) => (
+                      <NavigationMenu.Link key={item.href} asChild>
+                        <Link
+                          href={item.href}
+                          className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
+                        >
+                          {item.label}
+                        </Link>
+                      </NavigationMenu.Link>
+                    ))}
+                  </NavigationMenu.Content>
+                </NavigationMenu.Item>
+              </NavigationMenu.List>
+            </NavigationMenu.Root>
           </div>
 
           {/* Mobile: Hamburger Button */}
