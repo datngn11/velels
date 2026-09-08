@@ -108,6 +108,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Focus visibility ── */
+
+/*
+ * One rule covers every control on the site: 15 buttons, 23 links and 2 summaries,
+ * none of which had a focus indicator before.
+ *
+ * `:focus-visible` rather than `:focus`, so a mouse click never draws a ring — only
+ * keyboard and other non-pointer navigation does.
+ *
+ * Two-tone on purpose. The offset puts the black ring outside the element, and the
+ * white halo sits outside that, so it reads whether the control is a black CTA, a
+ * pale surface, or a link sitting over product photography. A single black ring
+ * disappears on the first of those, and a single white one on the last.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  /* Spread 6px so the white sits on both sides of the black ring: white 0-2px,
+     black 2-4px, white 4-6px. A 4px spread would be entirely covered by the
+     outline and leave nothing to separate it from a dark background. */
+  box-shadow: 0 0 0 6px var(--color-surface);
+}
+
+/* Radix focuses the dialog container itself for screen readers; that is not an
+   interactive control and should not draw a ring. */
+[role="dialog"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 /* ── Modern UX & Animation Utilities ── */
 
 /* Smooth, staggered scroll reveals */
