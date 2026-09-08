@@ -324,13 +324,21 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       during client-side navigation, never on a direct hit. Fixing this means
       reading the locale from the path at runtime in the root 404.
       → `src/app/not-found.tsx`, `src/components/layout/LocaleSwitcher.tsx`
-- [ ] **S — A visible breadcrumb on the PDP, or drop the `BreadcrumbList`.** The
+- [x] **S — A visible breadcrumb on the PDP, or drop the `BreadcrumbList`.** The
       markup shipped 2026-08-29 with nothing on the page corresponding to it.
       Google's guidance is that structured data should represent visible content, so
       an invisible trail is at best ignored. A breadcrumb is also genuinely useful on
       a PDP reached cold from an Instagram link, where the visitor has no idea what
       else the catalogue holds — which argues for adding the trail rather than
       deleting the markup.
+      -> Done 2026-09-08. Added the trail. One crumb array feeds both the visible
+      `<nav>` and `breadcrumbJsonLd()`, so the two cannot drift apart again — that
+      was the actual point, not the markup. Radix has no breadcrumb primitive and
+      does not need one: there is no state or focus management here, only semantics
+      — `nav` landmark with an accessible name, an `<ol>` because order is
+      meaningful, `aria-hidden` separators, and `aria-current="page"` on the last
+      crumb.
+      → `src/components/layout/Breadcrumbs.tsx`
 - [ ] **S — `?ref=ig` on the Instagram bio and story links.** Referrer data from
       Instagram is unreliable, and in lite the bio link is the main entrance.
 - [x] *Optional, **S**:* **a branded page for stray URLs.** With
@@ -476,15 +484,38 @@ answer on its own.
 
 ## L5 — Accessibility and weight
 
-- [ ] **S — `:focus-visible` styles.** There are zero occurrences in `globals.css`,
+- [x] **S — `:focus-visible` styles.** There are zero occurrences in `globals.css`,
       on a site built entirely from custom buttons. Every interactive control on the
       site is currently invisible to a keyboard user.
-- [ ] **M — Keyboard-accessible catalogue dropdown.** `Navbar` opens it on
+      -> Done 2026-09-08. One rule in `globals.css` covering all 40 controls rather
+      than classes on each. Two-tone by necessity: the offset puts a black ring 2px
+      out and a 6px box-shadow spread puts white on both sides, so it reads on the
+      black CTA, on pale surfaces and over product photography. The spread must
+      exceed offset plus width or the outline hides the halo. Radix's dialog
+      container gets an override, since it is focused for screen readers but is not
+      a control.
+- [x] **M — Keyboard-accessible catalogue dropdown.** `Navbar` opens it on
       `onMouseEnter` / `onMouseLeave` only, so three category links are unreachable
       without a mouse on a site whose only job is browsing categories. Use a Radix
       primitive rather than adding focus handlers to the hover panel. The mobile
       drawer is already fine.
       → `src/components/layout/Navbar.tsx`
+      -> Done 2026-09-08 with `@radix-ui/react-navigation-menu`. **The worse half was
+      undocumented:** the closed panel was hidden with `opacity` and
+      `pointer-events`, neither of which removes an element from the tab order, so a
+      keyboard user tabbed into three invisible links. Radix unmounts the closed
+      panel, so there is nothing left to focus.
+
+      `asChild` keeps the trigger an anchor, so clicking "Каталог" still navigates to
+      `/catalog`. That alone was not enough — Radix opens on hover and on click, a
+      click on an anchor navigates instead of opening, and ArrowDown only moves focus
+      into an already-open panel. So `Root` is controlled and the panel opens from the
+      link's `onFocus`, which is what the accessibility section above requires of
+      anything that opens on hover.
+
+      **Still unverified in a browser:** tab to the trigger, confirm the panel opens
+      and the three categories are reachable, Escape closes. Markup was checked; the
+      interaction was not.
 - [ ] **S — One `<picture>` for the hero instead of two `<Image>` elements.** The
       `hidden md:block` / `block md:hidden` pair downloads both images on every
       device and emits two competing `<link rel="preload">` tags for two

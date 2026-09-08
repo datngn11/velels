@@ -9,6 +9,7 @@ import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import { breadcrumbJsonLd, serialiseJsonLd } from "@/lib/seo/jsonLd";
+import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { priceView } from "@/lib/utils/price";
 
 type Props = {
@@ -89,17 +90,25 @@ export default async function ProductPage({ params }: Props) {
 
   const tCatalog = await getTranslations({ locale, namespace: "catalog" });
   const tMeta = await getTranslations({ locale, namespace: "meta" });
+  const tDetail = await getTranslations({ locale, namespace: "productDetail" });
 
-  const breadcrumbs = breadcrumbJsonLd(locale, [
+  // One array feeds both the visible trail and the structured data, so they cannot
+  // drift apart — Google expects the markup to reflect what a visitor can see.
+  const crumbs: Crumb[] = [
     { name: tMeta("siteName"), path: "" },
     { name: tCatalog("title"), path: "/catalog" },
     { name: productName, path: `/product/${slug}` },
-  ]);
+  ];
+
+  const breadcrumbs = breadcrumbJsonLd(locale, crumbs);
 
   return (
     <>
       <Navbar />
-      <main className="mt-[96px] flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-stack-md md:py-stack-lg flex flex-col md:flex-row gap-gutter md:gap-margin-desktop">
+      <div className="mt-20 w-full max-w-container mx-auto px-margin-mobile md:px-margin-desktop">
+        <Breadcrumbs items={crumbs} label={tDetail("breadcrumbLabel")} />
+      </div>
+      <main className="flex-grow w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop pt-stack-sm pb-stack-md md:pb-stack-lg flex flex-col md:flex-row gap-gutter md:gap-margin-desktop">
         <ProductView product={product} />
       </main>
       <Footer />
