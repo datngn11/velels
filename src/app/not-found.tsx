@@ -6,31 +6,11 @@ import { routing } from "@/i18n/routing";
 import { StatusPage } from "@/components/layout/StatusPage";
 
 /**
- * The 404 for paths that never matched a locale — this is what `output: "export"`
- * writes to `out/404.html`, and therefore what Cloudflare serves for every stray
- * URL under `not_found_handling: "404-page"`. Without it the export emits Next's
- * unstyled built-in "This page could not be found." instead.
- *
- * **This is the only 404 the deployed site has.** A static export emits one
- * `out/404.html` and no per-locale variant, so Cloudflare serves this file for
- * `/en/mistyped` as well as `/mistyped` — meaning an English visitor arriving from
- * a bad link gets a Ukrainian page. `[locale]/not-found.tsx` only ever renders for
- * a not-found triggered during client-side navigation, never on a direct hit.
- * Fixing that properly needs the locale read from the path at runtime; it is
- * tracked in lite L3.
- *
- * Two things this file has to do that the locale version gets for free:
- *
- * - `setRequestLocale`, or `getTranslations` falls back to `headers()` and a static
- *   export cannot render it at all.
- * - its own `NextIntlClientProvider`. Only `[locale]/layout.tsx` mounts one, and
- *   `StatusPage` pulls in `Navbar` and `Footer`, which are client components calling
- *   `useTranslations`. Without a provider here the page throws at prerender.
+ * Becomes `out/404.html`, the only 404 the deployed site has — Cloudflare serves it
+ * for `/en/mistyped` too, so it is always default-locale. Tracked in lite L3.
  */
-/**
- * Without this the emitted `out/404.html` has no `<title>` at all and the browser
- * tab shows the raw URL. `noindex` is already inherited from the root layout.
- */
+
+/** Without this `out/404.html` has no `<title>` and the tab shows the raw URL. */
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations({
     locale: routing.defaultLocale,
@@ -40,9 +20,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Renders the styled 404. Supplies its own `NextIntlClientProvider` because
- * `StatusPage` pulls in `Navbar` and `Footer`, which call `useTranslations`, and
- * only `[locale]/layout.tsx` mounts a provider.
+ * Needs `setRequestLocale` (or `getTranslations` reaches for `headers()`, which a
+ * static export cannot do) and its own provider, since `StatusPage` pulls in
+ * `Navbar`/`Footer` and only `[locale]/layout.tsx` mounts one.
  */
 export default async function RootNotFound() {
   const locale = routing.defaultLocale;

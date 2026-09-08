@@ -5,16 +5,8 @@ import { useRouter } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 /**
- * Sends a visitor landing on `/` to the default locale.
- *
- * Split out of `src/app/page.tsx` so that page can stay a server component and
- * export metadata. `/` is the address in the Instagram bio, so it is the single
- * most-shared URL on the site — and a client component cannot carry the OG tags a
- * link preview needs.
- *
- * A static export has no server, so the redirect itself has to happen in the
- * browser. Crawlers never run it; they read the metadata and follow the canonical
- * instead. Replacing this with a real edge redirect is the optional L1 item.
+ * Sends `/` to the default locale. Kept separate so `src/app/page.tsx` can stay a
+ * server component and carry the OG tags — `/` is the Instagram bio link.
  */
 export function RootRedirect() {
   const router = useRouter();

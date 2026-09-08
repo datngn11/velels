@@ -2,13 +2,9 @@ import { siteConfig, localeUrl, absoluteUrl } from "@/lib/config";
 import { routing } from "@/i18n/routing";
 
 /**
- * Builders for the structured data the site publishes.
- *
- * Two rules apply to everything here. Every `url` goes through `localeUrl()`,
- * because routes are locale-prefixed and an unprefixed URL is a 404. And nothing
- * claims a capability the site does not have — no `SearchAction`, because there is
- * no site search, and no `availability` beyond `MadeToOrder`, because nothing is
- * stocked.
+ * Structured data builders. Two rules: every `url` goes through `localeUrl()`, and
+ * nothing claims a capability the site lacks — no `SearchAction`, no availability
+ * beyond `MadeToOrder`.
  */
 
 const BCP47: Record<string, string> = { uk: "uk-UA", en: "en-US" };
@@ -18,10 +14,7 @@ export function languageTag(locale: string): string {
   return BCP47[locale] ?? locale;
 }
 
-/**
- * The brand as an entity. Emitted once, on the homepage — repeating it on every
- * page adds bytes without adding information.
- */
+/** The brand as an entity. Emitted once, on the homepage. */
 export function organizationJsonLd(name: string) {
   return {
     "@context": "https://schema.org",
@@ -36,10 +29,7 @@ export function organizationJsonLd(name: string) {
   };
 }
 
-/**
- * The site as a thing distinct from the brand. No `potentialAction`: a
- * `SearchAction` here would advertise a search endpoint that does not exist.
- */
+/** The site as distinct from the brand. No `SearchAction` — there is no search. */
 export function webSiteJsonLd(locale: string, name: string) {
   return {
     "@context": "https://schema.org",
@@ -55,12 +45,8 @@ export function webSiteJsonLd(locale: string, name: string) {
 }
 
 /**
- * Serialises a schema for embedding in a <script> tag.
- *
- * `JSON.stringify` does not escape `<`, so a string containing `</script` would
- * close the element early and dump the rest as markup. Every value here comes from
- * `src/messages/*.json` or `products.ts`, both owner-editable, so this is a real
- * path rather than a theoretical one.
+ * Use instead of `JSON.stringify` for anything going into a `<script>`: it does not
+ * escape `<`, and these values come from owner-editable message files.
  */
 export function serialiseJsonLd(schema: unknown): string {
   return JSON.stringify(schema).replace(/</g, "\\u003c");

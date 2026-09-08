@@ -5,16 +5,9 @@ import { siteConfig, localeUrl, localeAlternates } from "@/lib/config";
 import { RootRedirect } from "@/components/layout/RootRedirect";
 
 /**
- * `/` — the bare domain, and therefore the Instagram bio link and the most-shared
- * URL on the site.
- *
- * It renders nothing and bounces to `/uk`, but it still has to carry full metadata.
- * Link-preview crawlers do not run JavaScript, so they never see the redirect: they
- * read this page's tags and stop. Without them, pasting velels.com into Telegram or
- * a DM produces an empty card — no title, no image — which is what it did before.
- *
- * The canonical points at the default locale so search engines credit the real
- * homepage rather than indexing this stub.
+ * `/` is the Instagram bio link, so it needs full metadata even though it only
+ * redirects: preview crawlers do not run JavaScript and never follow it. Canonical
+ * points at the default locale so the real homepage gets the credit.
  */
 export async function generateMetadata(): Promise<Metadata> {
   const locale = routing.defaultLocale;
@@ -48,10 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/**
- * Renders nothing on purpose. The value of this route is its metadata, above; the
- * redirect is a client component so this one can stay a server component.
- */
+/** Renders nothing on purpose — the value of this route is its metadata, above. */
 export default function RootPage() {
   return <RootRedirect />;
 }
