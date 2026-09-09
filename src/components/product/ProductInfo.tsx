@@ -94,6 +94,8 @@ export function ProductInfo({
           <button
             onClick={handleSizeGuideOpen}
             className="text-label-md text-secondary underline hover:text-primary transition-colors"
+            data-umami-event="size_guide_open"
+            data-umami-event-product={slug}
           >
             {t("sizingGuide")}
           </button>
@@ -119,6 +121,7 @@ export function ProductInfo({
       {/* CTA */}
       <InstagramCheckout
         productName={productName}
+        productSlug={slug}
         selectedSize={selectedSize}
         selectedColor={selectedColor}
       />
