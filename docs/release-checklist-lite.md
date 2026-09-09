@@ -137,6 +137,13 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       `route` + `zone_name` form in the docs' example — that one routes a script at
       a URL pattern, which is not what a whole-site static deploy wants. The `www`
       redirect rule stays a dashboard job either way.
+
+      **If a second Worker is ever added here, its environment needs
+      `"routes": []`.** `routes` is inheritable, so a named environment without that
+      line inherits this custom domain and its deploy reassigns `velels.com` away
+      from production. Wrangler warns — *"Deploying this environment will reassign
+      these custom domains away from the top-level Worker"* — in output nobody reads
+      twice. Confirmed with a dry-run on 2026-09-09.
 - [ ] **S — Keep preview and `workers.dev` URLs out of the index.** The existing
       `NEXT_PUBLIC_ALLOW_INDEXING` gate already fails closed. Set it only on the
       production build.
@@ -852,6 +859,7 @@ still exists. Nothing here is abandoned.
 | Email signup, promo codes | After the first weeks of real traffic |
 | Stale request reminders, workload counter, request statuses | These describe managing Order Requests. There are none yet |
 | Model height and size worn on every image | Needs a photo session decision |
+| A second Worker for owner review links | When `workers_dev: false` removes the review URL there is nowhere to send the owner. A named environment plus its own deploy script; give it `"routes": []` or its deploy takes the live domain |
 
 ## Still not doing
 
