@@ -8,6 +8,8 @@ import { siteConfig } from "@/lib/config";
 
 interface InstagramCheckoutProps {
   productName: string;
+  /** Slug, not the translated name — the event has to read the same in both locales. */
+  productSlug: string;
   /** `null` until she picks one — the message then carries a blank, not a guess. */
   selectedSize: Size | null;
   selectedColor?: ProductColor;
@@ -28,6 +30,7 @@ const SIZE_PLACEHOLDER = "___";
  */
 export function InstagramCheckout({
   productName,
+  productSlug,
   selectedSize,
   selectedColor = "black",
 }: InstagramCheckoutProps) {
@@ -82,6 +85,9 @@ export function InstagramCheckout({
         onClick={copyMessage}
         className="w-full bg-primary text-on-primary text-label-md py-4 hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-2"
         id="order-via-instagram-btn"
+        data-umami-event="ig_dm_click"
+        data-umami-event-product={productSlug}
+        data-umami-event-size={selectedSize ?? "none"}
       >
         {t("orderViaInstagram")}
         <svg

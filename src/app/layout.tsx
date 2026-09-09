@@ -32,6 +32,15 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+// Declared here rather than in `[locale]/layout.tsx` so that `/` and the 404 page
+// are counted too. Absent id (local, previews) renders nothing.
+//
+// A plain tag, not `next/script`: its default `afterInteractive` injects the element
+// client-side after hydration, so a visitor who leaves before hydration is uncounted.
+// `async`, not `defer` — React only supports moving scripts that are async, and
+// `defer` is documented as incompatible with streaming SSR.
+const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
@@ -40,6 +49,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
+        {umamiWebsiteId && (
+          <script
+            async
+            src="https://cloud.umami.is/script.js"
+            data-website-id={umamiWebsiteId}
+            data-performance="true"
+          />
+        )}
         <SmoothScrollHandler />
         <div className="scroll-progress-bar" />
         {children}

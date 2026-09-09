@@ -156,8 +156,12 @@ landscape share cards in L3 need their transformation URL written by hand.
 
 ## Step 7 — Analytics
 
-Cloudflare Web Analytics, still available on all plans and free. Privacy-first and
-cookieless, so no consent banner. One snippet.
+**Not Cloudflare Web Analytics.** It is free and already here, but it logs no query
+strings and supports no custom events, so it cannot see the `?ref=` marker or the
+Direct button — the only two things worth measuring at launch. Umami Cloud's free
+tier does both. The snippet, the website id and the reasoning are in L7 of
+[`release-checklist-lite.md`](./release-checklist-lite.md); nothing about it needs a
+Cloudflare setting.
 
 ---
 

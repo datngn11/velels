@@ -345,8 +345,16 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `max-w-[1440px]` values into it. **Tailwind emits nothing for an unknown
       utility rather than erroring, so this class of bug is invisible until someone
       measures.**
-- [ ] **S — `?ref=ig` on the Instagram bio and story links.** Referrer data from
-      Instagram is unreliable, and in lite the bio link is the main entrance.
+- [ ] **S — Distinguish the Instagram entry points with `?ref=`.** Referrer data
+      from Instagram is unreliable and the bio link is the main entrance, so the entry
+      point has to be marked in the URL: `?ref=bio` on the bio link, `?ref=story` on
+      story stickers. No code — the parameter is unused by the site and only has to
+      survive into the analytics.
+
+      This depends on the tool logging query strings. Umami does by default, which is
+      one of the two reasons L7 chose it; Cloudflare Web Analytics does not, and with
+      that tool this item would have to become "use a different path per entry point"
+      instead. Do not set `data-exclude-search` on the tracker.
 - [x] *Optional, **S**:* **a branded page for stray URLs.** With
       `not_found_handling = "404-page"` set in L1, an unmatched path serves
       `out/404.html`, which is Next's built-in "This page could not be found." in
@@ -585,8 +593,40 @@ answer on its own.
       data with delivery services and payment processors, and uses cookies. In lite
       the site collects none of that and has no cookies. A policy describing
       collection that does not happen is wrong in a way that is easy to fix now and
-      awkward to explain later. Rewrite it around what is actually true, and add
-      analytics if L7 ships it.
+      awkward to explain later. Rewrite it around what is actually true.
+
+      **Include the analytics from L7.** "We collect nothing" stops being true the
+      moment the snippet ships. Describe the processing; do not characterise it.
+
+      What to state, because it is checkable: the tool is Umami Cloud, operated by a
+      third party outside Ukraine; each page view sends the path and its query string,
+      the referrer, the page title, screen size and language, and the request itself
+      yields country, device type, browser and OS; a visitor identifier is derived
+      server-side rather than assigned in the browser. Umami's documentation says the
+      IP address is used to derive that identifier and is not stored — attribute that
+      to them rather than asserting it, since it cannot be verified from outside.
+      Verified here in the tracker source on 2026-09-09, and safe to state plainly:
+      it sets **no cookies**, and writes nothing to `localStorage` or
+      `sessionStorage` — the only storage access is a read of one opt-out key.
+
+      **Do not write, in either locale:**
+      - *"this is not personal data."* A visitor identifier derived from IP address
+        and user agent is at least pseudonymous, and whether it counts as personal
+        data is a contested legal question rather than a fact about the code.
+      - *"no consent is needed"* or *"no cookie banner is required."* Also a legal
+        conclusion, and not a safe one to reach unaided: ePrivacy Article 5(3) covers
+        *accessing* information on a visitor's device as well as storing it, and the
+        tracker does read that one key. The site also sells to the EU, so Ukrainian
+        law is not the only law in play.
+      - anything that cannot be pointed at in the tracker source or Umami's own docs.
+
+      Note too that there is **no user-facing opt-out** — disabling the tracker means
+      setting a `localStorage` key by hand — which is itself relevant to whichever
+      legal basis the owner's adviser settles on.
+
+      **This needs the same treatment as the ФОП address above: a qualified opinion,
+      not a developer's reading.** Ship the factual description; leave the legal
+      characterisation to review.
       → `src/messages/{uk,en}.json` `info.privacy`
 - [ ] **S — Read `info/payment` and `info/terms` against the lite site.** Both
       already say orders are placed in Direct, which is why lite is coherent at all.
@@ -603,10 +643,160 @@ answer on its own.
 Small, and the only reason it is here is that the first two weeks are the only clean
 signal you will ever get about a cold catalogue.
 
-- [ ] **S — Cloudflare Web Analytics.** Free, cookieless, no consent banner, already
-      on the platform, one snippet. Gives page views and referrers.
-- [ ] Custom events are deferred. The one that matters, `ig_dm_click`, needs a tool
-      Cloudflare Web Analytics does not provide. Revisit with the form.
+**Umami Cloud, not Cloudflare Web Analytics.** Both are free and both are one
+snippet, but Cloudflare's cannot answer either question this launch actually has. Its
+FAQ: *"Currently, Cloudflare Web Analytics do not log query strings to avoid
+collecting potentially sensitive data"*, and on custom events, *"Not yet, but we may
+add support for this in the future."* No query strings kills the `?ref=` marker in
+L3; no events means nothing can see the Direct button being tapped, which is the
+only conversion this site has. Umami's free tier does both. Everything below was
+verified against the docs and the tracker source on 2026-09-09.
+
+- [ ] **S — Sign up for Umami Cloud and add `velels.com`.** The Hobby plan is free
+      indefinitely: 100 000 events a month, 3 websites, **6 months of retention**.
+      One page view is one event, so 100 000 is not a ceiling worth thinking about
+      here. Retention is the real limit — month-to-month comparison works, this July
+      against next July does not. It does not bite in lite: demand is flat
+      year-round, which is why seasonal variants are out of scope at all.
+
+      The dashboard issues a website id. It goes in `NEXT_PUBLIC_UMAMI_WEBSITE_ID`
+      as a **build** variable — `.env` locally, and Cloudflare's *Build* settings for
+      the deploy — plus a commented line in `.env.example`. Never in the source.
+
+      **Not the Worker's runtime variables or secrets.** Those are a different box in
+      the same dashboard, and nothing here would ever read them: `wrangler.jsonc` has
+      no `main`, so there is no Worker script at request time. `NEXT_PUBLIC_*` is
+      inlined into the HTML by `next build` and nowhere else, so an id set in the
+      runtime box is an id that does not exist — `process.env` is `undefined` during
+      the build and the snippet is simply left out of every page. It fails silently,
+      with no error and no analytics. `NEXT_PUBLIC_SITE_URL` is set the same way, for
+      the same reason (`docs/cloudflare-setup.md` Step 4).
+- [x] **S — Add the snippet to `src/app/layout.tsx`**, the root layout, not
+      `[locale]/layout.tsx`. The root is the only place that also covers `/` and the
+      404 page. **Done — it renders only once the id exists, so nothing happens until
+      the item above is.**
+
+      ```tsx
+      <script
+        async
+        src="https://cloud.umami.is/script.js"
+        data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+        data-performance="true"
+      />
+      ```
+
+      Render nothing when the id is absent, so local and preview builds send no data.
+      `data-performance="true"` collects Core Web Vitals from real visitors — field
+      data from Ukrainian mobile connections, better evidence than the synthetic
+      Lighthouse run in L5. Leave `data-exclude-search` unset; L3 needs the query
+      string.
+
+      **`async`, not `defer`.** React's script docs allow rendering a `<script>`
+      anywhere in the tree only when it is async — *"The `async` prop must be true to
+      allow scripts to be safely moved"* — and say of `defer`: *"Not compatible with
+      streaming server-rendered components. Use the `async` prop instead."* Static
+      export does not stream, so `defer` would work today; it would stop being safe
+      the moment this moves to the Vercel destination in `AGENTS.md`. With `async`,
+      React hoists the tag into `<head>` and de-duplicates it by `src`.
+
+      **A plain tag, deliberately, not `next/script`.** Next's own guide names
+      analytics a good candidate for `afterInteractive`, so this is a deviation with
+      a reason, not a correction: `afterInteractive` is *"injected into the HTML
+      client-side and will load after some (or all) hydration occurs"*, so a visitor
+      who leaves before hydration is never counted. Nothing here needs what
+      `next/script` provides — no `onLoad`, no Partytown, no consent gate. Revisit if
+      a consent banner ever has to gate the load.
+
+      **All three variants were built and diffed on 2026-09-09**, because the
+      difference is not visible in the source:
+
+      | | in `out/*.html` | executes |
+      | --- | --- | --- |
+      | `<script async>` | real tag, 47/47, in `<head>` | before hydration |
+      | `<script defer>` | real tag, 47/47, in `<body>` | before hydration |
+      | `next/script` | **preload link only**, no tag | after hydration |
+
+      The third row is the one worth knowing: `next/script` does *not* leave the HTML
+      empty. It emits `<link rel="preload" href="…umami.is/script.js" as="script">`
+      plus the URL inside the RSC payload, so the file still downloads early and only
+      execution waits. It is also why the L8 check has to match a real `<script`
+      element rather than the bare URL.
+
+      One cosmetic consequence of the hoist: React places the tag ahead of `<title>`
+      in `<head>`, so an async execution that wins a race against the parser would
+      report an empty page title. It loses that race to a network round trip in
+      practice; if titles ever look blank in the dashboard, this is why, and the path
+      dimension is unaffected.
+- [x] **S — Three events, four attributes, two files.** Done.
+
+      On the anchor in `src/components/product/InstagramCheckout.tsx`:
+
+      ```tsx
+      data-umami-event="ig_dm_click"
+      data-umami-event-product={productSlug}
+      data-umami-event-size={selectedSize ?? "none"}
+      ```
+
+      And on the size-guide button in `ProductInfo.tsx`:
+
+      ```tsx
+      data-umami-event="size_guide_open"
+      data-umami-event-product={slug}
+      ```
+
+      **Why `size` and not `color`.** The Direct message already carries product,
+      colour and size, so the owner has them for anyone who pastes it. `size` is here
+      for one reason only: `selectedSize` starts `null` by design (L2), and this
+      counts how often the button is tapped with no size chosen — a test of that
+      decision that nothing else can make. Colour is deliberately **not** tracked:
+      `selectedColor` defaults to `"black"` in the component, so an untouched swatch
+      is indistinguishable from a deliberate choice and the figure would
+      systematically over-report black. If colourway preference ever matters, default
+      that selector to `null` first, then measure.
+
+      **Why `size_guide_open` earns its place.** Two L0 items are blocked on the owner
+      — the height ranges per size, and the chart gaps at 85, 89 and 93 cm — with no
+      way to know whether they are urgent. This gives one: guide opens as a share of
+      product page views, and, paired with `ig_dm_click`, opens that led nowhere. That
+      is as close as this site gets to watching sizing kill a sale.
+
+      **Stop at three.** Accordion opens and filter taps would not change a decision.
+      An event that changes nothing is a maintenance cost.
+
+      **This does not break the L2 handoff**, which is the thing to check before
+      touching that anchor. Umami's click handler calls `preventDefault()` only when
+      the link would navigate in the same tab; for `target="_blank"` it lets the
+      native navigation run and fires the event beside it with `keepalive: true`. It
+      never calls `stopPropagation()`, so the clipboard write in `onClick` still
+      happens inside the user gesture. **Re-check this if the tracker is ever
+      upgraded** — an unconditional `preventDefault()` there would break the handoff
+      on iOS, silently.
+
+      Event properties are stored as strings, so both pass a slug rather than an
+      index. Umami's pricing page puts properties on every plan including Hobby; if
+      that turns out to be wrong in the dashboard, fold the value into the name
+      (`ig_dm_click_no_size`) — nothing here needs a property to be useful.
+- [ ] **S — Count the DMs by hand, weekly.** Umami sees the button being tapped. It
+      cannot see a message being sent — the visitor still has to type something in
+      Instagram, and some will not. The funnel is:
+
+          product page views → `ig_dm_click` → DMs received
+
+      Umami gives the first two. The third only the owner can supply, and the ratio
+      between them is what says whether the pre-filled message is doing its job. At
+      roughly ten orders a month a human can count them; that stops being true when
+      volume grows or a second channel exists to compare against.
+- [ ] Nothing to do, worth knowing: `cloud.umami.is` is on the common blocklists, so
+      some visitors are never counted and every number is a floor rather than a
+      truth. It matters less here than it would elsewhere — most traffic arrives
+      inside the Instagram in-app browser, where content blockers are rare.
+
+**What this gets you, in the end:** page views and visits by path, so which products
+are looked at and which are ignored; referrer, country, device and browser; Core Web
+Vitals from the field; `ig_dm_click` per product, so which garment actually moves
+someone to write; how often that happens with no size chosen; and how many reach for
+the size guide. Plus one number a week from the owner. That is enough to decide
+what to photograph next, and it is the whole point of the phase.
 
 ---
 
@@ -629,6 +819,19 @@ Do all of it before flipping indexing on.
       2026-09-08. The number has grown with every copy addition, so re-count rather
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
+- [ ] **S — Confirm the analytics snippet is actually in the build**, not just a
+      page view in the dashboard — the dashboard cannot tell "variable in the wrong
+      box" apart from "no visitors yet".
+
+          grep -rlE '<script[^>]+cloud\.umami\.is' out --include='*.html' | wc -l
+
+      Every HTML file must match, 47 of them at the time of writing. Two details in
+      that command are deliberate. It matches a real `<script` **element**, because a
+      bare URL search also matches a preload link and would pass on a build where
+      nothing executes. And it recurses over the directory rather than naming a file:
+      the export writes `out/uk.html`, **not** `out/uk/index.html` (there is no
+      `trailingSlash`), and `grep -c` on a path that does not exist returns `0`, which
+      reads exactly like a real failure.
 - [ ] **S — Flip indexing on**, submit the sitemap in Search Console, verify the
       property.
 
@@ -646,7 +849,7 @@ still exists. Nothing here is abandoned.
 | Telegram bot and channel | With the form |
 | Payload CMS | The owner needs to edit products without a developer. Needs Workers Paid at $5/month, since Payload exceeds the free plan's 3 MiB bundle limit |
 | Height in the product model, height input, ростовка rule | With the form. The blank height line in L2 is a placeholder, not a step toward this |
-| Custom analytics events, email signup, promo codes | After the first weeks of real traffic |
+| Email signup, promo codes | After the first weeks of real traffic |
 | Stale request reminders, workload counter, request statuses | These describe managing Order Requests. There are none yet |
 | Model height and size worn on every image | Needs a photo session decision |
 
