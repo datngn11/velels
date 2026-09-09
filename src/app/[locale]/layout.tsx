@@ -49,8 +49,8 @@ export async function generateMetadata({
       images: [
         {
           url: siteConfig.ogImage,
-          width: 1200,
-          height: 630,
+          width: siteConfig.ogImageWidth,
+          height: siteConfig.ogImageHeight,
           alt: "VELÉLS — Premium Minimalist Swimwear",
         },
       ],
