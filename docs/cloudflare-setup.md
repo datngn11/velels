@@ -84,6 +84,15 @@ Dashboard → **Workers & Pages** → your Worker → **Settings → Builds → 
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` (required; the default) |
 | Root directory | leave empty |
+| Builds for non-production branches | **leave off** |
+
+That last one matters more than it looks. Enabled, every push to any branch builds
+with the **same build variables** and deploys a preview version at a public
+`<version>-velels.workers.dev` URL. With `NEXT_PUBLIC_ALLOW_INDEXING` among those
+variables, each preview is an indexable copy of the site whose canonicals point at
+`velels.com` — duplicate content with nothing suppressing it. The risk disappears
+once Step 4's `workers_dev: false` lands, since that removes preview URLs
+altogether; until then, leave the box unticked.
 
 The assets directory comes from `wrangler.jsonc`, so it does not need to be set in
 the dashboard. Pushing a commit then triggers a build and deploy.
@@ -96,10 +105,24 @@ paths run against the same domain.
 
 ## Step 4 — Attach the custom domain
 
-**Settings → Domains & Routes → Add → Custom Domain.**
+**Declare it in `wrangler.jsonc`, not in the dashboard:**
+
+```jsonc
+"routes": [{ "pattern": "velels.com", "custom_domain": true }]
+```
 
 Cloudflare creates the DNS records and an Advanced Certificate automatically. The
 zone has to be on the same account, which Step 1 guarantees.
+
+Config rather than dashboard because whether `wrangler deploy` preserves a custom
+domain that exists only in the dashboard is **not documented either way** — and
+`vars` next to it are documented as being deleted. Declaring the apex means every
+deploy reasserts it, so the question never has to be answered.
+
+If a named environment is ever added to `wrangler.jsonc`, give it `"routes": []`.
+`routes` is an inheritable key, so without that line the environment inherits this
+custom domain and its deploy reassigns `velels.com` away from production. Wrangler
+does warn, in output nobody reads twice.
 
 > **Add `www.velels.com` as a second Custom Domain, or a redirect rule.** Custom
 > Domains match the exact hostname — `velels.com` does **not** catch
@@ -110,6 +133,12 @@ zone has to be on the same account, which Step 1 guarantees.
 Set `NEXT_PUBLIC_SITE_URL=https://velels.com` as a build environment variable, and
 set `NEXT_PUBLIC_ALLOW_INDEXING` **only** on production, so the `*.workers.dev`
 preview hostname stays `noindex`.
+
+**Never put these in Settings → Variables and Secrets.** That box is runtime
+configuration, invisible to `next build`, so the value would do nothing — and
+wrangler's own schema says of `vars`: *"If you change your vars in the dashboard,
+wrangler will override/delete them on its next deploy."* A value in the wrong box is
+both useless and destined to vanish.
 
 ---
 
