@@ -226,22 +226,22 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `offers.url` carry the locale. Verified in the built HTML for both locales.
       → `src/app/[locale]/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`,
       `src/app/[locale]/info/[slug]/page.tsx`
-- [ ] **S — Replace the homepage OG image.** It points at
-      `lh3.googleusercontent.com/aida-public/…`, a temporary host that will rot.
+- [x] **S — Replace the homepage OG image.** The Google `aida-public` host is gone.
+      The owner's file is at `public/og/home.jpg`, referenced through
+      `siteConfig.ogImage`, and the declared dimensions come from
+      `siteConfig.ogImageWidth`/`Height` so they cannot drift from the file again.
+- [ ] **S — Owner: re-export that OG image.** It works, and it is not right. Two
+      things, both needing the source file rather than a crop of the JPEG:
 
-      Spec for the replacement:
-      - **exactly 1200×630 px** — so the declared dimensions stop being a lie
-      - **JPG or PNG, not WebP** — WebP support in preview crawlers is still patchy
-      - **under 500 KB** — crawlers time out
-      - drop it in `public/og/`, reference it as `/og/home.jpg`; `metadataBase`
-        already resolves that to the absolute URL the OG spec requires
-      - keep the wordmark clear of the edges: apps crop a few percent and render it
-        around 500px wide
+      - **1200×630, not 1431×858.** The file is 5:3 where the share card is 1.91:1,
+        so previews centre-crop about 6% off the top and bottom. The wordmark sits
+        centred and survives; the model's feet get clipped. Cosmetic, not broken.
+      - **sRGB, not Display P3.** The export carries a P3 profile, and preview
+        crawlers and in-app browsers routinely ignore embedded profiles — the same
+        image then renders oversaturated, with the sky shifted. This one is worth
+        more than the crop.
 
-      Change the tag and the declared dimensions in the same commit as the file
-      landing — the current URL still resolves, so wiring the code first would
-      break previews sooner rather than later.
-      → `src/app/[locale]/layout.tsx`
+      Under 500 KB and JPG both already hold: 220 KB, JPEG, not WebP.
 - [x] **S — Stop declaring portrait product photos as 1200×630.**
       `generateMetadata` hardcodes `width: 1200, height: 630` on the first product
       image, but every product photo is 2:3 portrait — `dimaya/black_1.webp` is
