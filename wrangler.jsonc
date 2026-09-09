@@ -17,5 +17,19 @@
     // Already the default, pinned so a future default change cannot silently
     // rewrite every URL. Serves out/uk/product/azure.html at /uk/product/azure.
     "html_handling": "auto-trailing-slash"
+  },
+
+  // A second Worker, for review links: `npm run deploy:staging` builds and publishes
+  // to velels-staging.<subdomain>.workers.dev. `assets` is inheritable, so nothing
+  // above needs repeating.
+  //
+  // That script builds rather than trusting whatever is in `out/`, with indexing and
+  // analytics blanked — a production build shipped here would otherwise be indexable
+  // and would count review clicks as real visitors.
+  "env": {
+    "staging": {
+      "name": "velels-staging",
+      "workers_dev": true
+    }
   }
 }

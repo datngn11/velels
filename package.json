@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy": "wrangler deploy",
+    "deploy": "next build && wrangler deploy",
+    "deploy:staging": "NEXT_PUBLIC_UMAMI_WEBSITE_ID= NEXT_PUBLIC_ALLOW_INDEXING= next build && wrangler deploy --env staging",
     "lint": "eslint"
   },
   "dependencies": {

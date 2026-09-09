@@ -146,6 +146,29 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       also removes a duplicate-content source whose canonicals point at the real
       domain. It has to stay enabled until then, because it is the only URL the
       first deploy can be smoke-tested on.
+- [x] **S — A staging Worker for review links.** `wrangler.jsonc` gains an
+      `env.staging` block naming a second Worker, `velels-staging`, with
+      `workers_dev` kept on. `npm run deploy:staging` publishes the current `out/`
+      to `velels-staging.<subdomain>.workers.dev` — a stable URL the owner can be
+      sent, revisit and bookmark, unlike a per-version preview URL.
+
+      It exists because the item above eventually removes `velels.workers.dev`, and
+      "show me how it looks" then has nowhere to point. `assets` is inheritable, so
+      the whole environment is two keys.
+
+      **The script blanks `NEXT_PUBLIC_ALLOW_INDEXING` and
+      `NEXT_PUBLIC_UMAMI_WEBSITE_ID` and builds itself**, rather than shipping
+      whatever `out/` happens to hold — otherwise a production build sitting there
+      would put an indexable copy of the site online and count review clicks as
+      visitors. Blanking wins over `.env`: `@next/env` only falls back to a dotenv
+      file when the variable is `undefined`, and an empty string is not. Verified
+      2026-09-09 with both variables set in `.env` — the review build still came out
+      `noindex`, `Disallow: /`, with no tracker in any of the 47 pages. Canonicals
+      still point at `velels.com`, which is what you want from a copy.
+
+      **No analytics on staging, by design.** The tracker is not rendered there, so
+      review clicks cannot reach the `velels.com` figures. Event verification
+      therefore happens on production or in `next dev`, not here.
 - [ ] *Optional, **S**:* replace the client-side `/` to `/uk` redirect with a Worker
       redirect on that one path. Only `/` would invoke Worker code, which is
       thousands of requests a month against a free ceiling of 100,000 a day.

@@ -165,6 +165,46 @@ Cloudflare setting.
 
 ---
 
+## Step 8 — The staging Worker
+
+For "how does this look" and for anything the owner has to approve. A second Worker
+from the same config:
+
+```
+nvm use                  # wrangler needs Node 22
+npm run deploy:staging   # -> velels-staging.<subdomain>.workers.dev
+```
+
+One command: it builds with indexing off and no analytics, then deploys. The
+overrides beat `.env` — verified 2026-09-09 — because `@next/env` only falls back to
+a dotenv file when a variable is `undefined`, and an empty string is not. So a review
+copy is always `noindex`, always `Disallow: /`, whatever the last production build
+set.
+
+The analytics tracker is not rendered on staging at all, so no review click can ever
+appear in the `velels.com` figures. That also means `data-domains` on the tracker is
+unnecessary — there is no staging traffic for it to filter out.
+
+### Three things to expect
+
+- **`npm run deploy` now builds first.** It has to: a staging deploy leaves a
+  `noindex`, analytics-free build in `out/`, and the old `wrangler deploy`-only
+  script would have pushed exactly that to production — de-indexing the live site
+  without a single error message.
+- **A local production deploy is not the normal path** and is not safe by default:
+  `.env` deliberately leaves `NEXT_PUBLIC_ALLOW_INDEXING` commented out, so a build
+  from your machine is `noindex` unless you pass it. Once the repo is connected
+  (Step 3), production deploys happen on push with the build variables applied, and
+  that is the path to use.
+- **`wrangler deploy` warns** *"Multiple environments are defined … but no target
+  environment was specified"*. Expected, and correct: no target means the top-level
+  config, which is production. Do not "fix" it by inventing `--env production`.
+
+The URL is stable, so it can be sent once and revisited. Production keeps its own
+`workers_dev` setting, which Step 4's custom domain eventually turns off.
+
+---
+
 ## Order of operations
 
 ```
