@@ -596,11 +596,37 @@ answer on its own.
       awkward to explain later. Rewrite it around what is actually true.
 
       **Include the analytics from L7.** "We collect nothing" stops being true the
-      moment the snippet ships. Umami sets no cookies and stores no IP address — it
-      identifies a visitor by hashing the website id, hostname and user agent with a
-      salt that rotates hourly and monthly — which is why there is no consent banner.
-      Say which tool, what it records (page, referrer, country, device type, browser)
-      and that none of it is personal data. Do not claim more privacy than that.
+      moment the snippet ships. Describe the processing; do not characterise it.
+
+      What to state, because it is checkable: the tool is Umami Cloud, operated by a
+      third party outside Ukraine; each page view sends the path and its query string,
+      the referrer, the page title, screen size and language, and the request itself
+      yields country, device type, browser and OS; a visitor identifier is derived
+      server-side rather than assigned in the browser. Umami's documentation says the
+      IP address is used to derive that identifier and is not stored — attribute that
+      to them rather than asserting it, since it cannot be verified from outside.
+      Verified here in the tracker source on 2026-09-09, and safe to state plainly:
+      it sets **no cookies**, and writes nothing to `localStorage` or
+      `sessionStorage` — the only storage access is a read of one opt-out key.
+
+      **Do not write, in either locale:**
+      - *"this is not personal data."* A visitor identifier derived from IP address
+        and user agent is at least pseudonymous, and whether it counts as personal
+        data is a contested legal question rather than a fact about the code.
+      - *"no consent is needed"* or *"no cookie banner is required."* Also a legal
+        conclusion, and not a safe one to reach unaided: ePrivacy Article 5(3) covers
+        *accessing* information on a visitor's device as well as storing it, and the
+        tracker does read that one key. The site also sells to the EU, so Ukrainian
+        law is not the only law in play.
+      - anything that cannot be pointed at in the tracker source or Umami's own docs.
+
+      Note too that there is **no user-facing opt-out** — disabling the tracker means
+      setting a `localStorage` key by hand — which is itself relevant to whichever
+      legal basis the owner's adviser settles on.
+
+      **This needs the same treatment as the ФОП address above: a qualified opinion,
+      not a developer's reading.** Ship the factual description; leave the legal
+      characterisation to review.
       → `src/messages/{uk,en}.json` `info.privacy`
 - [ ] **S — Read `info/payment` and `info/terms` against the lite site.** Both
       already say orders are placed in Direct, which is why lite is coherent at all.
