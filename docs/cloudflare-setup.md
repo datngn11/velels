@@ -170,7 +170,7 @@ Cloudflare setting.
 For "how does this look" and for anything the owner has to approve. A second Worker
 from the same config:
 
-```
+```sh
 nvm use                  # wrangler needs Node 22
 npm run deploy:staging   # -> velels-staging.<subdomain>.workers.dev
 ```
