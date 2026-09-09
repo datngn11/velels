@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { Product } from "@/lib/data/products";
 import { Price } from "@/components/product/Price";
+import { isNewRelease } from "@/lib/utils/newness";
 
 interface ProductCardProps {
   product: Product;
@@ -31,7 +32,7 @@ export function ProductCard({ product, sizes, className = "" }: ProductCardProps
       className={`group flex flex-col gap-3 cursor-pointer ${className}`}
     >
       <div className="w-full aspect-4-5 bg-surface-container-low relative hover-image-zoom">
-        {product.isNew && (
+        {isNewRelease(product) && (
           <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 text-label-xs bg-primary text-on-primary border border-on-primary px-2.5 py-1">
             {t("newBadge")}
           </span>
