@@ -5,8 +5,8 @@ import { shouldAllowIndexing } from "@/lib/seo/indexing";
 /**
  * Emitted as `out/robots.txt` by `output: "export"`.
  *
- * Fails closed for the same reason the `noindex` meta tag does: a build without
- * NEXT_PUBLIC_ALLOW_INDEXING is a preview, and a preview must not invite crawlers.
+ * A build without NEXT_PUBLIC_ALLOW_INDEXING withholds the sitemap rather than
+ * blocking crawlers — see the comment in the branch below.
  *
  * Note that Cloudflare serves its own managed `robots.txt` (the Content Signals
  * Policy) when the origin emits none. Once this file ships, confirm at the edge
@@ -19,7 +19,12 @@ export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   if (!shouldAllowIndexing()) {
-    return { rules: [{ userAgent: "*", disallow: "/" }] };
+    // Allow crawling even here. `Disallow: /` stops a crawler reading the `noindex`
+    // meta tag, and Google's own docs say the tag only works on a page it can fetch
+    // — so blocking is weaker protection, not stronger. It also kills share
+    // previews: Telegram's crawler honours robots.txt. The sitemap is withheld
+    // instead, so nothing invites indexing.
+    return { rules: [{ userAgent: "*", allow: "/" }] };
   }
 
   return {
