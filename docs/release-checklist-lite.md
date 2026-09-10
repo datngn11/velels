@@ -554,7 +554,7 @@ answer on its own.
 
 ## L6 — Legal and copy
 
-- [ ] **S — Trader identity, in `info/terms`, not `info/contact`.** Article 7 of the
+- [x] **S — Trader identity, in `info/terms`, not `info/contact`.** Article 7 of the
       Law on Electronic Commerce (675-VIII) requires direct, simple, stable access to
       the ФОП's ПІБ, registration address, РНОКПП, email and site address. It does
       not require prominence, and no Ukrainian shop puts it on the contacts page.
@@ -590,10 +590,22 @@ answer on its own.
       following them is low. Follow ROÁR regardless: the brands that skip it also
       have stale or incomplete footers, which reads as neglect rather than a decision.
 
-      **Still ask the owner which address to use.** Framing it as місце здійснення
-      діяльності means it can be the atelier or a studio rather than her home, but she
-      has to name one, and if the only real answer is her apartment she should get to
-      decide rather than have it published on her behalf.
+      **Done 2026-09-10, with two deliberate omissions.** The clause names the ФОП,
+      her РНОКПП, the email and the site. It does **not** carry an address: the owner
+      chose not to publish one, which leaves a known shortfall against Article 7 and
+      is accepted on the same reasoning as the tier above — enforcement is
+      complaint-driven, and three of the five competitors publish nothing at all.
+      The ЄДР record number and date are also absent; ROÁR publishes theirs, Article 7
+      does not ask for them, and they can be added from a Diia extract at any time.
+
+      **The IBAN is deliberately not on the site.** Article 7 does not ask for a bank
+      account, ROÁR does not publish one, and a visible account invites payment before
+      an Order exists — which for a made-to-order business means money arriving with
+      no size, no colourway and a manual refund. Payment details go out in Direct at
+      confirmation.
+
+      This also cleared the last of the six `[[ TODO: ]]` placeholders, which were
+      rendering publicly on the live terms page.
       → `src/messages/{uk,en}.json` `info.terms`
 - [ ] **M — Rewrite the privacy policy to match reality.** It currently states the
       site collects name, phone, email, delivery address and order history, shares
