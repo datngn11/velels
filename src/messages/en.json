@@ -321,51 +321,109 @@
     },
     "privacy": {
       "title": "Privacy Policy",
-      "metaDescription": "VELÉLS Privacy Policy — how we collect, use, and protect your personal data.",
+      "metaDescription": "VELÉLS privacy policy: the website collects no personal data, and orders are placed in Instagram Direct.",
       "content": [
         {
-          "heading": "General Provisions",
-          "body": "Last updated: July 27, 2026. The VELÉLS team respects every user's right to privacy and takes care of secure data storage. This Privacy Policy explains what data we collect, how we use it, and how we protect it when using the VELÉLS website. By using our website and placing orders, you agree to the terms of this Privacy Policy."
+          "heading": "General",
+          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur registered in Ukraine, taxpayer registration number (РНОКПП) 3595505528, email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 10 September 2026."
         },
         {
-          "heading": "Information We Collect",
-          "body": "When using the site or ordering, we may receive: first and last name; phone number; email address; delivery address; order fulfillment information; order history; messages sent to support. Technical data automatically collected: IP address, browser type, device type, pages viewed, visit date/time, cookies."
+          "heading": "The website collects nothing about you",
+          "body": "There is no order form on velels.com, no account, no cart and no payment. It is a catalogue: it has no database and stores nothing you do on it.",
+          "list": [
+            "we neither ask for nor receive your name, phone number, email or address through the website;",
+            "the website creates no accounts and has no customer area;",
+            "the website sets no cookies — which is why there is no cookie banner;",
+            "no payment is taken on the website, so we receive no payment details through it."
+          ]
         },
         {
-          "heading": "How We Use Personal Data",
-          "body": "Information is used exclusively to: process and fulfill orders; contact regarding order status; arrange delivery; handle returns/exchanges; improve site performance; analyze site usage; send updates on collections/offers (with consent); comply with Ukrainian legislation."
+          "heading": "Analytics and hosting",
+          "body": "To understand which pieces are looked at and where visitors arrive from, we use Umami, an analytics service that sets no cookies. When a page is viewed it receives:",
+          "list": [
+            "the address of the page you opened, including any link parameters;",
+            "the address of the page you came from;",
+            "the page title, your browser language and your screen size;",
+            "country, device type, browser and operating system, derived from the request;",
+            "taps on the “Order via Instagram” button and openings of the size guide — without the contents of your order;",
+            "a visitor identifier generated on the service's side."
+          ],
+          "bodyAfter": "According to Umami's documentation, the IP address is used to derive that identifier and is not stored. We cannot verify this ourselves and present it as the service's statement rather than our own. The site is hosted on Cloudflare, which processes request IP addresses in order to serve pages and protect the site from attacks. We use no advertising or remarketing tools and share analytics data with no one."
         },
         {
-          "heading": "Cookies",
-          "body": "Our site uses cookies to ensure proper function, improve user experience, and analyze traffic. You can adjust cookie settings in your browser. Disabling cookies may affect certain site features."
+          "heading": "What you send us in Instagram Direct",
+          "body": "Orders are arranged in conversation in Instagram Direct, so we receive whatever you write there. Typically:",
+          "list": [
+            "your Instagram account and the name shown on it;",
+            "the model, size and colour, and where needed your height, so the fit can be chosen;",
+            "your surname, first name, phone number, city and delivery branch;",
+            "proof of payment, if you send it."
+          ],
+          "bodyAfter": "The conversation itself is stored in Instagram and processed by Meta Platforms Ireland Limited under its own policy, over which we have no influence. If you would rather your data did not pass through Instagram, write to velelswim@gmail.com — an order can be arranged by email instead."
         },
         {
-          "heading": "Third-Party Data Sharing",
-          "body": "VELÉLS does not sell or transfer personal data to third parties, except when necessary for order fulfillment or required by law. Data may be shared with: delivery services, payment processors, analytics services, government authorities when legally required."
+          "heading": "Why we process this data",
+          "list": [
+            "to answer you and agree the order;",
+            "to make the garment in your size — everything is sewn after the order;",
+            "to send the parcel and, if needed, arrange an exchange;",
+            "to meet our record-keeping and reporting obligations as a registered entrepreneur."
+          ],
+          "bodyAfter": "We do not use this data for advertising profiles, we make no automated decisions about you, and we send no newsletters: we keep no mailing list."
         },
         {
-          "heading": "Data Security",
-          "body": "We apply modern technical and organizational measures to protect personal data against unauthorized access, loss, or disclosure. However, no internet transmission method can guarantee 100% security."
+          "heading": "Grounds for processing",
+          "body": "We process data on the basis of your consent — given when you send the data in conversation — and to perform the contract of sale, which is concluded once the order is confirmed. Data required for entrepreneur record-keeping is processed to comply with statutory obligations."
         },
         {
-          "heading": "Data Retention",
-          "body": "Personal data is stored only for the duration necessary to fulfill processing purposes, legal requirements, or dispute resolution."
+          "heading": "Who receives your data",
+          "body": "We do not sell personal data and do not pass it on for advertising. Only those without whom an order cannot be completed receive it:",
+          "list": [
+            "Nova Poshta, Ukrposhta or another carrier — surname, first name, phone number and address or branch, in order to deliver the parcel;",
+            "the bank handling the payment — within the payment transaction;",
+            "state authorities — only on written request, in the cases provided by law."
+          ],
+          "bodyAfter": "For international shipments the carrier passes data to the customs authorities of the destination country, as the rules for international postal items require."
         },
         {
-          "heading": "Third-Party Links",
-          "body": "The site may contain links to third-party resources. We are not responsible for their privacy practices or content and recommend reading their policies independently."
+          "heading": "How long we keep it",
+          "list": [
+            "the Instagram conversation — until you or we delete it; it is stored in Instagram, not on our server;",
+            "order data in our records — for the period statutory tax rules set for primary documents;",
+            "analytics data — up to six months, after which the service deletes it;",
+            "nothing at all is stored on the website itself."
+          ]
         },
         {
-          "heading": "User Rights",
-          "body": "You have the right to: access your personal data; request corrections; withdraw consent; request data deletion under legal grounds; contact us with any data processing questions."
+          "heading": "Your rights",
+          "body": "Under Ukraine's Law on the Protection of Personal Data you have the right to:",
+          "list": [
+            "know where we obtained your data, where it is held and for what purpose it is processed;",
+            "know who your data is passed to;",
+            "access your data;",
+            "receive an answer to a request within thirty calendar days;",
+            "have inaccurate or incomplete data corrected;",
+            "withdraw your consent to processing;",
+            "have your data deleted, except where we are required by law to keep it;",
+            "complain to the Ukrainian Parliament Commissioner for Human Rights."
+          ],
+          "bodyAfter": "To exercise any of these, write to velelswim@gmail.com. We answer within thirty calendar days."
         },
         {
-          "heading": "Policy Changes",
-          "body": "VELÉLS reserves the right to update this Privacy Policy at any time. The current version is always published on this page with the last updated date."
+          "heading": "Children's data",
+          "body": "We do not knowingly process data of anyone under 16. If you believe a child has sent us their data, write to us and we will delete it."
+        },
+        {
+          "heading": "Customers outside Ukraine",
+          "body": "We ship worldwide. If you are in the European Union, your data is processed on the same grounds — consent and performance of the contract — and you have the same rights of access, correction, deletion and withdrawal of consent. Data is processed in Ukraine; carriers and Instagram process it in their own infrastructure under their own policies."
+        },
+        {
+          "heading": "Changes to this Policy",
+          "body": "If we change how we process data, we will update this page and the date at the top. The current version is always here."
         },
         {
           "heading": "Contact",
-          "body": "If you have questions regarding this Privacy Policy or data processing, please contact us at E-mail: velelswim@gmail.com"
+          "body": "Questions about this Policy or your data: velelswim@gmail.com."
         }
       ]
     },
