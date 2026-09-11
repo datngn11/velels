@@ -70,6 +70,12 @@ export function Footer() {
             >
               {t("privacyPolicy")}
             </Link>
+            <Link
+              href="/info/terms"
+              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
+            >
+              {t("terms")}
+            </Link>
           </div>
         </div>
 

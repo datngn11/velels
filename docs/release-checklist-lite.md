@@ -607,45 +607,47 @@ answer on its own.
       This also cleared the last of the six `[[ TODO: ]]` placeholders, which were
       rendering publicly on the live terms page.
       → `src/messages/{uk,en}.json` `info.terms`
-- [ ] **M — Rewrite the privacy policy to match reality.** It currently states the
-      site collects name, phone, email, delivery address and order history, shares
-      data with delivery services and payment processors, and uses cookies. In lite
-      the site collects none of that and has no cookies. A policy describing
-      collection that does not happen is wrong in a way that is easy to fix now and
-      awkward to explain later. Rewrite it around what is actually true.
+- [x] **M — Rewrite the privacy policy to match reality.** Done 2026-09-10. The old
+      one claimed the site collects name, phone, email, delivery address and order
+      history, shares data with payment processors, and uses cookies. None of that
+      happens.
 
-      **Include the analytics from L7.** "We collect nothing" stops being true the
-      moment the snippet ships. Describe the processing; do not characterise it.
+      **Written from what the business actually does, not from "we collect nothing"** —
+      which would have been the opposite error. The site collects nothing; the
+      *business* does collect a name, phone, city and branch, in Instagram Direct.
+      Thirteen sections: the site stores nothing, analytics and hosting, what arrives
+      via Direct, purposes, grounds, recipients, retention, rights, children,
+      customers outside Ukraine, changes, contact.
 
-      What to state, because it is checkable: the tool is Umami Cloud, operated by a
-      third party outside Ukraine; each page view sends the path and its query string,
-      the referrer, the page title, screen size and language, and the request itself
-      yields country, device type, browser and OS; a visitor identifier is derived
-      server-side rather than assigned in the browser. Umami's documentation says the
-      IP address is used to derive that identifier and is not stored — attribute that
-      to them rather than asserting it, since it cannot be verified from outside.
-      Verified here in the tracker source on 2026-09-09, and safe to state plainly:
-      it sets **no cookies**, and writes nothing to `localStorage` or
-      `sessionStorage` — the only storage access is a read of one opt-out key.
+      **Three disclosures no competitor makes**, because they all have website
+      checkouts and we do not:
+      - **Meta is a processor here.** Every order conversation lives in Instagram
+        under Meta Platforms Ireland Limited's own policy, which we cannot control.
+        The policy says so and offers email as an alternative channel.
+      - **Cloudflare processes request IPs** to serve a static site. True of every
+        hosted site; almost never disclosed.
+      - **Nova Poshta's own policy puts the duty on us.** The sender is responsible
+        for collecting recipient data lawfully and for consent to pass it on, so the
+        transfer is named explicitly, along with customs for international parcels.
 
-      **Do not write, in either locale:**
-      - *"this is not personal data."* A visitor identifier derived from IP address
-        and user agent is at least pseudonymous, and whether it counts as personal
-        data is a contested legal question rather than a fact about the code.
-      - *"no consent is needed"* or *"no cookie banner is required."* Also a legal
-        conclusion, and not a safe one to reach unaided: ePrivacy Article 5(3) covers
-        *accessing* information on a visitor's device as well as storing it, and the
-        tracker does read that one key. The site also sells to the EU, so Ukrainian
-        law is not the only law in play.
-      - anything that cannot be pointed at in the tracker source or Umami's own docs.
+      **Surveyed five Ukrainian fashion brands first.** ROÁR, KSENIASCHNAIDER,
+      Sleeper and BEVZA all publish the Shopify boilerplate — ROÁR's runs to roughly
+      8,000 words about Shopify, Google Analytics, Shopify Audiences and Facebook
+      ads, none of which they need and none of which we use. KSENIASCHNAIDER cites
+      the US Patriot Act and neither Ukrainian law nor GDPR; BEVZA omits rights and
+      retention entirely. Only INSTYTUTUM, outside fashion, has a real Ukrainian
+      document, and its section order is what this one follows. The bar here is low
+      and worth clearing properly rather than copying.
 
-      Note too that there is **no user-facing opt-out** — disabling the tracker means
-      setting a `localStorage` key by hand — which is itself relevant to whichever
-      legal basis the owner's adviser settles on.
+      **Language deliberately kept factual about analytics**, per the correction
+      already recorded in this item's history: no claim that analytics data "is not
+      personal data", no claim that consent is unnecessary, and Umami's "IP is not
+      stored" is attributed to Umami rather than asserted.
 
-      **This needs the same treatment as the ФОП address above: a qualified opinion,
-      not a developer's reading.** Ship the factual description; leave the legal
-      characterisation to review.
+      **Dependency:** the analytics section describes the L7 tracker in the present
+      tense. If the site launches before `NEXT_PUBLIC_UMAMI_WEBSITE_ID` is set, that
+      section describes collection that is not happening — the exact defect being
+      fixed here. Ship the snippet or cut the section.
       → `src/messages/{uk,en}.json` `info.privacy`
 - [ ] **S — Read `info/payment` and `info/terms` against the lite site.** Both
       already say orders are placed in Direct, which is why lite is coherent at all.
