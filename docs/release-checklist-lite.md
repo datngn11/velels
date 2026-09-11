@@ -673,7 +673,7 @@ L3; no events means nothing can see the Direct button being tapped, which is the
 only conversion this site has. Umami's free tier does both. Everything below was
 verified against the docs and the tracker source on 2026-09-09.
 
-- [ ] **S — Sign up for Umami Cloud and add `velels.com`.** The Hobby plan is free
+- [x] **S — Sign up for Umami Cloud and add `velels.com`.** Done 2026-09-11; the id is a Workers Builds variable, and the repo is connected so pushes to `main` build and deploy. The Hobby plan is free
       indefinitely: 100 000 events a month, 3 websites, **6 months of retention**.
       One page view is one event, so 100 000 is not a ceiling worth thinking about
       here. Retention is the real limit — month-to-month comparison works, this July
@@ -840,7 +840,7 @@ Do all of it before flipping indexing on.
       2026-09-08. The number has grown with every copy addition, so re-count rather
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
-- [ ] **S — Confirm the analytics snippet is actually in the build**, not just a
+- [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".
 

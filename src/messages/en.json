@@ -141,7 +141,7 @@
     "paymentDeliveryPoints": [
       "Made in 2–4 working days, then dispatched by Nova Poshta the next working day.",
       "Pay in full, or on delivery with a 500 ₴ deposit per item. You may inspect the garment at the branch and decline it there.",
-      "The deposit is not refunded if the parcel is not collected.",
+      "The deposit is not refunded if you do not collect the parcel or decline the item.",
       "International orders are prepaid in full, shipping included."
     ],
     "breadcrumbLabel": "Breadcrumb",
@@ -267,7 +267,7 @@
         },
         {
           "heading": "Orders in Ukraine",
-          "body": "Two options are available: full prepayment or cash on delivery (COD via Nova Poshta). When ordering COD, a 500 UAH prepayment per item is required. This prepayment is non-refundable if the package is not collected or refused."
+          "body": "Two options: pay in full, or on delivery with Nova Poshta. Ordering on delivery requires a 500 ₴ deposit per item. The deposit is not refunded if you do not collect the parcel or decline the item."
         },
         {
           "body": "Upon receiving a COD order, you may inspect the swimsuit. If the item does not fit, you have the right to refuse it directly at the branch. For clothing, you may try it on and refuse if it doesn't fit. The remaining balance is paid upon pickup."

@@ -72,27 +72,27 @@ export const products: Product[] = [
       },
       {
         src: "/products/dimaya/white_2.webp",
-        alt: "Dimaya white one-piece swimsuit - palm fronds portrait",
-        color: "white",
-      },
-      {
-        src: "/products/dimaya/white_3.webp",
-        alt: "Dimaya white one-piece swimsuit - shoreline walking shot",
-        color: "white",
-      },
-      {
-        src: "/products/dimaya/white_4.webp",
-        alt: "Dimaya white one-piece swimsuit - full length back cut on beach",
-        color: "white",
-      },
-      {
-        src: "/products/dimaya/white_5.webp",
         alt: "Dimaya white one-piece swimsuit - golden hour editorial pose",
         color: "white",
       },
       {
-        src: "/products/dimaya/white_6.webp",
+        src: "/products/dimaya/white_3.webp",
         alt: "Dimaya white one-piece swimsuit - front perspective against sunset",
+        color: "white",
+      },
+      {
+        src: "/products/dimaya/white_4.webp",
+        alt: "Dimaya white one-piece swimsuit - palm fronds portrait",
+        color: "white",
+      },
+      {
+        src: "/products/dimaya/white_5.webp",
+        alt: "Dimaya white one-piece swimsuit - shoreline walking shot",
+        color: "white",
+      },
+      {
+        src: "/products/dimaya/white_6.webp",
+        alt: "Dimaya white one-piece swimsuit - full length back cut on beach",
         color: "white",
       },
     ],
