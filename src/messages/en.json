@@ -325,7 +325,13 @@
       "content": [
         {
           "heading": "General",
-          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur registered in Ukraine, taxpayer registration number (РНОКПП) 3595505528, email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 10 September 2026."
+          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur (ФОП), РНОКПП 3595505528, email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 10 September 2026.",
+          "list": [
+            "Data controller — Fam Tkhi Nha (Фам Тхі Нга), individual entrepreneur (ФОП)",
+            "РНОКПП: 3595505528",
+            "Email: velelswim@gmail.com"
+          ],
+          "bodyAfter": "Last updated: 10 September 2026."
         },
         {
           "heading": "The website collects nothing about you",
@@ -437,7 +443,7 @@
         },
         {
           "heading": "Seller",
-          "body": "The Seller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur (ФОП) registered in Ukraine, taxpayer registration number (РНОКПП) 3595505528. Email: velelswim@gmail.com. Website: velels.com."
+          "body": "The Seller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur (ФОП), РНОКПП 3595505528. Email: velelswim@gmail.com. Website: velels.com."
         },
         {
           "heading": "Products & Ordering",
