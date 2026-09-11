@@ -325,56 +325,25 @@
       "content": [
         {
           "heading": "General",
-          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Fam Tkhi Nha (Фам Тхі Нга), an individual entrepreneur (ФОП), РНОКПП 3595505528, email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 10 September 2026.",
-          "list": [
-            "Data controller — Fam Tkhi Nha (Фам Тхі Нга), individual entrepreneur (ФОП)",
-            "РНОКПП: 3595505528",
-            "Email: velelswim@gmail.com"
-          ],
-          "bodyAfter": "Last updated: 10 September 2026."
+          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Фам Тхі Нга (Fam Tkhi Nha), an individual entrepreneur (ФОП), email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 11 September 2026."
         },
         {
           "heading": "The website collects nothing about you",
-          "body": "There is no order form on velels.com, no account, no cart and no payment. It is a catalogue: it has no database and stores nothing you do on it.",
-          "list": [
-            "we neither ask for nor receive your name, phone number, email or address through the website;",
-            "the website creates no accounts and has no customer area;",
-            "the website sets no cookies — which is why there is no cookie banner;",
-            "no payment is taken on the website, so we receive no payment details through it."
-          ]
+          "body": "There is no order form on velels.com, no account, no cart and no payment. It is a catalogue: it has no database and stores nothing you do on it. We neither ask for nor receive your name, phone number, email or address through the website; it creates no accounts and has no customer area; it sets no cookies, which is why there is no cookie banner; and no payment is taken here, so we receive no payment details through it either."
         },
         {
           "heading": "Analytics and hosting",
-          "body": "To understand which pieces are looked at and where visitors arrive from, we use Umami, an analytics service that sets no cookies. When a page is viewed it receives:",
-          "list": [
-            "the address of the page you opened, including any link parameters;",
-            "the address of the page you came from;",
-            "the page title, your browser language and your screen size;",
-            "country, device type, browser and operating system, derived from the request;",
-            "taps on the “Order via Instagram” button and openings of the size guide — without the contents of your order;",
-            "a visitor identifier generated on the service's side."
-          ],
+          "body": "To understand which pieces are looked at and where visitors arrive from, we use Umami, an analytics service that sets no cookies. When a page is viewed it receives the address of that page including any link parameters, the address of the page you came from, the page title, your browser language and screen size, and the country, device type, browser and operating system derived from the request. Taps on the “Order via Instagram” button and openings of the size guide are recorded separately, without the contents of your order, and a visitor identifier is generated on the service's side.",
           "bodyAfter": "According to Umami's documentation, the IP address is used to derive that identifier and is not stored. We cannot verify this ourselves and present it as the service's statement rather than our own. The site is hosted on Cloudflare, which processes request IP addresses in order to serve pages and protect the site from attacks. We use no advertising or remarketing tools and share analytics data with no one."
         },
         {
           "heading": "What you send us in Instagram Direct",
-          "body": "Orders are arranged in conversation in Instagram Direct, so we receive whatever you write there. Typically:",
-          "list": [
-            "your Instagram account and the name shown on it;",
-            "the model, size and colour, and where needed your height, so the fit can be chosen;",
-            "your surname, first name, phone number, city and delivery branch;",
-            "proof of payment, if you send it."
-          ],
+          "body": "Orders are arranged in conversation in Instagram Direct, so we receive whatever you write there. Typically that is your Instagram account and the name shown on it; the model, size and colour, and where needed your height so the fit can be chosen; your surname, first name, phone number, city and delivery branch; and proof of payment, if you send it.",
           "bodyAfter": "The conversation itself is stored in Instagram and processed by Meta Platforms Ireland Limited under its own policy, over which we have no influence. If you would rather your data did not pass through Instagram, write to velelswim@gmail.com — an order can be arranged by email instead."
         },
         {
           "heading": "Why we process this data",
-          "list": [
-            "to answer you and agree the order;",
-            "to make the garment in your size — everything is sewn after the order;",
-            "to send the parcel and, if needed, arrange an exchange;",
-            "to meet our record-keeping and reporting obligations as a registered entrepreneur."
-          ],
+          "body": "We process this data to answer you and agree the order, to make the garment in your size — everything is sewn after the order — to send the parcel and arrange an exchange if one is needed, and to meet our record-keeping and reporting obligations as a registered entrepreneur.",
           "bodyAfter": "We do not use this data for advertising profiles, we make no automated decisions about you, and we send no newsletters: we keep no mailing list."
         },
         {
@@ -383,36 +352,16 @@
         },
         {
           "heading": "Who receives your data",
-          "body": "We do not sell personal data and do not pass it on for advertising. Only those without whom an order cannot be completed receive it:",
-          "list": [
-            "Nova Poshta, Ukrposhta or another carrier — surname, first name, phone number and address or branch, in order to deliver the parcel;",
-            "the bank handling the payment — within the payment transaction;",
-            "state authorities — only on written request, in the cases provided by law."
-          ],
+          "body": "We do not sell personal data and do not pass it on for advertising. Only those without whom an order cannot be completed receive it: Nova Poshta, Ukrposhta or another carrier, which needs your surname, first name, phone number and address or branch in order to deliver the parcel; the bank handling the payment, within the payment transaction; and state authorities, only on written request in the cases provided by law.",
           "bodyAfter": "For international shipments the carrier passes data to the customs authorities of the destination country, as the rules for international postal items require."
         },
         {
           "heading": "How long we keep it",
-          "list": [
-            "the Instagram conversation — until you or we delete it; it is stored in Instagram, not on our server;",
-            "order data in our records — for the period statutory tax rules set for primary documents;",
-            "analytics data — up to six months, after which the service deletes it;",
-            "nothing at all is stored on the website itself."
-          ]
+          "body": "The Instagram conversation is kept until you or we delete it, and it lives in Instagram rather than on our server. Order data in our records is kept for the period statutory tax rules set for primary documents. Analytics data is kept for up to six months, after which the service deletes it. Nothing at all is stored on the website itself."
         },
         {
           "heading": "Your rights",
-          "body": "Under Ukraine's Law on the Protection of Personal Data you have the right to:",
-          "list": [
-            "know where we obtained your data, where it is held and for what purpose it is processed;",
-            "know who your data is passed to;",
-            "access your data;",
-            "receive an answer to a request within thirty calendar days;",
-            "have inaccurate or incomplete data corrected;",
-            "withdraw your consent to processing;",
-            "have your data deleted, except where we are required by law to keep it;",
-            "complain to the Ukrainian Parliament Commissioner for Human Rights."
-          ],
+          "body": "Under Ukraine's Law on the Protection of Personal Data you have the right to know where we obtained your data, where it is held and for what purpose it is processed; to know who it is passed to; to access it; to receive an answer to a request within thirty calendar days; to have inaccurate or incomplete data corrected; to withdraw your consent to processing; to have your data deleted, except where we are required by law to keep it; and to complain to the Ukrainian Parliament Commissioner for Human Rights.",
           "bodyAfter": "To exercise any of these, write to velelswim@gmail.com. We answer within thirty calendar days."
         },
         {
