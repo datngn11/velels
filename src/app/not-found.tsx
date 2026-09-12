@@ -33,6 +33,10 @@ export default async function RootNotFound() {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      {/* Undoes the root layout's correction: this page is served for /en paths too
+          but its content is always the default locale, and a wrong `lang` is worse
+          than a coarse one. */}
+      <script dangerouslySetInnerHTML={{ __html: `document.documentElement.lang="${locale}"` }} />
       <StatusPage
         code="404"
         title={t("title")}
