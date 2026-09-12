@@ -584,7 +584,7 @@ export const products: Product[] = [
     id: "10",
     slug: "noblesse",
     category: "dresses",
-    price: 6000,
+    price: 6100,
     currency: "UAH",
     sizes: ["XS", "S", "M", "L"],
     colors: ["black"],
@@ -598,6 +598,36 @@ export const products: Product[] = [
       {
         src: "/products/noblesse/black_2.webp",
         alt: "Noblesse Chantilly lace resort dress - sheer fabric close-up",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_3.webp",
+        alt: "Noblesse Chantilly lace resort dress - open back detail",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_4.webp",
+        alt: "Noblesse Chantilly lace resort dress - full length walking view",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_5.webp",
+        alt: "Noblesse Chantilly lace resort dress - front view with lace overskirt",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_6.webp",
+        alt: "Noblesse Chantilly lace resort dress - back view, full length",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_7.webp",
+        alt: "Noblesse Chantilly lace resort dress - low back and thin straps",
+        color: "black",
+      },
+      {
+        src: "/products/noblesse/black_8.webp",
+        alt: "Noblesse Chantilly lace resort dress - lace skirt draped",
         color: "black",
       },
     ],
