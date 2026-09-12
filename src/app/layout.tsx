@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Bodoni_Moda, Inter, Cormorant_Garamond } from "next/font/google";
 import { SmoothScrollHandler } from "@/components/ui/SmoothScrollHandler";
 import { shouldAllowIndexing } from "@/lib/seo/indexing";
+import { routing } from "@/i18n/routing";
 import "./globals.css";
 
 // Declared at the root so every route inherits it — including `/`, which is a
@@ -41,14 +42,22 @@ const cormorant = Cormorant_Garamond({
 // `defer` is documented as incompatible with streaming SSR.
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
 
+// Corrects `lang` for the English tree. The attribute has to be static because this
+// layout sits above `[locale]` and never learns which locale it is rendering; the
+// script runs while the body is still parsing, so assistive technology reads the
+// right value. Crawlers see the default, which is what `hreflang` is for.
+const SET_LANG = `if(location.pathname.split("/")[1]==="en")document.documentElement.lang="en"`;
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
+      lang={routing.defaultLocale}
       className={`${bodoniModa.variable} ${inter.variable} ${cormorant.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col">
+        <script dangerouslySetInnerHTML={{ __html: SET_LANG }} />
         {umamiWebsiteId && (
           <script
             async
