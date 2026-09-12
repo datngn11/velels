@@ -5,6 +5,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { routing } from "@/i18n/routing";
 import { siteConfig, localeUrl, localeAlternates } from "@/lib/config";
 import { notFound } from "next/navigation";
+import { HtmlLang } from "@/components/layout/HtmlLang";
 
 type Props = {
   children: ReactNode;
@@ -86,6 +87,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <HtmlLang locale={locale} />
       {children}
     </NextIntlClientProvider>
   );
