@@ -126,11 +126,23 @@ export function ProductInfo({
         selectedColor={selectedColor}
       />
 
-      {/* The three doubts a visitor has while deciding — when it arrives, what if
-          it does not fit, how soon does anyone reply. Visible rather than collapsed:
-          an accordion is where information goes to be ignored, and these are the
-          answers most likely to close the sale. */}
+      {/* What the garment is, then the three doubts a visitor has while deciding —
+          when it arrives, what if it does not fit, how soon does anyone reply.
+          Visible rather than collapsed: an accordion is where information goes to
+          be ignored, and these are the answers most likely to close the sale. */}
       <ul className="mt-5 pt-5 border-t border-outline-variant/30 flex flex-col gap-2 text-body-sm text-secondary">
+        {/* Swimwear only — the dresses are a different fabric the owner has not
+            given. The label is bold inside the message so a translation can move
+            it, rather than being concatenated here. */}
+        {product.category !== "dresses" && (
+          <li>
+            {t.rich("composition", {
+              b: (chunks) => (
+                <strong className="font-semibold text-primary">{chunks}</strong>
+              ),
+            })}
+          </li>
+        )}
         <li>{t("productionTime")}</li>
         <li>{t("exchangeNote")}</li>
         <li>{t("responseTime")}</li>
