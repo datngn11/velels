@@ -21,7 +21,9 @@ export function HeroSection() {
           of it unused on a phone. `media` is resolved before the fetch, and a plain
           `<img>` emits no preload at all. `next/image` is not giving anything up
           here: `images.unoptimized` is already set. */}
-      <picture>
+      {/* `contents` keeps the wrapper out of the section's flex layout — the two
+          `<Image fill>` elements it replaced were absolutely positioned. */}
+      <picture className="contents">
         <source media="(min-width: 768px)" srcSet="/hero/hero_desktop.webp" />
         <img
           src="/hero/hero_mobile_poster.webp"
@@ -71,7 +73,7 @@ export function HeroSection() {
         </p>
         <button
           onClick={() => smoothScrollTo("collection")}
-          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-sm px-4 py-2.5 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
+          className="inline-block bg-[rgb(10,10,10,0.4)] text-on-primary text-label-sm px-4 py-2.5 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
         >
           {t("cta")}
         </button>
