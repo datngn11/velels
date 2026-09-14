@@ -30,7 +30,7 @@ export function HeroSection() {
           alt={HERO_ALT}
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 w-full h-full object-cover animate-hero-zoom hero-parallax-img"
+          className="absolute inset-0 w-full h-full object-cover animate-hero-zoom"
         />
       </picture>
 
