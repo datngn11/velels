@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { smoothScrollTo } from "@/lib/utils/smoothScroll";
 import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
@@ -17,39 +16,31 @@ export function HeroSection() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
-      {/* Desktop Hero image. Eager + `fetchPriority` rather than the deprecated
-          `priority`. Eager still emits a head preload, so this and the mobile
-          poster compete as LCP candidates until they become one `<picture>` —
-          see `docs/release-checklist.md`. */}
-      <Image
-        src={"/hero/hero_desktop.webp"}
-        alt={HERO_ALT}
-        fill
-        className="hidden md:block object-cover animate-hero-zoom hero-parallax-img"
-        loading="eager"
-        fetchPriority="high"
-        sizes="(min-width: 768px) 100vw, 1px"
-      />
+      {/* One element for both viewports. Two `<Image>`s hidden by CSS each emitted
+          a high-priority head preload, so every device fetched both files — 101 KB
+          of it unused on a phone. `media` is resolved before the fetch, and a plain
+          `<img>` emits no preload at all. `next/image` is not giving anything up
+          here: `images.unoptimized` is already set. */}
+      {/* `contents` keeps the wrapper out of the section's flex layout — the two
+          `<Image fill>` elements it replaced were absolutely positioned. */}
+      <picture className="contents">
+        <source media="(min-width: 768px)" srcSet="/hero/hero_desktop.webp" />
+        <img
+          src="/hero/hero_mobile_poster.webp"
+          alt={HERO_ALT}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover animate-hero-zoom hero-parallax-img"
+        />
+      </picture>
 
-      {/* Mobile Hero — the poster is the base layer, and the whole treatment
-          whenever the platform will not autoplay (Low Power Mode, reduced
-          motion, Data Saver). The video mounts only to be probed, stays fully
-          transparent until it is genuinely playing, and unmounts again the
-          moment that falls through. */}
+      {/* Mobile Hero video — plays over the poster above. It mounts only to be
+          probed, stays fully transparent until it is genuinely playing, and
+          unmounts again the moment that falls through. */}
       <div
         ref={containerRef}
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
       >
-        <Image
-          src={"/hero/hero_mobile_poster.webp"}
-          alt={HERO_ALT}
-          fill
-          className="object-cover"
-          loading="eager"
-          fetchPriority="high"
-          sizes="(max-width: 767px) 100vw, 1px"
-        />
-
         {shouldRenderVideo && (
           <video
             ref={videoRef}
@@ -82,7 +73,7 @@ export function HeroSection() {
         </p>
         <button
           onClick={() => smoothScrollTo("collection")}
-          className="inline-block bg-[rgb(10,10,10,0.37)] text-on-primary text-label-sm px-4 py-2.5 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
+          className="inline-block bg-[rgb(10,10,10,0.4)] text-on-primary text-label-sm px-4 py-2.5 opacity-0 animate-fade-in-up hover:scale-105 transition-all duration-300 cursor-pointer [animation-delay:950ms] rounded-3xl"
         >
           {t("cta")}
         </button>

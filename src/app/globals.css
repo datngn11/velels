@@ -282,8 +282,13 @@ body {
   }
 }
 
-.animate-hero-zoom {
-  animation: heroZoom 8s ease-out forwards;
+/* Desktop only: the hero is now one `<picture>`, so both treatments live on the
+   element the phone also uses. Scoped here rather than with an `md:` prefix —
+   neither class is a Tailwind utility, so a variant would silently emit nothing. */
+@media (min-width: 768px) {
+  .animate-hero-zoom {
+    animation: heroZoom 8s ease-out forwards;
+  }
 }
 
 /* Remove default summary marker */
@@ -343,11 +348,13 @@ html[data-scroll-behavior="smooth"] {
 }
 
 @supports (animation-timeline: scroll()) {
-  .hero-parallax-img {
-    animation: heroScrollParallax linear;
-    animation-timeline: scroll();
-    animation-range: exit 0% exit 100%;
-    will-change: transform;
+  @media (min-width: 768px) {
+    .hero-parallax-img {
+      animation: heroScrollParallax linear;
+      animation-timeline: scroll();
+      animation-range: exit 0% exit 100%;
+      will-change: transform;
+    }
   }
 }
 
