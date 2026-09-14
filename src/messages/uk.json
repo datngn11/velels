@@ -129,6 +129,7 @@
     "orderViaInstagram": "Замовити через Instagram",
     "details": "Деталі",
     "care": "Догляд",
+    "composition": "<b>Склад:</b> нейлон 80%, еластан 20%",
     "orderMessage": "Привіт! Хочу замовити {product}, колір: {color}, розмір: {size}.\nМій зріст: ___ см\n— via {site}",
     "copiedToClipboard": "Повідомлення скопійовано ✓",
     "responseTime": "Відповідаємо в Direct щодня з 7:00 до 22:00",

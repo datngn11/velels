@@ -50,7 +50,9 @@ Ordering is dependency-first. L1 unblocks most of L3.
       - which Models go on sale next, at what price
       - the **height ranges per size**, for the size-guide column the direct
         competitor has and this site does not
-      - **fabric composition** per product, e.g. "nylon 80%, spandex 20%"
+      - **fabric composition for the two dresses.** The swimwear is answered and
+        shipped — nylon 80%, spandex 20%, one figure for all nine (L4). `lunar`
+        and `noblesse` are a different fabric and still have none.
 
       Plus the ФОП details and the size-chart gaps above. Five things, one message —
       each round trip costs days, and this is the longest pole in the plan.
@@ -400,6 +402,22 @@ answer on its own.
       and 88–90 repeats the gap. Make the ranges contiguous. Wrong sizing data is
       worse in lite, because the size she reads is the size she puts in the message.
       → `src/components/product/SizeGuideModal.tsx`
+- [x] **S — State the fabric composition.**
+      -> Done 2026-09-14. The owner gave one figure for the whole swimwear range,
+      so it is a single `productDetail.composition` string rather than per-product
+      copy, and the first line of the visible facts list under the call to action
+      rather than in the Details accordion — an accordion is where information
+      goes to be ignored. The label is bold, marked up as `<b>` inside the message
+      and rendered with `t.rich` so a translation can move it, rather than being
+      concatenated in the component. Shown for
+      the nine swimwear Models and withheld from `lunar` and `noblesse`, which are
+      a different fabric the owner has not specified — a wrong composition on a
+      garment is worse than none.
+
+      "Spandex" is rendered as «еластан» in Ukrainian and "elastane" in English:
+      the same fibre, and the term Ukrainian and EU labels actually use. Change it
+      to «спандекс» if the owner prefers her own wording.
+      → `src/components/product/ProductInfo.tsx`, `src/messages/{uk,en}.json`
 - [ ] **S — State the dress length.** 131 cm is fixed rather than height-scaled, so
       the same dress is floor-length on 157 cm and midi on 175 cm.
 - [x] **S — Replace the `isNew` boolean with a `releasedAt` date**, so the badge
