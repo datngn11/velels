@@ -538,6 +538,32 @@ answer on its own.
 
 ## L5 — Accessibility and weight
 
+- [x] **S — The hero parallax was dead code, and was suppressing the zoom.**
+      -> Done 2026-09-14. Removed entirely: the `heroScrollParallax` keyframes, the
+      `@supports` block, the class on the hero `<img>`, and the entry in
+      `AGENTS.md`'s animation list. Three faults, found while checking an external
+      review's reduced-motion claim, all of them predating the `<picture>` rewrite:
+
+      - **It never moved.** `animation-range: exit 0% exit 100%` uses *view*-timeline
+        range names, which mean nothing on a `scroll()` timeline, so the animation
+        sat permanently out of range. Measured in Chrome: `translateY` stayed at
+        `0px` at every scroll position from 0 to 2902.
+      - **It suppressed the zoom.** `.animate-hero-zoom` and `.hero-parallax-img`
+        both sat on the same element and both set the `animation` shorthand. Equal
+        specificity, so source order decided it, and the parallax rule is later —
+        `heroZoom` never entered the animation list at all. Deleting the parallax
+        brings the 8s zoom back, confirmed in Chrome.
+      - **Reduced motion could not have stopped it.** The blanket
+        `animation-duration: 0.01ms !important` cannot touch a scroll-driven
+        animation: once `animation-timeline` drives progress, duration is ignored.
+        That was the external review's finding and it was correct, but the fix it
+        implied guarded an animation that did nothing. No guard is needed now —
+        `heroZoom` is time-based, so the blanket rule does reach it.
+
+      `.scroll-progress-bar` uses a scroll timeline too and is deliberately kept:
+      it has no `animation-range`, so it works, and its movement is the information
+      it carries rather than decoration.
+
 - [x] **S — `:focus-visible` styles.** There are zero occurrences in `globals.css`,
       on a site built entirely from custom buttons. Every interactive control on the
       site is currently invisible to a keyboard user.

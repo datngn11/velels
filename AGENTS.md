@@ -26,7 +26,7 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
    - Avoid standard UI library looks; keep bundle sizes minimal and styles premium.
 
 4. **Animations & Accessibility**:
-   - Use GPU-accelerated keyframe animations. The ones defined in `globals.css` are `overlayShow`, `drawerShow` and `modalContentShow` (plus `fadeInUp`, `slideUp`, `slideDown`, `heroZoom`, `heroScrollParallax`, `grow-progress`). There is no `contentShow`.
+   - Use GPU-accelerated keyframe animations. The ones defined in `globals.css` are `overlayShow`, `drawerShow` and `modalContentShow` (plus `fadeInUp`, `slideUp`, `slideDown`, `heroZoom`, `grow-progress`). There is no `contentShow`.
    - All transitions and animations MUST respect `prefers-reduced-motion: reduce`.
 
 5. **Typography & Styling (Semantic Extraction)**:
