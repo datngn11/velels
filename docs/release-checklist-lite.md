@@ -261,21 +261,39 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       and someone has to choose the crop for all 11 products — top-biased gives a
       face, centred gives the garment. Cannot be verified until the domain is behind
       Cloudflare. Judge the result in L8's share-preview pass.
-- [ ] **S — Favicon and `apple-icon`. Blocked: needs a brand mark from the owner.**
-      There is no tab icon at all. `logo_black.png` is a 1326x499 wordmark and is
-      illegible at 32px, so a favicon needs a square mark — a monogram or a symbol —
-      and that is the owner's decision, not something to crop out of the wordmark.
+- [x] **S — Favicon and `apple-icon`.**
+      -> Done 2026-09-14. The owner supplied a "Vé" script monogram and composed
+      the square crop himself; `assets/brand/icon-master.png` is that 256x256
+      master and `assets/brand/mark.png` the 820x820 original. Both sit outside
+      `public/` so neither is served. Shipped as `src/app/favicon.ico` (16/32/48),
+      `icon.png` 256x256 and `apple-icon.png` 180x180 through Next's file
+      convention, plus `public/icons/icon-{192,512}.png` for Android, which the
+      manifest points at. The Android pair lives in `public/` deliberately: under
+      the file convention they would each add a `<link rel="icon">`, and nothing
+      should fetch a 512px icon to draw a tab.
 
-      Spec, so the file is right first time:
-      - `src/app/icon.png` at 256x256, PNG. Transparency is fine.
-      - `src/app/apple-icon.png` at 180x180, PNG, **opaque** — iOS fills
-        transparency with black.
-      - `src/app/` rather than `public/`: Next's file metadata convention emits the
-        `<link rel="icon">` tags automatically, with a content hash.
-      - then add both to the `icons` array in `src/app/manifest.ts`.
+      Three things about the conversion that would otherwise be rediscovered:
+      - **The `.ico` frames must be RGBA.** Turbopack's decoder rejects an ICO
+        whose PNG frames are RGB — *"The PNG is not in RGBA format"* — and the
+        build fails outright.
+      - **Preview exports Display P3**, whatever the source was, so every file is
+        converted to sRGB on the way in. Convert, never assign.
+      - **The master's composition is authoritative.** The icons are straight
+        LANCZOS reductions of it; nothing is re-cropped or re-centred. Regenerate
+        them from the master if it changes, and do not pad or recompose.
 
-      Ask alongside the L0 questions. Note the wordmark still reads SWIMWEAR, the
-      same problem that ruled out `velelswim.com`.
+      A favicon.io set was generated from the same original and compared rather
+      than adopted: its frames washed out at 32 and 48 (darkest pixel 41 and 15,
+      against 20 and 0 here) and its `.ico` was 15.4 KB to this one's 4.1 KB,
+      storing uncompressed BMP frames. Its `site.webmanifest` would have quietly
+      reverted `display` to `standalone` and `theme_color` to white.
+
+      The mark is roughly 2.1:1, so in a square it fills about 43% of the height
+      and 16px is faint by construction — measured, not guessed: at 16px no pixel
+      reaches even 50% grey, in either that set or this one. That is the artwork,
+      not the pipeline, and the trade-off was the owner's to make. An SVG would
+      render sharper and could invert for dark mode, but would not fix the detail
+      at 16px, and Canva gates SVG export behind Pro.
 - [x] **S — Web manifest.**
       -> Done 2026-08-29. `manifest.ts` at `display: "minimal-ui"` rather than
       `standalone`: this is a catalogue whose main call to action hands the visitor
