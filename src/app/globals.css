@@ -401,6 +401,14 @@ html[data-scroll-behavior="smooth"] {
     transition: none !important;
     transform: none !important;
   }
+
+  /* The `*` rule above cannot reach this: a scroll timeline drives progress, so
+     `animation-duration` is ignored. Clearing the name is what stops it, and the
+     bar then rests at its base `scaleX(0)` — invisible rather than frozen part
+     way. The scrollbar still shows position. */
+  .scroll-progress-bar {
+    animation: none !important;
+  }
 }
 
 /* ── Typography Utilities (Semantic Extraction) ── */

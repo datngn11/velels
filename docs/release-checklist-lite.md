@@ -560,9 +560,13 @@ answer on its own.
         implied guarded an animation that did nothing. No guard is needed now —
         `heroZoom` is time-based, so the blanket rule does reach it.
 
-      `.scroll-progress-bar` uses a scroll timeline too and is deliberately kept:
-      it has no `animation-range`, so it works, and its movement is the information
-      it carries rather than decoration.
+      `.scroll-progress-bar` has the same immunity and was wrongly left alone at
+      first, on the grounds that its movement was essential information. It is not:
+      the browser's own scrollbar already shows scroll position, so the bar is
+      decoration, and rule 4 in `AGENTS.md` admits no exemption anyway. Measured
+      under reduced motion it tracked scroll exactly as normal — `scaleX` 0.25,
+      0.50, 0.75, 1.00 across the page. Now cleared in the same block; it rests at
+      its base `scaleX(0)`, invisible rather than frozen part way.
 
 - [x] **S — `:focus-visible` styles.** There are zero occurrences in `globals.css`,
       on a site built entirely from custom buttons. Every interactive control on the
