@@ -29,9 +29,15 @@ export default async function manifest(): Promise<MetadataRoute.Manifest> {
     display: "minimal-ui",
     background_color: "#ffffff",
     theme_color: "#000000",
-    // No `icons` yet — the brand mark has to come from the owner, not be derived
-    // from the wordmark. When the files land, add them as src/app/icon.png (256x256)
-    // and src/app/apple-icon.png (180x180, opaque — iOS fills transparency with
-    // black), and list them here. See lite L3.
+    // These are Android's, and separate on purpose: the tab and iOS icons come
+    // from src/app/{favicon.ico,icon.png,apple-icon.png} via Next's file
+    // convention, which a manifest does not replace. Kept in public/ so they stay
+    // out of <head> — nothing should download a 512px icon to draw a tab.
+    // Not "maskable": the mark spans 89% of the width, well outside Android's 80%
+    // safe circle, so declaring it would let the adaptive mask clip the letters.
+    icons: [
+      { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
   };
 }
