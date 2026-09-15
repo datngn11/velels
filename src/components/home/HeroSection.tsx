@@ -11,7 +11,7 @@ export function HeroSection() {
   const { containerRef, videoRef, shouldRenderVideo } = useVideoAutoplay();
 
   return (
-    <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-black">
+    <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-surface">
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
