@@ -12,8 +12,11 @@ export function HeroSection() {
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-surface">
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/20 z-10" />
+      {/* Dark overlay, desktop only. It darkens the still so the white copy reads
+          over it; stretched across the whole section it also tinted the bare
+          background, which is why white rendered as #cccccc. The mobile half is
+          inside the video container below, where there is media to darken. */}
+      <div className="hidden md:block absolute inset-0 bg-black/20 z-10" />
 
       {/* Desktop still image. The mobile poster it used to share was removed — the
           phone hero is the video alone, with no still underneath it and nothing to
@@ -34,7 +37,7 @@ export function HeroSection() {
 
       {/* Mobile Hero video — the whole mobile hero. It mounts to be probed and
           unmounts again the moment that falls through, which now leaves the bare
-          black section behind it rather than a poster. */}
+          white section behind it rather than a poster. */}
       <div
         ref={containerRef}
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
@@ -62,6 +65,12 @@ export function HeroSection() {
             />
             <source src="/hero/hero_mobile.mp4" type="video/mp4" />
           </video>
+        )}
+
+        {/* Paired with the video rather than the section, so it disappears with
+            it and leaves the background untinted. */}
+        {shouldRenderVideo && (
+          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
         )}
       </div>
 
