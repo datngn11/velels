@@ -19,7 +19,10 @@ export function ProductGrid() {
 
   return (
     <section
-      className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl"
+      /* `scroll-mt-*` matches the fixed navbar's h-16/md:h-14, so anything that
+         scrolls here — the hero button, a `#collection` link — stops below the
+         header instead of under it. */
+      className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-stack-xl scroll-mt-16 md:scroll-mt-14"
       id="collection"
     >
       {/* Section header */}
