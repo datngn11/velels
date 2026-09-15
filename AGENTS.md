@@ -88,9 +88,11 @@ subset, and a later phase must not be started before its dependency.
   next-intl middleware enabled, image optimization on.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two locale
-  files must stay key-identical** — 150 leaf keys across 12 top-level namespaces,
-  182 counting intermediate objects, verified 2026-08-28. Adding a key to one and
-  not the other breaks the build.
+  files must stay key-identical** — 271 leaf keys across 12 top-level namespaces,
+  365 counting intermediate objects, verified 2026-09-15. Adding a key to one and
+  not the other breaks the build. A key may be absent from a product in both files
+  at once — `fabric`, `chain` and `length` are read through `tProduct.has()` and
+  only some Models carry them. That is parity, not a gap.
 - Order Requests are business records. In the full plan they go to Postgres _and_ a
   Telegram notification — never only to a notification. Neither exists yet, and
   lite ships without both.
