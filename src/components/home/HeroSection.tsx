@@ -44,7 +44,6 @@ export function HeroSection() {
         {shouldRenderVideo && (
           <video
             ref={videoRef}
-            src={"/hero/hero_mobile.mp4"}
             loop
             muted
             playsInline
@@ -54,7 +53,19 @@ export function HeroSection() {
             className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
               isPlaying ? "opacity-100" : "opacity-0"
             }`}
-          />
+          >
+            {/* H.265 first: at matched quality it is 3.3 MB against H.264's 4.7,
+                and every iPhone since 2017 decodes it in hardware — which is most
+                of this audience, arriving from Instagram. A browser that does not
+                claim the type skips to the H.264 below, and if both fail the
+                `error` listener in useVideoAutoplay falls back to the poster.
+                The tag must be `hvc1`, not `hev1`, or Safari refuses it. */}
+            <source
+              src="/hero/hero_mobile.hevc.mp4"
+              type='video/mp4; codecs="hvc1"'
+            />
+            <source src="/hero/hero_mobile.mp4" type="video/mp4" />
+          </video>
         )}
       </div>
 

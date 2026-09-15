@@ -116,11 +116,68 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       no file-type restriction on the Developer Platform. The file is 7.5 MB, under
       the 25 MiB per-asset limit, so Workers can serve it directly. Re-encoding
       below is the item that actually matters; this one is now a judgement call.
-- [ ] **S — Re-encode the hero video to about 1.5 MB.** *Do this before deciding
-      about R2 above; at 1.5 MB the move is largely moot.* Cap at 720×1280, drop the
-      muted audio track, 6 to 8 second loop, add a WebM source. Listed as optional
-      in the full checklist. It is not optional when the audience is on Ukrainian
-      mobile data arriving from an Instagram link.
+- [x] **S — Re-encode the hero video.**
+      -> Done 2026-09-15. **7.91 MB to 2.07 MB.** Two encodes behind a `<source>`
+      list, both from the owner's 113 MB 2160x3836 master scaled to 1080x1918
+      (lanczos), audio dropped — the element is muted and `aria-hidden`:
+
+      | file | codec | size | VMAF (phone) |
+      | ---- | ----- | ---- | ------------ |
+      | `hero_mobile.hevc.mp4` | H.265 Main L4.0, crf 30 veryslow | 2.07 MB | 99.05 |
+      | `hero_mobile.mp4` | H.264 High L4.0, crf 28 veryslow | 3.24 MB | 98.03 |
+
+      **Score with VMAF's phone model, not the default.** The video is inside
+      `block md:hidden` and never renders above 768px, so the default 1080p-desktop
+      model measures a viewing condition that does not exist here. It reads ~6
+      points lower and led to stopping at 3.25 MB when 2.07 MB is indistinguishable
+      on the device that actually plays it:
+      `libvmaf=model='version=vmaf_v0.6.1\:enable_transform=true'`.
+
+      **Encode from the master, never from a shipped file.** The 7.91 MB original
+      was itself H.264 at 4205 kbps, so encodes from it stacked generation loss —
+      about 3 VMAF at equal size.
+
+      **The H.264 fallback needs its level pinned.** `-preset veryslow` defaults to
+      16 reference frames, which pushed it to High@L5.1 — backwards for the file
+      whose whole job is rescuing old hardware, since cheaper decoders cap at L4.x
+      or limit ref frames. `-level 4.0 -refs 4 -bf 3` costs nothing measurable
+      (3.22 MB/97.92 became 3.24 MB/98.03).
+
+      **H.265 rather than AV1**, though AV1 measured better: the audience arrives
+      from Instagram and is heavily iPhone, where every device since 2017 decodes
+      H.265 in hardware while AV1 needs an A17 Pro or newer. **Main, not Main10**,
+      though 10-bit also measured better — Main10 hardware decode is not guaranteed
+      on older iPhones. The tag must be `hvc1`, not `hev1`, or Safari refuses it.
+
+      Quality floor, phone model: crf 28 = 2.59 MB/99.78, **crf 30 = 2.07 MB/99.05**,
+      crf 32 = 1.66 MB/97.61, crf 34 = 1.33 MB/95.51. Losses stay under a point per
+      step to crf 30, then cost 1.4 and 2.1 — that is the knee.
+
+      Four fallbacks, so no device can get a broken hero: a browser only picks a
+      `type` it claims; unclaimed falls to H.264; if both fail the `error` listener
+      in `useVideoAutoplay` shows the 79 KB poster; and that hook already declines
+      to play under reduced motion, Low Power Mode or Data Saver.
+
+      `-movflags +faststart` matters and is easy to omit: it moves the moov atom
+      ahead of the media so playback can begin before the download finishes.
+
+      Two measurement traps, both hit here: SSIM ranked AV1 far too low, so score
+      with VMAF; and comparing across containers needs the timebases synced
+      (`fps=30,settb=AVTB` on both inputs) or VMAF collapses to a plausible but
+      meaningless number — VP9 first measured 74 instead of 94.6.
+
+      The master lives at `~/Desktop/velels-masters/`, outside the repo: 113 MB in
+      `public/` would be published and exceeds Cloudflare's 25 MiB asset limit, and
+      in git it would be permanent. ffmpeg is required — `brew install ffmpeg`;
+      macOS `avconvert` cannot do this, its presets target quality with no bitrate
+      control and `Preset1280x720` produced a file *larger* than the source.
+
+      Verified: VideoToolbox (Apple's own decoder) reads all 451 frames, faststart
+      confirmed on both, and Chrome — which does not claim the type — falls through
+      to the H.264 and plays. **Not yet verified on a real iPhone**, which is the
+      device this whole choice serves.
+      → `public/hero/hero_mobile{,.hevc}.mp4`, `src/components/home/HeroSection.tsx`
+
 - [ ] **M — Cloudflare image transformations via a custom `next/image` loader.**
       Point the loader at `/cdn-cgi/image/`. The free plan allows 5,000 unique
       transformations a month, where unique means one option-combination per source
@@ -328,18 +385,25 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       -> Done 2026-08-29. In `src/lib/seo/jsonLd.ts`. Organization and WebSite are emitted
       once on the homepage rather than site-wide. No `SearchAction`: there is no
       site search, and advertising one would claim something the site cannot honour.
-- [ ] **S — `<html>` carries no `lang` attribute.** Confirmed in the build: both
+- [x] **S — `<html>` carries no `lang` attribute.** Confirmed in the build: both
       `out/uk.html` and `out/en.html` open `<html class="..." data-scroll-behavior>`
       with no language declared. This undercuts the rest of L3 — the site tells
       crawlers which page is which language via canonicals and `hreflang`, while the
       document itself declares none — and a screen reader gets no signal to switch
       to a Ukrainian voice for Cyrillic copy.
 
-      Not a quick fix: the root `layout.tsx` owns the `<html>` element and sits
-      outside `[locale]`, so it cannot know the locale. Needs `<html>` moved into
-      `[locale]/layout.tsx`, with `/` and the 404 given their own. Do it
-      deliberately rather than squeezing it into another change.
-- [ ] **S — The deployed 404 is always Ukrainian.** A static export emits one
+      -> Done 2026-09-11. Not by the restructure sketched below: moving `<html>`
+      into `[locale]/layout.tsx` worked for `lang` and for `global-not-found`, but
+      broke Next's internal `/_not-found` with a `headers()` error that emits no
+      stack trace. Six attempts, then reverted.
+
+      What shipped instead: the root layout renders `lang` at the default locale
+      and an inline script corrects it from the first path segment before paint,
+      with `HtmlLang.tsx` mounted inside `[locale]/layout.tsx` keeping it in step
+      across client-side locale switches. The 404 resets it separately, since one
+      `404.html` serves both locales.
+      → `src/app/layout.tsx`, `src/components/layout/HtmlLang.tsx`
+- [x] **S — The deployed 404 is always Ukrainian.** A static export emits one
       `out/404.html` and no per-locale variant, so Cloudflare's
       `not_found_handling` serves the Ukrainian page for `/en/mistyped` too. An
       English visitor arriving from a bad Instagram link gets a page she cannot
@@ -347,9 +411,11 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `router.replace(pathname, { locale: "en" })`, which sends her to
       `/en/<the stray path>` — a second 404.
 
-      `src/app/[locale]/not-found.tsx` only ever renders for a not-found triggered
-      during client-side navigation, never on a direct hit. Fixing this means
-      reading the locale from the path at runtime in the root 404.
+      -> Partially done 2026-09-11. The `lang` attribute is now reset to the
+      locale read from the path, so the document no longer lies to a screen reader
+      about what language it is in. **The copy itself is still Ukrainian only** —
+      one `404.html` serves both locales and translating it at runtime was judged
+      more risk than the page is worth. Revisit if `en` traffic materialises.
       → `src/app/not-found.tsx`, `src/components/layout/LocaleSwitcher.tsx`
 - [x] **S — A visible breadcrumb on the PDP, or drop the `BreadcrumbList`.** The
       markup shipped 2026-08-29 with nothing on the page corresponding to it.
@@ -372,11 +438,26 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `max-w-[1440px]` values into it. **Tailwind emits nothing for an unknown
       utility rather than erroring, so this class of bug is invisible until someone
       measures.**
-- [ ] **S — Distinguish the Instagram entry points with `?ref=`.** Referrer data
-      from Instagram is unreliable and the bio link is the main entrance, so the entry
-      point has to be marked in the URL: `?ref=bio` on the bio link, `?ref=story` on
-      story stickers. No code — the parameter is unused by the site and only has to
-      survive into the analytics.
+- [ ] **S — Mark the story links with `?ref=story`, and leave the bio bare.**
+      Instagram's in-app browser passes no usable referrer, so bio and story traffic
+      are indistinguishable unless one of them is tagged. Tag the stories:
+
+      - bio: `velels.com` — nothing appended
+      - story stickers: `velels.com/uk?ref=story`
+
+      No code; the parameter is unused by the site and only has to survive into the
+      analytics.
+
+      **Tag the stories, not the bio** — the reverse of the obvious. A bio link is
+      displayed as its URL, so a tracking parameter sits on the profile looking like
+      spam. A story link sticker replaces the URL with custom text ("Shop now"), so
+      the parameter is never visible. Untagged traffic is then the bio, and the split
+      still works.
+
+      Do not use `?ref=ig`: near enough all traffic is Instagram, so it separates
+      nothing. Bio vs story is the only division with any information in it. Accept
+      that "untagged" also absorbs links pasted into DMs and comments — at this
+      volume the bio dominates.
 
       This depends on the tool logging query strings. Umami does by default, which is
       one of the two reasons L7 chose it; Cloudflare Web Analytics does not, and with
@@ -607,11 +688,16 @@ answer on its own.
       controlled so the panel can open from the link's `onFocus`, since Radix opens
       on hover and click only and a click on an anchor navigates.
       Keyboard navigation confirmed working in a browser 2026-09-08.
-- [ ] **S — One `<picture>` for the hero instead of two `<Image>` elements.** The
+- [x] **S — One `<picture>` for the hero instead of two `<Image>` elements.** The
       `hidden md:block` / `block md:hidden` pair downloads both images on every
       device and emits two competing `<link rel="preload">` tags for two
       viewport-dependent LCP candidates. Art direction with `media`-scoped `<source>`
       elements removes the double download and the double preload together.
+      -> Done 2026-09-13. One `<img>` inside a `<picture>`, `media`-scoped
+      `<source>` for desktop, saving 101.5 KB on every phone. The wrapper needs
+      `class="contents"` or it becomes an in-flow flex item — the elements it
+      replaced were absolutely positioned. `next/image` gives nothing up here:
+      `images.unoptimized` is already set.
       → `src/components/home/HeroSection.tsx`
 - [ ] **S — Throttled mobile Lighthouse pass.** Record the numbers so later
       regressions are visible against something.
