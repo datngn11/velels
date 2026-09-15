@@ -8,35 +8,33 @@ const HERO_ALT = "VELÉLS editorial hero — model in luxury swimwear";
 
 export function HeroSection() {
   const t = useTranslations("hero");
-  const { containerRef, videoRef, shouldRenderVideo, isPlaying } =
-    useVideoAutoplay();
+  const { containerRef, videoRef, shouldRenderVideo } = useVideoAutoplay();
 
   return (
-    <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center">
+    <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-black">
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/20 z-10" />
 
-      {/* One element for both viewports. Two `<Image>`s hidden by CSS each emitted
-          a high-priority head preload, so every device fetched both files — 101 KB
-          of it unused on a phone. `media` is resolved before the fetch, and a plain
-          `<img>` emits no preload at all. `next/image` is not giving anything up
-          here: `images.unoptimized` is already set. */}
-      {/* `contents` keeps the wrapper out of the section's flex layout — the two
-          `<Image fill>` elements it replaced were absolutely positioned. */}
+      {/* Desktop still image. The mobile poster it used to share was removed — the
+          phone hero is the video alone, with no still underneath it and nothing to
+          cross-fade from. `media` is resolved before the fetch and a plain `<img>`
+          emits no preload, so a phone never requests this file. `next/image` is not
+          giving anything up here: `images.unoptimized` is already set. */}
+      {/* `contents` keeps the wrapper out of the section's flex layout — the
+          `<img>` inside it is absolutely positioned. */}
       <picture className="contents">
-        <source media="(min-width: 768px)" srcSet="/hero/hero_desktop.webp" />
         <img
-          src="/hero/hero_mobile_poster.webp"
+          src="/hero/hero_desktop.webp"
           alt={HERO_ALT}
           fetchPriority="high"
           decoding="async"
-          className="absolute inset-0 w-full h-full object-cover animate-hero-zoom"
+          className="hidden md:block absolute inset-0 w-full h-full object-cover animate-hero-zoom"
         />
       </picture>
 
-      {/* Mobile Hero video — plays over the poster above. It mounts only to be
-          probed, stays fully transparent until it is genuinely playing, and
-          unmounts again the moment that falls through. */}
+      {/* Mobile Hero video — the whole mobile hero. It mounts to be probed and
+          unmounts again the moment that falls through, which now leaves the bare
+          black section behind it rather than a poster. */}
       <div
         ref={containerRef}
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
@@ -50,15 +48,13 @@ export function HeroSection() {
             preload="none"
             disablePictureInPicture
             aria-hidden="true"
-            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 ${
-              isPlaying ? "opacity-100" : "opacity-0"
-            }`}
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           >
             {/* H.265 first: at matched quality it is 3.3 MB against H.264's 4.7,
                 and every iPhone since 2017 decodes it in hardware — which is most
                 of this audience, arriving from Instagram. A browser that does not
                 claim the type skips to the H.264 below, and if both fail the
-                `error` listener in useVideoAutoplay falls back to the poster.
+                `error` listener in useVideoAutoplay tears the element down.
                 The tag must be `hvc1`, not `hev1`, or Safari refuses it. */}
             <source
               src="/hero/hero_mobile.hevc.mp4"
