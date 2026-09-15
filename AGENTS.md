@@ -34,7 +34,7 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
    - Always use the semantic `@utility` classes defined in `globals.css`.
    - **Available Typography Utilities**: - `.text-display-lg`, `.text-display-md` (Hero/Section titles) - `.text-heading-lg`, `.text-heading-md` (Branding/Large headers) - `.text-body-lg`, `.text-body-md`, `.text-body-sm` (Paragraphs) - `.text-label-lg`, `.text-label-md`, `.text-label-sm`, `.text-label-xs` (Tags, uppercase labels) - `.text-nav-link`, `.text-nav-link-lg` (Navigation links)
    - All thirteen exist in `globals.css`. If a genuinely new size is needed, add an `@utility` rather than a bracket value.
-   - **Known violations:** 14 bracket values survive across 8 files, including `StatusPage.tsx`, `HeroSection.tsx`, `CatalogClient.tsx` and `LocaleSwitcher.tsx`. They are debt, not precedent. Do not copy them.
+   - **Known violations:** 24 bracket values survive across 6 files — `StatusPage.tsx` (11), `error.tsx` (4), `HeroSection.tsx` (4), `not-found.tsx` (2), `LocaleSwitcher.tsx` (2), `InstagramFeed.tsx` (1). Verified 2026-09-15. `CatalogClient.tsx` is clean. They are debt, not precedent. Do not copy them.
    <!-- END:project-rules -->
 
 <!-- BEGIN:domain-rules -->
@@ -72,8 +72,14 @@ Check what has actually landed before assuming any state — `docs/release-check
 holds the full phase order, `docs/release-checklist-lite.md` the catalogue-only
 subset, and a later phase must not be started before its dependency.
 
-- **Today:** `output: "export"`, `images.unoptimized: true`, no middleware,
-  deployed to GitHub Pages by the `deploy` script (`gh-pages -d out`).
+- **Today:** `output: "export"`, `images.unoptimized: true`, no middleware.
+- **Pushing to `main` deploys.** Cloudflare's Git integration builds and ships
+  every push. It is configured in the Cloudflare dashboard, so **nothing in this
+  repository records it** — there are no `.github/workflows`, and their absence is
+  not evidence that a push is safe. Never tell the user a pushed change is not
+  live. `npm run deploy` (`next build && wrangler deploy`) is the manual path to
+  the same place; `wrangler.jsonc` serves `./out` as an assets-only Worker.
+  GitHub Pages was retired in `009d2e5` — the `gh-pages` script is gone.
 - **`basePath` and `getAssetPath()` are gone.** Removed 2026-08-27 along with
   `src/lib/utils/assetPath.ts`; the site is served from a domain root. Public asset
   URLs are plain root-relative paths now. Do not reintroduce either, and do not
@@ -82,8 +88,9 @@ subset, and a later phase must not be started before its dependency.
   `src/lib/config.ts`, which exports `siteConfig.url`, `siteConfig.host` and
   `absoluteUrl()`. Never hardcode the domain in metadata, canonicals, JSON-LD or
   copy. The confirmed domain is `velels.com`.
-- **Destination — lite:** Cloudflare Workers with static assets, keeping
-  `output: "export"`. No database, no Payload, no middleware, no order form.
+- **Lite has landed, and is what is deployed:** Cloudflare Workers with static
+  assets, keeping `output: "export"`. No database, no Payload, no middleware, no
+  order form.
 - **Destination — full:** Vercel, Postgres, Payload 3 on that same database,
   next-intl middleware enabled, image optimization on.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
@@ -105,9 +112,9 @@ Rule 4 above covers CSS transitions. JavaScript is not exempt:
   animation — must check
   `window.matchMedia("(prefers-reduced-motion: reduce)").matches` and not start.
   Do not re-trigger playback on user gestures when that preference is set.
-- Every interactive control needs a visible `:focus-visible` state. **There are
-  currently zero `:focus-visible` rules in `globals.css`**, on a site built entirely
-  from custom buttons. That is a tracked defect (lite L5), not the house style.
+- Every interactive control needs a visible `:focus-visible` state. `globals.css`
+  carries a global ring and a dialog rule, added in `9f68de3` — lite L5 is done.
+  Match them rather than adding per-component focus styles.
 - Anything that opens on hover must also open on focus and be operable by
   keyboard. Prefer a Radix primitive over a hand-rolled hover panel.
 
