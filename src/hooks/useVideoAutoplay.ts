@@ -5,17 +5,17 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Lifecycle of the mobile hero video.
  *
- * - `deciding` — the gate below has not cleared. No element is mounted and not a
- *   byte of video is requested. Also where a suppressed visit simply stays: it
- *   renders identically to `static`, so there is nothing to transition to.
- * - `probing`  — the element is mounted and one gesture-less `play()` is in
- *   flight. That attempt *is* the Low Power Mode test: iOS exposes no API for
- *   the setting, but WebKit refuses unprompted playback while it is on.
- * - `playing`  — the browser fired a real `playing` event, so the frames are
- *   genuinely advancing and the video is safe to reveal.
- * - `static`   — motion is unavailable or unwanted. The poster is the whole
- *   treatment and the video element is torn down, so WebKit has nothing left
- *   to paint a native play button on.
+ * - `deciding`: the gate below has not cleared. No element is mounted and no
+ *   video is requested. A suppressed visit stays here, rendering what `static`
+ *   renders, so there is nothing to transition to.
+ * - `probing`: the element is mounted and one gesture-less `play()` is in
+ *   flight. That attempt is the Low Power Mode test. iOS exposes no API for the
+ *   setting, but WebKit refuses unprompted playback while it is on.
+ * - `playing`: the browser fired a real `playing` event, so frames are advancing
+ *   and the video is safe to show.
+ * - `static`: motion is unavailable or unwanted. The video element is torn down,
+ *   so WebKit has nothing left to paint a native play button on. Only a decode
+ *   error or a probe that never produced a frame reaches this. A pause does not.
  */
 type HeroVideoState = "deciding" | "probing" | "playing" | "static";
 
@@ -25,8 +25,8 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
  * How long to wait for the first frame before giving up. A request that stalls
  * after its headers settles neither `play()` nor `error`, so without a deadline
  * a hidden element would keep pulling the whole file down for the rest of the
- * visit. Generous enough not to punish a slow-but-working start; short enough
- * that a loop which would only begin seconds in loses to the poster it covers.
+ * visit. Long enough not to punish a slow start, short enough that a loop
+ * beginning seconds in is not worth the data it costs.
  */
 const PROBE_TIMEOUT_MS = 5000;
 
@@ -39,9 +39,8 @@ function prefersLessData(): boolean {
 }
 
 /**
- * Decides whether the mobile hero shows moving video or a static poster, and
- * reports which. Autoplay is attempted exactly once and never retried — see
- * the probe below for why.
+ * Decides whether the mobile hero plays video, and reports the result. Autoplay
+ * is attempted once and never retried. The probe below says why.
  */
 export function useVideoAutoplay() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -50,20 +49,20 @@ export function useVideoAutoplay() {
   const shouldRenderVideo = state === "probing" || state === "playing";
 
   // Does this visitor get motion at all, and is the hero on screen yet? Both
-  // are settled in one place, in that order, so a suppressed visit cannot be
-  // overtaken by an observer callback that was already queued.
+  // questions are settled here, in that order, so a queued observer callback
+  // cannot overtake a suppressed visit.
   useEffect(() => {
     const reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
 
-    // Never start motion the visitor asked not to see — AGENTS.md rule 4 covers
-    // JavaScript, not just CSS — and never spend a metered connection on
-    // decoration. Bailing out leaves the hook in `deciding`, which renders
-    // exactly what `static` would: the poster, alone. Nothing to tear down and
-    // no state to set, so a suppressed visit costs no extra render at all.
+    // Never start motion the visitor asked not to see. AGENTS.md rule 4 covers
+    // JavaScript, not only CSS. Never spend a metered connection on decoration
+    // either. Bailing out leaves the hook in `deciding`, which renders what
+    // `static` renders. Nothing to tear down and no state to set, so a
+    // suppressed visit costs no extra render.
     if (reducedMotion.matches || prefersLessData()) return;
 
-    // Deferring the request until the hero is on screen lets the poster take
-    // first paint instead of racing the video for bandwidth.
+    // Wait until the hero is on screen before asking for the video, so it does
+    // not compete for bandwidth during first paint.
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         observer.disconnect();
@@ -71,7 +70,7 @@ export function useVideoAutoplay() {
       }
     });
 
-    // One-way: turning the preference back off does not resurrect the video.
+    // One-way. Turning the preference back off does not resurrect the video.
     const handlePreferenceChange = (event: MediaQueryListEvent) => {
       if (!event.matches) return;
       observer.disconnect();
@@ -89,10 +88,10 @@ export function useVideoAutoplay() {
   }, []);
 
   // The probe. Ask for playback once, with no user gesture, and let the platform
-  // answer. A refusal is final: a gesture is the one thing iOS *will* accept in
-  // Low Power Mode, so retrying on touch or scroll is what made the video ambush
-  // people mid-scroll. Keyed on the boolean rather than the state, so it runs
-  // once per mounted element instead of again on the reveal.
+  // answer. A refusal is final. A gesture is the one thing iOS will accept in Low
+  // Power Mode, so retrying on touch or scroll made the video ambush people
+  // mid-scroll. Keyed on the boolean rather than the state, so it runs once per
+  // mounted element instead of again on the reveal.
   useEffect(() => {
     if (!shouldRenderVideo) return;
 
@@ -101,37 +100,54 @@ export function useVideoAutoplay() {
 
     let active = true;
 
-    // Anything that is not "frames are advancing" resolves to the poster: a
-    // decode error, a stalled request, or a pause we did not ask for. That last
-    // one covers Low Power Mode engaging after `play()` already resolved, and
-    // iOS pausing inline video on backgrounding or an incoming call — a hero
-    // frozen mid-loop reads as broken, where the poster reads as deliberate.
-    const fallBackToPoster = () => {
+    // Tearing the element down leaves the bare section behind, because the
+    // poster it used to fall back to is gone. Only two cases have nothing to
+    // show and belong here. A decode error, and a probe that never produced a
+    // frame.
+    const giveUp = () => {
       if (active) setState("static");
     };
 
-    const probeTimer = window.setTimeout(fallBackToPoster, PROBE_TIMEOUT_MS);
+    const probeTimer = window.setTimeout(giveUp, PROBE_TIMEOUT_MS);
 
     const reveal = () => {
       window.clearTimeout(probeTimer);
       if (active) setState("playing");
     };
 
+    // A pause we did not ask for is not a failure. iOS pauses inline video
+    // whenever Safari is backgrounded. Treating that as terminal emptied the
+    // hero on return from the home screen, because `static` is one-way and only
+    // a reload came back from it.
+    //
+    // Nothing listens for `pause` now. iOS never resumes on its own, so the page
+    // coming back is the only signal worth having. Resuming from the pause event
+    // instead risks a pause, play, pause loop when the platform re-pauses each
+    // time. `pageshow` covers a bfcache restore, which can skip
+    // visibilitychange. If the resume is refused, the last frame stays up.
+    const resume = () => {
+      if (!active || document.visibilityState !== "visible") return;
+      if (!video.paused) return;
+      void video.play().catch(() => {});
+    };
+
     video.addEventListener("playing", reveal);
-    video.addEventListener("pause", fallBackToPoster);
-    video.addEventListener("error", fallBackToPoster);
+    video.addEventListener("error", giveUp);
+    document.addEventListener("visibilitychange", resume);
+    window.addEventListener("pageshow", resume);
 
     // WebKit honours these as element properties, not only as attributes.
     video.defaultMuted = true;
     video.muted = true;
-    video.play().catch(fallBackToPoster);
+    video.play().catch(giveUp);
 
     return () => {
       active = false;
       window.clearTimeout(probeTimer);
       video.removeEventListener("playing", reveal);
-      video.removeEventListener("pause", fallBackToPoster);
-      video.removeEventListener("error", fallBackToPoster);
+      video.removeEventListener("error", giveUp);
+      document.removeEventListener("visibilitychange", resume);
+      window.removeEventListener("pageshow", resume);
     };
   }, [shouldRenderVideo]);
 
