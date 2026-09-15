@@ -13,16 +13,11 @@ export function HeroSection() {
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-surface">
-      {/* Darkens the media so the white copy reads over it. Desktop always has a
-          still to darken; mobile waits for `isPlaying`, not for the element to
-          mount — tinting at probe time greys the white ground for as long as the
-          video takes to arrive, so the hero stepped white, grey, video. Keyed to
-          the frames, the tint lands with them in one step. */}
-      <div
-        className={`absolute inset-0 bg-black/20 z-10 pointer-events-none md:block ${
-          isPlaying ? "block" : "hidden"
-        }`}
-      />
+      {/* Darkens the desktop still so the white copy reads over it. Desktop only:
+          on mobile it has nothing to darken until the video arrives, and tinting
+          the bare white ground in the meantime is what made the hero step white,
+          grey, video. */}
+      <div className="hidden md:block absolute inset-0 bg-black/20 z-10 pointer-events-none" />
 
       {/* Desktop still. NOTE: `hidden` does not stop the fetch — a phone
           downloads this 101 KB and paints none of it. The `<source media>` that
