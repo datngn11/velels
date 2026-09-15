@@ -22,13 +22,12 @@ type HeroVideoState = "deciding" | "probing" | "playing" | "static";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 /**
- * How long to wait for the first frame before giving up. A request that stalls
- * after its headers settles neither `play()` nor `error`, so without a deadline
- * a hidden element would keep pulling the whole file down for the rest of the
- * visit. Long enough not to punish a slow start, short enough that a loop
- * beginning seconds in is not worth the data it costs.
+ * How long to wait before asking whether the request is alive at all. One that
+ * stalls after its headers settles neither `play()` nor `error`, so without a
+ * deadline a hidden element keeps pulling the whole file down for the rest of
+ * the visit. Only a request that has buffered nothing by now is treated as dead.
  */
-const PROBE_TIMEOUT_MS = 5000;
+const PROBE_TIMEOUT_MS = 12000;
 
 /** Safari ships no NetworkInformation, so this only ever answers on Android. */
 function prefersLessData(): boolean {
@@ -99,42 +98,56 @@ export function useVideoAutoplay() {
     if (!video) return;
 
     let active = true;
+    let revealed = false;
 
     // Tearing the element down leaves the bare section behind, because the
-    // poster it used to fall back to is gone. Only two cases have nothing to
-    // show and belong here. A decode error, and a probe that never produced a
-    // frame.
+    // poster it used to fall back to is gone. Only a decode error and a request
+    // that produced nothing at all belong here.
     const giveUp = () => {
       if (active) setState("static");
     };
 
-    const probeTimer = window.setTimeout(giveUp, PROBE_TIMEOUT_MS);
+    // A slow connection is not a broken one. Give up at the deadline only if
+    // nothing has arrived. If bytes are buffering the request is working and the
+    // `playing` event will reveal it in its own time. Giving up on the clock
+    // alone emptied the hero on exactly the connections that take longest.
+    const probeTimer = window.setTimeout(() => {
+      if (video.buffered.length > 0 || video.readyState >= 2) return;
+      giveUp();
+    }, PROBE_TIMEOUT_MS);
 
     const reveal = () => {
       window.clearTimeout(probeTimer);
+      revealed = true;
       if (active) setState("playing");
     };
 
     // A pause we did not ask for is not a failure. iOS pauses inline video
-    // whenever Safari is backgrounded. Treating that as terminal emptied the
-    // hero on return from the home screen, because `static` is one-way and only
-    // a reload came back from it.
+    // whenever Safari is backgrounded, and treating that as terminal emptied the
+    // hero on return from the home screen, because `static` is one-way.
     //
-    // Nothing listens for `pause` now. iOS never resumes on its own, so the page
-    // coming back is the only signal worth having. Resuming from the pause event
-    // instead risks a pause, play, pause loop when the platform re-pauses each
-    // time. `pageshow` covers a bfcache restore, which can skip
-    // visibilitychange. If the resume is refused, the last frame stays up.
+    // Nothing listens for `pause`. iOS never resumes on its own, so every signal
+    // here is about the page coming back. `visibilitychange` alone was not
+    // enough. iOS skips it when Safari returns from the app switcher, and the
+    // page never left memory, so `pageshow` does not fire either. `focus` covers
+    // that gap and `pageshow` still covers a real bfcache restore.
+    //
+    // A touch is the last resort, for the case where none of the three fire. It
+    // only ever resumes a video that already played, so it cannot start one
+    // under someone mid-scroll, which is what made the old gesture retry
+    // unacceptable.
     const resume = () => {
-      if (!active || document.visibilityState !== "visible") return;
-      if (!video.paused) return;
+      if (!active || !revealed) return;
+      if (document.visibilityState !== "visible" || !video.paused) return;
       void video.play().catch(() => {});
     };
 
     video.addEventListener("playing", reveal);
     video.addEventListener("error", giveUp);
     document.addEventListener("visibilitychange", resume);
+    document.addEventListener("touchstart", resume, { passive: true });
     window.addEventListener("pageshow", resume);
+    window.addEventListener("focus", resume);
 
     // WebKit honours these as element properties, not only as attributes.
     video.defaultMuted = true;
@@ -147,7 +160,9 @@ export function useVideoAutoplay() {
       video.removeEventListener("playing", reveal);
       video.removeEventListener("error", giveUp);
       document.removeEventListener("visibilitychange", resume);
+      document.removeEventListener("touchstart", resume);
       window.removeEventListener("pageshow", resume);
+      window.removeEventListener("focus", resume);
     };
   }, [shouldRenderVideo]);
 

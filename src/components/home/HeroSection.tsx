@@ -5,6 +5,7 @@ import { smoothScrollTo } from "@/lib/utils/smoothScroll";
 import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
 const HERO_ALT = "VELÉLS editorial hero — model in luxury swimwear";
+const HERO_DESKTOP = "/hero/hero_desktop.webp";
 
 export function HeroSection() {
   const t = useTranslations("hero");
@@ -19,20 +20,28 @@ export function HeroSection() {
           grey to video. */}
       <div className="hidden md:block absolute inset-0 bg-black/20 z-10 pointer-events-none" />
 
-      {/* Desktop still. NOTE: `hidden` does not stop the fetch. A phone downloads
-          this 101 KB and paints none of it. The `<source media>` that used to
-          prevent that went with the mobile poster, and `<picture>` cannot say "no
-          image here" without one. `contents` keeps the wrapper out of the
-          section's flex layout. */}
-      <picture className="contents">
-        <img
-          src="/hero/hero_desktop.webp"
-          alt={HERO_ALT}
-          fetchPriority="high"
-          decoding="async"
-          className="hidden md:block absolute inset-0 w-full h-full object-cover animate-hero-zoom"
-        />
-      </picture>
+      {/* Desktop still, as a background rather than an `<img>`. `hidden` does not
+          stop an image fetch, so every phone downloaded this 101 KB and painted
+          none of it. A background on a `display:none` element is never
+          requested. `<picture>` cannot solve it now: with no mobile image to
+          name, the `<img>` fallback fetches the desktop file anyway.
+
+          The preload restores the priority the `<img>` had, since a background
+          is only discovered once CSS is parsed. `media` keeps it off phones too,
+          which is the same guard the deleted `<source media>` provided. */}
+      <link
+        rel="preload"
+        as="image"
+        href={HERO_DESKTOP}
+        media="(min-width: 768px)"
+        fetchPriority="high"
+      />
+      <div
+        role="img"
+        aria-label={HERO_ALT}
+        style={{ backgroundImage: `url(${HERO_DESKTOP})` }}
+        className="hidden md:block absolute inset-0 bg-cover bg-center animate-hero-zoom"
+      />
 
       {/* The entire mobile hero. Mounts to be probed, and unmounts the moment
           that falls through, leaving the bare white section. */}
