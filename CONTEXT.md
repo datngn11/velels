@@ -50,6 +50,18 @@ The finished length of a dress, 131 cm by default. Because it is fixed rather
 than height-scaled, the same dress reads differently on customers of different
 heights.
 
+## Фурнітура (Hardware)
+
+The non-fabric findings on a garment: the metal parts a customer sees and
+handles. Today that is one thing, the gold-plated stainless steel chain on
+Dimaya, Lendai and Laydee.
+
+Shown to the customer as **Фурнітура** in Ukrainian and **Hardware** in English.
+Hardware is what luxury retail puts in product details, so a customer recognises
+it; Trims is the closer translation of фурнітура but reads as sourcing jargon,
+and Findings is a jeweller's word. Hardware stops fitting if a finding is ever
+not metal.
+
 ## Individual Tailoring (Индивидуальный пошив)
 
 Cutting a garment to a customer's own measurements instead of to a Standard
