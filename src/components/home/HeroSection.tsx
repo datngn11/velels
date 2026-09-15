@@ -8,23 +8,27 @@ const HERO_ALT = "VELÉLS editorial hero — model in luxury swimwear";
 
 export function HeroSection() {
   const t = useTranslations("hero");
-  const { containerRef, videoRef, shouldRenderVideo } = useVideoAutoplay();
+  const { containerRef, videoRef, shouldRenderVideo, isPlaying } =
+    useVideoAutoplay();
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-surface">
-      {/* Dark overlay, desktop only. It darkens the still so the white copy reads
-          over it; stretched across the whole section it also tinted the bare
-          background, which is why white rendered as #cccccc. The mobile half is
-          inside the video container below, where there is media to darken. */}
-      <div className="hidden md:block absolute inset-0 bg-black/20 z-10" />
+      {/* Darkens the media so the white copy reads over it. Desktop always has a
+          still to darken; mobile waits for `isPlaying`, not for the element to
+          mount — tinting at probe time greys the white ground for as long as the
+          video takes to arrive, so the hero stepped white, grey, video. Keyed to
+          the frames, the tint lands with them in one step. */}
+      <div
+        className={`absolute inset-0 bg-black/20 z-10 pointer-events-none md:block ${
+          isPlaying ? "block" : "hidden"
+        }`}
+      />
 
-      {/* Desktop still image. The mobile poster it used to share was removed — the
-          phone hero is the video alone, with no still underneath it and nothing to
-          cross-fade from. `media` is resolved before the fetch and a plain `<img>`
-          emits no preload, so a phone never requests this file. `next/image` is not
-          giving anything up here: `images.unoptimized` is already set. */}
-      {/* `contents` keeps the wrapper out of the section's flex layout — the
-          `<img>` inside it is absolutely positioned. */}
+      {/* Desktop still. NOTE: `hidden` does not stop the fetch — a phone
+          downloads this 101 KB and paints none of it. The `<source media>` that
+          used to prevent that went with the mobile poster, and `<picture>` cannot
+          express "no image here" without one. `contents` keeps the wrapper out of
+          the section's flex layout. */}
       <picture className="contents">
         <img
           src="/hero/hero_desktop.webp"
@@ -35,9 +39,8 @@ export function HeroSection() {
         />
       </picture>
 
-      {/* Mobile Hero video — the whole mobile hero. It mounts to be probed and
-          unmounts again the moment that falls through, which now leaves the bare
-          white section behind it rather than a poster. */}
+      {/* The entire mobile hero. Mounts to be probed and unmounts the moment
+          that falls through, leaving the bare white section. */}
       <div
         ref={containerRef}
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
@@ -51,26 +54,24 @@ export function HeroSection() {
             preload="none"
             disablePictureInPicture
             aria-hidden="true"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            /* Opacity, not `hidden`: a display:none video is refused autoplay by
+               some browsers. Flipped with no transition — the fade is what the
+               owner rejected, not the hiding. An element with no decoded frame
+               paints black on some Android builds, which would flash before the
+               first frame. */
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none ${
+              isPlaying ? "opacity-100" : "opacity-0"
+            }`}
           >
-            {/* H.265 first: at matched quality it is 3.3 MB against H.264's 4.7,
-                and every iPhone since 2017 decodes it in hardware — which is most
-                of this audience, arriving from Instagram. A browser that does not
-                claim the type skips to the H.264 below, and if both fail the
-                `error` listener in useVideoAutoplay tears the element down.
-                The tag must be `hvc1`, not `hev1`, or Safari refuses it. */}
+            {/* H.265 first: 3.3 MB against H.264's 4.7 at matched quality, and
+                every iPhone since 2017 decodes it in hardware. The tag must be
+                `hvc1`, not `hev1`, or Safari refuses it. */}
             <source
               src="/hero/hero_mobile.hevc.mp4"
               type='video/mp4; codecs="hvc1"'
             />
             <source src="/hero/hero_mobile.mp4" type="video/mp4" />
           </video>
-        )}
-
-        {/* Paired with the video rather than the section, so it disappears with
-            it and leaves the background untinted. */}
-        {shouldRenderVideo && (
-          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
         )}
       </div>
 
