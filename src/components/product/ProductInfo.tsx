@@ -153,8 +153,17 @@ export function ProductInfo({
           })}
         </li>
 
-        {/* Only the three Models that come with one: Dimaya, Lendai, Laydee. */}
-        {tProduct.has(`${slug}.chain`) && <li>{tProduct(`${slug}.chain`)}</li>}
+        {/* Фурнітура, the findings on the garment. Only the three Models that
+            carry any: Dimaya, Lendai, Laydee, all of them a chain. */}
+        {tProduct.has(`${slug}.hardware`) && (
+          <li>
+            {tProduct.rich(`${slug}.hardware`, {
+              b: (chunks) => (
+                <strong className="font-semibold text-primary">{chunks}</strong>
+              ),
+            })}
+          </li>
+        )}
 
         {/* A dress cut to one length regardless of size — so far only Lunar.
             This is the garment, not the customer: see CONTEXT.md on height. */}

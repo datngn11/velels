@@ -98,7 +98,7 @@ subset, and a later phase must not be started before its dependency.
   files must stay key-identical** — 271 leaf keys across 12 top-level namespaces,
   365 counting intermediate objects, verified 2026-09-15. Adding a key to one and
   not the other breaks the build. A key may be absent from a product in both files
-  at once — `fabric`, `chain` and `length` are read through `tProduct.has()` and
+  at once — `fabric`, `hardware` and `length` are read through `tProduct.has()` and
   only some Models carry them. That is parity, not a gap.
 - Order Requests are business records. In the full plan they go to Postgres _and_ a
   Telegram notification — never only to a notification. Neither exists yet, and
