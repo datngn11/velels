@@ -31,7 +31,7 @@ export function Price({ product, className }: PriceProps) {
   return (
     <span className={className}>
       <span className="sr-only">{t("regularPrice")}</span>
-      <del className="text-secondary/70 me-2 no-underline line-through">
+      <del className="text-secondary me-2 line-through">
         {formatPrice(original)}
       </del>
       <span className="sr-only">{t("salePriceLabel")}</span>
