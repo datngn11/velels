@@ -24,7 +24,7 @@ Ordering is dependency-first. L1 unblocks most of L3.
 
 ## L0 — Owner, before anything ships
 
-- [ ] **S — Owner: ФОП details, and which address may be published.** ПІБ,
+- [x] **S — Owner: ФОП details, and which address may be published.** ПІБ,
       registration details, РНОКПП, and the address to use. Goes in `info/terms`, not
       `info/contact`. See L6 for the placement and the competitor evidence. If the
       registered address is her apartment, ask before publishing it.
@@ -36,6 +36,12 @@ Ordering is dependency-first. L1 unblocks most of L3.
       customer. Three options remain, all waiting on the owner: her own registered
       ФОП address, a paid virtual address in Kyiv at roughly 500 to 1500 UAH a
       month, or city plus email with a known shortfall against Article 7.
+
+      **Shipped, box corrected 2026-09-16.** `info.terms` names ФОП Фам Тхі Нга,
+      РНОКПП 3595505528 and the email, and the privacy policy names the same as
+      data controller. No address is published, which is option three above. This
+      item sat unticked long after it landed and was reported as blocking; verify
+      against `src/messages/uk.json`, not against this box.
 - [x] **S — Confirm the domain name.** Decided 2026-08-27: `velels.com`. The
       brand mark is VELÉLS and the catalogue already carries dresses, so `swim` in
       the permanent address names a category the brand has outgrown.
@@ -50,12 +56,12 @@ Ordering is dependency-first. L1 unblocks most of L3.
       - which Models go on sale next, at what price
       - the **height ranges per size**, for the size-guide column the direct
         competitor has and this site does not
-      - **fabric composition for the two dresses.** The swimwear is answered and
-        shipped — nylon 80%, spandex 20%, one figure for all nine (L4). `lunar`
-        and `noblesse` are a different fabric and still have none.
+      - ~~**fabric composition for the two dresses.**~~ **Answered and shipped**
+        in `e5b5cc8`: `lunar` is поліамід 80% / віскоза 17% / еластан 3%,
+        `noblesse` поліамід 80% / віскоза 20%.
 
-      Plus the ФОП details and the size-chart gaps above. Five things, one message —
-      each round trip costs days, and this is the longest pole in the plan.
+      The ФОП details are shipped too. Two things left in this item, not five:
+      the next sale, and the height ranges per size.
 - [ ] **S — Owner: the dress size chart.** Bust runs 82–84, 86–88, 90–92, 94–98, so
       85, 89 and 93 cm fit no size. The swimwear chart is fine — it overlaps at the
       boundaries rather than gapping. Closing the gap is a manufacturing decision,
@@ -499,8 +505,15 @@ answer on its own.
       the same fibre, and the term Ukrainian and EU labels actually use. Change it
       to «спандекс» if the owner prefers her own wording.
       → `src/components/product/ProductInfo.tsx`, `src/messages/{uk,en}.json`
-- [ ] **S — State the dress length.** 131 cm is fixed rather than height-scaled, so
+- [x] **S — State the dress length.** 131 cm is fixed rather than height-scaled, so
       the same dress is floor-length on 157 cm and midi on 175 cm.
+      -> Done 2026-09-15 for `lunar`, as a `length` message read through
+      `tProduct.has()` and shown in the visible facts list. Called *length*, not
+      height: `CONTEXT.md` reserves height for the customer's own measurement.
+      It could not go in the size guide, whose chart is per category, or Noblesse
+      would have inherited a measurement that is not its own. **Noblesse carries no
+      length by the owner's decision (2026-09-16)**, so the glossary's "131 cm by
+      default" applies to Lunar alone for now.
 - [x] **S — Replace the `isNew` boolean with a `releasedAt` date**, so the badge
       expires on its own instead of being a claim someone has to remember to remove.
       Five of eleven products carry `isNew: true` today and nothing will ever clear
@@ -699,8 +712,72 @@ answer on its own.
       replaced were absolutely positioned. `next/image` gives nothing up here:
       `images.unoptimized` is already set.
       → `src/components/home/HeroSection.tsx`
-- [ ] **S — Throttled mobile Lighthouse pass.** Record the numbers so later
+- [x] **S — Throttled mobile Lighthouse pass.** Record the numbers so later
       regressions are visible against something.
+
+      **Baseline 2026-09-16**, Lighthouse 12 against the production build served
+      locally, default mobile throttling. Median of three runs per route.
+
+      | route | perf | a11y | best-practices | seo | LCP |
+      | --- | --- | --- | --- | --- | --- |
+      | `/uk` | 75 | 100 | 100 | 69 | 9.0s |
+      | `/uk/product/dimaya` | 83 | 98 | 100 | 69 | 4.8s |
+      | `/uk/catalog` | 84 | 98 | 100 | 69 | 4.5s |
+      | `/uk` desktop | 99 | 100 | 100 | 69 | 1.0s |
+
+      **Read performance as a band, not a value.** Three runs of one unchanged
+      build gave 86, 84, 84 on the catalogue. Anything inside ±4 points or ±0.4s
+      is noise on this machine; only a swing past 10 points is worth chasing. An
+      earlier single run recorded the catalogue at 91 and that number was wrong.
+
+      **SEO 69 is not a defect.** The only failing audit is `is-crawlable`, the
+      `NEXT_PUBLIC_ALLOW_INDEXING` gate failing closed as designed. It goes to ~100
+      on a production build with indexing on. Likewise the cache-lifetime failures
+      are `npx serve`'s headers, not Cloudflare's.
+
+      Two real findings came out of it and are fixed: contrast 3.24:1 on the
+      footer copyright (`ca52977`), and a locale-switcher `aria-label` that
+      replaced rather than contained its visible text (`6b5f151`). Accessibility
+      went 96 to 100 on the homepage.
+
+      **Still failing:** `heading-order` on the product and catalogue pages, both
+      jumping to `<h3>` with no `<h2>` above. That is what holds them at 98.
+
+- [ ] **S — The homepage LCP is 9.0s on throttled mobile, and it is the hero
+      video.** Measured 2026-09-16, stable across every run. The video is the only
+      large element on mobile, so it is the LCP element by default, and at Slow 4G
+      the 2.07 MB download *is* the nine seconds.
+
+      Worse than the metric: for those nine seconds the hero is blank white,
+      because the copy is white and there is no longer a poster or overlay behind
+      it. A visitor arriving from Instagram sees nothing at all.
+
+      Measured options, three runs each:
+
+      | treatment | LCP | perf |
+      | --- | --- | --- |
+      | today, video only | 9.0s | 75 |
+      | 494-byte inline blurred first frame | 8.6s | 75 |
+      | poster as CSS background | 5.0s | 81 |
+      | poster as preloaded `<img>` | 5.0s | 81 |
+
+      **The placeholder trick does not work.** Chrome excludes low-entropy images
+      from LCP candidacy on purpose, so an inlined blur cannot move the metric.
+      Do not reach for it again.
+
+      **A poster caps out at 5.0s**, still short of the 2.5s "good" threshold, and
+      preloading it changes nothing — it is not waiting on discovery, it is
+      competing with the video for the same pipe. The owner rejected the poster
+      look on 2026-09-15, twice.
+
+      That leaves a smaller video as the only untried lever, since LCP here is
+      essentially the video's download time. Roughly 4 to 5s at 1 MB, estimated
+      rather than measured.
+
+      Separately, and cheaper: dark hero copy on mobile would fix the blank screen
+      without a poster. It does not change LCP — the video is still the largest
+      element — but the visitor would see the brand, the tagline and the call to
+      action immediately instead of a white rectangle.
 
 ---
 
@@ -801,11 +878,29 @@ answer on its own.
       section describes collection that is not happening — the exact defect being
       fixed here. Ship the snippet or cut the section.
       → `src/messages/{uk,en}.json` `info.privacy`
-- [ ] **S — Read `info/payment` and `info/terms` against the lite site.** Both
+- [x] **S — Read `info/payment` and `info/terms` against the lite site.** Both
       already say orders are placed in Direct, which is why lite is coherent at all.
       Confirm nothing elsewhere promises a site checkout.
+      -> Read 2026-09-16. Nothing promises a site checkout anywhere: the payment
+      page and the FAQ both route to Instagram, and the privacy policy states
+      there is no form, account, cart or payment.
+
+      The read found two things that were wrong instead, both fixed in `e08cb0d`.
+      `info.terms` claimed *"Усі товари залежать від наявності"* and reserved the
+      right to limit quantities, on a site where nothing is ever in stock. And
+      Обмеження відповідальності was a literal translation of US boilerplate —
+      "непрямі, випадкові або побічні збитки" for "indirect, incidental, or
+      consequential damages" — categories Ukrainian civil law does not use, and
+      unenforceable against a consumer under ст. 18 anyway. Section removed.
+
+      **Still open in the same file:** section [0] reserves the right to change
+      the terms "в будь-який час", another unfair-term candidate under ст. 18.
 - [ ] **S — International wording.** State plainly that international orders are
       quoted individually, with full prepayment and shipping paid in advance.
+      -> **Two of the three already hold**, in eleven places across the delivery
+      page, FAQ, payment page, the PDP payment bullet and the privacy policy: full
+      prepayment, and shipping paid in advance. Only *quoted individually* is
+      missing, and it needs the owner's wording.
 - [ ] *Optional, **S**:* approximate currency on the `en` locale. A visitor in London
       sees `3 750 ₴` with no conversion.
 
@@ -987,9 +1082,9 @@ Do all of it before flipping indexing on.
       debugger.
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
       dropdown.
-- [ ] **S — Confirm the locale files are still key-identical.** 191 keys including
-      intermediate objects, 159 of them leaves, across 12 namespaces — verified
-      2026-09-08. The number has grown with every copy addition, so re-count rather
+- [ ] **S — Confirm the locale files are still key-identical.** 365 keys including
+      intermediate objects, 269 of them leaves, across 12 namespaces — verified
+      2026-09-16. The number has grown with every copy addition, so re-count rather
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
