@@ -108,22 +108,37 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/lendai/white_1.webp",
-        alt: "Lendai white one-piece swimsuit - cliffside portrait",
+        alt: "Lendai white one-piece swimsuit - plunge neckline with gold chain, leaning against a rock",
         color: "white",
       },
       {
         src: "/products/lendai/white_2.webp",
-        alt: "Lendai white one-piece swimsuit - side view by the sea",
+        alt: "Lendai white one-piece swimsuit - cliffside portrait",
         color: "white",
       },
       {
         src: "/products/lendai/white_3.webp",
-        alt: "Lendai white one-piece swimsuit - back cut and rocky cliff view",
+        alt: "Lendai white one-piece swimsuit - side view by the sea",
         color: "white",
       },
       {
         src: "/products/lendai/white_4.webp",
+        alt: "Lendai white one-piece swimsuit - back cut and rocky cliff view",
+        color: "white",
+      },
+      {
+        src: "/products/lendai/white_5.webp",
         alt: "Lendai white one-piece swimsuit - editorial styling amongst pine trees",
+        color: "white",
+      },
+      {
+        src: "/products/lendai/white_6.webp",
+        alt: "Lendai white one-piece swimsuit - seated on a rock at dusk, chain detail at the neckline",
+        color: "white",
+      },
+      {
+        src: "/products/lendai/white_7.webp",
+        alt: "Lendai white one-piece swimsuit - low back with thin straps, standing at the waterline",
         color: "white",
       },
       {
