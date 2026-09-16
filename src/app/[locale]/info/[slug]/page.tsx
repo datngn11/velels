@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { pageMetadata } from "@/lib/seo/openGraph";
+import { linkifyContacts } from "@/lib/utils/linkifyContacts";
 
 const INFO_SLUGS = [
   "delivery",
@@ -94,7 +95,7 @@ export default async function InfoPage({ params }: Props) {
                     {section.question}
                   </h2>
                   <p className="text-body-md text-secondary leading-relaxed">
-                    {section.answer}
+                    {linkifyContacts(section.answer)}
                   </p>
                 </>
               ) : (
@@ -106,19 +107,19 @@ export default async function InfoPage({ params }: Props) {
                   )}
                   {section.body && (
                     <p className="text-body-md text-secondary leading-relaxed">
-                      {section.body}
+                      {linkifyContacts(section.body)}
                     </p>
                   )}
                   {section.list && (
                     <ul className="list-disc list-inside flex flex-col gap-1.5 text-body-md text-secondary leading-relaxed">
                       {(section.list as unknown as string[]).map((item: string, i: number) => (
-                        <li key={i}>{item}</li>
+                        <li key={i}>{linkifyContacts(item)}</li>
                       ))}
                     </ul>
                   )}
                   {section.bodyAfter && (
                     <p className="text-body-md text-secondary leading-relaxed">
-                      {section.bodyAfter}
+                      {linkifyContacts(section.bodyAfter)}
                     </p>
                   )}
                 </>
