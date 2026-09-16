@@ -82,7 +82,7 @@ export function Footer() {
         {/* Utilities */}
         <div className="flex flex-col items-center gap-6 pt-4">
           <LocaleSwitcher />
-          <div className="text-label-xs text-secondary/70">
+          <div className="text-label-xs text-secondary">
             {t("copyright")}
           </div>
         </div>
