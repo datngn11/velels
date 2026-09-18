@@ -5,17 +5,19 @@ import { useEffect, useRef, useState } from "react";
 /**
  * Lifecycle of the mobile hero video.
  *
- * - `deciding`: the gate below has not cleared. No element is mounted and no
- *   video is requested. A suppressed visit stays here, rendering what `static`
- *   renders, so there is nothing to transition to.
+ * - `deciding`: the gate below has not cleared. No element is mounted, no video
+ *   is requested, and nothing is shown. Every visit starts here.
  * - `probing`: the element is mounted and one gesture-less `play()` is in
  *   flight. That attempt is the Low Power Mode test. iOS exposes no API for the
  *   setting, but WebKit refuses unprompted playback while it is on.
  * - `playing`: the browser fired a real `playing` event, so frames are advancing
  *   and the video is safe to show.
- * - `static`: motion is unavailable or unwanted. The video element is torn down,
- *   so WebKit has nothing left to paint a native play button on. Only a decode
- *   error or a probe that never produced a frame reaches this. A pause does not.
+ * - `static`: this visit gets no video. The poster is the hero instead, and the
+ *   video element is torn down, so WebKit has nothing left to paint a native
+ *   play button on. Four things reach it. A refused `play()`, which is what Low
+ *   Power Mode looks like from here. A decode error. A probe that produced no
+ *   bytes. And a preference that rules motion out before the probe runs. A pause
+ *   does not.
  */
 type HeroVideoState = "deciding" | "probing" | "playing" | "static";
 
@@ -55,10 +57,18 @@ export function useVideoAutoplay() {
 
     // Never start motion the visitor asked not to see. AGENTS.md rule 4 covers
     // JavaScript, not only CSS. Never spend a metered connection on decoration
-    // either. Bailing out leaves the hook in `deciding`, which renders what
-    // `static` renders. Nothing to tear down and no state to set, so a
-    // suppressed visit costs no extra render.
-    if (reducedMotion.matches || prefersLessData()) return;
+    // either. This sets `static` instead of returning early, because `deciding`
+    // also renders no video and only one of the two should show the poster.
+    // Left in `deciding`, the poster would flash before every video.
+    if (reducedMotion.matches || prefersLessData()) {
+      // Neither preference can be read during render without a hydration
+      // mismatch, since the server has no `window`. The cascade the rule guards
+      // against is one extra render on mount, for the minority of visits that
+      // get no video.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setState("static");
+      return;
+    }
 
     // Wait until the hero is on screen before asking for the video, so it does
     // not compete for bandwidth during first paint.
@@ -171,5 +181,7 @@ export function useVideoAutoplay() {
     videoRef,
     shouldRenderVideo,
     isPlaying: state === "playing",
+    /** The video will not play here. Show the still instead of an empty hero. */
+    showPoster: state === "static",
   };
 }
