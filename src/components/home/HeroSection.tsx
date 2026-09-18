@@ -10,53 +10,41 @@ const HERO_POSTER = "/hero/hero_mobile_poster.webp";
 
 export function HeroSection() {
   const t = useTranslations("hero");
-  const { containerRef, videoRef, shouldRenderVideo, isPlaying, showPoster } =
+  const { containerRef, videoRef, shouldRenderVideo, isPlaying } =
     useVideoAutoplay();
 
   return (
     <section className="w-full h-[90vh] min-h-[600px] relative overflow-hidden flex items-center justify-center bg-surface">
-      {/* Darkens whatever sits behind the white copy. Desktop always has the
-          still under it. Mobile gets it only once the video or the poster is up.
-          What matters is that this keys on media being on screen, not on the
-          video element mounting. Keyed to the mount, it greyed the bare section
-          for as long as the video took to load, so the hero stepped from white
-          to grey to video. */}
-      <div
-        className={`absolute inset-0 bg-black/20 z-10 pointer-events-none md:block ${
-          isPlaying || showPoster ? "block" : "hidden"
-        }`}
-      />
+      {/* Darkens the still so the white copy reads over it. Unconditional,
+          because a still is now always behind it on both viewports. It was once
+          tied to the video mounting, which greyed a bare white section for as
+          long as the video took to load. */}
+      <div className="absolute inset-0 bg-black/20 z-10 pointer-events-none" />
 
-      {/* Desktop still, as a background rather than an `<img>`. `hidden` does not
-          stop an image fetch, so an `<img>` made every phone download 101 KB it
-          never painted. A background on a `display:none` element is never
-          requested. The preload restores the priority the `<img>` had, since a
-          background is only found once CSS is parsed, and `media` keeps it off
-          phones too. */}
-      <link
-        rel="preload"
-        as="image"
-        href={HERO_DESKTOP}
-        media="(min-width: 768px)"
-        fetchPriority="high"
-      />
-      <div
-        role="img"
-        aria-label={HERO_ALT}
-        style={{ backgroundImage: `url(${HERO_DESKTOP})` }}
-        className="hidden md:block absolute inset-0 bg-cover bg-center animate-hero-zoom"
-      />
+      {/* One still for both viewports. `media` is resolved before the fetch, so
+          a phone takes the 46 KB poster and a desktop the 101 KB landscape, never
+          both. `contents` keeps the wrapper out of the section's flex layout.
 
-      {/* The whole mobile hero. The video when it plays, the poster when it
-          cannot, never both. Nothing is rendered under a video that is about to
-          arrive, so a working visit goes from the bare section straight to
-          moving footage with no still in between.
+          On mobile this is also the video's first frame, so when playback starts
+          the picture does not change, it begins to move. That is what makes it
+          safe to show before the video: there is no transition to see. */}
+      <picture className="contents">
+        <source media="(min-width: 768px)" srcSet={HERO_DESKTOP} />
+        <img
+          src={HERO_POSTER}
+          alt={HERO_ALT}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover animate-hero-zoom"
+        />
+      </picture>
 
-          The poster appears only once the hook has settled on no video at all.
-          That covers Low Power Mode, Save-Data, reduced motion, a decode error,
-          and a request that produced nothing. In each of those the alternative
-          is an empty hero. The file is the video's own first frame, so the two
-          are the same picture. */}
+      {/* Mobile video, which paints over the still above once it is playing.
+          It stays hidden until then, and unmounts if playback is refused, so
+          Low Power Mode, Save-Data, reduced motion and a decode error all leave
+          the still standing on its own. None of them download a byte of video:
+          `preload="none"` means nothing loads until `play()`, and `play()` is
+          what those cases refuse. */}
       <div
         ref={containerRef}
         className="block md:hidden absolute inset-0 w-full h-full overflow-hidden"
@@ -89,14 +77,6 @@ export function HeroSection() {
           </video>
         )}
 
-        {showPoster && (
-          <div
-            role="img"
-            aria-label={HERO_ALT}
-            style={{ backgroundImage: `url(${HERO_POSTER})` }}
-            className="absolute inset-0 bg-cover bg-center"
-          />
-        )}
       </div>
 
       {/* Content */}
