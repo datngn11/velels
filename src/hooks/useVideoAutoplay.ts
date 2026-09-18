@@ -181,7 +181,5 @@ export function useVideoAutoplay() {
     videoRef,
     shouldRenderVideo,
     isPlaying: state === "playing",
-    /** The video will not play here. Show the still instead of an empty hero. */
-    showPoster: state === "static",
   };
 }
