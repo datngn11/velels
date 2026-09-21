@@ -158,7 +158,7 @@
       "Made in 2–4 working days, then dispatched by Nova Poshta the next working day.",
       "Pay in full, or on delivery with a 500 ₴ deposit per item. You may inspect the garment at the branch and decline it there.",
       "The deposit is not refunded if you do not collect the parcel or decline the item.",
-      "International orders are prepaid in full, including the cost of shipping."
+      "International orders are prepaid in full. Shipping is quoted separately by destination."
     ],
     "breadcrumbLabel": "Breadcrumb",
     "sizeGuideTitle": "Sizing Guide",
@@ -290,7 +290,7 @@
         },
         {
           "heading": "For International Shipments",
-          "body": "International orders are processed with full prepayment and shipping paid in advance."
+          "body": "International orders are processed with full prepayment and shipping paid in advance. Shipping is quoted separately by destination."
         }
       ]
     },
