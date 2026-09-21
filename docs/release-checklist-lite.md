@@ -800,7 +800,7 @@ answer on its own.
       nothing loads until a `play()` that never succeeds. Same for Save-Data,
       reduced motion and a decode error.
 
-- [ ] **S — The Instagram strip is 1.70 MB, and one file is most of it.**
+- [x] **S — The Instagram strip is 1.70 MB, and one file is most of it.**
       `post_2.webp` is 3334x5000 and 1 MB, rendered in a four-across grid at 25vw
       on desktop and 50vw on mobile, so a thumbnail. Resized to 800px at the same
       quality it is 44 KB. `post_3.webp` is 591 KB against 93 KB; `post_1.webp` is
@@ -809,6 +809,27 @@ answer on its own.
       Worth doing for the data, not the score: removing them moved LCP by 0.4s but
       takes a quarter off the homepage's transfer. Measured 2026-09-18.
       -> `public/instagram/`
+
+      **Done 2026-09-21** from the owner's originals. 1739 KB to 483 KB, a 72%
+      cut, and the homepage drops from 6,517 to 4,478 KiB. All three are 1000px
+      wide at webp q88: the grid gives each one 316 CSS px and mobile 75vw is
+      about 320, so 1000 covers a DPR3 phone with nothing spare. 800px and 900px
+      both scored worse at that viewing size.
+
+      Quality was chosen by measuring SSIM of each encode *as displayed* rather
+      than against the full-size original, since grain that vanishes on downscale
+      should not drive the decision. At 320 CSS px even q55 scores 0.98; q88
+      holds 0.975 at DPR3.
+
+      `post_3` is 323 KB against 67 and 93 for the others, and that is inherent:
+      it is a dark high-ISO frame with 3.5x the high-frequency energy, so the
+      encoder spends its bits on grain in the black fabric. A median denoise made
+      SSIM worse and saved almost nothing.
+
+      **AVIF was rejected on mechanism, not merit.** It is roughly 35% smaller
+      again at matching quality, but `images.unoptimized: true` serves the `src`
+      verbatim with no format negotiation, so an AVIF would simply fail below
+      iOS 16.4. Revisit when the full plan turns optimization on.
 
 - [ ] **S — `heading-order` on the product and catalogue pages.** Both jump from
       `<h1>` straight to `<h3>` with no `<h2>` between, confirmed in the built
