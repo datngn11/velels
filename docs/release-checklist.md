@@ -201,7 +201,7 @@ The core of the release.
       `scroll` retries are gone. They were also what made the video ambush people
       mid-scroll in Low Power Mode: a gesture is the one thing iOS *will* accept
       there, so the "fallback" defeated the OS setting it claimed to respect.
-- [ ] **S — Both hero images download *and* preload on every device.**
+- [x] **S — Both hero images download *and* preload on every device.**
       `images.unoptimized: true` means `next/image` emits no `srcset`, so `sizes`
       is inert: the `hidden md:block` / `block md:hidden` pair fetches ~170 KB of
       hero on both breakpoints, and each eager `<Image>` adds its own
@@ -218,6 +218,29 @@ The core of the release.
       HTML on *every* device, hidden only by CSS, so desktop was buffering the
       7.9 MB file as well. It now never mounts outside mobile.
       → `src/components/home/HeroSection.tsx`
+
+      **Done 2026-09-21 in `4c85e23`**, exactly as prescribed: one `<picture>`
+      with a `media`-scoped `<source>` for the desktop landscape and the mobile
+      poster as the `<img>` fallback. A phone now fetches 46 KB and a desktop
+      101 KB, never both. It also fixed the homepage LCP, which had reached 12.0s
+      on real throttling because nothing large was in the mobile HTML and the
+      video was the first big element to paint. 2.9s after.
+
+- [ ] **S — `InstagramFeed` declares the wrong `sizes`, which only bites once
+      `images.unoptimized` is off.** The element is `w-[75vw]` below the `sm`
+      breakpoint, but `sizes` says `50vw`. Under-declaring by 1.5x means the
+      browser picks a candidate for a 200px slot and paints it in a 300px one, so
+      the strip goes soft on phones the moment `next/image` starts emitting a
+      `srcset`. Today it is inert and the attribute is not even rendered.
+
+      Only this component is wrong. `ProductGrid` (2 then 4 columns),
+      `CatalogClient` (2, 3, 4), `EditorialFeature` (1 then 2) and
+      `ImageCarousel` all declare widths matching their grids. Audited
+      2026-09-21.
+
+      `75vw` below `sm`, `45vw` to `md`, then a quarter of the 1440px container:
+      `(max-width: 639px) 75vw, (max-width: 767px) 45vw, 320px`.
+      → `src/components/home/InstagramFeed.tsx`
 - [ ] **S — Lighthouse pass on mobile**, throttled. Record the numbers so later
       regressions are visible.
 - [ ] *Optional, ~15 min:* re-encode `hero_mobile.mp4` to ~1.5 MB — cap at

@@ -720,10 +720,14 @@ answer on its own.
 
       | route | perf | a11y | best-practices | seo | LCP |
       | --- | --- | --- | --- | --- | --- |
-      | `/uk` | 75 | 100 | 100 | 69 | 9.0s |
+      | `/uk` | 82 | 100 | 100 | 69 | 4.9s |
+      | `/en` | 82 | 100 | 100 | 69 | 4.9s |
       | `/uk/product/dimaya` | 83 | 98 | 100 | 69 | 4.8s |
-      | `/uk/catalog` | 84 | 98 | 100 | 69 | 4.5s |
-      | `/uk` desktop | 99 | 100 | 100 | 69 | 1.0s |
+      | `/uk/catalog` | 84 | 98 | 100 | 69 | 4.6s |
+      | `/uk` desktop | 100 | 100 | 100 | 69 | 0.1s |
+
+      Homepage figures updated 2026-09-18 after `4c85e23`; it was 75 and 9.0s.
+      Under real throttling the homepage is 85 with LCP 2.9s.
 
       **Read performance as a band, not a value.** Three runs of one unchanged
       build gave 86, 84, 84 on the catalogue. Anything inside ±4 points or ±0.4s
@@ -743,41 +747,82 @@ answer on its own.
       **Still failing:** `heading-order` on the product and catalogue pages, both
       jumping to `<h3>` with no `<h2>` above. That is what holds them at 98.
 
-- [ ] **S — The homepage LCP is 9.0s on throttled mobile, and it is the hero
-      video.** Measured 2026-09-16, stable across every run. The video is the only
-      large element on mobile, so it is the LCP element by default, and at Slow 4G
-      the 2.07 MB download *is* the nine seconds.
+- [x] **S — The homepage LCP was 12.0s on mobile, and it was the hero video.**
+      Fixed 2026-09-18 in `4c85e23`. Real throttling: **12.0s and 64 became 2.9s
+      and 85**. Simulated: 9.0s and 75 became 4.9s and 82. Desktop stayed 100.
 
-      Worse than the metric: for those nine seconds the hero is blank white,
-      because the copy is white and there is no longer a poster or overlay behind
-      it. A visitor arriving from Instagram sees nothing at all.
+      **Read the old numbers with care.** Everything recorded before this used
+      Lighthouse's default *simulated* throttling, which reported 8.5s where real
+      applied throttling reported 12.0s. Use `--throttling-method=devtools` when a
+      number has to be trusted.
 
-      Measured options, three runs each:
+      **The cause was paint order, not bytes.** Nothing large sat in the mobile
+      HTML, so the video was the first big element to paint. LCP keeps whichever
+      element painted first at the largest size, so the video held the entry at
+      12s and nothing arriving later could displace it.
 
-      | treatment | LCP | perf |
-      | --- | --- | --- |
-      | today, video only | 9.0s | 75 |
-      | 494-byte inline blurred first frame | 8.6s | 75 |
-      | poster as CSS background | 5.0s | 81 |
-      | poster as preloaded `<img>` | 5.0s | 81 |
+      Three plausible causes were measured and ruled out. A 2.75 MB faststart
+      encode scored the same 12.0s as the 3.24 MB one, so file size was not it.
+      Stripping 1.5 MB from the Instagram strip moved LCP by 0.4s. Hydration was
+      never a factor: bootup 0.2s, total blocking time 10ms, FCP 0.9s.
 
-      **The placeholder trick does not work.** Chrome excludes low-entropy images
-      from LCP candidacy on purpose, so an inlined blur cannot move the metric.
-      Do not reach for it again.
+      What exposed the mechanism was dropping `PROBE_TIMEOUT_MS` to 6s. The poster
+      then won the LCP entry, but at **12.6s**, because its 46 KB request was
+      queued behind the video's 3.2 MB download. The two compete for one throttled
+      connection, which is why every half-measure was bistable, sometimes 3s and
+      sometimes 12s across identical builds.
 
-      **A poster caps out at 5.0s**, still short of the 2.5s "good" threshold, and
-      preloading it changes nothing — it is not waiting on discovery, it is
-      competing with the video for the same pipe. The owner rejected the poster
-      look on 2026-09-15, twice.
+      **The fix is one `<picture>` with `fetchPriority="high"`**, which is the
+      structure the file had before the poster was removed, and which
+      `globals.css` still assumed — its `animate-hero-zoom` comment describes "one
+      `<picture>`, so this sits on the element the phone also uses". `media` is
+      resolved before the fetch, so a phone takes the 46 KB poster and a desktop
+      the 101 KB landscape. That also ended the 101 KB every phone was downloading
+      and never painting.
 
-      That leaves a smaller video as the only untried lever, since LCP here is
-      essentially the video's download time. Roughly 4 to 5s at 1 MB, estimated
-      rather than measured.
+      **Two traps worth keeping.** A 494-byte inlined blur moves nothing: Chrome
+      excludes low-entropy images from LCP candidacy by design. And an encode
+      without `-movflags +faststart` measured *worse* (14.8s), because the browser
+      must pull the whole file before a frame appears. Both production encodes
+      have `moov` at byte 32 and are correct.
 
-      Separately, and cheaper: dark hero copy on mobile would fix the blank screen
-      without a poster. It does not change LCP — the video is still the largest
-      element — but the visitor would see the brand, the tagline and the call to
-      action immediately instead of a white rectangle.
+      **Cost:** 46 KB on every mobile visit, and a still is visible before the
+      video. The owner had asked for that still removed on 2026-09-15; it is
+      acceptable now only because the poster is the video's own first frame and
+      there is no cross-fade, so the picture does not change, it begins to move.
+
+- [x] **S — Low Power Mode showed a blank white hero.** iOS refuses unprompted
+      playback, the probe fails, the video unmounts, and with the poster gone that
+      left white copy on a white ground. Fixed by the same change: the still is
+      already painted when `play()` is refused. **3.0s and 92**, against 8.7s and
+      a blank screen while the poster was gated behind JavaScript. Those visits
+      fetch no video at all, 3.3 MB against 6.4 MB, because `preload="none"` means
+      nothing loads until a `play()` that never succeeds. Same for Save-Data,
+      reduced motion and a decode error.
+
+- [ ] **S — The Instagram strip is 1.70 MB, and one file is most of it.**
+      `post_2.webp` is 3334x5000 and 1 MB, rendered in a four-across grid at 25vw
+      on desktop and 50vw on mobile, so a thumbnail. Resized to 800px at the same
+      quality it is 44 KB. `post_3.webp` is 591 KB against 93 KB; `post_1.webp` is
+      already sensible at 101 KB. All three together drop to roughly 170 KB.
+
+      Worth doing for the data, not the score: removing them moved LCP by 0.4s but
+      takes a quarter off the homepage's transfer. Measured 2026-09-18.
+      -> `public/instagram/`
+
+- [ ] **S — `heading-order` on the product and catalogue pages.** Both jump from
+      `<h1>` straight to `<h3>` with no `<h2>` between, confirmed in the built
+      HTML. The last real accessibility failure, and what holds those two pages at
+      98 where the homepage is 100.
+      -> `src/components/product/ProductInfo.tsx`, `src/components/catalog/`
+
+- [ ] **S — 17 product images sit above 0.15 bytes per pixel**, against a median
+      of 0.086. Re-encoding them at the quality the rest of the set uses saves
+      2.3 MB of 19.3 MB, with no dimension change. Lauri is worst: `black_4.webp`
+      is 373 KB against 116 KB re-encoded, `black_2.webp` 670 KB against 283 KB.
+      Some barely move, meaning those are genuinely detailed rather than badly
+      encoded. **Deferred by the owner 2026-09-15**, who will do the image pass.
+      -> `public/products/`
 
 ---
 
@@ -1082,9 +1127,9 @@ Do all of it before flipping indexing on.
       debugger.
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
       dropdown.
-- [ ] **S — Confirm the locale files are still key-identical.** 365 keys including
+- [ ] **S — Confirm the locale files are still key-identical.** 362 keys including
       intermediate objects, 269 of them leaves, across 12 namespaces — verified
-      2026-09-16. The number has grown with every copy addition, so re-count rather
+      2026-09-18. The number has grown with every copy addition, so re-count rather
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
