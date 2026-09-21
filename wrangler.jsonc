@@ -18,11 +18,11 @@
   // Wrangler warns, in output nobody reads twice.
   "routes": [{ "pattern": "velels.com", "custom_domain": true }],
 
-  // `workers_dev` is left at its default of true on purpose. It is the only URL
-  // the deploy can be smoke-tested on before the apex resolves. Set it to false
-  // once velels.com answers: removing the hostname beats asking crawlers not to
-  // index it, and it also removes a duplicate of the whole site whose canonicals
-  // point elsewhere.
+  // Off since 2026-09-21, once velels.com answered. Removing the hostname beats
+  // asking crawlers not to index it, and it also removes a second copy of the
+  // whole site. Turn it back on only if the apex ever needs bypassing to debug a
+  // deploy.
+  "workers_dev": false,
 
   // No `main`: this is an assets-only Worker. There is no Worker script, so no
   // code runs on a page view and static-asset requests are free and unlimited.
