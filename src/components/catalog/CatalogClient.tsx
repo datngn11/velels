@@ -88,6 +88,7 @@ function CatalogGrid({ activeFilter, onFilter, isPending }: CatalogGridProps) {
                 delay={delayClass}
               >
                 <ProductCard
+                  as="h2"
                   product={product}
                   sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
