@@ -3,6 +3,27 @@
   "name": "velels",
   "compatibility_date": "2026-08-28",
 
+  // The apex as a Custom Domain, declared here rather than clicked in the
+  // dashboard so it reapplies on every deploy. This is the `custom_domain` form,
+  // not `route` + `zone_name`: that one routes a script at a URL pattern, which
+  // is not what a whole-site static deploy wants.
+  //
+  // Custom Domains match the exact hostname, so this does not catch
+  // `www.velels.com`. That stays a dashboard redirect rule to the apex, which
+  // keeps one canonical hostname rather than serving the site on two.
+  //
+  // If a second Worker is ever added, its environment needs `"routes": []`.
+  // `routes` is inheritable, so a named environment without that line inherits
+  // this domain and its deploy reassigns `velels.com` away from production.
+  // Wrangler warns, in output nobody reads twice.
+  "routes": [{ "pattern": "velels.com", "custom_domain": true }],
+
+  // `workers_dev` is left at its default of true on purpose. It is the only URL
+  // the deploy can be smoke-tested on before the apex resolves. Set it to false
+  // once velels.com answers: removing the hostname beats asking crawlers not to
+  // index it, and it also removes a duplicate of the whole site whose canonicals
+  // point elsewhere.
+
   // No `main`: this is an assets-only Worker. There is no Worker script, so no
   // code runs on a page view and static-asset requests are free and unlimited.
   "assets": {
