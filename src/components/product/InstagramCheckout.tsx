@@ -45,7 +45,6 @@ export function InstagramCheckout({
       product: productName,
       color: colorLabel,
       size: selectedSize ?? SIZE_PLACEHOLDER,
-      site: siteConfig.host,
     });
 
     // Everything below runs synchronously inside the click handler so it cannot

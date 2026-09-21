@@ -112,9 +112,19 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       `https://velels.com`. One variable, six call sites.
       → Done 2026-08-27. `NEXT_PUBLIC_SITE_URL` reads into `src/lib/config.ts`,
       which exports `siteConfig.url`, `siteConfig.host` and `absoluteUrl()`. The
-      `orderMessage` signature now takes a `{site}` placeholder. Documented in
-      `.env.example`. Confirmed by building against the other domain: every
-      canonical, OG url, image url and JSON-LD offer url followed.
+      `orderMessage` signature took a `{site}` placeholder, since removed with the
+      signature itself on 2026-09-21. Documented in `.env.example`. Confirmed by
+      building against the other domain: every canonical, OG url, image url and
+      JSON-LD offer url followed.
+
+      **The variable is set wrong in production.** Workers Builds has
+      `NEXT_PUBLIC_SITE_URL=https://velels.datngn11.workers.dev`, left from before
+      the apex existed, so every live canonical, hreflang, `og:url` and JSON-LD
+      url points at a hostname that 404s. The code default is already
+      `https://velels.com`, so deleting the variable fixes it. **This has to land
+      before indexing is turned on**, or Google is told the canonical home of
+      every page is a host that does not exist. Found 2026-09-21 by reading the
+      live HTML, not the build.
 - [ ] *Optional, **S**:* **move `hero_mobile.mp4` to R2.** R2's free tier is 10 GB
       with no egress charge, and a custom domain on the bucket is required — the
       `r2.dev` subdomain is rate-limited and documented as development-only.
@@ -255,10 +265,15 @@ the full plan, not less.
       Consultant also sees a form; actively misleading when the message is the whole
       Order Request.
       → `src/components/product/ProductInfo.tsx`
-- [x] **S — Add a height line to the copied message.** The Consultant asks for height
-      in every conversation. A blank `Мій зріст: ___ см` in the prefilled text costs
-      nothing, collects nothing, and removes one round trip. This is not a form and
-      must not grow into one.
+- [x] ~~**S — Add a height line to the copied message.**~~ **Reverted 2026-09-21
+      at the owner's request.** The blank `Мій зріст: ___ см` is gone, along with
+      the `— via {site}` signature. The Consultant asks for height and the other
+      measurements in conversation anyway, so the line saved no round trip and
+      only made the pasted text look like a form to fill in.
+
+      The greeting is `Вітаю!` rather than `Привіт!`, the owner's wording: it is
+      the singular a customer would write, where `Вітаємо` is the plural a
+      business uses, and `Доброго дня` would be wrong outside daytime. The message is one line: greeting, model, colour, size.
       → `src/messages/{uk,en}.json` `productDetail.orderMessage`
 - [x] **S — Make the button the primary and only call to action.** In the full plan
       Direct is demoted to a quiet secondary under "Замовити". That instruction is

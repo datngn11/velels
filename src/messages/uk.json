@@ -145,7 +145,7 @@
     "orderViaInstagram": "Замовити через Instagram",
     "details": "Деталі",
     "care": "Догляд",
-    "orderMessage": "Привіт! Хочу замовити {product}, колір: {color}, розмір: {size}.\nМій зріст: ___ см\n— via {site}",
+    "orderMessage": "Вітаю! Хочу замовити {product}, колір: {color}, розмір: {size}.",
     "copiedToClipboard": "Повідомлення скопійовано ✓",
     "responseTime": "Відповідаємо в Direct щодня з 7:00 до 22:00",
     "regularPrice": "Звичайна ціна",
