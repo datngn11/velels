@@ -12,9 +12,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 w-full max-w-140">
           {/* Customer Care */}
           <div className="flex flex-col gap-3 items-center md:items-start">
-            <h3 className="text-label-lg text-primary uppercase font-semibold">
+            <h2 className="text-label-lg text-primary uppercase font-semibold">
               {t("customerCare")}
-            </h3>
+            </h2>
             <Link
               href="/info/payment"
               className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
@@ -49,9 +49,9 @@ export function Footer() {
 
           {/* Information */}
           <div className="flex flex-col gap-3 items-center md:items-start">
-            <h3 className="text-label-lg text-primary uppercase font-semibold">
+            <h2 className="text-label-lg text-primary uppercase font-semibold">
               {t("about")}
-            </h3>
+            </h2>
             <Link
               href="/info/about"
               className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"

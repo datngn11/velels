@@ -11,6 +11,12 @@ interface ProductCardProps {
   sizes: string;
   /** Extra classes on the link, for grid-specific layout like the staggered offset. */
   className?: string;
+  /**
+   * Heading level for the product name. The homepage grid sits under a section
+   * `<h2>`, so its cards are `h3`. The catalogue has only the page `<h1>` above
+   * it, so its cards are `h2`. Passing the wrong one skips a level.
+   */
+  as?: "h2" | "h3";
 }
 
 /**
@@ -23,7 +29,12 @@ interface ProductCardProps {
  * Hover zoom comes from `.hover-image-zoom` in `globals.css`, which already respects
  * `prefers-reduced-motion` — do not add an inline transform.
  */
-export function ProductCard({ product, sizes, className = "" }: ProductCardProps) {
+export function ProductCard({
+  product,
+  sizes,
+  className = "",
+  as: Heading = "h3",
+}: ProductCardProps) {
   const t = useTranslations("products");
 
   return (
@@ -46,9 +57,9 @@ export function ProductCard({ product, sizes, className = "" }: ProductCardProps
         />
       </div>
       <div className="flex justify-between items-baseline px-1 gap-2">
-        <h3 className="text-body-md text-primary tracking-wide font-medium">
+        <Heading className="text-body-md text-primary tracking-wide font-medium">
           {t(`${product.slug}.name`)}
-        </h3>
+        </Heading>
         <Price
           product={product}
           className="text-body-md text-secondary whitespace-nowrap"
