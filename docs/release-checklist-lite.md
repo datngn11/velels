@@ -50,18 +50,21 @@ Ordering is dependency-first. L1 unblocks most of L3.
       stays available to anyone. Still to register, see L1. The site URL comes from
       `NEXT_PUBLIC_SITE_URL`, so a later change is one line.
 
-- [ ] **S — Owner: is another sale coming, and the missing product facts.** The
-      2026-08-28 sale has ended and the mechanism is built and idle (L4), so this is
-      no longer blocking — but three product facts still are:
-      - which Models go on sale next, at what price
-      - the **height ranges per size**, for the size-guide column the direct
-        competitor has and this site does not
-      - ~~**fabric composition for the two dresses.**~~ **Answered and shipped**
-        in `e5b5cc8`: `lunar` is поліамід 80% / віскоза 17% / еластан 3%,
-        `noblesse` поліамід 80% / віскоза 20%.
+- [ ] **S — Owner: the height ranges per size.** For the size-guide column the
+      direct competitor has and this site does not. The guide carries bust, waist
+      and hips only.
 
-      The ФОП details are shipped too. Two things left in this item, not five:
-      the next sale, and the height ranges per size.
+      **No sale is coming.** The owner confirmed on 2026-09-21 that none is
+      planned, after the 2026-08-28 one ended. The mechanism is built and idle and
+      no product carries sale data. Stop asking; raise it only if the owner does.
+
+      Fabric composition for the two dresses, once listed here, shipped in
+      `e5b5cc8`: `lunar` is поліамід 80% / віскоза 17% / еластан 3%, `noblesse`
+      поліамід 80% / віскоза 20%.
+
+      The ФОП details shipped as well. Of the five things this item once blocked
+      on, only the height ranges remain.
+
 - [ ] **S — Owner: the dress size chart.** Bust runs 82–84, 86–88, 90–92, 94–98, so
       85, 89 and 93 cm fit no size. The swimwear chart is fine — it overlaps at the
       boundaries rather than gapping. Closing the gap is a manufacturing decision,
