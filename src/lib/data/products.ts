@@ -217,26 +217,46 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/azure/black_1.webp",
-        alt: "Azure black one-piece swimsuit - side silhouette",
+        alt: "Azure black one-piece swimsuit - halter neck and keyhole cutout, studio front view",
         color: "black",
       },
       {
         src: "/products/azure/black_2.webp",
-        alt: "Azure black one-piece swimsuit - front view",
+        alt: "Azure black one-piece swimsuit - arms raised, waist cutouts",
         color: "black",
       },
       {
         src: "/products/azure/black_3.webp",
-        alt: "Azure black one-piece swimsuit - back detail",
+        alt: "Azure black one-piece swimsuit - seated studio pose",
         color: "black",
       },
       {
         src: "/products/azure/black_4.webp",
-        alt: "Azure black one-piece swimsuit - fabric close-up",
+        alt: "Azure black one-piece swimsuit - high-cut back detail",
         color: "black",
       },
       {
         src: "/products/azure/black_5.webp",
+        alt: "Azure black one-piece swimsuit - side silhouette",
+        color: "black",
+      },
+      {
+        src: "/products/azure/black_6.webp",
+        alt: "Azure black one-piece swimsuit - front view",
+        color: "black",
+      },
+      {
+        src: "/products/azure/black_7.webp",
+        alt: "Azure black one-piece swimsuit - back detail",
+        color: "black",
+      },
+      {
+        src: "/products/azure/black_8.webp",
+        alt: "Azure black one-piece swimsuit - fabric close-up",
+        color: "black",
+      },
+      {
+        src: "/products/azure/black_9.webp",
         alt: "Azure black one-piece swimsuit - editorial portrait",
         color: "black",
       },
