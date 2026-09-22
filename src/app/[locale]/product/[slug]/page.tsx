@@ -8,7 +8,12 @@ import { ProductView } from "@/components/product/ProductView";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
-import { breadcrumbJsonLd, serialiseJsonLd } from "@/lib/seo/jsonLd";
+import {
+  breadcrumbJsonLd,
+  returnPolicyJsonLd,
+  serialiseJsonLd,
+  shippingDetailsJsonLd,
+} from "@/lib/seo/jsonLd";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { priceView } from "@/lib/utils/price";
 
@@ -83,8 +88,13 @@ export default async function ProductPage({ params }: Props) {
       // to visitors and hidden from Google, or the reverse.
       price: price.current.toString(),
       // Nothing is stocked — every garment is sewn after the Order. InStock
-      // claimed availability the business cannot back.
+      // claimed availability the business cannot back. Google's supported list
+      // is narrower than schema.org's and does not include MadeToOrder, so it
+      // reports this as an unrecognised value and ignores it. Every accepted
+      // alternative would be a false claim.
       availability: "https://schema.org/MadeToOrder",
+      hasMerchantReturnPolicy: returnPolicyJsonLd(product.category),
+      shippingDetails: shippingDetailsJsonLd(),
     },
   };
 
