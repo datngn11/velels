@@ -10,7 +10,15 @@ import "./globals.css";
 // client-side redirect to `/uk` outside the `[locale]` tree, and the 404.
 export const metadata: Metadata = {
   robots: shouldAllowIndexing()
-    ? { index: true, follow: true }
+    ? {
+        index: true,
+        follow: true,
+        // Previews are standard size by default, and Discover shows a large
+        // image only where this is set. The 22 product pages do not benefit yet
+        // — their share image is 1167px wide, under Discover's 1200 minimum, and
+        // portrait where it wants landscape. Fixed by the 1200x630 cards, lite L3.
+        "max-image-preview": "large",
+      }
     : { index: false, follow: false },
 };
 
