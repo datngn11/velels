@@ -205,7 +205,7 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       all, and the product carousels are the heaviest thing a visitor loads.
       *If time runs out, the minimum acceptable version is the hero `<picture>` fix
       in L5 alone, leaving `unoptimized: true` in place.*
-- [ ] **S — Add `www.velels.com` as well as the apex.** Workers Custom Domains
+- [x] **S — Add `www.velels.com` as well as the apex.** Workers Custom Domains
       match the exact hostname, so `velels.com` does not catch `www.velels.com`. A
       redirect rule from `www` to the apex is better than two Custom Domains,
       because it keeps one canonical hostname.
@@ -222,7 +222,17 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       from production. Wrangler warns — *"Deploying this environment will reassign
       these custom domains away from the top-level Worker"* — in output nobody reads
       twice. Confirmed with a dry-run on 2026-09-09.
-- [ ] **S — Keep preview and `workers.dev` URLs out of the index.** The existing
+
+      **Done 2026-09-21.** The apex is a Custom Domain declared in
+      `wrangler.jsonc` (`c1497c1`) so it reapplies on every deploy. `www` is a
+      proxied CNAME to the apex plus a Redirect Rule: 301, wildcard path, query
+      string preserved. Verified `/`, `/uk`, a deep product path and `?ref=story`
+      all reach the apex in one hop.
+
+      The rule matched nothing at first because the Request URL carried a leading
+      space. Cloudflare flagged it twice, as "include the protocol" and as a
+      proxying warning, and both were dismissed as UI glitches. They were not.
+- [x] **S — Keep preview and `workers.dev` URLs out of the index.** The existing
       `NEXT_PUBLIC_ALLOW_INDEXING` gate already fails closed. Set it only on the
       production build.
       **Better than `noindex`: set `"workers_dev": false` in `wrangler.jsonc` once the
@@ -231,6 +241,9 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       also removes a duplicate-content source whose canonicals point at the real
       domain. It has to stay enabled until then, because it is the only URL the
       first deploy can be smoke-tested on.
+
+      **Done 2026-09-21** in `65b8402`: `workers_dev: false` once the apex
+      answered. Versioned preview URLs 404 as well, so no second copy exists.
 - [ ] *Optional, **S**:* replace the client-side `/` to `/uk` redirect with a Worker
       redirect on that one path. Only `/` would invoke Worker code, which is
       thousands of requests a month against a free ceiling of 100,000 a day.
@@ -849,11 +862,18 @@ answer on its own.
       verbatim with no format negotiation, so an AVIF would simply fail below
       iOS 16.4. Revisit when the full plan turns optimization on.
 
-- [ ] **S — `heading-order` on the product and catalogue pages.** Both jump from
+- [x] **S — `heading-order` on the product and catalogue pages.** Both jump from
       `<h1>` straight to `<h3>` with no `<h2>` between, confirmed in the built
       HTML. The last real accessibility failure, and what holds those two pages at
       98 where the homepage is 100.
       -> `src/components/product/ProductInfo.tsx`, `src/components/catalog/`
+
+      **Done 2026-09-21** in `916490f`, PR #28. The footer columns were the
+      cause: `h3` on every page, and the homepage only passed because ProductGrid
+      and InstagramFeed emit `h2`s above them. They are `h2` now, and
+      `ProductCard` takes a heading level: `h3` inside the homepage section, `h2`
+      on the catalogue where only the page `h1` is above it. Accessibility 100 on
+      home, catalogue and product.
 
 - [ ] **S — 17 product images sit above 0.15 bytes per pixel**, against a median
       of 0.086. Re-encoding them at the quality the rest of the set uses saves
@@ -979,12 +999,19 @@ answer on its own.
 
       **Still open in the same file:** section [0] reserves the right to change
       the terms "в будь-який час", another unfair-term candidate under ст. 18.
-- [ ] **S — International wording.** State plainly that international orders are
+- [x] **S — International wording.** State plainly that international orders are
       quoted individually, with full prepayment and shipping paid in advance.
       -> **Two of the three already hold**, in eleven places across the delivery
       page, FAQ, payment page, the PDP payment bullet and the privacy policy: full
       prepayment, and shipping paid in advance. Only *quoted individually* is
       missing, and it needs the owner's wording.
+
+      **Done 2026-09-21** in `f86a93a`, English only. "prepaid in full,
+      including the cost of shipping" read either way; it is two sentences now,
+      with "Shipping is quoted separately by destination" on the PDP and the
+      payment page. The owner reverted the matching Ukrainian, so `uk` states
+      prepayment and shipping in advance without saying the amount is quoted.
+      The locales differ in completeness, not meaning.
 - [ ] *Optional, **S**:* approximate currency on the `en` locale. A visitor in London
       sees `3 750 ₴` with no conversion.
 
@@ -1156,21 +1183,33 @@ what to photograph next, and it is the whole point of the phase.
 
 Do all of it before flipping indexing on.
 
-- [ ] **M — The Direct handoff on a real phone**, inside the Instagram in-app
+- [x] **M — The Direct handoff on a real phone**, inside the Instagram in-app
       browser, on mobile data, both iOS and Android if possible. This is the single
       highest-risk item in lite and the one most likely to be silently broken.
-- [ ] **S — Both locales, every route:** home, catalog, filtered catalog, all 11
+
+      **Done 2026-09-22.** The owner tested it inside the Instagram in-app
+      browser and the message copied and pasted as expected. This was the only
+      part of the order path nothing could check remotely.
+- [x] **S — Both locales, every route:** home, catalog, filtered catalog, all 11
       products, all nine info pages, 404, error page.
+
+      **Done 2026-09-22** against the live site: 51 pages, all 200. Both
+      homepages, both catalogues, 11 products x 2, 9 info pages x 2, plus robots,
+      sitemap, manifest and the OG image. `/nonexistent` returns a real 404 with
+      the Ukrainian error page.
 - [ ] **S — Share previews for real.** Post a product link into Telegram and
       Instagram and look at what renders. Run the homepage through Facebook's sharing
       debugger.
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
       dropdown.
-- [ ] **S — Confirm the locale files are still key-identical.** 362 keys including
+- [x] **S — Confirm the locale files are still key-identical.** 362 keys including
       intermediate objects, 269 of them leaves, across 12 namespaces — verified
       2026-09-18. The number has grown with every copy addition, so re-count rather
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
+
+      **Verified 2026-09-22:** 269 leaves, 362 including intermediate objects,
+      identical across `uk` and `en`, zero one-sided keys.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".
@@ -1184,8 +1223,20 @@ Do all of it before flipping indexing on.
       the export writes `out/uk.html`, **not** `out/uk/index.html` (there is no
       `trailingSlash`), and `grep -c` on a path that does not exist returns `0`, which
       reads exactly like a real failure.
-- [ ] **S — Flip indexing on**, submit the sitemap in Search Console, verify the
+- [x] **S — Flip indexing on**, submit the sitemap in Search Console, verify the
       property.
+
+      **Done 2026-09-22.** `NEXT_PUBLIC_ALLOW_INDEXING=true` in Workers Builds,
+      then a rebuild, because it is inlined at build time and setting the
+      variable alone changes nothing. Live: `index, follow`, `robots.txt` carries
+      `Host:` and `Sitemap:`, sitemap holds 44 URLs with 88 hreflang alternates.
+      Fetched all 44: none broken, none on the wrong host. Search Console
+      verified by DNS TXT on the domain property; sitemap submitted and
+      processed, 44 pages discovered.
+
+      Expect a lag. Google's first crawl landed before the rebuild, so URL
+      Inspection reported `noindex` from cache afterwards. Use "Test live URL"
+      rather than the cached verdict when checking.
 
 ---
 
