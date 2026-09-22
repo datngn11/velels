@@ -1208,8 +1208,9 @@ Do all of it before flipping indexing on.
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 
-      **Verified 2026-09-22:** 269 leaves, 362 including intermediate objects,
-      identical across `uk` and `en`, zero one-sided keys.
+      **Verified 2026-09-22:** 272 leaves, 365 including intermediate objects,
+      identical across `uk` and `en`, zero one-sided keys. The three singular
+      category nouns in `meta` were added for the product `<title>`.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".

@@ -5,7 +5,11 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ProductView } from "@/components/product/ProductView";
-import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
+import {
+  getProductBySlug,
+  getAllProductSlugs,
+  type ProductCategory,
+} from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import {
@@ -19,6 +23,17 @@ import { priceView } from "@/lib/utils/price";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
+};
+
+/**
+ * Category noun for the `<title>`, in `meta` because it is metadata vocabulary.
+ * A model name is the one word nobody searches, so the title carries the thing
+ * they do type instead.
+ */
+const CATEGORY_KEY: Record<ProductCategory, string> = {
+  "one-piece": "categoryOnePiece",
+  "two-piece": "categoryTwoPiece",
+  dresses: "categoryDresses",
 };
 
 export async function generateStaticParams() {
@@ -36,9 +51,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return {};
 
   const t = await getTranslations({ locale, namespace: "products" });
+  const tMeta = await getTranslations({ locale, namespace: "meta" });
   const productKey = product.slug;
   const productName = t(`${productKey}.name`);
   const tagline = t(`${productKey}.tagline`);
+
+  // Comma, not a dash: the layout template already appends " — VELÉLS" and two
+  // dashes in one title read as a mistake. Works in both languages.
+  const title = `${productName}, ${tMeta(CATEGORY_KEY[product.category])}`;
 
   // No image width/height anywhere here: the shoot is 2:3 portrait and the 88
   // product images span 18 distinct sizes, so no declared pair could be true for
@@ -47,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({
     locale,
     path: `/product/${slug}`,
-    title: productName,
+    title,
     description: tagline,
     image: absoluteUrl(product.images[0].src),
     imageAlt: `${productName} by VELÉLS`,
