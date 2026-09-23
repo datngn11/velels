@@ -95,8 +95,8 @@ subset, and a later phase must not be started before its dependency.
   next-intl middleware enabled, image optimization on.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two locale
-  files must stay key-identical** — 272 leaf keys across 12 top-level namespaces,
-  365 counting intermediate objects, verified 2026-09-22. Adding a key to one and
+  files must stay key-identical** — 273 leaf keys across 12 top-level namespaces,
+  366 counting intermediate objects, verified 2026-09-22. Adding a key to one and
   not the other breaks the build. A key may be absent from a product in both files
   at once — `fabric`, `hardware` and `length` are read through `tProduct.has()` and
   only some Models carry them. That is parity, not a gap.
