@@ -6,7 +6,8 @@
     "productTitleSuffix": "— VELÉLS",
     "categoryOnePiece": "one-piece swimsuit",
     "categoryTwoPiece": "two-piece swimsuit",
-    "categoryDresses": "resort dress"
+    "categoryDresses": "resort dress",
+    "productDescriptionTail": "Sizes {sizes}, made to order."
   },
   "nav": {
     "catalogue": "Catalogue",
