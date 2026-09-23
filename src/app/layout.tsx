@@ -13,10 +13,9 @@ export const metadata: Metadata = {
     ? {
         index: true,
         follow: true,
-        // Previews are standard size by default, and Discover shows a large
-        // image only where this is set. The 22 product pages do not benefit yet
-        // — their share image is 1167px wide, under Discover's 1200 minimum, and
-        // portrait where it wants landscape. Fixed by the 1200x630 cards, lite L3.
+        // Allows a large image preview in web search, Images and Discover.
+        // Discover's large card also needs a share image at least 1200px wide,
+        // which product pages lack until the landscape cards land (lite L3).
         "max-image-preview": "large",
       }
     : { index: false, follow: false },

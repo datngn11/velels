@@ -62,11 +62,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // dashes in one title read as a mistake. Works in both languages.
   const title = `${productName}, ${category}`;
 
-  // The tagline is page copy, runs 55 to 120 characters and spends about half a
-  // snippet. It leads because it is the part that differs per Model; the tail
-  // adds the two facts no tagline carries. The tail names no category on
-  // purpose — the title already does, and repeating it made a third of the
-  // snippets say "суцільний купальник" twice.
+  // The tagline is page copy, so it leads unchanged. The tail names no category
+  // because the title already does, and repeating it reads as padding.
   const description = `${tagline} ${tMeta("productDescriptionTail", {
     sizes: `${product.sizes[0]}–${product.sizes[product.sizes.length - 1]}`,
   })}`;
@@ -103,8 +100,8 @@ export default async function ProductPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: productName,
-    // The bare tagline, not the composed meta description: that one names the
-    // brand and the category, which are `brand` and their own fields here.
+    // The bare tagline. The snippet tail's facts belong in structured fields
+    // here: `availability` already says MadeToOrder, and sizes belong in `size`.
     description: t(`${productKey}.tagline`),
     // Absolute: a bare path in JSON-LD is not resolvable, so these images were
     // invisible to Google despite being listed.
