@@ -7,7 +7,24 @@
     "categoryOnePiece": "one-piece swimsuit",
     "categoryTwoPiece": "two-piece swimsuit",
     "categoryDresses": "resort dress",
-    "productDescriptionTail": "Sizes {sizes}, made to order."
+    "productDescriptionTail": "Sizes {sizes}, made to order.",
+    "imageColorBlack": "black",
+    "imageColorWhite": "white",
+    "imagePosition": "photo {n}",
+    "imageShot": {
+      "front": "front view",
+      "back": "back view",
+      "side": "side view",
+      "sideBack": "side and back view",
+      "openBack": "open back",
+      "cutout": "cutouts",
+      "chain": "chain detail",
+      "top": "top",
+      "bottom": "bottoms",
+      "lace": "lace",
+      "collar": "mandarin collar",
+      "slit": "slit"
+    }
   },
   "nav": {
     "catalogue": "Catalogue",
@@ -145,6 +162,7 @@
     "color": "Color",
     "colorBlack": "Black",
     "colorWhite": "White",
+    "showImage": "Show photo {n}",
     "sizingGuide": "Sizing Guide",
     "orderViaInstagram": "Order via Instagram",
     "details": "Details",

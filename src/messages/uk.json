@@ -7,7 +7,24 @@
     "categoryOnePiece": "суцільний купальник",
     "categoryTwoPiece": "роздільний купальник",
     "categoryDresses": "курортна сукня",
-    "productDescriptionTail": "Розміри {sizes}, пошиття на замовлення."
+    "productDescriptionTail": "Розміри {sizes}, пошиття на замовлення.",
+    "imageColorBlack": "{category, select, dresses {чорна} other {чорний}}",
+    "imageColorWhite": "{category, select, dresses {біла} other {білий}}",
+    "imagePosition": "фото {n}",
+    "imageShot": {
+      "front": "вигляд спереду",
+      "back": "вигляд ззаду",
+      "side": "вигляд збоку",
+      "sideBack": "вигляд збоку й ззаду",
+      "openBack": "відкрита спина",
+      "cutout": "вирізи",
+      "chain": "ланцюжок",
+      "top": "ліф",
+      "bottom": "трусики",
+      "lace": "мереживо",
+      "collar": "комір-стійка",
+      "slit": "розріз"
+    }
   },
   "nav": {
     "catalogue": "Каталог",
@@ -145,6 +162,7 @@
     "color": "Колір",
     "colorBlack": "Чорний",
     "colorWhite": "Білий",
+    "showImage": "Показати фото {n}",
     "sizingGuide": "Таблиця розмірів",
     "orderViaInstagram": "Замовити через Instagram",
     "details": "Деталі",

@@ -2,13 +2,17 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/lib/data/products";
 
 interface ImageCarouselProps {
   images: ProductImage[];
+  /** One per image, same order. Composed by the caller, which knows the Model. */
+  alts: string[];
 }
 
-export function ImageCarousel({ images }: ImageCarouselProps) {
+export function ImageCarousel({ images, alts }: ImageCarouselProps) {
+  const t = useTranslations("productDetail");
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -44,7 +48,7 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
           >
             <Image
               src={image.src}
-              alt={image.alt}
+              alt={alts[i]}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 66vw"
@@ -65,11 +69,13 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
                 ? "opacity-100 border-primary"
                 : "opacity-60 border-transparent hover:opacity-90"
             }`}
-            aria-label={`View image ${i + 1}`}
+            aria-label={t("showImage", { n: i + 1 })}
           >
+            {/* Empty alt: the button's label already names it, and a second
+                name would be read twice. */}
             <Image
               src={image.src}
-              alt={`Thumbnail ${i + 1}`}
+              alt=""
               fill
               className="object-cover"
               sizes="64px"

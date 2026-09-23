@@ -1208,10 +1208,11 @@ Do all of it before flipping indexing on.
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 
-      **Verified 2026-09-22:** 273 leaves, 366 including intermediate objects,
-      identical across `uk` and `en`, zero one-sided keys. Four keys were added
-      to `meta` for search: three singular category nouns for the product
-      `<title>`, and the tail appended to the product `<meta description>`.
+      **Verified 2026-09-23:** 289 leaves, 383 including intermediate objects,
+      identical across `uk` and `en`, zero one-sided keys. Added for search: the
+      three category nouns and the description tail in `meta`, the image alt
+      vocabulary (`meta.imageShot`, the two colour words, `imagePosition`), and
+      `productDetail.showImage` for the gallery thumbnails.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".
