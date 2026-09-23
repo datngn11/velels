@@ -532,17 +532,22 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       crawlers do not click. 34 of 101 photos, and their alts, therefore never
       reach Google except as bare URLs in the Product JSON-LD. Needs a decision on
       how to expose them before it is worth building.
-- [ ] **S — Catalogue title.** «Колекція — VELÉLS» names no product. It is the page
-      that should rank for «купальники», and has the flaw the product titles had.
-- [ ] **S — Ukrainian homepage description is 178 characters**, past the ~160
-      Google shows. English is 155. Owner's copy; propose a shorter one.
-- [ ] **S — English left on the Ukrainian homepage:** the hero, editorial and three
-      Instagram image alts, and the site-wide `og:image:alt`.
-- [ ] **S — `og:image:width`/`height` on the catalogue and info pages.** They use
-      the home image, whose size is known, but `pageMetadata()` only declares it on
-      the homepages.
-- [ ] **S — Email in the Organization JSON-LD.** Google recommends it and the
-      address is already published on the contact page.
+- [x] **S — Catalogue title.** «Колекція — VELÉLS» named no product, on the page
+      that should rank for «купальники». Now «Купальники та курортні сукні —
+      VELÉLS» from `catalog.metaTitle`; the visible heading and the breadcrumb keep
+      «Колекція». Done 2026-09-23, same branch.
+
+- [x] **S — English left on the Ukrainian homepage:** the hero, editorial and three
+      Instagram image alts, and the homepage `og:image:alt`. All localised and
+      describing what the photo shows. The hero keeps a general alt on purpose:
+      `<picture>` serves two different photos through one `<img>`. Done
+      2026-09-23, same branch.
+- [x] **S — `og:image:width`/`height` on the catalogue and info pages.** They use
+      the home image, whose size is known; `pageMetadata()` now declares it
+      whenever no image is passed. Done 2026-09-23, same branch.
+- [x] **S — Email in the Organization JSON-LD.** Google recommends it and the
+      address was already published on the contact page. Now `siteConfig.email`,
+      which the contact linkifier reads too. Done 2026-09-23, same branch.
 
       Considered and dropped, each on Google's own documentation:
       - **sku, itemCondition, colour, material, size on the Product.** These serve
@@ -557,6 +562,11 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
         Restaurant only.
       - **`og:type: product`.** Next's metadata types do not allow it, and only
         Facebook reads it.
+      - **A shorter Ukrainian homepage description.** At 178 characters it runs
+        past what a Google result shows, but Google does not show it anyway: for
+        a Ukrainian query it quotes the brand paragraph instead. Telegram, where
+        links are actually shared, shows it in full. Tried and reverted
+        2026-09-23.
 
 ---
 
@@ -1257,11 +1267,13 @@ Do all of it before flipping indexing on.
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 
-      **Verified 2026-09-23:** 289 leaves, 383 including intermediate objects,
+      **Verified 2026-09-23:** 296 leaves, 390 including intermediate objects,
       identical across `uk` and `en`, zero one-sided keys. Added for search: the
       three category nouns and the description tail in `meta`, the image alt
       vocabulary (`meta.imageShot`, the two colour words, `imagePosition`), and
-      `productDetail.showImage` for the gallery thumbnails.
+      `productDetail.showImage` for the gallery thumbnails. Then the catalogue
+      `metaTitle`, `meta.ogImageAlt`, and alts for the hero, editorial and three
+      Instagram images.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".

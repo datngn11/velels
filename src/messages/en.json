@@ -3,6 +3,7 @@
     "siteName": "VELÉLS",
     "homeTitle": "VELÉLS — Modern Swimwear and Resort Wear",
     "homeDescription": "A Ukrainian brand of premium swimwear and resort dresses. Discover collections created to celebrate your confidence and natural beauty. Worldwide shipping.",
+    "ogImageAlt": "VELÉLS: model in a white one-piece swimsuit against the sea",
     "productTitleSuffix": "— VELÉLS",
     "categoryOnePiece": "one-piece swimsuit",
     "categoryTwoPiece": "two-piece swimsuit",
@@ -22,7 +23,7 @@
       "top": "top",
       "bottom": "bottoms",
       "lace": "lace",
-      "collar": "mandarin collar",
+      "collar": "statement collar",
       "slit": "slit"
     }
   },
@@ -39,10 +40,12 @@
     "title": "VELÉLS",
     "subtitle": "Swimwear",
     "description": "Swimwear created to fit and sculpt.",
-    "cta": "Explore Collection"
+    "cta": "Explore Collection",
+    "imageAlt": "Model wearing VELÉLS swimwear"
   },
   "catalog": {
     "title": "The Collection",
+    "metaTitle": "Swimwear and Resort Dresses",
     "metaDescription": "Full collection of VELÉLS swimwear — one-pieces, two-pieces, and dresses.",
     "all": "All",
     "onePiece": "One-Pieces",
@@ -151,11 +154,15 @@
   "editorial": {
     "title": "Form.<br />Function.",
     "body": "VELÉLS is a Ukrainian swimwear brand created for women who appreciate minimalist design, flawless fit, and attention to detail. Each piece is created in small batches and undergoes strict quality control.",
-    "cta": "Read The Story"
+    "cta": "Read The Story",
+    "imageAlt": "Model in a white VELÉLS one-piece swimsuit against the sea"
   },
   "instagram": {
     "heading": "As seen on @VELÉLS",
-    "follow": "Follow Us"
+    "follow": "Follow Us",
+    "post1Alt": "Instagram post: black one-piece swimsuit by a waterfall",
+    "post2Alt": "Instagram post: black one-piece swimsuit in a pool at night",
+    "post3Alt": "Instagram post: black one-piece swimsuit on a wicker lounger"
   },
   "productDetail": {
     "size": "Size",
