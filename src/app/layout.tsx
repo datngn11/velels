@@ -14,8 +14,9 @@ export const metadata: Metadata = {
         index: true,
         follow: true,
         // Allows a large image preview in web search, Images and Discover.
-        // Discover's large card also needs a share image at least 1200px wide,
-        // which product pages lack until the landscape cards land (lite L3).
+        // Discover's large card also needs a share image at least 1200px wide
+        // and prefers landscape. Product covers are all portrait, and most are
+        // narrower, until the landscape cards land (lite L3).
         "max-image-preview": "large",
       }
     : { index: false, follow: false },
