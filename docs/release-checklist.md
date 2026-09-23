@@ -128,8 +128,9 @@ Everything the order form depends on. Land before Phase 5.
 - [ ] **M — `Products` collection** with localized `uk`/`en` fields (name, tagline,
       details, care), colours, sizes, heights, price, salePrice, releasedAt, images.
 - [ ] **M — Migrate the 11 products** out of `products.ts` and the `products`
-      namespace of the message files. Verify nothing lost — 93 images with
-      hand-written alt text.
+      namespace of the message files. Verify nothing lost — 101 images, each
+      with a colour and, where one applies, a `shot` tag. Alt text is composed
+      from those by `productImageAlt`, so migrate the tag, not an alt string.
 - [ ] **M — `OrderRequests` collection** with the statuses agreed in Phase 5.
 - [ ] **S — Admin UI locale** set to Russian or Ukrainian.
 - [ ] **S — Media uploads** wired so images stop living in `public/`.

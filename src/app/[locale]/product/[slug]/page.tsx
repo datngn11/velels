@@ -5,11 +5,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ProductView } from "@/components/product/ProductView";
-import {
-  getProductBySlug,
-  getAllProductSlugs,
-  type ProductCategory,
-} from "@/lib/data/products";
+import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import {
@@ -20,20 +16,10 @@ import {
 } from "@/lib/seo/jsonLd";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { priceView } from "@/lib/utils/price";
+import { CATEGORY_KEY, productImageAlt } from "@/lib/utils/productImageAlt";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
-};
-
-/**
- * Category noun for the `<title>`, in `meta` because it is metadata vocabulary.
- * A model name is the one word nobody searches, so the title carries the thing
- * they do type instead.
- */
-const CATEGORY_KEY: Record<ProductCategory, string> = {
-  "one-piece": "categoryOnePiece",
-  "two-piece": "categoryTwoPiece",
-  dresses: "categoryDresses",
 };
 
 export async function generateStaticParams() {
@@ -56,6 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const productName = t(`${productKey}.name`);
   const tagline = t(`${productKey}.tagline`);
 
+  // A model name is the one word nobody searches, so the title carries the
+  // category noun they do type.
   const category = tMeta(CATEGORY_KEY[product.category]);
 
   // Comma, not a dash: the layout template already appends " — VELÉLS" and two
@@ -78,7 +66,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     image: absoluteUrl(product.images[0].src),
-    imageAlt: `${productName} by VELÉLS`,
+    imageAlt: productImageAlt(tMeta, {
+      name: productName,
+      category: product.category,
+      color: product.images[0].color,
+      shot: product.images[0].shot,
+    }),
   });
 }
 
