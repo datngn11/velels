@@ -9,9 +9,15 @@ interface ImageCarouselProps {
   images: ProductImage[];
   /** One per image, same order. Composed by the caller, which knows the Model. */
   alts: string[];
+  /** Kept in the HTML for crawlers while another colour is shown. */
+  hidden?: boolean;
 }
 
-export function ImageCarousel({ images, alts }: ImageCarouselProps) {
+export function ImageCarousel({
+  images,
+  alts,
+  hidden = false,
+}: ImageCarouselProps) {
   const t = useTranslations("productDetail");
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -34,7 +40,7 @@ export function ImageCarousel({ images, alts }: ImageCarouselProps) {
   }, []);
 
   return (
-    <div className="w-full md:w-2/3 flex flex-col gap-6">
+    <div hidden={hidden} className="w-full md:w-2/3 flex flex-col gap-6">
       {/* Main slider */}
       <div
         ref={sliderRef}
@@ -52,7 +58,9 @@ export function ImageCarousel({ images, alts }: ImageCarouselProps) {
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 66vw"
-              priority={i === 0}
+              // Never on a hidden gallery: the preload would fetch a photo
+              // nobody sees. Lazy images under display:none do not load.
+              priority={!hidden && i === 0}
             />
           </div>
         ))}

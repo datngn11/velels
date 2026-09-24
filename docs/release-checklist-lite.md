@@ -527,11 +527,16 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
 - [ ] **S — After that branch deploys:** re-scrape the share previews (every
       product title changed) and request reindexing of the product pages in Search
       Console.
-- [ ] **M — The second colourway is invisible to crawlers.** The gallery renders
-      only the first colour in the static HTML; the other appears on a click, and
-      crawlers do not click. 34 of 101 photos, and their alts, therefore never
-      reach Google except as bare URLs in the Product JSON-LD. Needs a decision on
-      how to expose them before it is worth building.
+- [x] **M — The second colourway was invisible to crawlers.** The gallery rendered
+      only the selected colour, and crawlers do not tap the swatch, so 34 of 101
+      photos and their alts reached Google only as bare URLs in the Product
+      JSON-LD. Now one gallery per colour is in the static HTML, the inactive one
+      `hidden`: all 101 photos carry an alt. Hidden lazy images do not load, so
+      opening Lauri still downloads the same 7 photos, 1,282 KB, measured in
+      Chrome on desktop and phone. An image sitemap was considered: it carries
+      only the URL, no alt, and Google ranks images on alt and page context.
+      Done 2026-09-24 on `seo/audit-fixes`.
+      → `src/components/product/ProductView.tsx`, `ImageCarousel.tsx`
 - [x] **S — Catalogue title.** «Колекція — VELÉLS» named no product, on the page
       that should rank for «купальники». Now «Купальники та курортні сукні —
       VELÉLS» from `catalog.metaTitle`; the visible heading and the breadcrumb keep
