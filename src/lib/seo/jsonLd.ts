@@ -26,6 +26,7 @@ export function organizationJsonLd(name: string) {
     // instead of one.
     url: localeUrl(routing.defaultLocale),
     logo: absoluteUrl("/logo_black.png"),
+    email: siteConfig.email,
     sameAs: [siteConfig.social.instagram],
   };
 }

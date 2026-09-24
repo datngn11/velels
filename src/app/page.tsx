@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
           url: siteConfig.ogImage,
           width: siteConfig.ogImageWidth,
           height: siteConfig.ogImageHeight,
-          alt: t("siteName"),
+          alt: t("ogImageAlt"),
         },
       ],
     },
