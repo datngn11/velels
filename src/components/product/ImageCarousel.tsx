@@ -2,23 +2,13 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/lib/data/products";
 
 interface ImageCarouselProps {
   images: ProductImage[];
-  /** One per image, same order. Composed by the caller, which knows the Model. */
-  alts: string[];
-  /** Kept in the HTML for crawlers while another colour is shown. */
-  hidden?: boolean;
 }
 
-export function ImageCarousel({
-  images,
-  alts,
-  hidden = false,
-}: ImageCarouselProps) {
-  const t = useTranslations("productDetail");
+export function ImageCarousel({ images }: ImageCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +30,7 @@ export function ImageCarousel({
   }, []);
 
   return (
-    <div hidden={hidden} className="w-full md:w-2/3 flex flex-col gap-6">
+    <div className="w-full md:w-2/3 flex flex-col gap-6">
       {/* Main slider */}
       <div
         ref={sliderRef}
@@ -54,13 +44,11 @@ export function ImageCarousel({
           >
             <Image
               src={image.src}
-              alt={alts[i]}
+              alt={image.alt}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 66vw"
-              // Never on a hidden gallery: the preload would fetch a photo
-              // nobody sees. Lazy images under display:none do not load.
-              priority={!hidden && i === 0}
+              priority={i === 0}
             />
           </div>
         ))}
@@ -77,13 +65,11 @@ export function ImageCarousel({
                 ? "opacity-100 border-primary"
                 : "opacity-60 border-transparent hover:opacity-90"
             }`}
-            aria-label={t("showImage", { n: i + 1 })}
+            aria-label={`View image ${i + 1}`}
           >
-            {/* Empty alt: the button's label already names it, and a second
-                name would be read twice. */}
             <Image
               src={image.src}
-              alt=""
+              alt={`Thumbnail ${i + 1}`}
               fill
               className="object-cover"
               sizes="64px"

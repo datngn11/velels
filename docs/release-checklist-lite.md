@@ -326,16 +326,18 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       The owner's file is at `public/og/home.jpg`, referenced through
       `siteConfig.ogImage`, and the declared dimensions come from
       `siteConfig.ogImageWidth`/`Height` so they cannot drift from the file again.
-- [ ] **S — Owner: re-export that OG image at 1200×630.** The file is 1431×858,
-      5:3 where the share card is 1.91:1, so previews centre-crop about 6% off the
-      top and bottom. The wordmark sits centred and survives; the model's feet get
-      clipped. Cosmetic, not broken, and it needs the source file rather than a crop
-      of the JPEG.
+- [ ] **S — Owner: re-export that OG image.** It works, and it is not right. Two
+      things, both needing the source file rather than a crop of the JPEG:
 
-      -> The other half is done, 2026-09-22 in `4e5e281`. The export carried a
-      Display P3 profile, which preview crawlers and in-app browsers routinely
-      ignore, so it rendered oversaturated. It is now sRGB: a real colour transform
-      rather than a stripped profile, checked against macOS ColorSync. 182 KB, JPEG.
+      - **1200×630, not 1431×858.** The file is 5:3 where the share card is 1.91:1,
+        so previews centre-crop about 6% off the top and bottom. The wordmark sits
+        centred and survives; the model's feet get clipped. Cosmetic, not broken.
+      - **sRGB, not Display P3.** The export carries a P3 profile, and preview
+        crawlers and in-app browsers routinely ignore embedded profiles — the same
+        image then renders oversaturated, with the sky shifted. This one is worth
+        more than the crop.
+
+      Under 500 KB and JPG both already hold: 220 KB, JPEG, not WebP.
 - [x] **S — Stop declaring portrait product photos as 1200×630.**
       `generateMetadata` hardcodes `width: 1200, height: 630` on the first product
       image, but every product photo is 2:3 portrait — `dimaya/black_1.webp` is
@@ -355,12 +357,6 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       and someone has to choose the crop for all 11 products — top-biased gives a
       face, centred gives the garment. Cannot be verified until the domain is behind
       Cloudflare. Judge the result in L8's share-preview pass.
-
-      **Checked 2026-09-23:** the domain is behind Cloudflare now, but
-      `/cdn-cgi/image/…` returns 404, so Image Transformations are not enabled on
-      the zone. That is a dashboard switch for the owner, or the owner supplies the
-      eleven files instead. Size is not the obstacle: 4 of the 11 covers are already
-      1200px wide or more. Orientation is. All eleven are portrait.
 - [x] **S — Favicon and `apple-icon`.**
       -> Done 2026-09-14. The owner supplied a "Vé" script monogram and composed
       the square crop himself; `assets/brand/icon-master.png` is that 256x256
@@ -512,66 +508,6 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       inside the `[locale]` segment, because there is no root `src/app/not-found.tsx`.
       Adding one would fix it. Whether eleven products draw enough stray traffic to
       be worth a page is a judgement call; the status code is correct either way.
-- [x] **M — Search metadata pass.** Done 2026-09-23 on `seo/audit-fixes`, which
-      is **not deployed until it is merged and pushed**. Audited against Google's
-      docs and the built output of all 44 indexable pages; canonicals, hreflang,
-      status codes and `robots.txt` were already right.
-      1. `max-image-preview:large` on the root robots tag.
-      2. Product titles name the category: «Dimaya, суцільний купальник — VELÉLS».
-      3. Product descriptions add the size range and «пошиття на замовлення».
-      4. Product image alts are composed from a per-photo `shot` tag, in the
-         page's language. Checked photo by photo, 42 of the 101 old English alts
-         described a shot the image does not show.
-      → `src/app/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`,
-      `src/lib/utils/productImageAlt.ts`, `src/lib/data/products.ts`
-- [ ] **S — After that branch deploys:** re-scrape the share previews (every
-      product title changed) and request reindexing of the product pages in Search
-      Console.
-- [x] **M — The second colourway was invisible to crawlers.** The gallery rendered
-      only the selected colour, and crawlers do not tap the swatch, so 34 of 101
-      photos and their alts reached Google only as bare URLs in the Product
-      JSON-LD. Now one gallery per colour is in the static HTML, the inactive one
-      `hidden`: all 101 photos carry an alt. Hidden lazy images do not load, so
-      opening Lauri still downloads the same 7 photos, 1,282 KB, measured in
-      Chrome on desktop and phone. An image sitemap was considered: it carries
-      only the URL, no alt, and Google ranks images on alt and page context.
-      Done 2026-09-24 on `seo/audit-fixes`.
-      → `src/components/product/ProductView.tsx`, `ImageCarousel.tsx`
-- [x] **S — Catalogue title.** «Колекція — VELÉLS» named no product, on the page
-      that should rank for «купальники». Now «Купальники та курортні сукні —
-      VELÉLS» from `catalog.metaTitle`; the visible heading and the breadcrumb keep
-      «Колекція». Done 2026-09-23, same branch.
-
-- [x] **S — English left on the Ukrainian homepage:** the hero, editorial and three
-      Instagram image alts, and the homepage `og:image:alt`. All localised and
-      describing what the photo shows. The hero keeps a general alt on purpose:
-      `<picture>` serves two different photos through one `<img>`. Done
-      2026-09-23, same branch.
-- [x] **S — `og:image:width`/`height` on the catalogue and info pages.** They use
-      the home image, whose size is known; `pageMetadata()` now declares it
-      whenever no image is passed. Done 2026-09-23, same branch.
-- [x] **S — Email in the Organization JSON-LD.** Google recommends it and the
-      address was already published on the contact page. Now `siteConfig.email`,
-      which the contact linkifier reads too. Done 2026-09-23, same branch.
-
-      Considered and dropped, each on Google's own documentation:
-      - **sku, itemCondition, colour, material, size on the Product.** These serve
-        merchant listings, and *"only pages where a shopper can purchase a product
-        are eligible"*. Ordering happens in Instagram Direct, not on the page. The
-        return and shipping policy already on the Offer is inert for the same
-        reason; it is truthful, so it stays. Revisit if an order form lands.
-      - **Sitemap `lastmod`.** Used only if *"consistently and verifiably
-        accurate"*. A static export has no honest per-page date, and a build date
-        on every page is the inaccuracy that teaches Google to ignore it.
-      - **`ItemList` on the catalogue.** Carousels support Course, Movie, Recipe and
-        Restaurant only.
-      - **`og:type: product`.** Next's metadata types do not allow it, and only
-        Facebook reads it.
-      - **A shorter Ukrainian homepage description.** At 178 characters it runs
-        past what a Google result shows, but Google does not show it anyway: for
-        a Ukrainian query it quotes the brand paragraph instead. Telegram, where
-        links are actually shared, shows it in full. Tried and reverted
-        2026-09-23.
 
 ---
 
@@ -1272,13 +1208,8 @@ Do all of it before flipping indexing on.
       than trusting this line. Several items above touch `uk.json` and `en.json`, and a key added
       to one and not the other breaks the build.
 
-      **Verified 2026-09-23:** 296 leaves, 390 including intermediate objects,
-      identical across `uk` and `en`, zero one-sided keys. Added for search: the
-      three category nouns and the description tail in `meta`, the image alt
-      vocabulary (`meta.imageShot`, the two colour words, `imagePosition`), and
-      `productDetail.showImage` for the gallery thumbnails. Then the catalogue
-      `metaTitle`, `meta.ogImageAlt`, and alts for the hero, editorial and three
-      Instagram images.
+      **Verified 2026-09-22:** 269 leaves, 362 including intermediate objects,
+      identical across `uk` and `en`, zero one-sided keys.
 - [x] **S — Confirm the analytics snippet is actually in the build**, not just a
       page view in the dashboard — the dashboard cannot tell "variable in the wrong
       box" apart from "no visitors yet".

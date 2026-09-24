@@ -16,7 +16,6 @@ import {
 } from "@/lib/seo/jsonLd";
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { priceView } from "@/lib/utils/price";
-import { CATEGORY_KEY, productImageAlt } from "@/lib/utils/productImageAlt";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -37,40 +36,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return {};
 
   const t = await getTranslations({ locale, namespace: "products" });
-  const tMeta = await getTranslations({ locale, namespace: "meta" });
   const productKey = product.slug;
   const productName = t(`${productKey}.name`);
   const tagline = t(`${productKey}.tagline`);
 
-  // A model name is the one word nobody searches, so the title carries the
-  // category noun they do type.
-  const category = tMeta(CATEGORY_KEY[product.category]);
-
-  // Comma, not a dash: the layout template already appends " — VELÉLS" and two
-  // dashes in one title read as a mistake. Works in both languages.
-  const title = `${productName}, ${category}`;
-
-  // The tagline is page copy, so it leads unchanged. The tail names no category
-  // because the title already does, and repeating it reads as padding.
-  const description = `${tagline} ${tMeta("productDescriptionTail", {
-    sizes: `${product.sizes[0]}–${product.sizes[product.sizes.length - 1]}`,
-  })}`;
-
-  // No image width/height here: product photos are portrait and vary in size,
-  // so no declared pair could be true for all of them. Crawlers read the real
-  // dimensions off the file. Declare them once the 1200x630 cards land (lite L3).
+  // No image width/height anywhere here: the shoot is 2:3 portrait and the 88
+  // product images span 18 distinct sizes, so no declared pair could be true for
+  // all of them. Crawlers read the real dimensions off the file. Declare them again
+  // once the landscape 1200x630 cards land (lite L3).
   return pageMetadata({
     locale,
     path: `/product/${slug}`,
-    title,
-    description,
+    title: productName,
+    description: tagline,
     image: absoluteUrl(product.images[0].src),
-    imageAlt: productImageAlt(tMeta, {
-      name: productName,
-      category: product.category,
-      color: product.images[0].color,
-      shot: product.images[0].shot,
-    }),
+    imageAlt: `${productName} by VELÉLS`,
   });
 }
 
@@ -92,8 +72,6 @@ export default async function ProductPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: productName,
-    // The bare tagline. The snippet tail's facts belong in structured fields
-    // here: `availability` already says MadeToOrder, and sizes belong in `size`.
     description: t(`${productKey}.tagline`),
     // Absolute: a bare path in JSON-LD is not resolvable, so these images were
     // invisible to Google despite being listed.

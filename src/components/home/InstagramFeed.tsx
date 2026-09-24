@@ -3,22 +3,20 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/config";
 
-// Each image is its link's only content, so its alt is the link's name too, and
-// says where the link goes.
 const instagramPosts = [
   {
     src: "/instagram/post_1.webp",
-    altKey: "post1Alt",
+    alt: "VELÉLS editorial swim look",
     href: "https://www.instagram.com/reel/DHTmsWRSp-5/",
   },
   {
     src: "/instagram/post_2.webp",
-    altKey: "post2Alt",
+    alt: "VELÉLS editorial collection detail",
     href: "https://www.instagram.com/p/DGxiw-LRcEj/",
   },
   {
     src: "/instagram/post_3.webp",
-    altKey: "post3Alt",
+    alt: "VELÉLS editorial swimwear campaign",
     href: "https://www.instagram.com/reel/DF5ao-NySgD/",
   },
 ];
@@ -57,7 +55,7 @@ export async function InstagramFeed() {
               >
                 <Image
                   src={item.src}
-                  alt={t(item.altKey)}
+                  alt={item.alt}
                   fill
                   className="w-full h-full object-cover"
                   sizes="(max-width: 768px) 50vw, 25vw"

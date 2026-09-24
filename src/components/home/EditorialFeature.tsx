@@ -14,7 +14,7 @@ export function EditorialFeature() {
           <div className="aspect-3/4 w-full overflow-hidden relative bg-surface-container hover-image-zoom">
             <Image
               src={"/about/about.webp"}
-              alt={t("imageAlt")}
+              alt="VELÉLS Editorial Focus"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"

@@ -52,7 +52,7 @@ export async function generateMetadata({
           url: siteConfig.ogImage,
           width: siteConfig.ogImageWidth,
           height: siteConfig.ogImageHeight,
-          alt: t("ogImageAlt"),
+          alt: "VELÉLS — Premium Minimalist Swimwear",
         },
       ],
     },
