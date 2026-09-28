@@ -189,12 +189,12 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/linear/black_1.webp",
-        shot: "cutout",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/linear/black_2.webp",
-        shot: "front",
+        shot: "cutout",
         color: "black",
       },
       {
