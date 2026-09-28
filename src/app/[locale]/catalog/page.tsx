@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({
     locale,
     path: "/catalog",
-    title: t("title"),
+    // Not the visible heading: «Колекція» names no product, and this is the page
+    // that should rank for «купальники».
+    title: t("metaTitle"),
     description: t("metaDescription"),
   });
 }

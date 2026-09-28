@@ -42,7 +42,18 @@ export function pageMetadata({
       siteName: SITE_NAME,
       locale: locale === "uk" ? "uk_UA" : "en_US",
       type: "website",
-      images: [{ url: image ?? siteConfig.ogImage, alt: imageAlt ?? socialTitle }],
+      // The default image's size is known, so declare it; a product photo's
+      // varies, so the crawler reads it off the file.
+      images: [
+        image
+          ? { url: image, alt: imageAlt ?? socialTitle }
+          : {
+              url: siteConfig.ogImage,
+              width: siteConfig.ogImageWidth,
+              height: siteConfig.ogImageHeight,
+              alt: imageAlt ?? socialTitle,
+            },
+      ],
     },
     twitter: {
       card: "summary_large_image",

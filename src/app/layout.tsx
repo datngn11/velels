@@ -10,7 +10,15 @@ import "./globals.css";
 // client-side redirect to `/uk` outside the `[locale]` tree, and the 404.
 export const metadata: Metadata = {
   robots: shouldAllowIndexing()
-    ? { index: true, follow: true }
+    ? {
+        index: true,
+        follow: true,
+        // Allows a large image preview in web search, Images and Discover.
+        // Discover's large card also needs a share image at least 1200px wide
+        // and prefers landscape. Product covers are all portrait, and most are
+        // narrower, until the landscape cards land (lite L3).
+        "max-image-preview": "large",
+      }
     : { index: false, follow: false },
 };
 

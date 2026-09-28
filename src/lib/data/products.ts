@@ -14,10 +14,30 @@ export type ProductSlug =
 export type ProductCategory = "one-piece" | "two-piece" | "dresses";
 export type ProductColor = "black" | "white";
 
+/**
+ * What a photo shows, where that is worth naming in its alt text. Tag by
+ * looking at the photo: the English alts these replaced often named the wrong
+ * side of the body.
+ */
+export type ImageShot =
+  | "front"
+  | "back"
+  | "side"
+  | "sideBack"
+  | "openBack"
+  | "cutout"
+  | "chain"
+  | "top"
+  | "bottom"
+  | "lace"
+  | "collar"
+  | "slit";
+
 export interface ProductImage {
   src: string;
-  alt: string;
-  color?: ProductColor;
+  color: ProductColor;
+  /** Omit for an editorial shot. The alt is composed from this. */
+  shot?: ImageShot;
 }
 
 export interface Product {
@@ -47,52 +67,46 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/dimaya/black_1.webp",
-        alt: "Dimaya black one-piece swimsuit - seated lounge shot with cutout detail",
+        shot: "cutout",
         color: "black",
       },
       {
         src: "/products/dimaya/black_2.webp",
-        alt: "Dimaya black one-piece swimsuit - standing editorial look",
         color: "black",
       },
       {
         src: "/products/dimaya/black_3.webp",
-        alt: "Dimaya black one-piece swimsuit - side and back profile view",
+        shot: "sideBack",
         color: "black",
       },
       {
         src: "/products/dimaya/black_4.webp",
-        alt: "Dimaya black one-piece swimsuit - sunbed editorial pose",
         color: "black",
       },
       {
         src: "/products/dimaya/white_1.webp",
-        alt: "Dimaya white one-piece swimsuit - ocean water background shot",
         color: "white",
       },
       {
         src: "/products/dimaya/white_2.webp",
-        alt: "Dimaya white one-piece swimsuit - golden hour editorial pose",
         color: "white",
       },
       {
         src: "/products/dimaya/white_3.webp",
-        alt: "Dimaya white one-piece swimsuit - front perspective against sunset",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/dimaya/white_4.webp",
-        alt: "Dimaya white one-piece swimsuit - palm fronds portrait",
         color: "white",
       },
       {
         src: "/products/dimaya/white_5.webp",
-        alt: "Dimaya white one-piece swimsuit - shoreline walking shot",
         color: "white",
       },
       {
         src: "/products/dimaya/white_6.webp",
-        alt: "Dimaya white one-piece swimsuit - full length back cut on beach",
+        shot: "openBack",
         color: "white",
       },
     ],
@@ -108,62 +122,57 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/lendai/white_1.webp",
-        alt: "Lendai white one-piece swimsuit - plunge neckline with gold chain, leaning against a rock",
+        shot: "chain",
         color: "white",
       },
       {
         src: "/products/lendai/white_2.webp",
-        alt: "Lendai white one-piece swimsuit - cliffside portrait",
         color: "white",
       },
       {
         src: "/products/lendai/white_3.webp",
-        alt: "Lendai white one-piece swimsuit - side view by the sea",
+        shot: "side",
         color: "white",
       },
       {
         src: "/products/lendai/white_4.webp",
-        alt: "Lendai white one-piece swimsuit - back cut and rocky cliff view",
+        shot: "openBack",
         color: "white",
       },
       {
         src: "/products/lendai/white_5.webp",
-        alt: "Lendai white one-piece swimsuit - editorial styling amongst pine trees",
         color: "white",
       },
       {
         src: "/products/lendai/white_6.webp",
-        alt: "Lendai white one-piece swimsuit - seated on a rock at dusk, chain detail at the neckline",
         color: "white",
       },
       {
         src: "/products/lendai/white_7.webp",
-        alt: "Lendai white one-piece swimsuit - low back with thin straps, standing at the waterline",
+        shot: "openBack",
         color: "white",
       },
       {
         src: "/products/lendai/black_1.webp",
-        alt: "Lendai black one-piece swimsuit - editorial portrait on beach lounger",
         color: "black",
       },
       {
         src: "/products/lendai/black_2.webp",
-        alt: "Lendai black one-piece swimsuit - beach atmosphere shot",
         color: "black",
       },
       {
         src: "/products/lendai/black_3.webp",
-        alt: "Lendai black one-piece swimsuit - chain centerpiece and neckline detail",
+        shot: "chain",
         color: "black",
       },
       {
         src: "/products/lendai/black_4.webp",
-        alt: "Lendai black one-piece swimsuit - side and back profile with cap",
+        shot: "sideBack",
         color: "black",
       },
       {
         src: "/products/lendai/black_5.webp",
-        alt: "Lendai black one-piece swimsuit - full standing back view along shoreline",
+        shot: "back",
         color: "black",
       },
     ],
@@ -180,27 +189,26 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/linear/black_1.webp",
-        alt: "Linear one-piece swimsuit - architectural cutouts front view",
+        shot: "cutout",
         color: "black",
       },
       {
         src: "/products/linear/black_2.webp",
-        alt: "Linear one-piece swimsuit - side view",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/linear/black_3.webp",
-        alt: "Linear one-piece swimsuit - back cutout",
+        shot: "cutout",
         color: "black",
       },
       {
         src: "/products/linear/black_4.webp",
-        alt: "Linear one-piece swimsuit - detail close-up",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/linear/black_5.webp",
-        alt: "Linear one-piece swimsuit - editorial portrait",
         color: "black",
       },
     ],
@@ -217,47 +225,46 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/azure/black_1.webp",
-        alt: "Azure black one-piece swimsuit - halter neck and keyhole cutout, studio front view",
+        shot: "cutout",
         color: "black",
       },
       {
         src: "/products/azure/black_2.webp",
-        alt: "Azure black one-piece swimsuit - arms raised, waist cutouts",
+        shot: "cutout",
         color: "black",
       },
       {
         src: "/products/azure/black_3.webp",
-        alt: "Azure black one-piece swimsuit - seated studio pose",
         color: "black",
       },
       {
         src: "/products/azure/black_4.webp",
-        alt: "Azure black one-piece swimsuit - high-cut back detail",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/azure/black_5.webp",
-        alt: "Azure black one-piece swimsuit - side silhouette",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/azure/black_6.webp",
-        alt: "Azure black one-piece swimsuit - front view",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/azure/black_7.webp",
-        alt: "Azure black one-piece swimsuit - back detail",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/azure/black_8.webp",
-        alt: "Azure black one-piece swimsuit - fabric close-up",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/azure/black_9.webp",
-        alt: "Azure black one-piece swimsuit - editorial portrait",
+        shot: "cutout",
         color: "black",
       },
     ],
@@ -273,67 +280,62 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/lauri/white_1.webp",
-        alt: "Lauri white two-piece swimsuit - editorial shot",
         color: "white",
       },
       {
         src: "/products/lauri/white_2.webp",
-        alt: "Lauri white two-piece swimsuit - top detail",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/lauri/white_3.webp",
-        alt: "Lauri white two-piece swimsuit - bottom detail",
+        shot: "top",
         color: "white",
       },
       {
         src: "/products/lauri/white_4.webp",
-        alt: "Lauri white two-piece swimsuit - side silhouette",
         color: "white",
       },
       {
         src: "/products/lauri/white_5.webp",
-        alt: "Lauri white two-piece swimsuit - back view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/lauri/white_6.webp",
-        alt: "Lauri white two-piece swimsuit - alternate angle view",
+        shot: "bottom",
         color: "white",
       },
       {
         src: "/products/lauri/white_7.webp",
-        alt: "Lauri white two-piece swimsuit - styling detail",
+        shot: "back",
         color: "white",
       },
       {
         src: "/products/lauri/black_1.webp",
-        alt: "Lauri black two-piece swimsuit - editorial shot",
         color: "black",
       },
       {
         src: "/products/lauri/black_2.webp",
-        alt: "Lauri black two-piece swimsuit - top detail",
+        shot: "back",
         color: "black",
       },
       {
         src: "/products/lauri/black_3.webp",
-        alt: "Lauri black two-piece swimsuit - side silhouette",
         color: "black",
       },
       {
         src: "/products/lauri/black_4.webp",
-        alt: "Lauri black two-piece swimsuit - fit detail",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/lauri/black_5.webp",
-        alt: "Lauri black two-piece swimsuit - back view",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/lauri/black_6.webp",
-        alt: "Lauri black two-piece swimsuit - styling shot",
         color: "black",
       },
     ],
@@ -349,57 +351,53 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/ezra/white_1.webp",
-        alt: "Ezra white one-piece swimsuit - front water view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/ezra/white_2.webp",
-        alt: "Ezra white one-piece swimsuit - side water view",
+        shot: "sideBack",
         color: "white",
       },
       {
         src: "/products/ezra/white_3.webp",
-        alt: "Ezra white one-piece swimsuit - back cut",
+        shot: "side",
         color: "white",
       },
       {
         src: "/products/ezra/white_4.webp",
-        alt: "Ezra white one-piece swimsuit - texture detail",
+        shot: "back",
         color: "white",
       },
       {
         src: "/products/ezra/white_5.webp",
-        alt: "Ezra white one-piece swimsuit - shoreline pose",
+        shot: "openBack",
         color: "white",
       },
       {
         src: "/products/ezra/white_6.webp",
-        alt: "Ezra white one-piece swimsuit - editorial crop",
         color: "white",
       },
       {
         src: "/products/ezra/black_1.webp",
-        alt: "Ezra black one-piece swimsuit with white piping - front view by sea wall",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/ezra/black_2.webp",
-        alt: "Ezra black one-piece swimsuit with white piping - side and back profile",
+        shot: "sideBack",
         color: "black",
       },
       {
         src: "/products/ezra/black_3.webp",
-        alt: "Ezra black one-piece swimsuit with white piping - neckline detail shot",
         color: "black",
       },
       {
         src: "/products/ezra/black_4.webp",
-        alt: "Ezra black one-piece swimsuit with white piping - reclining editorial pose",
         color: "black",
       },
       {
         src: "/products/ezra/black_5.webp",
-        alt: "Ezra black one-piece swimsuit with white piping - seated sea wall portrait",
         color: "black",
       },
     ],
@@ -415,52 +413,47 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/naevi/black_1.webp",
-        alt: "Naevi black two-piece swimsuit - editorial portrait on black sand beach",
         color: "black",
       },
       {
         src: "/products/naevi/black_2.webp",
-        alt: "Naevi black two-piece swimsuit - editorial styling shot",
         color: "black",
       },
       {
         src: "/products/naevi/black_3.webp",
-        alt: "Naevi black two-piece swimsuit - fit and neckline detail",
+        shot: "top",
         color: "black",
       },
       {
         src: "/products/naevi/black_4.webp",
-        alt: "Naevi black two-piece swimsuit - rock silhouette pose",
         color: "black",
       },
       {
         src: "/products/naevi/black_5.webp",
-        alt: "Naevi black two-piece swimsuit - dynamic cliffside shot",
         color: "black",
       },
       {
         src: "/products/naevi/black_6.webp",
-        alt: "Naevi black two-piece swimsuit - back view walking along shoreline",
+        shot: "back",
         color: "black",
       },
       {
         src: "/products/naevi/white_1.webp",
-        alt: "Naevi white two-piece swimsuit - front view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/naevi/white_2.webp",
-        alt: "Naevi white two-piece swimsuit - side view",
         color: "white",
       },
       {
         src: "/products/naevi/white_3.webp",
-        alt: "Naevi white two-piece swimsuit - back view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/naevi/white_4.webp",
-        alt: "Naevi white two-piece swimsuit - detail shot",
+        shot: "front",
         color: "white",
       },
     ],
@@ -477,32 +470,31 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/glacier/white_1.webp",
-        alt: "Glacier white two-piece bikini - back view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/glacier/white_2.webp",
-        alt: "Glacier white two-piece bikini - front view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/glacier/white_3.webp",
-        alt: "Glacier white two-piece bikini - molded cup detail",
         color: "white",
       },
       {
         src: "/products/glacier/white_4.webp",
-        alt: "Glacier white two-piece bikini - drape detail",
+        shot: "back",
         color: "white",
       },
       {
         src: "/products/glacier/white_5.webp",
-        alt: "Glacier white two-piece bikini - side silhouette",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/glacier/white_6.webp",
-        alt: "Glacier white two-piece bikini - editorial shot",
+        shot: "top",
         color: "white",
       },
     ],
@@ -518,47 +510,42 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/laydee/white_1.webp",
-        alt: "Laydee white one-piece swimsuit - styling shot",
         color: "white",
       },
       {
         src: "/products/laydee/white_2.webp",
-        alt: "Laydee white one-piece swimsuit - neckline chain detail",
+        shot: "chain",
         color: "white",
       },
       {
         src: "/products/laydee/white_3.webp",
-        alt: "Laydee white one-piece swimsuit - front view",
         color: "white",
       },
       {
         src: "/products/laydee/white_4.webp",
-        alt: "Laydee white one-piece swimsuit - back view",
+        shot: "front",
         color: "white",
       },
       {
         src: "/products/laydee/white_5.webp",
-        alt: "Laydee white one-piece swimsuit - side view",
         color: "white",
       },
       {
         src: "/products/laydee/black_1.webp",
-        alt: "Laydee black one-piece swimsuit - editorial sunset front view",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/laydee/black_2.webp",
-        alt: "Laydee black one-piece swimsuit - sunset portrait crop",
         color: "black",
       },
       {
         src: "/products/laydee/black_3.webp",
-        alt: "Laydee black one-piece swimsuit - side and back silhouette",
+        shot: "side",
         color: "black",
       },
       {
         src: "/products/laydee/black_4.webp",
-        alt: "Laydee black one-piece swimsuit - full length beach shot",
         color: "black",
       },
     ],
@@ -575,42 +562,37 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/lunar/black_1.webp",
-        alt: "Lunar black Chantilly lace dress - editorial shot",
         color: "black",
       },
       {
         src: "/products/lunar/black_2.webp",
-        alt: "Lunar black Chantilly lace dress - mandarin collar detail",
         color: "black",
       },
       {
         src: "/products/lunar/black_3.webp",
-        alt: "Lunar black Chantilly lace dress - slit detail",
+        shot: "slit",
         color: "black",
       },
       {
         src: "/products/lunar/black_4.webp",
-        alt: "Lunar black Chantilly lace dress - lace pattern close-up",
+        shot: "lace",
         color: "black",
       },
       {
         src: "/products/lunar/white_1.webp",
-        alt: "Lunar white Chantilly lace dress - full length evening portrait",
         color: "white",
       },
       {
         src: "/products/lunar/white_2.webp",
-        alt: "Lunar white Chantilly lace dress - mandarin collar and button detail",
+        shot: "collar",
         color: "white",
       },
       {
         src: "/products/lunar/white_3.webp",
-        alt: "Lunar white Chantilly lace dress - reclining editorial pose",
         color: "white",
       },
       {
         src: "/products/lunar/white_4.webp",
-        alt: "Lunar white Chantilly lace dress - lace pattern and high slit detail",
         color: "white",
       },
     ],
@@ -627,42 +609,38 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/noblesse/black_1.webp",
-        alt: "Noblesse Chantilly lace resort dress - full length view",
         color: "black",
       },
       {
         src: "/products/noblesse/black_2.webp",
-        alt: "Noblesse Chantilly lace resort dress - sheer fabric close-up",
         color: "black",
       },
       {
         src: "/products/noblesse/black_3.webp",
-        alt: "Noblesse Chantilly lace resort dress - open back detail",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/noblesse/black_4.webp",
-        alt: "Noblesse Chantilly lace resort dress - full length walking view",
         color: "black",
       },
       {
         src: "/products/noblesse/black_5.webp",
-        alt: "Noblesse Chantilly lace resort dress - front view with lace overskirt",
+        shot: "front",
         color: "black",
       },
       {
         src: "/products/noblesse/black_6.webp",
-        alt: "Noblesse Chantilly lace resort dress - back view, full length",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/noblesse/black_7.webp",
-        alt: "Noblesse Chantilly lace resort dress - low back and thin straps",
+        shot: "openBack",
         color: "black",
       },
       {
         src: "/products/noblesse/black_8.webp",
-        alt: "Noblesse Chantilly lace resort dress - lace skirt draped",
         color: "black",
       },
     ],

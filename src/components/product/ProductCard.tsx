@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Product } from "@/lib/data/products";
 import { Price } from "@/components/product/Price";
 import { isNewRelease } from "@/lib/utils/newness";
+import { productImageAlt } from "@/lib/utils/productImageAlt";
 
 interface ProductCardProps {
   product: Product;
@@ -36,6 +37,8 @@ export function ProductCard({
   as: Heading = "h3",
 }: ProductCardProps) {
   const t = useTranslations("products");
+  const tMeta = useTranslations("meta");
+  const cover = product.images[0];
 
   return (
     <Link
@@ -49,8 +52,13 @@ export function ProductCard({
           </span>
         )}
         <Image
-          src={product.images[0].src}
-          alt={product.images[0].alt}
+          src={cover.src}
+          alt={productImageAlt(tMeta, {
+            name: t(`${product.slug}.name`),
+            category: product.category,
+            color: cover.color,
+            shot: cover.shot,
+          })}
           fill
           className="object-cover"
           sizes={sizes}
