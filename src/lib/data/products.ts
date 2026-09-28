@@ -180,12 +180,12 @@ export const products: Product[] = [
     images: [
       {
         src: "/products/linear/black_1.webp",
-        alt: "Linear one-piece swimsuit - architectural cutouts front view",
+        alt: "Linear one-piece swimsuit - side view",
         color: "black",
       },
       {
         src: "/products/linear/black_2.webp",
-        alt: "Linear one-piece swimsuit - side view",
+        alt: "Linear one-piece swimsuit - architectural cutouts front view",
         color: "black",
       },
       {
