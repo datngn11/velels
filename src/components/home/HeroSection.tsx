@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { smoothScrollTo } from "@/lib/utils/smoothScroll";
 import { useVideoAutoplay } from "@/hooks/useVideoAutoplay";
 
-const HERO_ALT = "VELÉLS editorial hero — model in luxury swimwear";
 const HERO_DESKTOP = "/hero/hero_desktop.webp";
 const HERO_POSTER = "/hero/hero_mobile_poster.webp";
 
@@ -32,7 +31,9 @@ export function HeroSection() {
         <source media="(min-width: 768px)" srcSet={HERO_DESKTOP} />
         <img
           src={HERO_POSTER}
-          alt={HERO_ALT}
+          // One alt for two photos: <picture> swaps the file by viewport but
+          // keeps one <img>, so the text has to be true of both.
+          alt={t("imageAlt")}
           fetchPriority="high"
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover animate-hero-zoom"

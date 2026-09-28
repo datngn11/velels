@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/config";
 /** The only two contacts the site publishes. Exact strings, not patterns. */
 const CONTACTS: Record<string, string> = {
   "@velelswim": siteConfig.social.instagram,
-  "velelswim@gmail.com": "mailto:velelswim@gmail.com",
+  [siteConfig.email]: `mailto:${siteConfig.email}`,
 };
 
 const SPLIT = new RegExp(`(${Object.keys(CONTACTS).join("|")})`, "g");
