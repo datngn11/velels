@@ -12,9 +12,9 @@ export function RootRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    // Carry the query and hash across. `/` is the Instagram bio link, so this is
-    // where `?ref=ig` and any utm_* parameters arrive — dropping them here would
-    // silently defeat the attribution item in lite L3.
+    // Carry the query and hash across, so a tagged link to `/` keeps its tag.
+    // Once the edge Redirect Rule for `/` exists (post-launch N), this is only
+    // the fallback.
     const { search, hash } = window.location;
     router.replace(`/${routing.defaultLocale}${search}${hash}`);
   }, [router]);

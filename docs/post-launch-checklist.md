@@ -4,9 +4,14 @@ The lite catalogue went public on 2026-09-22, when indexing was switched on. Thi
 document is what comes after it: what is due now, what the owner has to decide,
 what on the live site is wrong, and what is worth building next. It does not
 replace [`release-checklist.md`](./release-checklist.md), which is still the
-destination, or [`release-checklist-lite.md`](./release-checklist-lite.md), which
+destination, or [`archive/release-checklist-lite.md`](./archive/release-checklist-lite.md), which
 records how the launch was done. Items carried over from lite name their origin,
 e.g. *(from L3)*.
+
+This is the only task list being worked. Tick items here as they ship. How the
+hosting and the Cloudflare dashboard are configured is in
+[`cloudflare-setup.md`](./cloudflare-setup.md). Keep that page current when a
+dashboard setting changes.
 
 Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or more.
 **Owner** marks a decision or a file only the owner can supply.
@@ -82,7 +87,7 @@ unticked. The image loader was never built.
   because nothing excludes them from `out/`.
 - **The README is the stock `create-next-app` text.** It mentions GitHub Pages,
   Vercel and a removed `basePath` variable, and says nothing about how this site
-  deploys. The docs contain three more stale claims (D3).
+  deploys. Two code comments still describe things that were removed (D3).
 - **No tests exist in the repo.**
 - **The domain renews on 2027-08-28**, confirmed by RDAP.
 
@@ -114,6 +119,15 @@ Dated, or due because something shipped this week.
       301, because browsers cache a 301 indefinitely and the locale choice may
       change. No code change, and no Worker script. It replaces the optional
       Worker redirect item in L1. Keep `RootRedirect` as the fallback.
+
+      It also fixes the Umami counts. Today every bio visit is counted twice,
+      once on `/` and again on `/uk` after the client-side redirect, so the
+      Pages report shows `/` and `/uk` near the top with similar numbers
+      (27 and 25 visitors on 2026-09-29). Until the rule lands, read `/` as
+      "arrived by the bare domain, nearly always the bio", and don't add it to
+      `/uk`. The bio link stays `velels.com` either way. The edge answers `/`
+      before any page or script loads, so Umami never records it. After that,
+      untagged `/uk` traffic is the bio, as L3 planned.
 - [ ] **(S) Keyboard-only pass.** *(from L8)* The whole site, Tab and Enter only.
       Pay extra attention to the catalogue dropdown, the mobile drawer (A3) and
       the size-guide dialog.
@@ -451,20 +465,18 @@ visitor downloads.
       - The `lh3.googleusercontent.com` `remotePatterns` in `next.config.ts`.
       - `bg-surface-variant` in `InstagramFeed.tsx`, which is not a theme token
         and emits no CSS.
-- [ ] **(S) D3. Stale statements in the docs and comments.**
-      - Lite L4 says `saleEndsAt` and `priceValidUntil` shipped. Both were removed
-        in `8bd0e61`.
-      - Lite L6 lists the terms' «в будь-який час» clause as still open. That
-        clause is gone from `info.terms`.
+- [ ] **(S) D3. Stale statements in comments.** The two in lite L4 and L6 and
+      the `?ref=ig` one in `RootRedirect` were fixed on 2026-09-29.
       - `.env.example` describes the "via host" signature, removed on
         2026-09-21.
       - `indexing.ts` still talks about GitHub Pages and Vercel.
-      - `RootRedirect` mentions `?ref=ig`, which L3 replaced with `?ref=story`.
 - [ ] **(S) D4. 23 bracket text values in 6 files.** Move them to `@utility`
       classes. `StatusPage.tsx` holds 11 of them.
-- [ ] **(S) D5. Tracked leftovers.** `stitch-assets/` (six design mockups),
-      `.gemini/pdf_content.txt` and `active_skills_guide.md` sit in a public repo.
-      None of them is served. Keep them on purpose or delete them.
+- [ ] **(S) D5. Tracked leftovers.** `.gemini/pdf_content.txt` sits in a public
+      repo and is not served. It is the owner's original brand copy, extracted
+      from a PDF and garbled by the extraction. Keep it on purpose or delete it.
+      `stitch-assets/` and `active_skills_guide.md` were removed on 2026-09-29.
+      Nothing referenced either one.
 - [ ] **(S) D6. A few unit tests with `node:test`, no new dependency.** For the
       logic that fails silently: `priceView()`, `isNewRelease()`,
       `productImageAlt()` and `localeUrl()`. Run them in T1.

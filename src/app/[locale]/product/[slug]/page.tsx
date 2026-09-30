@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // No image width/height here: product photos are portrait and vary in size,
   // so no declared pair could be true for all of them. Crawlers read the real
-  // dimensions off the file. Declare them once the 1200x630 cards land (lite L3).
+  // dimensions off the file. Declare them once the 1200x630 cards land (post-launch G4).
   return pageMetadata({
     locale,
     path: `/product/${slug}`,

@@ -11,16 +11,26 @@ Read these before changing anything:
   *Order* (what a Consultant confirms) is load-bearing: nothing is produced
   before an Order exists. The form itself does not exist in `src` yet, so the
   vocabulary runs ahead of the code.
-- **`docs/release-checklist.md`** — the ordered pre-launch plan. Phases are
-  dependency-ordered; do not start a later phase before its dependency has
-  landed. It also records what was deliberately left out.
-- **`docs/release-checklist-lite.md`** — the cut-down subset that is actually
-  being executed: a catalogue on Cloudflare with Instagram Direct as the only
-  order channel, no form, no database. Where the two disagree, lite describes
-  what is being built now and says so explicitly. Check it before assuming a
-  form, a Consultant hand-off, or a Vercel deployment exists.
+- **`docs/post-launch-checklist.md`** — the only live task list: what is due,
+  what waits on the owner, and what to build next. Work from this one.
+
+Read these when the task touches them:
+
+- **`docs/release-checklist.md`** — the full plan: order form, Vercel, Postgres,
+  Payload. Dormant until post-launch B4's trigger fires, so don't tick it as work
+  happens. When the form starts, settle post-launch G6 (which platform) and
+  revise the plan first. Phases are dependency-ordered. It also records what was
+  deliberately left out.
+- **`docs/cloudflare-setup.md`** — how hosting and deploy are configured,
+  including the dashboard settings the code can't show. Update it when a
+  setting changes.
+- **`docs/archive/release-checklist-lite.md`** — the frozen record of the
+  catalogue launch (2026-09-22): Cloudflare, Instagram Direct as the only order
+  channel, no form, no database. Read it for why something is the way it is.
+  Don't update it.
 - **`docs/launch-plan.html`** — the business reasoning behind those decisions,
-  written in Russian for the site owner.
+  written in Russian for the site owner. Frozen at 2026-08-19, with a dated note
+  of what changed since.
 
 Two rules that are violated most often, so they are worth repeating here:
 

@@ -7,11 +7,19 @@ unless noted.
 Context: [`launch-plan.html`](./launch-plan.html) (decisions, in Russian) ·
 [`CONTEXT.md`](../CONTEXT.md) (domain glossary).
 
-If the goal is a catalogue-only launch with Instagram Direct as the single order
-channel, work from [`release-checklist-lite.md`](./release-checklist-lite.md)
-instead. It is the must-ship subset of this document, targets Cloudflare rather
-than Vercel, and records which phases below it defers. This document stays the
-destination.
+**Dormant until the order form starts.** The site launched on 2026-09-22 as a
+catalogue, by the cut-down plan now archived in
+[`archive/release-checklist-lite.md`](./archive/release-checklist-lite.md). What
+remains here is mostly the form and the platform it needs. Nobody works from
+this document until post-launch B4's trigger fires. The live task list is
+[`post-launch-checklist.md`](./post-launch-checklist.md), so don't tick items
+here as work happens there.
+
+Items that lite already did were ticked once, on 2026-09-29, each with the lite
+item that did it, so nobody does them twice. When the form starts, settle
+post-launch G6 first. Now that Cloudflare is live, G6 asks whether the form
+belongs on a Worker rather than on Vercel. Revise this plan to match the answer
+before starting Phase 1.
 
 Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or more.
 
@@ -33,8 +41,12 @@ Cheap things that are actively costing something while they wait.
       47 exported pages in both flag states. `robots.txt` stays a Phase 2 item —
       a `Disallow` would block the recrawl that drops the existing entries.
       → `src/lib/seo/indexing.ts`, `src/app/layout.tsx`
-- [ ] **S — Owner: provide ФОП details** (legal name, registration number, address)
+      *GitHub Pages was retired in `009d2e5`. The flag has been on for the
+      Cloudflare production build since 2026-09-22 (lite L8).*
+- [x] **S — Owner: provide ФОП details** (legal name, registration number, address)
       for the contact page.
+      *Done under lite L0 and L6, 2026-09-10. They went in `info/terms`, not the
+      contact page, and the owner chose to publish no address.*
 - [ ] **S — Owner: decide the ростовка boundary rule.** 165 falls in two ranges,
       170–171 in none, nothing below 155 or above 175. The seamstress needs one
       unambiguous rule; the site just passes the height through.
@@ -47,6 +59,8 @@ Cheap things that are actively costing something while they wait.
 ## Phase 1 — Infrastructure
 
 Nothing else can start until this lands. It removes four problems at once.
+Lite has already removed two of them without it, the `/velels` path and the
+frozen Instagram feed. Image optimization and a server for the form are left.
 
 - [ ] **S — Provision Postgres.** Neon or Supabase, free tier. One database serves
       both Payload and order requests.
@@ -55,9 +69,11 @@ Nothing else can start until this lands. It removes four problems at once.
 - [ ] **M — Drop static export.** Remove `output: "export"`, remove `basePath`,
       set `images.unoptimized: false`.
       → `next.config.ts`
-- [ ] **M — Retire `getAssetPath()`.** Every call site loses the `/velels` prefix.
+      *`basePath` is already gone (lite L1).*
+- [x] **M — Retire `getAssetPath()`.** Every call site loses the `/velels` prefix.
       This is what actually fixes the broken share previews.
       → `src/lib/utils/assetPath.ts` and all callers
+      *Done under lite L1, 2026-08-27. The file is deleted.*
 - [ ] **M — Enable next-intl middleware.** Static export had none, so locale
       negotiation currently doesn't exist. Verify `/` resolves to `uk` without a
       redirect loop, and that `/en/...` still works. This is the highest-risk item
@@ -66,6 +82,10 @@ Nothing else can start until this lands. It removes four problems at once.
       Preview URLs are public.
 - [ ] **S — Point `velels.com` DNS at Vercel**, drive `metadataBase` from an env var
       instead of a hardcoded string.
+      *The env var half is done under lite L1 (`NEXT_PUBLIC_SITE_URL`,
+      2026-08-27). The domain is registered at Cloudflare Registrar, which
+      requires Cloudflare nameservers, so the DNS half becomes a record in the
+      Cloudflare zone that points at Vercel.*
 - [ ] **S — Verify:** every route renders and images serve as optimized srcsets.
 
 ---
@@ -74,28 +94,39 @@ Nothing else can start until this lands. It removes four problems at once.
 
 All cheap now that `basePath` is gone. These are defects, not improvements.
 
-- [ ] **M — Self-referencing canonicals per locale**, plus `x-default` in the
+- [x] **M — Self-referencing canonicals per locale**, plus `x-default` in the
       `hreflang` set. Right now every English page declares the Ukrainian one
       canonical, so the whole English site opts itself out of search.
       → `src/app/[locale]/layout.tsx`, `src/app/[locale]/product/[slug]/page.tsx`
-- [ ] **S — Replace the homepage OG image.** It currently points at
+      *Done under lite L3, 2026-08-29.*
+- [x] **S — Replace the homepage OG image.** It currently points at
       `lh3.googleusercontent.com/aida-public/…`, a temporary asset host that will
       rot. Use a real file in `public/`.
-- [ ] **S — Favicon, `apple-icon`, web manifest.** There is no tab icon at all.
+      *Done under lite L3. The file is `public/og/home.jpg`.*
+- [x] **S — Favicon, `apple-icon`, web manifest.** There is no tab icon at all.
       → `src/app/icon.png`, `src/app/apple-icon.png`
-- [ ] **S — `sitemap.ts` and `robots.ts`.** Both locales, all products, all info
+      *Done under lite L3, 2026-09-14.*
+- [x] **S — `sitemap.ts` and `robots.ts`.** Both locales, all products, all info
       pages.
+      *Done under lite L3, 2026-08-29.*
 - [ ] **S — Fix the dress size chart.** Bust 82–84 then 86–88 leaves 85 in no size;
       88–90 has the same gap. Make the ranges contiguous.
       → `src/components/product/SizeGuideModal.tsx`
-- [ ] **S — Stop preselecting size `M`.** Require an explicit choice, or a customer
+      *Still open and waiting on the owner (post-launch B1). Waist and hips have
+      the same gaps as bust.*
+- [x] **S — Stop preselecting size `M`.** Require an explicit choice, or a customer
       submits a request she never sized.
       → `src/components/product/ProductInfo.tsx`
-- [ ] **S — Replace the hardcoded "New" badge** (`slug === "lendai"`) with a
+      *Done under lite L2.*
+- [x] **S — Replace the hardcoded "New" badge** (`slug === "lendai"`) with a
       `releasedAt` date so the badge computes itself.
       → `src/components/catalog/CatalogClient.tsx`
-- [ ] **S — Organization / WebSite JSON-LD** on the homepage; `BreadcrumbList` on
+      *Done under lite L4, 2026-09-08. It compares the build date, so a badge
+      clears only when a build runs (post-launch T4).*
+- [x] **S — Organization / WebSite JSON-LD** on the homepage; `BreadcrumbList` on
       product pages. Product JSON-LD already exists.
+      *Done under lite L3, 2026-08-29, with a visible breadcrumb added on
+      2026-09-08.*
 
 ---
 
@@ -109,16 +140,24 @@ Everything the order form depends on. Land before Phase 5.
       → `src/lib/data/products.ts`
 - [ ] **M — Height input on the PDP.** A plain "your height, cm" number field, not
       a picker of ростовки. Required. The customer never sees the word ростовка.
-- [ ] **S — Dress length on the PDP.** 131 cm is fixed, so the same dress reads
+- [x] **S — Dress length on the PDP.** 131 cm is fixed, so the same dress reads
       floor-length on 157 cm and midi on 175 cm. State it.
+      *Done under lite L4, 2026-09-15, for Lunar only. Noblesse carries no
+      length, by the owner's decision.*
 - [ ] **S — Explain sizing in the size guide.** Two sentences on how height is used,
       since no other swimwear site asks for it.
-- [ ] **M — Sale price.** `salePrice` + active flag on the model; struck-through
+- [x] **M — Sale price.** `salePrice` + active flag on the model; struck-through
       original beside the new price in catalog and PDP. Without this the form quotes
       the wrong total on the days that matter most.
-- [ ] **S — Add height to the Direct order message.** The DM path stays a full
+      *Done under lite L4, 2026-08-31. There is no active flag or end date:
+      `8bd0e61` removed `saleEndsAt`, so setting or deleting `salePrice` turns a
+      sale on or off.*
+- [ ] ~~**S — Add height to the Direct order message.**~~ The DM path stays a full
       purchase channel, so it needs the same completeness.
       → `src/components/product/InstagramCheckout.tsx`
+      *Dropped 2026-09-21 at the owner's request (lite L2). The Consultant asks
+      for height in the conversation, and the blank line only made the message
+      read like a form.*
 
 ---
 
@@ -166,29 +205,40 @@ The core of the release.
 
 ## Phase 6 — Measurement and audience
 
-- [ ] **S — Cookie-less analytics.** Plausible or self-hosted Umami. No consent
+- [x] **S — Cookie-less analytics.** Plausible or self-hosted Umami. No consent
       banner, small script, survives the Instagram in-app browser.
+      *Done under lite L7, 2026-09-11, on Umami Cloud's free tier.*
 - [ ] **S — Custom events:** `pdp_view`, `size_guide_open`, `order_form_start`,
       `order_form_submit`, `ig_dm_click`. Without these you learn nothing from the
       first weeks, which is your only clean signal.
+      *`ig_dm_click` and `size_guide_open` shipped under lite L7, and Umami's page
+      views cover `pdp_view`. The two form events wait for the form.*
 - [ ] **S — Footer email signup.** One field, framed as new models and sales first.
       MailerLite free tier, double opt-in, their unsubscribe handling.
-- [ ] **S — `?ref=ig` tagging** on the Instagram bio and story links. Referrer data
-      from Instagram is unreliable.
+      *Post-launch G2 argues for doing this before the form.*
+- [ ] **S — ~~`?ref=ig` tagging~~ `?ref=story` on the story links, with the bio
+      left bare.** Referrer data from Instagram is unreliable.
+      *Changed under lite L3. Nearly all traffic comes from Instagram, so
+      `?ref=ig` would separate nothing. Still an owner task (post-launch N).*
 
 ---
 
 ## Phase 7 — Accessibility and performance
 
-- [ ] **S — `:focus-visible` styles.** There are none in 436 lines of
+- [x] **S — `:focus-visible` styles.** There are none in 436 lines of
       `globals.css`, on a site built entirely from custom buttons.
-- [ ] **M — Keyboard-accessible catalogue dropdown.** Currently mouse-hover only,
+      *Done under lite L5, 2026-09-08.*
+- [x] **M — Keyboard-accessible catalogue dropdown.** Currently mouse-hover only,
       so three category links are unreachable without a mouse. The mobile drawer is
       fine — Radix handles it.
       → `src/components/layout/Navbar.tsx`
+      *Done under lite L5, 2026-09-08, with Radix Navigation Menu. The mobile
+      drawer turned out not to be fine either (post-launch A3).*
 - [x] **M — Hero video loading.** `preload="none"`, IntersectionObserver instead
       of on mount, and no request at all when `prefers-reduced-motion` is set or
       `navigator.connection.saveData` is true. The 7.9 MB file stays, per decision.
+      *That decision changed. Lite L1 re-encoded the video on 2026-09-15 to
+      2.07 MB, with a 3.24 MB H.264 fallback.*
       The mobile poster is now a real `next/image` base layer rather than the
       video's `poster` attribute. The `<video>` mounts only in order to be
       probed — it is fully transparent until a `playing` event, and unmounts the
@@ -242,31 +292,47 @@ The core of the release.
       `75vw` below `sm`, `45vw` to `md`, then a quarter of the 1440px container:
       `(max-width: 639px) 75vw, (max-width: 767px) 45vw, 320px`.
       → `src/components/home/InstagramFeed.tsx`
-- [ ] **S — Lighthouse pass on mobile**, throttled. Record the numbers so later
+- [x] **S — Lighthouse pass on mobile**, throttled. Record the numbers so later
       regressions are visible.
-- [ ] *Optional, ~15 min:* re-encode `hero_mobile.mp4` to ~1.5 MB — cap at
+      *Done under lite L5. The baseline is dated 2026-09-16, and post-launch P7
+      re-runs it.*
+- [x] *Optional, ~15 min:* re-encode `hero_mobile.mp4` to ~1.5 MB — cap at
       720×1280, strip the (muted) audio track, 6–8 s loop, add a WebM source. No
       visible change.
+      *Done differently under lite L1, 2026-09-15. It is 1080 px wide from the
+      master, H.265 at 2.07 MB with an H.264 fallback, and has no WebM source.
+      L1 has the measurements behind each choice.*
 
 ---
 
 ## Phase 8 — Content and legal
 
-- [ ] **M — Objection accordions on the PDP:** production time, exchange promise,
+- [x] **M — Objection accordions on the PDP:** production time, exchange promise,
       payment terms. The copy already exists in `/info/*` — it's just in the footer
       where nobody reads it before deciding. For made-to-order this is the entire
       objection set.
-- [ ] **S — Make the exchange promise loud.** It's requested about once a month, so
+      *Done under lite L4, 2026-08-31, as three visible lines under the button
+      and one "Оплата і доставка" row rather than three accordions.*
+- [x] **S — Make the exchange promise loud.** It's requested about once a month, so
       it costs almost nothing and directly answers "I can't try it on".
-- [ ] **S — ФОП details on `/info/contact`.** An Instagram handle and a gmail
+      *Done under lite L4, 2026-08-31.*
+- [x] **S — ФОП details on `/info/contact`.** An Instagram handle and a gmail
       address is not trader identity.
+      *Done under lite L6, 2026-09-10, in `info/terms` rather than the contact
+      page, which is where Ukrainian shops put it. No address is published.*
 - [ ] **S — Update the privacy policy** for analytics, the email list, and how long
       order request data is kept.
-- [ ] **S — International wording.** Say plainly that international orders are
+      *Rewritten under lite L6 on 2026-09-10, analytics included. The email list
+      and Order Request retention wait for those features. Post-launch C1 lists
+      one sentence in it that is now false.*
+- [x] **S — International wording.** Say plainly that international orders are
       quoted individually — full prepayment, shipping paid in advance.
+      *Done under lite L6, 2026-09-21. The English says all three. The owner
+      reverted the matching Ukrainian, which leaves out "quoted individually".*
 - [ ] **S — Approximate currency on the `en` locale.** A customer in London
       currently sees `3 750 ₴` with no conversion.
       → `src/lib/utils/formatPrice.ts`
+      *Waits on post-launch B8, which decides whether English is a market.*
 
 ---
 
@@ -281,15 +347,21 @@ Do all of it before flipping `noindex`.
       is in the database.
 - [ ] **S — Both locales**, every route: home, catalog, filtered catalog, product,
       all nine info pages, 404, error page.
+      *Done once for lite on 2026-09-22 (L8). Repeat it after the Phase 1
+      migration.*
 - [ ] **S — Share previews for real.** Post a product link into Telegram and
       Instagram and check the image renders. Run the homepage through Facebook's
       sharing debugger.
+      *Not yet done for lite either (post-launch N).*
 - [ ] **S — Keyboard-only pass** of the whole site, then a screen-reader pass of
       the order form.
+      *The site-wide pass is post-launch N. The form pass waits for the form.*
 - [ ] **S — Confirm database access and a backup path.** Order requests are now
       business records.
-- [ ] **S — Flip `robots` to index**, submit the sitemap in Search Console, verify
+- [x] **S — Flip `robots` to index**, submit the sitemap in Search Console, verify
       the property.
+      *Done under lite L8, 2026-09-22. On Vercel, set
+      `NEXT_PUBLIC_ALLOW_INDEXING` on the production environment again.*
 
 ---
 
@@ -303,8 +375,10 @@ Do all of it before flipping `noindex`.
       workshop.
 - [ ] **M — Model height and size worn on every image.** The strongest fit evidence
       there is, and it needs a photo session decision from the owner.
+      *Tracked for lite as post-launch B3 and G5.*
 - [ ] **S — Read the analytics.** Specifically: how many reach a PDP, how many start
       the form, where they abandon.
+      *The lite version of this read is due around 2026-10-06 (post-launch N).*
 - [ ] **Later — promo codes**, once the email list has real people. Sooner is
       pointless: there's nothing to measure.
 

@@ -1,7 +1,7 @@
 # Release checklist — lite (catalogue launch)
 
 A cut-down path to a public site, for shipping now rather than shipping complete.
-The full plan is [`release-checklist.md`](./release-checklist.md) and it stays the
+The full plan is [`release-checklist.md`](../release-checklist.md) and it stays the
 destination. This document is the subset that must be true before the site can be
 public at all.
 
@@ -15,6 +15,15 @@ orders are placed in Direct. Lite ships the site the copy already describes.
 one. Everything that funnels a visitor into it, and everything she needs to decide
 before she opens Instagram, moves up in priority. Everything that exists to capture
 her details on-site moves out of scope.
+
+**Archived 2026-09-29. Do not update this document.** The site launched on
+2026-09-22, when indexing went on. What is left here is the record of how the
+launch was done and why, not a task list. Each item still open below names the
+item in [`post-launch-checklist.md`](../post-launch-checklist.md) that carries
+it, and that is the document to work from. Status lines were reconciled with the
+code on the day it was archived. Where an older note turned out wrong, a dated
+correction follows it and the original stays. Rules that are still in force
+live in `AGENTS.md` and in code comments, not only here.
 
 Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or more.
 
@@ -52,7 +61,7 @@ Ordering is dependency-first. L1 unblocks most of L3.
 
 - [ ] **S — Owner: the height ranges per size.** For the size-guide column the
       direct competitor has and this site does not. The guide carries bust, waist
-      and hips only.
+      and hips only. *Moved to post-launch B2.*
 
       **No sale is coming.** The owner confirmed on 2026-09-21 that none is
       planned, after the 2026-08-28 one ended. The mechanism is built and idle and
@@ -70,6 +79,8 @@ Ordering is dependency-first. L1 unblocks most of L3.
       boundaries rather than gapping. Closing the gap is a manufacturing decision,
       not a developer's guess, and in lite the size she reads is the size she puts in
       the Direct message. See L4.
+      *Moved to post-launch B1, which found the same gaps in waist (65, 69, 73)
+      and hips (91, 95, 99).*
 
 Deferred from Phase 0: the ростовка boundary rule and the Telegram bot. Neither is
 reachable from a site that collects no height and sends no notifications.
@@ -79,7 +90,8 @@ reachable from a site that collects no height and sends no notifications.
 ## L1 — Infrastructure (Cloudflare)
 
 Replaces Phase 1 of the full checklist. Same goal, different platform, no database.
-Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-setup.md).
+The configuration this phase ended with, dashboard settings included, is in
+[`cloudflare-setup.md`](../cloudflare-setup.md).
 
 - [x] **S — Register the domain** at Cloudflare Registrar. `.com` at wholesale,
       about $10.44/year, same price on renewal. Requires Cloudflare nameservers,
@@ -99,7 +111,8 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       -> Done 2026-08-29. `wrangler.jsonc` written and validated, deployed to
       `velels.datngn11.workers.dev` (588 files). Verified at the edge: every route
       200, stray URLs a real 404, trailing slash 307, video and RSC payloads serve.
-      Custom domain and `workers_dev: false` still to do.
+      Custom domain and `workers_dev: false` still to do. *Both done 2026-09-21,
+      below.*
 - [x] **M — Remove `basePath` and retire `getAssetPath()`.** Every call site loses
       the `/velels` prefix. This is what actually fixes the broken share previews,
       and share previews are the entire distribution channel for a catalogue whose
@@ -125,6 +138,8 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       before indexing is turned on**, or Google is told the canonical home of
       every page is a host that does not exist. Found 2026-09-21 by reading the
       live HTML, not the build.
+      *Fixed before indexing went on. L8 fetched all 44 sitemap URLs on
+      2026-09-22 and found none on the wrong host.*
 - [ ] *Optional, **S**:* **move `hero_mobile.mp4` to R2.** R2's free tier is 10 GB
       with no egress charge, and a custom domain on the bucket is required — the
       `r2.dev` subdomain is rate-limited and documented as development-only.
@@ -135,6 +150,8 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       no file-type restriction on the Developer Platform. The file is 7.5 MB, under
       the 25 MiB per-asset limit, so Workers can serve it directly. Re-encoding
       below is the item that actually matters; this one is now a judgement call.
+      *Not carried forward. Since the re-encode below, the largest video file is
+      3.2 MB, and moving it would gain nothing.*
 - [x] **S — Re-encode the hero video.**
       -> Done 2026-09-15. **7.91 MB to 2.07 MB.** Two encodes behind a `<source>`
       list, both from the owner's 113 MB 2160x3836 master scaled to 1080x1918
@@ -205,6 +222,8 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
       all, and the product carousels are the heaviest thing a visitor loads.
       *If time runs out, the minimum acceptable version is the hero `<picture>` fix
       in L5 alone, leaving `unoptimized: true` in place.*
+      *The launch took that minimum. The loader moved to post-launch P1, which is
+      blocked on turning Image Transformations on for the zone (B9).*
 - [x] **S — Add `www.velels.com` as well as the apex.** Workers Custom Domains
       match the exact hostname, so `velels.com` does not catch `www.velels.com`. A
       redirect rule from `www` to the apex is better than two Custom Domains,
@@ -247,6 +266,8 @@ Step-by-step operational detail lives in [`cloudflare-setup.md`](./cloudflare-se
 - [ ] *Optional, **S**:* replace the client-side `/` to `/uk` redirect with a Worker
       redirect on that one path. Only `/` would invoke Worker code, which is
       thousands of requests a month against a free ceiling of 100,000 a day.
+      *Replaced by post-launch N, a dashboard Redirect Rule that needs no Worker
+      code.*
 
 Not needed in lite: Postgres, the Vercel project, next-intl middleware. A static
 export has no middleware, and locale-prefixed routes work without it.
@@ -273,6 +294,8 @@ the full plan, not less.
       it works before hydration — confirmed in the prerendered HTML, and
       `window.open` no longer appears in any chunk. The clipboard write is
       fire-and-forget. **Still unverified on a real phone.**
+      *Verified 2026-09-22 by the owner, inside the Instagram in-app browser
+      (L8).*
 - [x] **S — Stop preselecting size `M`.** `useState<Size>("M")` means a customer who
       never chose a size sends a Direct message stating one. Harmless when a
       Consultant also sees a form; actively misleading when the message is the whole
@@ -330,7 +353,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       5:3 where the share card is 1.91:1, so previews centre-crop about 6% off the
       top and bottom. The wordmark sits centred and survives; the model's feet get
       clipped. Cosmetic, not broken, and it needs the source file rather than a crop
-      of the JPEG.
+      of the JPEG. *Moved to post-launch B9.*
 
       -> The other half is done, 2026-09-22 in `4e5e281`. The export carried a
       Display P3 profile, which preview crawlers and in-app browsers routinely
@@ -361,6 +384,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       the zone. That is a dashboard switch for the owner, or the owner supplies the
       eleven files instead. Size is not the obstacle: 4 of the 11 covers are already
       1200px wide or more. Orientation is. All eleven are portrait.
+      *Moved to post-launch G4.*
 - [x] **S — Favicon and `apple-icon`.**
       -> Done 2026-09-14. The owner supplied a "Vé" script monogram and composed
       the square crop himself; `assets/brand/icon-master.png` is that 256x256
@@ -399,7 +423,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `standalone`: this is a catalogue whose main call to action hands the visitor
       to Instagram, and stripping browser chrome from a site that deliberately sends
       people elsewhere makes leaving harder. Icons array is empty pending the item
-      above.
+      above. *Filled on 2026-09-14 with the Android pair from that item.*
 - [x] **S — `sitemap.ts` and `robots.ts`.** Both locales, all 11 products, all nine
       info pages. Both emit static files under `output: "export"`.
 
@@ -415,6 +439,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       failing closed on the indexing gate — verified in both states. Both need
       `export const dynamic = "force-static"` or the export build fails outright.
       **Not yet confirmed at the edge that ours beats Cloudflare's managed file.**
+      *Confirmed 2026-09-28. The `robots.txt` served at the edge is ours.*
 - [x] **S — Fix the Product JSON-LD.** Two problems. `availability` is
       `https://schema.org/InStock`, which claims stock the business does not have and
       contradicts the rule in `AGENTS.md`. Use `https://schema.org/MadeToOrder`. And
@@ -457,6 +482,8 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       about what language it is in. **The copy itself is still Ukrainian only** —
       one `404.html` serves both locales and translating it at runtime was judged
       more risk than the page is worth. Revisit if `en` traffic materialises.
+      *Tracked as post-launch D7, worth doing only if B8 finds English is a
+      market.*
       → `src/app/not-found.tsx`, `src/components/layout/LocaleSwitcher.tsx`
 - [x] **S — A visible breadcrumb on the PDP, or drop the `BreadcrumbList`.** The
       markup shipped 2026-08-29 with nothing on the page corresponding to it.
@@ -504,6 +531,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       one of the two reasons L7 chose it; Cloudflare Web Analytics does not, and with
       that tool this item would have to become "use a different path per entry point"
       instead. Do not set `data-exclude-search` on the tracker.
+      *Moved to post-launch N, as an owner task.*
 - [x] *Optional, **S**:* **a branded page for stray URLs.** With
       `not_found_handling = "404-page"` set in L1, an unmatched path serves
       `out/404.html`, which is Next's built-in "This page could not be found." in
@@ -512,8 +540,8 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       inside the `[locale]` segment, because there is no root `src/app/not-found.tsx`.
       Adding one would fix it. Whether eleven products draw enough stray traffic to
       be worth a page is a judgement call; the status code is correct either way.
-- [x] **M — Search metadata pass.** Done 2026-09-23 on `seo/audit-fixes`, which
-      is **not deployed until it is merged and pushed**. Audited against Google's
+- [x] **M — Search metadata pass.** Done 2026-09-23 on `seo/audit-fixes`, merged
+      in PR #30 and live since 2026-09-28. Audited against Google's
       docs and the built output of all 44 indexable pages; canonicals, hreflang,
       status codes and `robots.txt` were already right.
       1. `max-image-preview:large` on the root robots tag.
@@ -526,7 +554,7 @@ A catalogue that cannot be found or cannot be shared has no function. Depends on
       `src/lib/utils/productImageAlt.ts`, `src/lib/data/products.ts`
 - [ ] **S — After that branch deploys:** re-scrape the share previews (every
       product title changed) and request reindexing of the product pages in Search
-      Console.
+      Console. *Moved to post-launch N.*
 - [x] **M — The second colourway was invisible to crawlers.** The gallery rendered
       only the selected colour, and crawlers do not tap the swatch, so 34 of 101
       photos and their alts reached Google only as bare URLs in the Product
@@ -584,6 +612,7 @@ answer on its own.
       and 88–90 repeats the gap. Make the ranges contiguous. Wrong sizing data is
       worse in lite, because the size she reads is the size she puts in the message.
       → `src/components/product/SizeGuideModal.tsx`
+      *Moved to post-launch B1.*
 - [x] **S — State the fabric composition.**
       -> Done 2026-09-14. The owner gave one figure for the whole swimwear range,
       so it is a single `productDetail.composition` string rather than per-product
@@ -629,6 +658,10 @@ answer on its own.
       `src/lib/utils/newness.ts` derives the badge from a 60-day window. The dates
       are not invented — git records all five flagged products entering
       `products.ts` on 2026-08-12, so they expire on 2026-10-11 with no action.
+
+      **Corrected 2026-09-29: not with no action.** The badge compares the build
+      date, so the five clear on the first build dated 2026-10-11 or later, and
+      never without one. Post-launch N covers this date and T4 the general fix.
 
       Needed the build date pinned and inlined, because `ProductCard` renders inside
       a client component on the catalogue and a live `new Date()` would disagree with
@@ -715,6 +748,13 @@ answer on its own.
       it is product, colour, size and height. Whether it *should* name the price so
       a Consultant replying after a sale ends knows which number she saw is a real
       question, and still open.
+
+      **Corrected 2026-09-29.** `saleEndsAt` and `priceValidUntil` no longer
+      exist. `8bd0e61` removed them on 2026-09-07, and setting or deleting
+      `salePrice` in `products.ts` now turns a sale on or off, followed by a
+      build. Height left the Direct message on 2026-09-21 (L2), so the message is
+      product, colour and size. The price question above can wait, since no sale
+      is planned (L0).
 
 - [x] **L — The catalogue page renders no product content.** Found 2026-08-31 while
       testing the sale display on cards. `out/uk/catalog.html` contains no product
@@ -946,6 +986,8 @@ answer on its own.
       Some barely move, meaning those are genuinely detailed rather than badly
       encoded. **Deferred by the owner 2026-09-15**, who will do the image pass.
       -> `public/products/`
+      *Moved to post-launch P4, with P3 as the script that makes it one command
+      per photo.*
 
 ---
 
@@ -1063,6 +1105,7 @@ answer on its own.
 
       **Still open in the same file:** section [0] reserves the right to change
       the terms "в будь-який час", another unfair-term candidate under ст. 18.
+      *Removed 2026-09-18 in `075a049`.*
 - [x] **S — International wording.** State plainly that international orders are
       quoted individually, with full prepayment and shipping paid in advance.
       -> **Two of the three already hold**, in eleven places across the delivery
@@ -1077,7 +1120,8 @@ answer on its own.
       prepayment and shipping in advance without saying the amount is quoted.
       The locales differ in completeness, not meaning.
 - [ ] *Optional, **S**:* approximate currency on the `en` locale. A visitor in London
-      sees `3 750 ₴` with no conversion.
+      sees `3 750 ₴` with no conversion. *Waits on post-launch B8, which decides
+      whether English is a market.*
 
 ---
 
@@ -1113,7 +1157,7 @@ verified against the docs and the tracker source on 2026-09-09.
       runtime box is an id that does not exist — `process.env` is `undefined` during
       the build and the snippet is simply left out of every page. It fails silently,
       with no error and no analytics. `NEXT_PUBLIC_SITE_URL` is set the same way, for
-      the same reason (`docs/cloudflare-setup.md` Step 4).
+      the same reason (`docs/cloudflare-setup.md`, Build variables).
 - [x] **S — Add the snippet to `src/app/layout.tsx`**, the root layout, not
       `[locale]/layout.tsx`. The root is the only place that also covers `/` and the
       404 page. **Done — it renders only once the id exists, so nothing happens until
@@ -1229,7 +1273,8 @@ verified against the docs and the tracker source on 2026-09-09.
       between them is what says whether the pre-filled message is doing its job. At
       roughly ten orders a month a human can count them; that stops being true when
       volume grows or a second channel exists to compare against.
-- [ ] Nothing to do, worth knowing: `cloud.umami.is` is on the common blocklists, so
+      *Moved to post-launch N, as the owner's weekly log.*
+- Nothing to do, worth knowing: `cloud.umami.is` is on the common blocklists, so
       some visitors are never counted and every number is a floor rather than a
       truth. It matters less here than it would elsewhere — most traffic arrives
       inside the Instagram in-app browser, where content blockers are rare.
@@ -1263,9 +1308,9 @@ Do all of it before flipping indexing on.
       the Ukrainian error page.
 - [ ] **S — Share previews for real.** Post a product link into Telegram and
       Instagram and look at what renders. Run the homepage through Facebook's sharing
-      debugger.
+      debugger. *Moved to post-launch N.*
 - [ ] **S — Keyboard-only pass** of the whole site, with attention to the catalogue
-      dropdown.
+      dropdown. *Moved to post-launch N.*
 - [x] **S — Confirm the locale files are still key-identical.** 362 keys including
       intermediate objects, 269 of them leaves, across 12 namespaces — verified
       2026-09-18. The number has grown with every copy addition, so re-count rather
@@ -1311,20 +1356,20 @@ Do all of it before flipping indexing on.
 
 ## Deferred, not cancelled
 
-These stay in [`release-checklist.md`](./release-checklist.md) and are the reason it
+These stay in [`release-checklist.md`](../release-checklist.md) and are the reason it
 still exists. Nothing here is abandoned.
 
 | Deferred | Comes back when |
 | --- | --- |
-| Order form, `POST /api/order-request` | Direct volume makes the manual path hurt. Fits in a free Cloudflare Worker plus D1 when it does |
+| Order form, `POST /api/order-request` | Direct volume makes the manual path hurt. Fits in a free Cloudflare Worker plus D1 when it does. Post-launch B4 turns "hurt" into a number, and G6 settles the platform |
 | Postgres or D1, order request rows | With the form |
 | Telegram bot and channel | With the form |
-| Payload CMS | The owner needs to edit products without a developer. Needs Workers Paid at $5/month, since Payload exceeds the free plan's 3 MiB bundle limit |
-| Height in the product model, height input, ростовка rule | With the form. The blank height line in L2 is a placeholder, not a step toward this |
-| Email signup, promo codes | After the first weeks of real traffic |
+| Payload CMS | The owner needs to edit products without a developer. Needs Workers Paid at $5/month, since Payload exceeds the free plan's 3 MiB bundle limit. Post-launch G7 decides it from how often the owner asks for changes |
+| Height in the product model, height input, ростовка rule | With the form. The owner had the blank height line removed from the Direct message on 2026-09-21 (L2) |
+| Email signup, promo codes | After the first weeks of real traffic. Post-launch G2 argues for the signup sooner, as the fallback if the Instagram account is lost |
 | Stale request reminders, workload counter, request statuses | These describe managing Order Requests. There are none yet |
-| Model height and size worn on every image | Needs a photo session decision |
-| A second Worker for owner review links | When `workers_dev: false` removes the review URL there is nowhere to send the owner. A named environment plus its own deploy script; give it `"routes": []` or its deploy takes the live domain |
+| Model height and size worn on every image | Needs a photo session decision. Post-launch B3 and G5 |
+| A second Worker for owner review links | When `workers_dev: false` removes the review URL there is nowhere to send the owner. A named environment plus its own deploy script; give it `"routes": []` or its deploy takes the live domain. Post-launch G8 |
 
 ## Still not doing
 

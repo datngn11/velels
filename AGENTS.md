@@ -60,22 +60,23 @@ load-bearing and agents get them wrong by default:
 - **Both order channels are equal.** The site form and Instagram Direct are both
   full purchase paths. Direct is not "just consultation". **Which one leads the PDP
   depends on the plan being executed.** The full plan makes the form primary and
-  Direct a quiet secondary. The lite catalogue launch has no form at all, so Direct
-  is the primary and only call to action — `docs/release-checklist-lite.md` L2 says
-  so explicitly, and inverts the instruction above. No order form exists anywhere in
-  `src` today.
+  Direct a quiet secondary. The live site has no form at all, so Direct is the
+  primary and only call to action. Keep it that way until a form ships, then demote
+  Direct as Phase 5 of `docs/release-checklist.md` says. No order form exists
+  anywhere in `src` today.
 
 # Architecture & Migration State
 
 The project is mid-migration, and there are now **two** possible destinations.
-Check what has actually landed before assuming any state — `docs/release-checklist.md`
-holds the full phase order, `docs/release-checklist-lite.md` the catalogue-only
-subset, and a later phase must not be started before its dependency.
+Check what has actually landed before assuming any state — `docs/post-launch-checklist.md`
+tracks the live site, `docs/release-checklist.md` holds the full plan's phase order,
+and a later phase must not be started before its dependency.
 
 - **Today:** `output: "export"`, `images.unoptimized: true`, no middleware.
 - **Pushing to `main` deploys.** Cloudflare's Git integration builds and ships
-  every push. It is configured in the Cloudflare dashboard, so **nothing in this
-  repository records it** — there are no `.github/workflows`, and their absence is
+  every push. It is configured in the Cloudflare dashboard, so **no code in this
+  repository records it** (`docs/cloudflare-setup.md` writes the settings down) —
+  there are no `.github/workflows`, and their absence is
   not evidence that a push is safe. Never tell the user a pushed change is not
   live. `npm run deploy` (`next build && wrangler deploy`) is the manual path to
   the same place; `wrangler.jsonc` serves `./out` as an assets-only Worker.
@@ -113,7 +114,7 @@ Rule 4 above covers CSS transitions. JavaScript is not exempt:
   `window.matchMedia("(prefers-reduced-motion: reduce)").matches` and not start.
   Do not re-trigger playback on user gestures when that preference is set.
 - Every interactive control needs a visible `:focus-visible` state. `globals.css`
-  carries a global ring and a dialog rule, added in `9f68de3` — lite L5 is done.
+  carries a global ring and a dialog rule, added in `9f68de3`.
   Match them rather than adding per-component focus styles.
 - Anything that opens on hover must also open on focus and be operable by
   keyboard. Prefer a Radix primitive over a hand-rolled hover panel.
@@ -141,10 +142,10 @@ and do not add scaffolding "in preparation" for them.
 | File                        | What it holds                                               |
 | --------------------------- | ----------------------------------------------------------- |
 | `CONTEXT.md`                | Domain glossary. No implementation detail                   |
-| `docs/release-checklist.md` | Ordered pre-launch execution plan, by phase                 |
-| `docs/release-checklist-lite.md` | Must-ship subset for a catalogue-only launch on Cloudflare |
-| `docs/post-launch-checklist.md` | What comes after the lite launch: due now, owner decisions, tech, growth |
-| `docs/cloudflare-setup.md`  | Step-by-step Cloudflare runbook behind lite L1               |
-| `docs/launch-plan.html`     | Business decisions and rationale, in Russian, for the owner |
+| `docs/post-launch-checklist.md` | **The live task list.** Due now, owner decisions, tech, growth |
+| `docs/cloudflare-setup.md`  | How hosting and deploy are configured, dashboard settings included. Kept current |
+| `docs/release-checklist.md` | The full plan, by phase: order form, Vercel, Payload. Dormant until post-launch B4 |
+| `docs/archive/release-checklist-lite.md` | How the catalogue launch was done, and why. Frozen 2026-09-29 |
+| `docs/launch-plan.html`     | Business decisions and rationale, in Russian, for the owner. Frozen at 2026-08-19 with a dated note |
 
 <!-- END:domain-rules -->

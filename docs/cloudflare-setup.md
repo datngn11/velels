@@ -1,219 +1,127 @@
-# Cloudflare setup — runbook
+# Cloudflare setup
 
-The operational detail behind L1 of [`release-checklist-lite.md`](./release-checklist-lite.md).
-That document says *what* and *why*; this one says *how*, in the order it has to
-happen. Verified against Cloudflare's docs on 2026-08-28.
+How velels.com is hosted and deployed. Part of the configuration lives in the
+repo and the rest in the Cloudflare dashboard. No file in the code records the
+dashboard half, so this page does, in enough detail to rebuild it from scratch.
+The history behind each setting, with the reasons, is L1 of
+[`archive/release-checklist-lite.md`](./archive/release-checklist-lite.md). Open work is in
+[`post-launch-checklist.md`](./post-launch-checklist.md).
 
-The site stays `output: "export"`. Every page is a prebuilt file served as a static
-asset, and **no Worker code runs on a page view**. That is the whole reason this is
-cheap: requests to static assets are free and unlimited, and they do not count
-against the Workers free-plan ceiling of 100,000 requests a day.
-
----
-
-## What the build actually produces
-
-Confirmed against `out/` on 2026-08-28, so the settings below are not guesses:
-
-| | |
-| --- | --- |
-| Total size | 39 MB (`out/products` alone is 18 MB) |
-| File count | 588 — against a free-plan limit of **20,000 files per version** |
-| Largest file | `out/hero/hero_mobile.mp4` at 7.5 MB — against a limit of **25 MiB per file** |
-| Page URL shape | `out/uk/product/azure.html`, served at `/uk/product/azure` |
-| 404 | `out/404.html` exists, but it is Next's unstyled built-in |
-
-Both limits have a lot of headroom. Nothing about this site needs a paid plan.
+Checked against the repo on 2026-09-29. The dashboard values are as the
+checklists recorded them when each was set, so confirm one in the dashboard
+before relying on it.
 
 ---
 
-## Step 1 — Register the domain
+## What runs
 
-Cloudflare Registrar, `velels.com`, about **$10.44/year** at wholesale with no
-renewal markup. Registrar requires the domain to use Cloudflare nameservers, which
-is what everything below assumes anyway.
+The site is `output: "export"`. `next build` writes every page to `out/` as a
+prebuilt file, and an assets-only Worker serves that directory. `wrangler.jsonc`
+has no `main`, so there is no Worker script and no code runs on a page view.
+Static asset requests are free and unlimited, and they don't count against the
+free plan's 100,000 Worker requests a day. Nothing here needs a paid plan.
 
-Do this first. It is the only step with propagation delay, and Step 4 cannot be
-verified until it has landed.
-
----
-
-## Step 2 — Write `wrangler.jsonc`
-
-There is no wrangler config in the repo yet. Create one at the root:
-
-```jsonc
-{
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "velels",
-  "compatibility_date": "2026-08-28",
-  "assets": {
-    "directory": "./out",
-    "not_found_handling": "404-page",
-    "html_handling": "auto-trailing-slash"
-  }
-}
-```
-
-Four things worth understanding rather than copying:
-
-- **No `main` key.** `main` is optional for assets-only Workers. Omitting it means
-  there is no Worker script at all, so nothing can run on a page view and nothing
-  can be billed.
-- **`compatibility_date` is still required** even with no script.
-- **`not_found_handling` defaults to `"none"`**, which serves a bare Cloudflare
-  error page. `"404-page"` serves the nearest `404.html` with a real 404 status.
-  Do **not** use `"single-page-application"` — it returns HTTP 200 for every
-  unmatched path, which would feed the index unlimited duplicate homepages and
-  undo the canonical work in L3.
-- **`html_handling` defaults to `"auto-trailing-slash"`**, which is already correct
-  here: it serves `azure.html` at `/uk/product/azure` and 307-redirects the
-  trailing-slash form. Set it explicitly anyway so a future default change cannot
-  silently alter every URL on the site.
-
-The Worker `name` must match the name in the dashboard or the build fails.
+The build on 2026-09-28 was 618 files against a limit of 20,000 per version. Its
+largest file, `hero/hero_mobile.mp4` at 3.2 MB, is well under the 25 MiB limit
+per file.
 
 ---
 
-## Step 3 — Connect the repo (Workers Builds)
+## In the repo
 
-Dashboard → **Workers & Pages** → your Worker → **Settings → Builds → Connect**.
+- **`wrangler.jsonc`.** The Worker name (`velels`), the assets directory, the
+  apex as a Custom Domain, `workers_dev: false`, and the 404 and trailing-slash
+  handling. The file comments each setting.
+- **`public/_headers`.** Caches `/_next/static/*` for a year. Everything else,
+  photos included, keeps Cloudflare's default `max-age=0` on purpose, because a
+  replaced photo keeps its filename.
+- **`npm run deploy`.** Runs `next build && wrangler deploy`, the manual path to
+  the same Worker. Run from a Mac, it also publishes any `.DS_Store` files that
+  ended up in `out/` (post-launch T3).
+
+---
+
+## In the dashboard
+
+### Workers Builds
+
+Workers & Pages → `velels` → Settings → Builds. The repo is connected, and every
+push to `main` builds and deploys.
 
 | Setting | Value |
 | --- | --- |
+| Production branch | `main` |
 | Build command | `npm run build` |
-| Deploy command | `npx wrangler deploy` (required; the default) |
-| Root directory | leave empty |
-| Builds for non-production branches | **leave off** |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | empty |
+| Builds for non-production branches | off |
 
-That last one matters more than it looks. Enabled, every push to any branch builds
-with the **same build variables** and deploys a preview version at a public
-`<version>-velels.workers.dev` URL. With `NEXT_PUBLIC_ALLOW_INDEXING` among those
-variables, each preview is an indexable copy of the site whose canonicals point at
-`velels.com` — duplicate content with nothing suppressing it. The risk disappears
-once Step 4's `workers_dev: false` lands, since that removes preview URLs
-altogether; until then, leave the box unticked.
+Branch builds stayed off while the `workers.dev` hostname existed, because each
+one would have been a public, indexable copy of the site. Since
+`workers_dev: false` a version has no public URL, so that reason is gone.
+Post-launch T1 may turn them on to get a build on every pull request.
 
-The assets directory comes from `wrangler.jsonc`, so it does not need to be set in
-the dashboard. Pushing a commit then triggers a build and deploy.
+### Build variables
 
-**Change `npm run build` first.** The current `deploy` script still pushes to GitHub
-Pages via `gh-pages -d out`. Leave it or delete it, but do not let both deploy
-paths run against the same domain.
+All three are set under Builds. `next build` inlines every `NEXT_PUBLIC_*` value
+into the HTML, and nothing reads them after that.
 
----
+| Variable | Value | When it is missing |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://velels.com`, or unset | The code falls back to `https://velels.com` |
+| `NEXT_PUBLIC_ALLOW_INDEXING` | `true` | Every page says `noindex` |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | the id from the Umami dashboard | No page loads the analytics script |
 
-## Step 4 — Attach the custom domain
+Never put these under Settings → Variables and Secrets. That box holds runtime
+variables for a Worker script, and this Worker has no script, so a value there
+does nothing. Wrangler also deletes dashboard `vars` on its next deploy. A value
+in the wrong box fails silently. The build succeeds and the feature is missing.
 
-**Declare it in `wrangler.jsonc`, not in the dashboard:**
+A changed variable reaches the live site only with the next build. Push a
+commit, or use "Retry build".
 
-```jsonc
-"routes": [{ "pattern": "velels.com", "custom_domain": true }]
-```
+`NEXT_PUBLIC_SITE_URL` once still pointed at the old `workers.dev` hostname,
+which put every canonical on a host that returned 404 (lite L1). After changing
+it, read the canonical on a live page.
 
-Cloudflare creates the DNS records and an Advanced Certificate automatically. The
-zone has to be on the same account, which Step 1 guarantees.
+### Domain and DNS
 
-Config rather than dashboard because whether `wrangler deploy` preserves a custom
-domain that exists only in the dashboard is **not documented either way** — and
-`vars` next to it are documented as being deleted. Declaring the apex means every
-deploy reasserts it, so the question never has to be answered.
+- **Registrar.** `velels.com` is registered at Cloudflare Registrar and renews on
+  2027-08-28 (post-launch T6). Registrar requires Cloudflare nameservers, so the
+  zone lives on this account.
+- **Apex.** A Custom Domain declared in `wrangler.jsonc`, so every deploy
+  reapplies it. Cloudflare manages its DNS record and certificate.
+- **`www`.** A Custom Domain matches one exact hostname, so the apex does not
+  cover `www`. It is a proxied CNAME to the apex plus a Redirect Rule: 301,
+  wildcard path, query string preserved. `http`, `www` and deep paths all reach
+  the apex in one hop. The rule matched nothing at first because its Request URL
+  had a leading space. Cloudflare showed two warnings about it, and both were
+  real.
+- **Search Console.** The domain property is verified by a DNS TXT record.
 
-If a named environment is ever added to `wrangler.jsonc`, give it `"routes": []`.
-`routes` is an inheritable key, so without that line the environment inherits this
-custom domain and its deploy reassigns `velels.com` away from production. Wrangler
-does warn, in output nobody reads twice.
+### Zone settings
 
-> **Add `www.velels.com` as a second Custom Domain, or a redirect rule.** Custom
-> Domains match the exact hostname — `velels.com` does **not** catch
-> `www.velels.com`. The lite checklist does not mention this, and a visitor who
-> types the `www` form would otherwise get nothing. A redirect rule pointing `www`
-> at the apex is the better of the two, because it keeps one canonical hostname.
-
-Set `NEXT_PUBLIC_SITE_URL=https://velels.com` as a build environment variable, and
-set `NEXT_PUBLIC_ALLOW_INDEXING` **only** on production, so the `*.workers.dev`
-preview hostname stays `noindex`.
-
-**Never put these in Settings → Variables and Secrets.** That box is runtime
-configuration, invisible to `next build`, so the value would do nothing — and
-wrangler's own schema says of `vars`: *"If you change your vars in the dashboard,
-wrangler will override/delete them on its next deploy."* A value in the wrong box is
-both useless and destined to vanish.
-
----
-
-## Step 5 — The hero video
-
-`hero_mobile.mp4` is 7.5 MB — roughly 30% of what the site weighs, and every mobile
-visitor downloads it.
-
-**Correction to the lite checklist's stated reason.** It says Cloudflare's terms
-name R2 as the compliant way to serve video rather than proxying a large file
-through the CDN on a free plan. That reasoning is out of date: **Section 2.8 was
-removed from the Self-Serve Subscription Agreement in May 2023**, and the current
-Service-Specific Terms place no file-type restriction on the Developer Platform.
-The file is also under the 25 MiB per-asset limit. Serving it straight from Workers
-static assets is permitted.
-
-So the case for acting is performance, not compliance — which changes the priority
-order:
-
-1. **Re-encode it first.** Cap at 720×1280, drop the muted audio track, 6–8 second
-   loop, add a WebM source. Going from 7.5 MB to ~1.5 MB is the change that
-   actually helps a visitor on Ukrainian mobile data.
-2. **Then decide about R2.** Once the file is 1.5 MB, moving it is optional. If you
-   do move it, a **custom domain on the bucket is required** — the `r2.dev`
-   subdomain is rate-limited and documented as development-only.
+- **`robots.txt`.** Cloudflare can serve a managed `robots.txt` of its own. The
+  one at the edge is ours, from `src/app/robots.ts` (checked 2026-09-28).
+- **Image Transformations.** Off, so `/cdn-cgi/image/` returns 404. Turning it on
+  unblocks the image loader and the landscape share cards (post-launch B9, P1,
+  G4). The free plan includes 5,000 unique transformations a month. Past that,
+  cached results keep serving, new ones fail with error 9422, and nothing is
+  billed. OG images don't pass through `next/image`, so their transformation
+  URLs have to be written by hand.
+- **Web Analytics.** Not used. It logs no query strings and has no custom events,
+  so it can't see `?ref=story` or the Direct button. The site uses Umami Cloud
+  (lite L7).
+- **R2.** Not used. The hero video has been 3.2 MB at most since the 2026-09-15
+  re-encode, and Cloudflare's current terms put no file-type restriction on the
+  Developer Platform.
 
 ---
 
-## Step 6 — Image transformations
+## Adding a second Worker
 
-`out/products` is 18 MB of WebP shipped with no `srcset` at all. Point a custom
-`next/image` loader at `/cdn-cgi/image/`.
-
-Confirmed current pricing: **5,000 unique transformations a month free, on the free
-plan, with no subscription required.** "Unique" means one option-combination per
-source image per month. 93 images at four widths is ~370, about 7% of the
-allowance. Past 5,000, cached results keep serving and new ones fail with error
-9422 — you are not billed.
-
-Note that OG images do **not** pass through the `next/image` loader, so the
-landscape share cards in L3 need their transformation URL written by hand.
-
----
-
-## Step 7 — Analytics
-
-**Not Cloudflare Web Analytics.** It is free and already here, but it logs no query
-strings and supports no custom events, so it cannot see the `?ref=` marker or the
-Direct button — the only two things worth measuring at launch. Umami Cloud's free
-tier does both. The snippet, the website id and the reasoning are in L7 of
-[`release-checklist-lite.md`](./release-checklist-lite.md); nothing about it needs a
-Cloudflare setting.
-
----
-
-## Order of operations
-
-```
-1. Register velels.com                     ← do today, it has propagation delay
-2. wrangler.jsonc                          ← can be written now, no account needed
-3. Connect the repo, first deploy to *.workers.dev
-4. Custom domain (apex AND www) + env vars
-5. Re-encode the video
-6. Image loader
-7. Analytics
-```
-
-Steps 2 and 5 need no Cloudflare account and can be done while the domain
-propagates.
-
----
-
-## Things that are cheaper than the checklist assumes
-
-- Static asset requests are **free and unlimited** and do not touch the 100,000/day
-  Workers limit. Only the optional `/` → `/uk` redirect would invoke Worker code.
-- Image transformations need **no paid plan**.
-- 588 files against a 20,000 limit, 7.5 MB against 25 MiB. No limit is close.
+A second Worker, such as the owner preview links in post-launch G8, needs
+`"routes": []` in its environment. `routes` is inheritable. Without that line the
+new environment inherits the apex Custom Domain, and its first deploy moves
+`velels.com` away from production. Wrangler prints a warning about this in the
+deploy output, and it is easy to miss.
