@@ -7,7 +7,7 @@ import { StatusPage } from "@/components/layout/StatusPage";
 
 /**
  * Becomes `out/404.html`, the only 404 the deployed site has — Cloudflare serves it
- * for `/en/mistyped` too, so it is always default-locale. Tracked in lite L3.
+ * for `/en/mistyped` too, so it is always default-locale. English copy is post-launch D7.
  */
 
 /** Without this `out/404.html` has no `<title>` and the tab shows the raw URL. */

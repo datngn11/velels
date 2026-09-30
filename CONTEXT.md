@@ -7,7 +7,7 @@ belong here.
 These terms define the language, not the current build. Order Request, Request
 Number, Contact Channel, Measurements and Sale Price all describe a site form that
 does not exist yet, and the lite catalogue launch ships without it — see
-`docs/release-checklist-lite.md`. The vocabulary stands regardless of what has been
+`docs/archive/release-checklist-lite.md`. The vocabulary stands regardless of what has been
 built.
 
 ## Model

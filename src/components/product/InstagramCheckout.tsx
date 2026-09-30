@@ -77,6 +77,10 @@ export function InstagramCheckout({
 
   return (
     <>
+      {/* Umami's click listener must not call preventDefault() on this
+          target="_blank" link, or iOS stops opening Direct. Umami hosts that
+          script, so it can change without a deploy here. If the handoff breaks
+          with no code change, suspect the tracker first. */}
       <a
         href={siteConfig.social.instagramDm}
         target="_blank"
