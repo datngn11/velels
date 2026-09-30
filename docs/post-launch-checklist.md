@@ -124,7 +124,10 @@ Dated, or due because something shipped this week.
       counted twice, once on `/` and again on `/uk` after the client-side
       redirect (27 and 25 visitors on 2026-09-29). The edge now answers `/`
       before any page or script loads, so Umami never records it. The bio link
-      stays `velels.com`, and untagged `/uk` traffic is the bio, as L3 planned.
+      stays `velels.com`. Untagged `/uk` visits with no referrer are then mostly
+      the bio, not only the bio: typed URLs and links pasted into DMs land there
+      too, which L3 accepted at this volume. Search visits carry a referrer, so
+      they separate out.
       In Umami data from before 2026-09-30, read `/` as bio arrivals and don't
       add it to `/uk`.
 
