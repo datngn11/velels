@@ -97,6 +97,13 @@ it, read the canonical on a live page.
   the apex in one hop. The rule matched nothing at first because its Request URL
   had a leading space. Cloudflare showed two warnings about it, and both were
   real.
+- **`/`.** A second Redirect Rule, "Root to /uk", added 2026-09-30. Custom
+  filter expression `(http.host eq "velels.com" and http.request.uri.path eq "/")`,
+  static target `https://velels.com/uk`, 302, query string preserved. The
+  Instagram bio link is the bare domain, so this sends it to the homepage
+  before any HTML loads, and Umami no longer counts `/` as a page. A 302, not a
+  301, because browsers cache a 301 indefinitely. `RootRedirect` in the code
+  still redirects in the browser if this rule is ever removed.
 - **Search Console.** The domain property is verified by a DNS TXT record.
 
 ### Zone settings

@@ -112,7 +112,7 @@ Dated, or due because something shipped this week.
       with the *build* date, so the badges clear only on a build dated
       2026-10-11 or later. Any push after that date clears them, and so does
       "Retry build" in the Cloudflare dashboard. T4 removes the need to remember.
-- [ ] **(S) Redirect `/` at the edge.** The bio link is the bare domain (L3), and
+- [x] **(S) Redirect `/` at the edge.** The bio link is the bare domain (L3), and
       today it reaches the homepage only after a client-side redirect. Add a
       Cloudflare Redirect Rule next to the existing `www` rule: the exact path
       `/`, sent to `/uk` with a 302, query string preserved. A 302 rather than a
@@ -120,14 +120,19 @@ Dated, or due because something shipped this week.
       change. No code change, and no Worker script. It replaces the optional
       Worker redirect item in L1. Keep `RootRedirect` as the fallback.
 
-      It also fixes the Umami counts. Today every bio visit is counted twice,
-      once on `/` and again on `/uk` after the client-side redirect, so the
-      Pages report shows `/` and `/uk` near the top with similar numbers
-      (27 and 25 visitors on 2026-09-29). Until the rule lands, read `/` as
-      "arrived by the bare domain, nearly always the bio", and don't add it to
-      `/uk`. The bio link stays `velels.com` either way. The edge answers `/`
-      before any page or script loads, so Umami never records it. After that,
-      untagged `/uk` traffic is the bio, as L3 planned.
+      It also fixes the Umami counts. Before the rule, every bio visit was
+      counted twice, once on `/` and again on `/uk` after the client-side
+      redirect (27 and 25 visitors on 2026-09-29). The edge now answers `/`
+      before any page or script loads, so Umami never records it. The bio link
+      stays `velels.com`, and untagged `/uk` traffic is the bio, as L3 planned.
+      In Umami data from before 2026-09-30, read `/` as bio arrivals and don't
+      add it to `/uk`.
+
+      *Done 2026-09-30.* "Root to /uk" in `cloudflare-setup.md`. Checked at the
+      edge: `/` and `http://velels.com/` 302 to `https://velels.com/uk` in one
+      hop, `/?ref=story&utm_source=ig` keeps its query, and `/uk`, a product
+      page, `robots.txt` and a stray URL answer as before. `www.velels.com/`
+      takes two hops, 301 then 302, which is not worth a third rule.
 - [ ] **(S) Keyboard-only pass.** *(from L8)* The whole site, Tab and Enter only.
       Pay extra attention to the catalogue dropdown, the mobile drawer (A3) and
       the size-guide dialog.

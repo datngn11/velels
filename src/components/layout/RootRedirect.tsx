@@ -13,8 +13,8 @@ export function RootRedirect() {
 
   useEffect(() => {
     // Carry the query and hash across, so a tagged link to `/` keeps its tag.
-    // Once the edge Redirect Rule for `/` exists (post-launch N), this is only
-    // the fallback.
+    // A Cloudflare Redirect Rule answers `/` first (docs/cloudflare-setup.md),
+    // so this only runs if that rule is removed.
     const { search, hash } = window.location;
     router.replace(`/${routing.defaultLocale}${search}${hash}`);
   }, [router]);
