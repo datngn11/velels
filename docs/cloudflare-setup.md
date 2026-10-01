@@ -38,6 +38,16 @@ per file.
 - **`npm run deploy`.** Runs `next build && wrangler deploy`, the manual path to
   the same Worker. Run from a Mac, it also publishes any `.DS_Store` files that
   ended up in `out/` (post-launch T3).
+- **`.github/workflows/ci.yml`.** Runs on every pull request into `main`: lint,
+  `npm run check:locales`, `next build`, and a check that every HTML file loads
+  Umami. It has no secrets and deploys nothing. Workers Builds still does the
+  deploy, from `main`. The build uses a placeholder Umami id and no indexing
+  flag, so it proves the code renders the snippet, not that the real id is set
+  in Workers Builds.
+
+  The check blocks a merge only if GitHub is told to wait for it: Settings →
+  Branches → a rule for `main` with "Require status checks to pass" and the
+  `check` job selected. A direct push to `main` skips CI and still deploys.
 
 ---
 
@@ -58,8 +68,9 @@ push to `main` builds and deploys.
 
 Branch builds stayed off while the `workers.dev` hostname existed, because each
 one would have been a public, indexable copy of the site. Since
-`workers_dev: false` a version has no public URL, so that reason is gone.
-Post-launch T1 may turn them on to get a build on every pull request.
+`workers_dev: false` a version has no public URL, so that reason is gone. They
+stay off anyway: the GitHub workflow builds every pull request (post-launch T1),
+and a branch build here would only add a Worker version upload per push.
 
 ### Build variables
 

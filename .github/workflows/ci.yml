@@ -1,0 +1,55 @@
+# Checks every pull request into main before its merge deploys. Workers Builds
+# builds main only, so without this nothing builds a branch. Deploying stays
+# with Workers Builds; this workflow has no secrets and publishes nothing.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Actions are pinned to a commit SHA, the only immutable reference.
+      # The comment names the release; bump both together.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run check:locales
+
+      # next build type-checks as well. The Umami id is a placeholder so the
+      # next step can see the snippet; the real one lives in Workers Builds.
+      # Indexing stays off, so this build is noindex throughout.
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://velels.com
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: 00000000-0000-0000-0000-000000000000
+
+      # Every page must carry a real <script> element, not only a preload link.
+      - name: Umami snippet on every page
+        run: |
+          total=$(find out -name '*.html' | wc -l)
+          tagged=$(grep -rlE '<script[^>]+cloud\.umami\.is' out --include='*.html' | wc -l)
+          echo "$tagged of $total HTML files load Umami"
+          [ "$total" -gt 0 ] && [ "$tagged" -eq "$total" ]

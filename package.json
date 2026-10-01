@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "deploy": "next build && wrangler deploy",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:locales": "node scripts/check-locales.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

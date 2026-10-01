@@ -75,10 +75,10 @@ and a later phase must not be started before its dependency.
 - **Today:** `output: "export"`, `images.unoptimized: true`, no middleware.
 - **Pushing to `main` deploys.** Cloudflare's Git integration builds and ships
   every push. It is configured in the Cloudflare dashboard, so **no code in this
-  repository records it** (`docs/cloudflare-setup.md` writes the settings down) —
-  there are no `.github/workflows`, and their absence is
-  not evidence that a push is safe. Never tell the user a pushed change is not
-  live. `npm run deploy` (`next build && wrangler deploy`) is the manual path to
+  repository records it** (`docs/cloudflare-setup.md` writes the settings down).
+  `.github/workflows/ci.yml` checks pull requests only, and deploys nothing; a
+  direct push to `main` skips it and still ships. Never tell the user a pushed
+  change is not live. `npm run deploy` (`next build && wrangler deploy`) is the manual path to
   the same place; `wrangler.jsonc` serves `./out` as an assets-only Worker.
   GitHub Pages was retired in `009d2e5` — the `gh-pages` script is gone.
 - **`basePath` and `getAssetPath()` are gone.** Removed 2026-08-27 along with
@@ -97,8 +97,10 @@ and a later phase must not be started before its dependency.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two locale
   files must stay key-identical** — 296 leaf keys across 12 top-level namespaces,
-  390 counting intermediate objects, verified 2026-09-23. Adding a key to one and
-  not the other breaks the build. A key may be absent from a product in both files
+  390 counting intermediate objects, verified 2026-10-01. Adding a key to one and
+  not the other does **not** break the build: next-intl renders the key path on
+  the page and the build succeeds. `npm run check:locales` catches it, and CI
+  runs it on every pull request. A key may be absent from a product in both files
   at once — `fabric`, `hardware` and `length` are read through `tProduct.has()` and
   only some Models carry them. That is parity, not a gap.
 - Order Requests are business records. In the full plan they go to Postgres _and_ a
