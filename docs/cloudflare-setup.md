@@ -39,10 +39,11 @@ per file.
   them, on `main` and on every other branch: lint, `npm run check:locales`,
   `next build` (which type-checks), then `scripts/check-umami.mjs`. Any failure
   stops the build before the deploy command runs, so a broken `main` leaves the
-  live site on its last good version. The Umami check runs only on a `main`
-  build in Workers Builds, the one build that has the variables, and fails if
-  the id is unset or any page lacks the script. A one-sided locale key needs its own check because
-  next-intl renders the key path and `next build` succeeds.
+  live site on its last good version. The Umami check runs in Workers Builds
+  whenever the id is set, which today means `main` only, and fails a `main`
+  build where the id is unset or any page lacks the script. A one-sided locale
+  key needs its own check because next-intl renders the key path and
+  `next build` succeeds.
 - **`npm run deploy`.** Runs `npm run build && wrangler deploy`, the manual path
   to the same Worker. A local `.env` usually carries neither the Umami id nor
   `NEXT_PUBLIC_ALLOW_INDEXING`, and a manual deploy without them ships no
@@ -74,8 +75,9 @@ version without sending it traffic. Version URLs follow `workers_dev`, which is
 
 Branch builds get **none** of the build variables (seen on the first one,
 2026-10-02). They build `noindex` with no analytics, which is harmless with no
-URL. It also means the Umami check can only run on `main`: it skips on other
-branches, and fails a `main` build that has no id.
+URL. It also means the Umami check runs on `main` only in practice: it skips a
+branch build without the id, and fails a `main` build that has no id. If
+branch builds ever receive the id, the check runs there too.
 
 Branch builds are how a pull request gets built before its merge deploys
 (post-launch T1). Workers Builds posts a check run on each PR commit, and that

@@ -1,8 +1,9 @@
 // Fails a Workers Builds build when any page in out/ lacks the Umami script.
 // The id is a build variable, and a value in the wrong dashboard box builds
 // fine and ships without analytics. Matches a real <script> element, since a
-// preload link alone loads nothing. Skipped outside Workers Builds, and on
-// branch builds, which get no build variables. Strict on main.
+// preload link alone loads nothing. Skipped outside Workers Builds, and on a
+// branch build without the id (branch builds get no build variables). Runs
+// whenever the id is set, and always on main.
 
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";

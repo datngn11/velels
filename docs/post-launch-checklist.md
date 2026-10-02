@@ -314,7 +314,7 @@ Cheap, and each one protects something already in production.
       (`cloudflare-setup.md`, "Workers Builds"). This is stronger than the
       Action would have been: the same checks stop a broken `main` from
       deploying, and the Umami check sees the real id. Branch builds get no
-      build variables, so that one check runs on `main` only.
+      build variables, so in practice that one check runs on `main` only.
 
       One correction to the above: a one-sided locale key does **not** fail
       `next build`. With `nav.catalogue` deleted from `en.json`, it exited 0,
