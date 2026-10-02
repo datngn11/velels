@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run lint && npm run check:locales && next build && node scripts/check-umami.mjs",
     "start": "next start",
-    "deploy": "next build && wrangler deploy",
-    "lint": "eslint"
+    "deploy": "npm run build && wrangler deploy",
+    "lint": "eslint",
+    "check:locales": "node scripts/check-locales.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

@@ -305,6 +305,23 @@ Cheap, and each one protects something already in production.
       Action, the repo's first, running lint, `tsc --noEmit` and `next build`.
       The build also fails on a locale key present in one language file and
       missing from the other. Add the L8 Umami grep as a last step.
+
+      *Built 2026-10-01 in Workers Builds, not GitHub Actions.* A GitHub Action
+      was written first, but the account's Actions are locked by a stale
+      billing flag (balance $0.00). `npm run build` now runs lint, the locale
+      check, `next build` and the Umami check, and branch builds are on with
+      `npx wrangler versions upload` as the version command
+      (`cloudflare-setup.md`, "Workers Builds"). This is stronger than the
+      Action would have been: the same checks stop a broken `main` from
+      deploying, and the Umami check sees the real id. Branch builds get no
+      build variables, so in practice that one check runs on `main` only.
+
+      One correction to the above: a one-sided locale key does **not** fail
+      `next build`. With `nav.catalogue` deleted from `en.json`, it exited 0,
+      logged `MISSING_MESSAGE` 88 times and shipped the raw key path in
+      `out/en.html`. `npm run check:locales` is what catches it. There is no
+      separate `tsc` step, because `next build` type-checks. Tick this once a PR
+      shows a green Workers Builds check and that check is required on `main`.
 - [ ] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** None of the 10 audit
       findings reach the live site: it is static files, with no server, no Server
       Actions, no middleware and no image optimiser running. They start to matter

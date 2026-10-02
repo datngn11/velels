@@ -35,9 +35,20 @@ per file.
 - **`public/_headers`.** Caches `/_next/static/*` for a year. Everything else,
   photos included, keeps Cloudflare's default `max-age=0` on purpose, because a
   replaced photo keeps its filename.
-- **`npm run deploy`.** Runs `next build && wrangler deploy`, the manual path to
-  the same Worker. Run from a Mac, it also publishes any `.DS_Store` files that
-  ended up in `out/` (post-launch T3).
+- **`npm run build`.** The checks live here, so every Workers Builds build runs
+  them, on `main` and on every other branch: lint, `npm run check:locales`,
+  `next build` (which type-checks), then `scripts/check-umami.mjs`. Any failure
+  stops the build before the deploy command runs, so a broken `main` leaves the
+  live site on its last good version. The Umami check runs in Workers Builds
+  whenever the id is set, which today means `main` only, and fails a `main`
+  build where the id is unset or any page lacks the script. A one-sided locale
+  key needs its own check because next-intl renders the key path and
+  `next build` succeeds.
+- **`npm run deploy`.** Runs `npm run build && wrangler deploy`, the manual path
+  to the same Worker. A local `.env` usually carries neither the Umami id nor
+  `NEXT_PUBLIC_ALLOW_INDEXING`, and a manual deploy without them ships no
+  analytics and a `noindex` site. Run from a Mac, it also publishes any
+  `.DS_Store` files that ended up in `out/` (post-launch T3).
 
 ---
 
@@ -51,19 +62,42 @@ push to `main` builds and deploys.
 | Setting | Value |
 | --- | --- |
 | Production branch | `main` |
+| Builds for non-production branches | on |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Root directory | empty |
-| Builds for non-production branches | off |
+| Version command | `npx wrangler versions upload` |
+| Root directory | `/` |
 
-Branch builds stayed off while the `workers.dev` hostname existed, because each
-one would have been a public, indexable copy of the site. Since
-`workers_dev: false` a version has no public URL, so that reason is gone.
-Post-launch T1 may turn them on to get a build on every pull request.
+Production and branch builds share the build command. `main` runs the deploy
+command. Every other branch runs the version command, which uploads a Worker
+version without sending it traffic. Version URLs follow `workers_dev`, which is
+`false`, so a branch build has no public URL.
+
+Branch builds get **none** of the build variables (seen on the first one,
+2026-10-02). They build `noindex` with no analytics, which is harmless with no
+URL. It also means the Umami check runs on `main` only in practice: it skips a
+branch build without the id, and fails a `main` build that has no id. If
+branch builds ever receive the id, the check runs there too.
+
+Branch builds are how a pull request gets built before its merge deploys
+(post-launch T1). Workers Builds posts a check run on each PR commit, and that
+check can be made required for `main` in GitHub's branch rules. GitHub Actions
+is not used: the account's Actions are locked by a stale billing flag.
+
+**Never click "Set up Worker Previews"**, the banner at the top of Builds. It
+moves the Worker to the newer preview model, and Cloudflare says that cannot be
+undone. Under it, previews stop using the production settings, the command must
+invoke `npx wrangler preview`, and each branch gets a Preview with its own
+public URL: a second copy of the site on the open web. That command also needs
+Wrangler 4.135 or later, and the repo pins 4.127. A public copy is why branch
+builds stayed off until 2026-10-01, back when `workers.dev` existed.
+
+The free plan allows 3,000 build minutes a month and one build at a time, so a
+branch build and a `main` deploy queue behind each other.
 
 ### Build variables
 
-All three are set under Builds. `next build` inlines every `NEXT_PUBLIC_*` value
+All three are set under Builds, and only `main` builds receive them. `next build` inlines every `NEXT_PUBLIC_*` value
 into the HTML, and nothing reads them after that.
 
 | Variable | Value | When it is missing |
