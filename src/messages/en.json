@@ -46,10 +46,10 @@
   "catalog": {
     "title": "The Collection",
     "metaTitle": "Swimwear and Resort Dresses",
-    "metaDescription": "Full collection of VELÉLS swimwear — one-pieces, two-pieces, and dresses.",
+    "metaDescription": "Full collection of VELÉLS swimwear — one-pieces, bikinis, and dresses.",
     "all": "All",
     "onePiece": "One-Pieces",
-    "twoPiece": "Two-Pieces",
+    "twoPiece": "Bikinis",
     "dresses": "Dresses",
     "noProducts": "No items found in this category."
   },
@@ -111,7 +111,7 @@
       "name": "Ezra",
       "colorName": "Black with white / White with black",
       "tagline": "Elegant and minimalist one-piece swimsuit that beautifully flatters the figure.",
-      "details": "Unpadded and unlined, the double-layered Italian biflex with an additional lining provides full opacity for delicate areas. Features a Brazilian cut bottom.",
+      "details": "Unpadded, the double-layered Italian biflex with an additional lining provides full opacity for delicate areas. Features a Brazilian cut bottom.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
       "care": "Hand wash cold. Dry flat in shade. Avoid rough surfaces."
     },
@@ -153,12 +153,12 @@
   },
   "editorial": {
     "title": "Form.<br />Function.",
-    "body": "VELÉLS is a Ukrainian swimwear brand created for women who appreciate minimalist design, flawless fit, and attention to detail. Each piece is created in small batches and undergoes strict quality control.",
+    "body": "VELÉLS is a Ukrainian swimwear brand created for women who appreciate minimalist design, flawless fit, and attention to detail. Each piece is sewn to order and undergoes strict quality control.",
     "cta": "Read The Story",
     "imageAlt": "Model in a white VELÉLS one-piece swimsuit against the sea"
   },
   "instagram": {
-    "heading": "As seen on @VELÉLS",
+    "heading": "As seen on @velelswim",
     "follow": "Follow Us",
     "post1Alt": "Instagram post: black one-piece swimsuit by a waterfall",
     "post2Alt": "Instagram post: black one-piece swimsuit in a pool at night",
@@ -181,7 +181,7 @@
     "salePriceLabel": "Sale price",
     "saleBadge": "Sale",
     "productionTime": "Made in 2–4 working days",
-    "exchangeNote": "One size exchange within 14 days",
+    "exchangeNote": "One exchange for another size or model within 14 days",
     "paymentDelivery": "Payment and delivery",
     "paymentDeliveryPoints": [
       "Made in 2–4 working days, then dispatched by Nova Poshta the next working day.",
@@ -274,7 +274,7 @@
         },
         {
           "question": "Can I order the top or bottom separately?",
-          "answer": "Yes. Two-piece swimwear sets can be purchased separately. Contact us on Instagram to confirm availability."
+          "answer": "Yes. Two-piece swimwear sets can be purchased separately. To order just the top or just the bottom, message us on Instagram."
         },
         {
           "question": "Do you ship internationally?",
@@ -286,7 +286,7 @@
         },
         {
           "question": "Can I exchange a swimsuit?",
-          "answer": "We provide a one-time size exchange option in accordance with the terms specified in the Exchanges & Returns section."
+          "answer": "We provide a one-time exchange for another size or model in accordance with the terms specified in the Exchanges & Returns section."
         },
         {
           "question": "How should I care for my swimsuit?",
@@ -345,7 +345,7 @@
       "metaDescription": "VELÉLS — Ukrainian swimwear brand created for women who value minimalist design and flawless fit.",
       "content": [
         {
-          "body": "VELÉLS is a Ukrainian swimwear brand created for women who value minimalist design, flawless fit, and attention to detail. Every piece is made in small batches and undergoes meticulous quality control."
+          "body": "VELÉLS is a Ukrainian swimwear brand created for women who value minimalist design, flawless fit, and attention to detail. Every piece is made to order and undergoes meticulous quality control."
         },
         {
           "body": "We pay special attention to model construction so they sit comfortably on various body types, highlighting the natural silhouette. For us, a swimsuit is more than seasonal wear — it is a feeling of confidence, freedom, and comfort in every movement."
@@ -370,7 +370,7 @@
       "content": [
         {
           "heading": "General",
-          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Фам Тхі Нга (Fam Tkhi Nha), an individual entrepreneur (ФОП), email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 11 September 2026."
+          "body": "This Policy describes what personal data VELÉLS processes, why, and who receives it. The data controller is Фам Тхі Нга (Fam Tkhi Nha), an individual entrepreneur (ФОП), email velelswim@gmail.com. It covers the velels.com website and orders placed in Instagram Direct. Last updated: 2 October 2026."
         },
         {
           "heading": "The website collects nothing about you",
@@ -378,7 +378,7 @@
         },
         {
           "heading": "Analytics and hosting",
-          "body": "To understand which pieces are looked at and where visitors arrive from, we use Umami, an analytics service that sets no cookies. When a page is viewed it receives the address of that page including any link parameters, the address of the page you came from, the page title, your browser language and screen size, and the country, device type, browser and operating system derived from the request. Taps on the “Order via Instagram” button and openings of the size guide are recorded separately, without the contents of your order, and a visitor identifier is generated on the service's side.",
+          "body": "To understand which pieces are looked at and where visitors arrive from, we use Umami, an analytics service that sets no cookies. When a page is viewed it receives the address of that page including any link parameters, the address of the page you came from, the page title, your browser language and screen size, and the country, device type, browser and operating system derived from the request. Taps on the “Order via Instagram” button are recorded separately with the model and the size you chose, and openings of the size guide with the model. The service does not receive the message you send in Instagram. A visitor identifier is generated on the service's side.",
           "bodyAfter": "According to Umami's documentation, the IP address is used to derive that identifier and is not stored. We cannot verify this ourselves and present it as the service's statement rather than our own. The site is hosted on Cloudflare, which processes request IP addresses in order to serve pages and protect the site from attacks. We use no advertising or remarketing tools and share analytics data with no one."
         },
         {
@@ -441,7 +441,7 @@
         },
         {
           "heading": "Products & Ordering",
-          "body": "Every item is made after the order is confirmed. Orders are placed via Instagram DM and are confirmed once payment is received."
+          "body": "Every item is made after the order is confirmed. Orders are placed via Instagram DM and are confirmed once the full price is paid or, for cash on delivery, the 500 UAH prepayment per item."
         },
         {
           "heading": "Pricing",
