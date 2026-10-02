@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { REDUCED_MOTION_QUERY } from "@/lib/utils/motion";
 
 /**
  * Lifecycle of the mobile hero video.
@@ -20,8 +21,6 @@ import { useEffect, useRef, useState } from "react";
  *   does not.
  */
 type HeroVideoState = "deciding" | "probing" | "playing" | "static";
-
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 /**
  * How long to wait before asking whether the request is alive at all. One that

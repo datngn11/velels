@@ -119,6 +119,11 @@ Rule 4 above covers CSS transitions. JavaScript is not exempt:
   animation — must check
   `window.matchMedia("(prefers-reduced-motion: reduce)").matches` and not start.
   Do not re-trigger playback on user gestures when that preference is set.
+  Use `prefersReducedMotion()` from `src/lib/utils/motion.ts` rather than
+  repeating the query.
+- Never pass `behavior: "smooth"` to `scrollTo` or `scrollIntoView`. A behaviour
+  set from JavaScript overrides the CSS reduced-motion reset. Pass
+  `scrollBehavior()` from the same file.
 - Every interactive control needs a visible `:focus-visible` state. `globals.css`
   carries a global ring and a dialog rule, added in `9f68de3`.
   Match them rather than adding per-component focus styles.
