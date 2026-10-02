@@ -1,5 +1,6 @@
 {
   "meta": {
+    "testOnlyInEnglish": "Deliberate mismatch to test that a failing build blocks the merge",
     "siteName": "VELÉLS",
     "homeTitle": "VELÉLS — Modern Swimwear and Resort Wear",
     "homeDescription": "A Ukrainian brand of premium swimwear and resort dresses. Discover collections created to celebrate your confidence and natural beauty. Worldwide shipping.",
