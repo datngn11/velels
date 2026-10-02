@@ -313,7 +313,8 @@ Cheap, and each one protects something already in production.
       `npx wrangler versions upload` as the version command
       (`cloudflare-setup.md`, "Workers Builds"). This is stronger than the
       Action would have been: the same checks stop a broken `main` from
-      deploying, and the Umami check sees the real id.
+      deploying, and the Umami check sees the real id. Branch builds get no
+      build variables, so that one check runs on `main` only.
 
       One correction to the above: a one-sided locale key does **not** fail
       `next build`. With `nav.catalogue` deleted from `en.json`, it exited 0,

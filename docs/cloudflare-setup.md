@@ -39,9 +39,9 @@ per file.
   them, on `main` and on every other branch: lint, `npm run check:locales`,
   `next build` (which type-checks), then `scripts/check-umami.mjs`. Any failure
   stops the build before the deploy command runs, so a broken `main` leaves the
-  live site on its last good version. The Umami check runs only where Workers
-  Builds sets `WORKERS_CI`, and fails if the id variable is unset or any page
-  lacks the script. A one-sided locale key needs its own check because
+  live site on its last good version. The Umami check runs only on a `main`
+  build in Workers Builds, the one build that has the variables, and fails if
+  the id is unset or any page lacks the script. A one-sided locale key needs its own check because
   next-intl renders the key path and `next build` succeeds.
 - **`npm run deploy`.** Runs `npm run build && wrangler deploy`, the manual path
   to the same Worker. A local `.env` usually carries neither the Umami id nor
@@ -67,11 +67,15 @@ push to `main` builds and deploys.
 | Version command | `npx wrangler versions upload` |
 | Root directory | `/` |
 
-Production and branch builds share the build command and the build variables.
-`main` runs the deploy command. Every other branch runs the version command,
-which uploads a Worker version without sending it traffic. Version URLs follow
-`workers_dev`, which is `false`, so a branch build has no public URL, and the
-production variables it carries (indexing on, the real Umami id) reach no one.
+Production and branch builds share the build command. `main` runs the deploy
+command. Every other branch runs the version command, which uploads a Worker
+version without sending it traffic. Version URLs follow `workers_dev`, which is
+`false`, so a branch build has no public URL.
+
+Branch builds get **none** of the build variables (seen on the first one,
+2026-10-02). They build `noindex` with no analytics, which is harmless with no
+URL. It also means the Umami check can only run on `main`: it skips on other
+branches, and fails a `main` build that has no id.
 
 Branch builds are how a pull request gets built before its merge deploys
 (post-launch T1). Workers Builds posts a check run on each PR commit, and that
@@ -91,7 +95,7 @@ branch build and a `main` deploy queue behind each other.
 
 ### Build variables
 
-All three are set under Builds, and branch builds use them too. `next build` inlines every `NEXT_PUBLIC_*` value
+All three are set under Builds, and only `main` builds receive them. `next build` inlines every `NEXT_PUBLIC_*` value
 into the HTML, and nothing reads them after that.
 
 | Variable | Value | When it is missing |

@@ -1,14 +1,19 @@
 // Fails a Workers Builds build when any page in out/ lacks the Umami script.
 // The id is a build variable, and a value in the wrong dashboard box builds
 // fine and ships without analytics. Matches a real <script> element, since a
-// preload link alone loads nothing. Skipped outside Workers Builds, where
-// local builds have no id.
+// preload link alone loads nothing. Skipped outside Workers Builds, and on
+// branch builds, which get no build variables. Strict on main.
 
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 if (!process.env.WORKERS_CI) {
   console.log("Umami check skipped: not a Workers Builds build");
+  process.exit(0);
+}
+
+if (!process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && process.env.WORKERS_CI_BRANCH !== "main") {
+  console.log(`Umami check skipped: branch ${process.env.WORKERS_CI_BRANCH} has no build variables`);
   process.exit(0);
 }
 
