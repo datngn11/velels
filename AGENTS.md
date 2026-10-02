@@ -76,10 +76,12 @@ and a later phase must not be started before its dependency.
 - **Pushing to `main` deploys.** Cloudflare's Git integration builds and ships
   every push. It is configured in the Cloudflare dashboard, so **no code in this
   repository records it** (`docs/cloudflare-setup.md` writes the settings down).
-  `.github/workflows/ci.yml` checks pull requests only, and deploys nothing; a
-  direct push to `main` skips it and still ships. Never tell the user a pushed
-  change is not live. `npm run deploy` (`next build && wrangler deploy`) is the manual path to
-  the same place; `wrangler.jsonc` serves `./out` as an assets-only Worker.
+  Branch builds run too and deploy nothing. `npm run build` runs lint, the
+  locale check, `next build` and the Umami check, so a failing check stops a
+  `main` deploy. There are no `.github/workflows`: the account's Actions are
+  locked. Never tell the user a pushed change is not live. `npm run deploy`
+  (`npm run build && wrangler deploy`) is the manual path to the same place;
+  `wrangler.jsonc` serves `./out` as an assets-only Worker.
   GitHub Pages was retired in `009d2e5` — the `gh-pages` script is gone.
 - **`basePath` and `getAssetPath()` are gone.** Removed 2026-08-27 along with
   `src/lib/utils/assetPath.ts`; the site is served from a domain root. Public asset
@@ -99,8 +101,8 @@ and a later phase must not be started before its dependency.
   files must stay key-identical** — 296 leaf keys across 12 top-level namespaces,
   390 counting intermediate objects, verified 2026-10-01. Adding a key to one and
   not the other does **not** break the build: next-intl renders the key path on
-  the page and the build succeeds. `npm run check:locales` catches it, and CI
-  runs it on every pull request. A key may be absent from a product in both files
+  the page and `next build` succeeds. `npm run check:locales` catches it, and
+  `npm run build` runs it first. A key may be absent from a product in both files
   at once — `fabric`, `hardware` and `length` are read through `tProduct.has()` and
   only some Models carry them. That is parity, not a gap.
 - Order Requests are business records. In the full plan they go to Postgres _and_ a
