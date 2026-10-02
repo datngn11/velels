@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/lib/data/products";
+import { scrollBehavior } from "@/lib/utils/motion";
 
 interface ImageCarouselProps {
   images: ProductImage[];
@@ -25,7 +26,10 @@ export function ImageCarousel({
   const scrollToIndex = useCallback((index: number) => {
     if (sliderRef.current) {
       const width = sliderRef.current.offsetWidth;
-      sliderRef.current.scrollTo({ left: width * index, behavior: "smooth" });
+      sliderRef.current.scrollTo({
+        left: width * index,
+        behavior: scrollBehavior(),
+      });
       setActiveIndex(index);
     }
   }, []);

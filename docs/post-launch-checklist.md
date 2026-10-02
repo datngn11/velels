@@ -168,7 +168,7 @@ Dated, or due because something shipped this week.
 
 Text changes in both locale files. Each one is small, and each is live now.
 
-- [ ] **(S) C1. Three false statements.** Fix these first. The first is in a legal
+- [x] **(S) C1. Three false statements.** Fix these first. The first is in a legal
       document, and the other two contradict the business model.
       - The privacy policy's analytics section (`info.privacy`, `uk.json` line
         381) says the Direct button tap is recorded «без вмісту вашого
@@ -180,14 +180,26 @@ Text changes in both locale files. Each one is small, and each is live now.
       - The homepage editorial and the About page both say each piece is made
         «невеликими партіями» ("small batches"). Every garment is sewn after
         its Order.
+
+      *Done 2026-10-01, in both locales.* The privacy policy now names what each
+      event carries (the model and size, or the model) and says the service
+      never receives the Instagram message. Its "last updated" date moved to
+      2 October, the day the owner approved the wording. The FAQ says to write
+      in Direct to order only the top or only the bottom. Both brand paragraphs
+      say «шиється на замовлення».
 - [ ] **(S) C2. Production time in the JSON-LD.** `jsonLd.ts` declares handling
       time as 3–5 `DAY`. The PDP says «Виготовлення 2–4 робочі дні», and the
       launch plan says 4 working days. Once B5 settles one figure, the JSON-LD
       should state it in working days.
-- [ ] **(S) C3. Smaller copy errors.**
+- [ ] **(S) C3. Smaller copy errors.** *All but the owner question done
+      2026-10-01, in both locales where both had the error. The FAQ's exchange
+      answer had the same size-only wording as the PDP and changed with it.*
       - `en` Ezra is "Unpadded and unlined… with an additional lining". The
         Ukrainian says unpadded and lined, so "unlined" is wrong.
       - The `en` nav says "Bikinis" and the catalogue says "Two-Pieces". Pick one.
+        *Owner, 2026-10-02:* «суцільні» and «роздільні» in Ukrainian, which both
+        already said, and "One-Pieces" and "Bikinis" in English. The catalogue
+        filter and its meta description now say "Bikinis" too.
       - «Бестселлери» is misspelt; it should be «Бестселери».
       - The Instagram strip heading says «@VELÉLS», but the handle is
         `@velelswim`.
@@ -263,13 +275,24 @@ No code, but several of them hold up work in other groups.
 
 ## A. Accessibility
 
-- [ ] **(S) A1. Reduced motion in two scripts.** `ImageCarousel.tsx` calls
+- [x] **(S) A1. Reduced motion in two scripts.** `ImageCarousel.tsx` calls
       `scrollTo({ behavior: "smooth" })` on every thumbnail tap. A behaviour
       passed from JavaScript overrides the CSS reset, so a visitor with reduced
       motion set watches the gallery slide through every photo in between.
       `SmoothScrollHandler.tsx` smooth-scrolls to a URL `#hash` on load, with the
       same gap. Both need the `matchMedia` check that `smoothScroll.ts` and
       `useVideoAutoplay` already do.
+
+      *Done 2026-10-01.* `scrollBehavior()` in `src/lib/utils/motion.ts` returns
+      `"auto"` under reduced motion, which hands the decision back to the CSS
+      reset. It covers a third call nobody had listed: `SmoothScrollHandler`
+      also smooth-scrolled on every same-page anchor click. `smoothScroll.ts`
+      and `useVideoAutoplay` now share the same query.
+      Tested 2026-10-02 in headless Chrome, sampling the scroll position every
+      frame after a tap on Azure's ninth thumbnail and after a `#collection`
+      anchor click. With reduced motion emulated, both arrive in one frame. On
+      the old code they passed through 57 and 25 positions on the way, and
+      without the preference both still glide.
 - [ ] **(S) A2. Selected state is visual only.** No `aria-pressed` or
       `aria-current` on the size and colour buttons, the catalogue filters, the
       size-guide tabs or the gallery thumbnails. A screen-reader user can't tell

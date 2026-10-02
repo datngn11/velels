@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { scrollBehavior } from "@/lib/utils/motion";
 
 export function SmoothScrollHandler() {
   const pathname = usePathname();
@@ -29,7 +30,7 @@ export function SmoothScrollHandler() {
 
           // Smooth scroll to the target element
           targetElement.scrollIntoView({
-            behavior: "smooth",
+            behavior: scrollBehavior(),
             block: "start",
           });
 
@@ -49,7 +50,7 @@ export function SmoothScrollHandler() {
           // A tiny timeout ensures next.js rendering/hydration is complete
           setTimeout(() => {
             targetElement.scrollIntoView({
-              behavior: "smooth",
+              behavior: scrollBehavior(),
               block: "start",
             });
           }, 150);

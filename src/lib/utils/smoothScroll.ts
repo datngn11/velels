@@ -1,3 +1,5 @@
+import { prefersReducedMotion } from "@/lib/utils/motion";
+
 /**
  * Custom smooth scrolling utility with luxury expo easing.
  *
@@ -22,7 +24,7 @@ export const smoothScrollTo = (targetId: string, duration = 1400) => {
   // A 1.4s eased scroll is motion this hook starts, so the preference governs it
   // — AGENTS.md rule 4 covers JavaScript. Arrive in one jump instead; the
   // destination is identical, only the travel is dropped.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (prefersReducedMotion()) {
     html.style.scrollBehavior = "auto";
     window.scrollTo(0, targetPosition);
     html.style.scrollBehavior = "";
