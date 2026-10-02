@@ -73,10 +73,12 @@ tracks the live site, `docs/release-checklist.md` holds the full plan's phase or
 and a later phase must not be started before its dependency.
 
 - **Today:** `output: "export"`, `images.unoptimized: true`, no middleware.
-- **Pushing to `main` deploys.** Cloudflare's Git integration builds and ships
-  every push. It is configured in the Cloudflare dashboard, so **no code in this
-  repository records it** (`docs/cloudflare-setup.md` writes the settings down).
-  Branch builds run too and deploy nothing. `npm run build` runs lint, the
+- **Merging into `main` deploys.** Cloudflare's Git integration builds and ships
+  every commit on `main`. It is configured in the Cloudflare dashboard, so **no
+  code in this repository records it** (`docs/cloudflare-setup.md` writes the
+  settings down). A GitHub ruleset refuses direct pushes to `main`: every change
+  goes through a PR whose Workers Builds check must pass. Branch builds run and
+  deploy nothing. `npm run build` runs lint, the
   locale check, `next build` and the Umami check, so a failing check stops a
   `main` deploy. There are no `.github/workflows`: the account's Actions are
   locked. Never tell the user a pushed change is not live. `npm run deploy`

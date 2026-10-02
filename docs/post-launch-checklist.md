@@ -296,7 +296,7 @@ No code, but several of them hold up work in other groups.
 
 Cheap, and each one protects something already in production.
 
-- [ ] **(S) T1. A build on every pull request.** Merging into `main` deploys.
+- [x] **(S) T1. A build on every pull request.** Merging into `main` deploys.
       CodeRabbit reviews each PR, but nothing builds one: the commit checks on
       PR #31 show only CodeRabbit, and Workers Builds appears only on the merge
       commit. This week's merge conflict was caught only because a build was run
@@ -320,8 +320,12 @@ Cheap, and each one protects something already in production.
       `next build`. With `nav.catalogue` deleted from `en.json`, it exited 0,
       logged `MISSING_MESSAGE` 88 times and shipped the raw key path in
       `out/en.html`. `npm run check:locales` is what catches it. There is no
-      separate `tsc` step, because `next build` type-checks. Tick this once a PR
-      shows a green Workers Builds check and that check is required on `main`.
+      separate `tsc` step, because `next build` type-checks.
+
+      *Done 2026-10-02.* PR #33 went green on Workers Builds, and its merge
+      deployed with all four checks passing. A GitHub ruleset on `main` now
+      requires "Workers Builds: velels", requires a PR, and has no bypass, so a
+      direct push to `main` is refused (`cloudflare-setup.md`, "On GitHub").
 - [ ] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** None of the 10 audit
       findings reach the live site: it is static files, with no server, no Server
       Actions, no middleware and no image optimiser running. They start to matter
