@@ -80,9 +80,8 @@ branch build without the id, and fails a `main` build that has no id. If
 branch builds ever receive the id, the check runs there too.
 
 Branch builds are how a pull request gets built before its merge deploys
-(post-launch T1). Workers Builds posts a check run on each PR commit, and that
-check can be made required for `main` in GitHub's branch rules. GitHub Actions
-is not used: the account's Actions are locked by a stale billing flag.
+(post-launch T1). Workers Builds posts a check run on each PR commit, and a
+GitHub ruleset makes that check required for `main` ("On GitHub" below).
 
 **Never click "Set up Worker Previews"**, the banner at the top of Builds. It
 moves the Worker to the newer preview model, and Cloudflare says that cannot be
@@ -156,6 +155,25 @@ it, read the canonical on a live page.
 - **R2.** Not used. The hero video has been 3.2 MB at most since the 2026-09-15
   re-encode, and Cloudflare's current terms put no file-type restriction on the
   Developer Platform.
+
+---
+
+## On GitHub
+
+A branch ruleset named `main`, under Settings → Rulesets, set
+2026-10-02. It targets the default branch and is Active, with an empty bypass
+list, so it binds the owner and the developer too.
+
+- Pull request required, with 0 approvals, since nobody can approve their own.
+- Status check required: "Workers Builds: velels", from Cloudflare Workers and
+  Pages. "Require branches to be up to date" is off, because one build runs at
+  a time and it would add a build to every merge.
+- Deletions and force pushes blocked.
+
+A direct push to `main` is refused, so every change goes through a PR, small
+ones included. GitHub Actions is not used: the account's Actions are locked by
+a stale billing flag from a cancelled Copilot subscription, with a balance of
+$0.00.
 
 ---
 
