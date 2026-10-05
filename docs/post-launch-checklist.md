@@ -399,33 +399,31 @@ visitor downloads.
 
       This matters more than its size suggests. Today one developer knows how
       the site ships.
-- [ ] **(S) D2. Dead code.**
-      - Unused message keys: `products.*.colorName` (all 11),
-        `productDetail.saleBadge`, `nav.story`, `nav.ig`, `footer.ig`,
-        `footer.legal` and `editorial.title`. Remove each from both locale
-        files together. That is 17 leaf keys, so update the key counts in
-        `AGENTS.md` in the same change.
-      - `siteConfig.host`, which nothing reads.
-      - Unused CSS classes: `.animate-slide-down`, `.aspect-9-16`, `.delay-400`,
-        `.delay-500`.
-      - The `lh3.googleusercontent.com` `remotePatterns` in `next.config.ts`.
-      - `bg-surface-variant` in `InstagramFeed.tsx`, which is not a theme token
-        and emits no CSS.
-- [ ] **(S) D3. Stale statements in comments.** The two in lite L4 and L6 and
-      the `?ref=ig` one in `RootRedirect` were fixed on 2026-09-29.
-      - `.env.example` describes the "via host" signature, removed on
-        2026-09-21.
-      - `indexing.ts` still talks about GitHub Pages and Vercel.
-      - `error.tsx` says "Log the error to an error reporting service". There is
-        none, and Sentry is under "Considered and not recommended".
+- [x] **(S) D2. Dead code.** *Done 2026-10-05.* Removed the 17 unused message
+      keys from both locales (now 279 leaf keys, counts updated in
+      `AGENTS.md`), `siteConfig.host`, the `lh3.googleusercontent.com`
+      `remotePatterns`, the no-op `bg-surface-variant`, and the unused CSS
+      `.animate-slide-down`, `.aspect-9-16`, `.delay-400` and `.delay-500`.
+      Two follow-ons: `@keyframes slideDown` went with `.animate-slide-down`,
+      and `ScrollReveal`'s `delay` type no longer offers the two removed
+      delays. `text-heading-lg` is unused too but stays, as part of the type
+      scale in `AGENTS.md`. Tailwind now scans only `src/`: it had been
+      turning words in `docs/` and `AGENTS.md` into 30 rules of CSS, such as
+      `.container`, `.blur` and the two removed delays (2.4 KB on every page).
+      Full-page screenshots of six pages at desktop and phone width match
+      `main` pixel for pixel with the photos hidden; the photos themselves
+      vary between two runs of `main` too.
+- [x] **(S) D3. Stale statements in comments.** *Done 2026-10-05.*
+      `.env.example` no longer mentions the "via host" signature, `indexing.ts`
+      describes Workers Builds instead of GitHub Pages and Vercel, and the
+      error-reporting comment in `error.tsx` is gone.
 - [ ] **(S) D4. 23 bracket text values in 6 files.** Move them to `@utility`
       classes. `StatusPage.tsx` holds 11 of them. Clear the "Known violations"
       line in `AGENTS.md` in the same change.
-- [ ] **(S) D5. Tracked leftovers.** `.gemini/pdf_content.txt` sits in a public
-      repo and is not served. It is the owner's original brand copy, extracted
-      from a PDF and garbled by the extraction. Keep it on purpose or delete it.
+- [x] **(S) D5. Tracked leftovers.** *Done 2026-10-05.* `.gemini/pdf_content.txt`
+      is deleted: the owner's original brand copy, garbled by a PDF extraction
+      for the info pages in `2becd87`, read by nothing, and still in git history.
       `stitch-assets/` and `active_skills_guide.md` were removed on 2026-09-29.
-      Nothing referenced either one.
 - [ ] **(S) D6. A few unit tests with `node:test`, no new dependency.** For the
       logic that fails silently: `priceView()`, `isNewRelease()`,
       `productImageAlt()` and `localeUrl()`. Add `node --test` to
