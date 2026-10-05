@@ -9,8 +9,6 @@ const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://velels.com").repla
 
 export const siteConfig = {
   url: siteUrl,
-  /** Host without the protocol, for copy that reads as a signature ("via velels.com"). */
-  host: siteUrl.replace(/^https?:\/\//, ""),
   email: "velelswim@gmail.com",
   social: {
     instagram: "https://www.instagram.com/velelswim",

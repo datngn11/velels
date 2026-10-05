@@ -14,7 +14,6 @@ export default function ErrorPage({ error, reset }: Props) {
   const t = useTranslations("error");
 
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error("Runtime error caught by boundary:", error);
   }, [error]);
 

@@ -32,9 +32,7 @@
     "onePiece": "One-Pieces",
     "twoPiece": "Bikinis",
     "dresses": "Dresses",
-    "about": "Our Story",
-    "story": "Story",
-    "ig": "IG"
+    "about": "Our Story"
   },
   "hero": {
     "title": "VELÉLS",
@@ -59,7 +57,6 @@
     "newBadge": "New",
     "azure": {
       "name": "Azure",
-      "colorName": "Black Matte",
       "tagline": "One-piece swimsuit with architectural cutouts and an open back.",
       "details": "Dense double fabric without padding is non-see-through and holds its shape exceptionally well. High-leg cut visually lengthens legs and accentuates the waist. Suitable for beach, pool, and as a bodysuit for urban looks.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -67,7 +64,6 @@
     },
     "linear": {
       "name": "Linear",
-      "colorName": "Black Matte",
       "tagline": "One-piece swimsuit with architectural cutouts that accentuate the waist and décolletage.",
       "details": "Elongates the silhouette, highlights the figure, and creates a striking, sensual look without excess. Dense double fabric without padding is non-see-through and holds its shape. Suitable for beach, pool, and as a bodysuit for urban looks.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -75,7 +71,6 @@
     },
     "glacier": {
       "name": "Glacier",
-      "colorName": "White",
       "tagline": "Structured molded cup bra top that beautifully supports and accentuates the silhouette.",
       "details": "Draped design with high-waisted bottom visually lengthens legs and flatters the figure. Comes with 2 bottom options to choose from. Can be mixed and matched with other bottoms.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -83,7 +78,6 @@
     },
     "dimaya": {
       "name": "Dimaya",
-      "colorName": "Black / White",
       "tagline": "The top is designed as a bandeau with an internal silicone grip, ensuring a stay-put fit.",
       "details": "Double fabric and soft lining ensure complete opacity. High-waisted cut accentuates the waist, visually elongating and slimming the figure.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -92,7 +86,6 @@
     },
     "lendai": {
       "name": "Lendai",
-      "colorName": "Black / White",
       "tagline": "A versatile convertible swimsuit — Lendai can be styled in 3 ways or worn as a bodysuit.",
       "details": "Deep cutouts add femininity, while the high-waisted cut visually slims and accentuates the waist. Double fabric without padding, completely non-see-through.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -101,7 +94,6 @@
     },
     "lauri": {
       "name": "Lauri",
-      "colorName": "Black / White",
       "tagline": "Underwired bra top without padding — provides light support and creates a natural, elegant silhouette.",
       "details": "Soft double fabric with an additional lining layer delicately covers sensitive areas, ensuring complete opacity. Can be mixed and matched with the Naevi swimsuit.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -109,7 +101,6 @@
     },
     "ezra": {
       "name": "Ezra",
-      "colorName": "Black with white / White with black",
       "tagline": "Elegant and minimalist one-piece swimsuit that beautifully flatters the figure.",
       "details": "Unpadded, the double-layered Italian biflex with an additional lining provides full opacity for delicate areas. Features a Brazilian cut bottom.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -117,7 +108,6 @@
     },
     "naevi": {
       "name": "Naevi",
-      "colorName": "Black / White",
       "tagline": "A two-piece swimsuit featuring a classic triangle top and high-waisted bottoms — accentuating body lines and elegance.",
       "details": "Unpadded and unlined for the lightest, most natural fit with no excess. Perfect for tanning and swimming. Mix and match with the Lauri swimsuit for a stylish new look.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -125,7 +115,6 @@
     },
     "laydee": {
       "name": "Laydee",
-      "colorName": "Black / White",
       "tagline": "A high-coverage silhouette with an elegant profile — comfortable and subtly sensual.",
       "details": "Features a closed back and full coverage bottom. The chain will not tarnish in salt water. Wear it as a swimsuit, bodysuit, or top for effortless pairing with everyday looks.",
       "composition": "<b>Composition:</b> nylon 80%, elastane 20%",
@@ -134,7 +123,6 @@
     },
     "lunar": {
       "name": "Lunar",
-      "colorName": "Black / White",
       "tagline": "A dress combining the delicacy of Asian aesthetics with modern femininity.",
       "details": "Exquisite Chantilly lace, statement collar, flawless silhouette, and a seductive side slit create a look that captivates effortlessly. Easily adapts to any mood: special evenings, events, resort getaways, or editorial photoshoots.",
       "composition": "<b>Composition:</b> polyamide 80%, viscose 17%, elastane 3%",
@@ -143,7 +131,6 @@
     },
     "noblesse": {
       "name": "Noblesse",
-      "colorName": "Black",
       "tagline": "Noblesse — the embodiment of effortless resort elegance.",
       "details": "Crafted from semi-transparent Chantilly lace with a subtle shimmer, this dress is created for moments that make every vacation day feel special. From morning coffee poolside to sunset dinners, Noblesse softly accentuates the silhouette and pairs harmoniously with any VELÉLS swimsuit.",
       "fabric": "<b>Fabric:</b> Italian Chantilly lace with delicate sequin detailing",
@@ -152,7 +139,6 @@
     }
   },
   "editorial": {
-    "title": "Form.<br />Function.",
     "body": "VELÉLS is a Ukrainian swimwear brand created for women who appreciate minimalist design, flawless fit, and attention to detail. Each piece is sewn to order and undergoes strict quality control.",
     "cta": "Read The Story",
     "imageAlt": "Model in a white VELÉLS one-piece swimsuit against the sea"
@@ -179,7 +165,6 @@
     "responseTime": "We reply in Direct every day, 7:00–22:00",
     "regularPrice": "Regular price",
     "salePriceLabel": "Sale price",
-    "saleBadge": "Sale",
     "productionTime": "Made in 2–4 working days",
     "exchangeNote": "One exchange for another size or model within 14 days",
     "paymentDelivery": "Payment and delivery",
@@ -203,7 +188,6 @@
     "copyright": "© 2026 VELÉLS",
     "customerCare": "Customer Care",
     "about": "Information",
-    "legal": "Legal",
     "delivery": "Delivery & Shipping",
     "returns": "Returns & Exchanges",
     "faq": "FAQ",
@@ -211,7 +195,6 @@
     "aboutUs": "About Us",
     "productCare": "Product Care",
     "contact": "Contact",
-    "ig": "IG",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms & Conditions"
   },

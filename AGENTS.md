@@ -15,6 +15,7 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
 1. **Tailwind CSS v4**:
    - This project uses Tailwind CSS v4 which is CSS-first.
    - We use the `@theme` directive in `src/app/globals.css`.
+   - Tailwind scans only `src/` (`@import "tailwindcss" source("..")`), so a class name in the docs or the README emits no CSS. A class used outside `src/` will not exist.
    - **CRITICAL**: Do NOT attempt to create, modify, or use `tailwind.config.js` or `tailwind.config.ts`.
 
 2. **Component Strategy (Radix UI)**:
@@ -26,7 +27,7 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
    - Avoid standard UI library looks; keep bundle sizes minimal and styles premium.
 
 4. **Animations & Accessibility**:
-   - Use GPU-accelerated keyframe animations. The ones defined in `globals.css` are `overlayShow`, `drawerShow` and `modalContentShow` (plus `fadeInUp`, `slideUp`, `slideDown`, `heroZoom`, `grow-progress`). There is no `contentShow`.
+   - Use GPU-accelerated keyframe animations. The ones defined in `globals.css` are `overlayShow`, `drawerShow` and `modalContentShow` (plus `fadeInUp`, `slideUp`, `heroZoom`, `grow-progress`). There is no `contentShow`.
    - All transitions and animations MUST respect `prefers-reduced-motion: reduce`.
 
 5. **Typography & Styling (Semantic Extraction)**:
@@ -90,8 +91,7 @@ and a later phase must not be started before its dependency.
   URLs are plain root-relative paths now. Do not reintroduce either, and do not
   write `/velels` into a URL.
 - **The site origin is an environment variable.** `NEXT_PUBLIC_SITE_URL` feeds
-  `src/lib/config.ts`, which exports `siteConfig.url`, `siteConfig.host` and
-  `absoluteUrl()`. Never hardcode the domain in metadata, canonicals, JSON-LD or
+  `src/lib/config.ts`, which exports `siteConfig.url` and `absoluteUrl()`. Never hardcode the domain in metadata, canonicals, JSON-LD or
   copy. The confirmed domain is `velels.com`.
 - **Lite has landed, and is what is deployed:** Cloudflare Workers with static
   assets, keeping `output: "export"`. No database, no Payload, no middleware, no
@@ -100,8 +100,8 @@ and a later phase must not be started before its dependency.
   next-intl middleware enabled, image optimization on.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two locale
-  files must stay key-identical** — 296 leaf keys across 12 top-level namespaces,
-  390 counting intermediate objects, verified 2026-10-01. Adding a key to one and
+  files must stay key-identical** — 279 leaf keys across 12 top-level namespaces,
+  373 counting intermediate objects, verified 2026-10-05. Adding a key to one and
   not the other does **not** break the build: next-intl renders the key path on
   the page and `next build` succeeds. `npm run check:locales` catches it, and
   `npm run build` runs it first. A key may be absent from a product in both files

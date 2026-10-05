@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("..");
 
 @theme inline {
   /* ── Colors (from Stitch design system - Refined Monochrome) ── */
@@ -60,10 +60,6 @@
 /* ── Custom utilities ── */
 .aspect-4-5 {
   aspect-ratio: 4 / 5;
-}
-
-.aspect-9-16 {
-  aspect-ratio: 9 / 16;
 }
 
 /* Hide scrollbar for carousels */
@@ -178,12 +174,6 @@ body {
 .delay-300 {
   transition-delay: 300ms;
 }
-.delay-400 {
-  transition-delay: 400ms;
-}
-.delay-500 {
-  transition-delay: 500ms;
-}
 
 /* ── Micro-interactions ── */
 
@@ -253,23 +243,8 @@ body {
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-}
-
 .animate-slide-up {
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-slide-down {
-  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* ── Hero subtle zoom ── */

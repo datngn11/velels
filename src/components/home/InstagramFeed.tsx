@@ -90,7 +90,7 @@ export async function InstagramFeed() {
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full aspect-4/5 bg-surface-variant relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer group text-center p-4"
+            className="w-full aspect-4/5 relative flex items-center justify-center border border-outline-variant/50 hover:bg-surface-container-low transition-colors duration-300 cursor-pointer group text-center p-4"
           >
             <div>
               <svg
