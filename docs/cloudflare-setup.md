@@ -37,7 +37,8 @@ per file.
   replaced photo keeps its filename.
 - **`npm run build`.** The checks live here, so every Workers Builds build runs
   them, on `main` and on every other branch: lint, `npm run check:locales`,
-  `next build` (which type-checks), then `scripts/check-umami.mjs`. Any failure
+  the Vitest unit tests (`npm test`), `next build` (which type-checks), then
+  `scripts/check-umami.mjs`. Any failure
   stops the build before the deploy command runs, so a broken `main` leaves the
   live site on its last good version. The Umami check runs in Workers Builds
   whenever the id is set, which today means `main` only, and fails a `main`

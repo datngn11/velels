@@ -62,7 +62,6 @@ and the missing pull-request build (T1).
 - **A manual `npm run deploy` from a Mac publishes `.DS_Store` files** (T3).
 - **The README is the stock `create-next-app` text**, and a few code comments
   describe things that were removed (D1, D3).
-- **No tests exist in the repo** (D6).
 - **The domain renews on 2027-08-28**, confirmed by RDAP (T6).
 
 ---
@@ -424,10 +423,16 @@ visitor downloads.
       is deleted: the owner's original brand copy, garbled by a PDF extraction
       for the info pages in `2becd87`, read by nothing, and still in git history.
       `stitch-assets/` and `active_skills_guide.md` were removed on 2026-09-29.
-- [ ] **(S) D6. A few unit tests with `node:test`, no new dependency.** For the
-      logic that fails silently: `priceView()`, `isNewRelease()`,
-      `productImageAlt()` and `localeUrl()`. Add `node --test` to
-      `npm run build`, so Workers Builds runs them with the other checks.
+- [x] **(S) D6. A few unit tests.** *Done 2026-10-05, with Vitest rather than
+      `node:test`.* Vitest is what the Next.js docs use and needs no homemade
+      resolver for `@/` imports; it is one dev dependency and never reaches the
+      site. It required `@types/node` ^22, which also matches the Node 22 the
+      site runs on. 20 tests cover `priceView()`, `isNewRelease()` (including
+      the day-60 boundary), `productImageAlt()` against the real `uk` and `en`
+      messages, `absoluteUrl()`, `localeUrl()` and `localeAlternates()`.
+      `npm run build` runs them before `next build`. Each test was shown to
+      fail when its function was broken on purpose; the first pass found that
+      `absoluteUrl()` and the hreflang links needed tests of their own.
 - [ ] **(S) D7. Small fixes.**
       - `error.tsx` renders no `<h1>`.
       - `smoothScroll.ts` cannot be interrupted by the user's own scroll.

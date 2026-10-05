@@ -79,9 +79,10 @@ and a later phase must not be started before its dependency.
   code in this repository records it** (`docs/cloudflare-setup.md` writes the
   settings down). A GitHub ruleset refuses direct pushes to `main`: every change
   goes through a PR whose Workers Builds check must pass. Branch builds run and
-  deploy nothing. `npm run build` runs lint, the
-  locale check, `next build` and the Umami check, so a failing check stops a
-  `main` deploy. There are no `.github/workflows`: the account's Actions are
+  deploy nothing. `npm run build` runs lint, the locale check, the unit tests,
+  `next build` and the Umami check, so a failing check stops a `main` deploy.
+  Unit tests are Vitest (`npm test`), in `src/**/*.test.ts` next to the code
+  they cover. There are no `.github/workflows`: the account's Actions are
   locked. Never tell the user a pushed change is not live. `npm run deploy`
   (`npm run build && wrangler deploy`) is the manual path to the same place;
   `wrangler.jsonc` serves `./out` as an assets-only Worker.
