@@ -18,78 +18,52 @@ Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or mo
 
 ---
 
-## Where things stand, 2026-09-28
+## Where things stand, 2026-10-05
 
-Reviewed twice, against the code, the built `out/` and the live site, not
-against the boxes in lite. The second pass included an independent read of all
-58 files in `src/`, and every finding below was re-checked by hand.
+Checked against the code, the live site and `npm audit`. The previous snapshot,
+dated 2026-09-28, is in git history. Fixed since then: the bio link's
+client-side redirect (N), the false copy (C1), reduced motion in scripts (A1)
+and the missing pull-request build (T1).
 
 **Working.**
 
-- Every page is a static file on a Cloudflare assets-only Worker. A push to
-  `main` deploys it, and Workers Builds reported success on the PR #31 merge.
-- `http` and `www` both reach the apex in one 301 with the query string kept.
-- Canonicals, hreflang, the sitemap (44 URLs) and `robots.txt` are correct at the
-  edge. The `robots.txt` served is ours, not Cloudflare's managed one, which
-  closes the question left open in L3.
+- Every page is a static file on a Cloudflare assets-only Worker. Merging into
+  `main` deploys it. Every pull request is built first, and a GitHub ruleset
+  will not merge one whose Workers Builds check failed (T1). The latest merge
+  is PR #36.
+- `http` and `www` reach the apex in one 301, and `/` reaches `/uk` in one 302,
+  both with the query string kept.
+- Canonicals, hreflang, the sitemap (44 URLs) and our own `robots.txt` are
+  correct at the edge.
 - Product JSON-LD says `MadeToOrder`. No stock or sold-out state exists anywhere
   in the UI.
-- PR #30 (the SEO pass) and PR #31 (the new Linear photo) are live.
 - Umami loads on every page.
 - `/_next/static` is cached for a year, and a stray URL returns a real 404.
-- `tsc` and `eslint` pass, and the two locale files are key-identical.
 - The Direct handoff worked in the Instagram in-app browser on 2026-09-22.
 
-**Open from lite.** Share previews were never checked in a real app. No
-keyboard-only pass has been done. The dress size chart still has gaps. The size
-guide has no height column. The weekly DM count and the story link tags are both
-unticked. The image loader was never built.
+**Still open.**
 
-**New findings.**
-
-- **The Instagram bio link runs JavaScript before it redirects.** `/` is an
-  empty page whose only content is a client-side redirect to `/uk`. Every
-  visitor from the bio link downloads that page and its scripts before the real
-  homepage starts loading.
-- **Grid cards are invisible until JavaScript runs.** `.reveal-base` sets
-  `opacity: 0` in CSS, so the product cards in the static HTML of the catalogue
-  and the homepage cannot paint until hydration. If the script fails, they never
-  appear.
-- **Three statements on the live site are false** (C1). The privacy policy says
-  button taps are recorded "without the contents of your order", but the event
-  sends the product and the size. The FAQ tells customers to ask about
-  «наявності». The homepage and the About page say garments are made in «невеликими
-  партіями».
-- **Two scripts ignore reduced motion**, which `CLAUDE.md` lists as one of the
-  two rules most often broken (A1). Thumbnail taps in the gallery smooth-scroll,
-  and so does opening a URL with a `#hash`.
-- **The dress chart has gaps in all three measurements**, not only bust as lite
-  records. Bust 85, 89 and 93, waist 65, 69 and 73, and hips 91, 95 and 99 fit
-  no size.
-- **The site states two different production times.** The PDP says 2–4 working
-  days, while the Product JSON-LD says 3–5 calendar days.
-- **Images are most of the page weight.** A visitor who scrolls the whole
-  catalogue downloads 2.0 MB of full-size card photos. Gallery thumbnails are
-  64 px boxes that each load the full photo, so opening a product downloads its
-  whole gallery. The 101 photos come in 20 different sizes, and the recipe for
-  converting them exists only in commit messages.
-- **Every page carries all of its locale's text.** The full `uk.json` goes to
-  the browser on every page, including all nine legal pages and the copy for
-  all 11 products.
-- **Pull requests get a review but no build.** CodeRabbit comments on every PR,
-  but Workers Builds builds only `main`. Nothing builds a branch before its
-  merge deploys it.
-- **`npm audit` reports 10 advisories** (1 critical, 8 high). None apply to a
-  static site with no server. See T2.
+- **Grid cards are invisible until JavaScript runs** (P2). `.reveal-base` sets
+  `opacity: 0` in CSS, so the product cards in the static HTML cannot paint
+  until hydration. If the script fails, they never appear.
+- **The dress chart has gaps in all three measurements** (B1). Bust 85, 89 and
+  93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size.
+- **The site states two production times** (C2, B5). The PDP says 2–4 working
+  days, the Product JSON-LD 3–5 calendar days.
+- **Images are most of the page weight** (P1, P3, P4). Scrolling the whole
+  catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
+  load the full photo each. The 101 photos come in 20 sizes.
+- **Every page carries all of its locale's text** (P5), all nine legal pages
+  and the copy for all 11 products included.
+- **`npm audit` reports 16 advisories** (1 critical, 14 high, 1 moderate). None
+  reach a static site with no server (T2).
 - **Live responses carry HSTS and `nosniff` only**, so any site can frame the
-  pages.
-- **A manual `npm run deploy` from a Mac publishes four `.DS_Store` files**,
-  because nothing excludes them from `out/`.
-- **The README is the stock `create-next-app` text.** It mentions GitHub Pages,
-  Vercel and a removed `basePath` variable, and says nothing about how this site
-  deploys. Two code comments still describe things that were removed (D3).
-- **No tests exist in the repo.**
-- **The domain renews on 2027-08-28**, confirmed by RDAP.
+  pages (T7).
+- **A manual `npm run deploy` from a Mac publishes `.DS_Store` files** (T3).
+- **The README is the stock `create-next-app` text**, and a few code comments
+  describe things that were removed (D1, D3).
+- **No tests exist in the repo** (D6).
+- **The domain renews on 2027-08-28**, confirmed by RDAP (T6).
 
 ---
 
@@ -98,44 +72,21 @@ unticked. The image loader was never built.
 Dated, or due because something shipped this week.
 
 - [ ] **(S) Re-scrape share previews and request reindexing.** *(from L3 and L8)*
-      PR #30 changed every product title and alt, and it went live today. Paste
-      a product link and the homepage into the apps people actually share links
+      PR #30 changed every product title and alt on 2026-09-28, and C1 changed
+      copy again on 2026-10-02. Paste a product link and the homepage into the apps people actually share links
       in: Telegram, Instagram DM, Viber and WhatsApp. Viber is on the list because
       so many Ukrainian customers use it. Product `og:image` files are WebP, so
       check that each app actually draws the image. Run the homepage and one
       product through Facebook's Sharing Debugger, which also refreshes
       Facebook's cache. In Search Console, request indexing for the 11 Ukrainian
       product URLs.
-- [ ] **(S) Rebuild on or after 2026-10-11, or the "New" badges never clear.**
-      Five products (Linear, Azure, Glacier, Lunar, Noblesse) show the badge,
-      confirmed on the live catalogue. `isNewRelease()` compares `releasedAt`
-      with the *build* date, so the badges clear only on a build dated
-      2026-10-11 or later. Any push after that date clears them, and so does
-      "Retry build" in the Cloudflare dashboard. T4 removes the need to remember.
-- [x] **(S) Redirect `/` at the edge.** The bio link is the bare domain (L3), and
-      today it reaches the homepage only after a client-side redirect. Add a
-      Cloudflare Redirect Rule next to the existing `www` rule: the exact path
-      `/`, sent to `/uk` with a 302, query string preserved. A 302 rather than a
-      301, because browsers cache a 301 indefinitely and the locale choice may
-      change. No code change, and no Worker script. It replaces the optional
-      Worker redirect item in L1. Keep `RootRedirect` as the fallback.
-
-      It also fixes the Umami counts. Before the rule, every bio visit was
-      counted twice, once on `/` and again on `/uk` after the client-side
-      redirect (27 and 25 visitors on 2026-09-29). The edge now answers `/`
-      before any page or script loads, so Umami never records it. The bio link
-      stays `velels.com`. Untagged `/uk` visits with no referrer are then mostly
-      the bio, not only the bio: typed URLs and links pasted into DMs land there
-      too, which L3 accepted at this volume. Search visits carry a referrer, so
-      they separate out.
-      In Umami data from before 2026-09-30, read `/` as bio arrivals and don't
-      add it to `/uk`.
-
-      *Done 2026-09-30.* "Root to /uk" in `cloudflare-setup.md`. Checked at the
-      edge: `/` and `http://velels.com/` 302 to `https://velels.com/uk` in one
-      hop, `/?ref=story&utm_source=ig` keeps its query, and `/uk`, a product
-      page, `robots.txt` and a stray URL answer as before. `www.velels.com/`
-      takes two hops, 301 then 302, which is not worth a third rule.
+- [x] **(S) Redirect `/` at the edge.** *Done 2026-09-30.* A Cloudflare Redirect
+      Rule sends `/` to `/uk` with a 302 before any page loads ("Root to /uk" in
+      `cloudflare-setup.md`). `RootRedirect` stays as the fallback. For the
+      numbers: in Umami data from before 2026-09-30, read `/` as bio arrivals
+      and don't add it to `/uk`, which counted the same visits again. Since
+      then, untagged `/uk` visits with no referrer are mostly the bio, though
+      typed URLs and links pasted into DMs land there too.
 - [ ] **(S) Keyboard-only pass.** *(from L8)* The whole site, Tab and Enter only.
       Pay extra attention to the catalogue dropdown, the mobile drawer (A3) and
       the size-guide dialog.
@@ -168,48 +119,22 @@ Dated, or due because something shipped this week.
 
 Text changes in both locale files. Each one is small, and each is live now.
 
-- [x] **(S) C1. Three false statements.** Fix these first. The first is in a legal
-      document, and the other two contradict the business model.
-      - The privacy policy's analytics section (`info.privacy`, `uk.json` line
-        381) says the Direct button tap is recorded «без вмісту вашого
-        замовлення». The `ig_dm_click` event sends the product and the size.
-        Say so. The same sentence calls the button «Замовити в Instagram», but
-        its label is «Замовити через Instagram».
-      - The FAQ answer on buying separates says «Для уточнення наявності
-        зверніться до нас» ("confirm availability"). Nothing is ever out of stock.
-      - The homepage editorial and the About page both say each piece is made
-        «невеликими партіями» ("small batches"). Every garment is sewn after
-        its Order.
-
-      *Done 2026-10-01, in both locales.* The privacy policy now names what each
-      event carries (the model and size, or the model) and says the service
-      never receives the Instagram message. Its "last updated" date moved to
-      2 October, the day the owner approved the wording. The FAQ says to write
-      in Direct to order only the top or only the bottom. Both brand paragraphs
-      say «шиється на замовлення».
+- [x] **(S) C1. Three false statements.** *Shipped 2026-10-02 in PR #36, wording
+      approved by the owner.* The privacy policy says the Direct tap carries the
+      model and size, and is dated 2 October. The FAQ no longer asks customers to
+      confirm availability. Both brand paragraphs say «шиється на замовлення»
+      instead of «невеликими партіями».
 - [ ] **(S) C2. Production time in the JSON-LD.** `jsonLd.ts` declares handling
       time as 3–5 `DAY`. The PDP says «Виготовлення 2–4 робочі дні», and the
       launch plan says 4 working days. Once B5 settles one figure, the JSON-LD
       should state it in working days.
-- [ ] **(S) C3. Smaller copy errors.** *All but the owner question done
-      2026-10-01, in both locales where both had the error. The FAQ's exchange
-      answer had the same size-only wording as the PDP and changed with it.*
-      - `en` Ezra is "Unpadded and unlined… with an additional lining". The
-        Ukrainian says unpadded and lined, so "unlined" is wrong.
-      - The `en` nav says "Bikinis" and the catalogue says "Two-Pieces". Pick one.
-        *Owner, 2026-10-02:* «суцільні» and «роздільні» in Ukrainian, which both
-        already said, and "One-Pieces" and "Bikinis" in English. The catalogue
-        filter and its meta description now say "Bikinis" too.
-      - «Бестселлери» is misspelt; it should be «Бестселери».
-      - The Instagram strip heading says «@VELÉLS», but the handle is
-        `@velelswim`.
-      - The terms say orders «підтверджуються після отримання оплати». A COD
-        order is confirmed on the 500 UAH prepayment, not on full payment.
-      - The PDP promises a size exchange, while the returns page allows size *or
-        Model*. The PDP line can say both.
-      - **Owner:** keep «New» and «Swimwear» in English on the Ukrainian site, or
-        translate them? Lite L4 records the badge as translated, but `uk.json`
-        now says «New».
+- [x] **(S) C3. Smaller copy errors.** *Shipped 2026-10-02 in PR #36.* The
+      English Ezra no longer says "unlined", «Бестселери» is spelt right, the
+      Instagram heading names `@velelswim`, the terms describe the COD
+      prepayment, and the PDP and FAQ allow an exchange for another size or
+      Model. The English catalogue says "Bikinis", like the nav, as the owner
+      chose; the Ukrainian «суцільні» and «роздільні» were already right. The
+      remaining owner question moved to B10.
 - [ ] **(S) C4. Owner: Glacier's two bottoms.** Its description offers «2
       варіанти низу на вибір». Nothing on the page selects one, and the
       prefilled message does not carry the choice. If the Consultant always asks,
@@ -270,29 +195,20 @@ No code, but several of them hold up work in other groups.
       Image Transformations for the `velels.com` zone. Until then
       `/cdn-cgi/image/` returns 404, which blocks P1 and G3. Separately,
       re-export the homepage share image at 1200×630 from the source file.
+- [ ] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *(from
+      C3)* Keep them in English, or translate them? Lite L4 records the badge as
+      translated, but `uk.json` says «New».
 
 ---
 
 ## A. Accessibility
 
-- [x] **(S) A1. Reduced motion in two scripts.** `ImageCarousel.tsx` calls
-      `scrollTo({ behavior: "smooth" })` on every thumbnail tap. A behaviour
-      passed from JavaScript overrides the CSS reset, so a visitor with reduced
-      motion set watches the gallery slide through every photo in between.
-      `SmoothScrollHandler.tsx` smooth-scrolls to a URL `#hash` on load, with the
-      same gap. Both need the `matchMedia` check that `smoothScroll.ts` and
-      `useVideoAutoplay` already do.
-
-      *Done 2026-10-01.* `scrollBehavior()` in `src/lib/utils/motion.ts` returns
-      `"auto"` under reduced motion, which hands the decision back to the CSS
-      reset. It covers a third call nobody had listed: `SmoothScrollHandler`
-      also smooth-scrolled on every same-page anchor click. `smoothScroll.ts`
-      and `useVideoAutoplay` now share the same query.
-      Tested 2026-10-02 in headless Chrome, sampling the scroll position every
-      frame after a tap on Azure's ninth thumbnail and after a `#collection`
-      anchor click. With reduced motion emulated, both arrive in one frame. On
-      the old code they passed through 57 and 25 positions on the way, and
-      without the preference both still glide.
+- [x] **(S) A1. Reduced motion in two scripts.** *Shipped 2026-10-02 in PR #36.*
+      `scrollBehavior()` in `src/lib/utils/motion.ts` hands the gallery, the
+      `#hash` scroll on load and same-page anchor clicks back to the CSS
+      reduced-motion reset. In headless Chrome, under reduced motion, a far
+      thumbnail tap and a `#collection` click now arrive in one frame; the old
+      code passed through 57 and 25 positions.
 - [ ] **(S) A2. Selected state is visual only.** No `aria-pressed` or
       `aria-current` on the size and colour buttons, the catalogue filters, the
       size-guide tabs or the gallery thumbnails. A screen-reader user can't tell
@@ -306,8 +222,11 @@ No code, but several of them hold up work in other groups.
       (`Navbar.tsx`, `SizeGuideModal.tsx`, `ProductInfo.tsx`). Each needs a key in
       both locale files.
 - [ ] **(S) A5. The toast is silent.** `Toast.tsx` has no `role="status"`, so the
-      "copied" confirmation is never announced. See G1 for the larger problem
-      with that confirmation.
+      "copied" confirmation is never announced. Adding the role is not enough on
+      its own: the component returns `null` while hidden, and a live region that
+      appears together with its text is often not read out. Keep the region
+      mounted and change only its text. See G1 for the larger problem with that
+      confirmation.
 - [ ] **(S) A6. Owner: a pause control on the hero video.** It loops with no way
       to stop it. That fails WCAG 2.2.2 for visitors who have not set reduced
       motion. A small pause button in a corner is the usual answer, and the owner
@@ -319,38 +238,18 @@ No code, but several of them hold up work in other groups.
 
 Cheap, and each one protects something already in production.
 
-- [x] **(S) T1. A build on every pull request.** Merging into `main` deploys.
-      CodeRabbit reviews each PR, but nothing builds one: the commit checks on
-      PR #31 show only CodeRabbit, and Workers Builds appears only on the merge
-      commit. This week's merge conflict was caught only because a build was run
-      by hand. The cheapest fix is the Workers Builds setting that builds
-      non-production branches, if the account offers it. Otherwise add a GitHub
-      Action, the repo's first, running lint, `tsc --noEmit` and `next build`.
-      The build also fails on a locale key present in one language file and
-      missing from the other. Add the L8 Umami grep as a last step.
-
-      *Built 2026-10-01 in Workers Builds, not GitHub Actions.* A GitHub Action
-      was written first, but the account's Actions are locked by a stale
-      billing flag (balance $0.00). `npm run build` now runs lint, the locale
-      check, `next build` and the Umami check, and branch builds are on with
-      `npx wrangler versions upload` as the version command
-      (`cloudflare-setup.md`, "Workers Builds"). This is stronger than the
-      Action would have been: the same checks stop a broken `main` from
-      deploying, and the Umami check sees the real id. Branch builds get no
-      build variables, so in practice that one check runs on `main` only.
-
-      One correction to the above: a one-sided locale key does **not** fail
-      `next build`. With `nav.catalogue` deleted from `en.json`, it exited 0,
-      logged `MISSING_MESSAGE` 88 times and shipped the raw key path in
-      `out/en.html`. `npm run check:locales` is what catches it. There is no
-      separate `tsc` step, because `next build` type-checks.
-
-      *Done 2026-10-02.* PR #33 went green on Workers Builds, and its merge
-      deployed with all four checks passing. A GitHub ruleset on `main` now
-      requires "Workers Builds: velels", requires a PR, and has no bypass, so a
-      direct push to `main` is refused (`cloudflare-setup.md`, "On GitHub").
-- [ ] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** None of the 10 audit
-      findings reach the live site: it is static files, with no server, no Server
+- [x] **(S) T1. A build on every pull request.** *Done 2026-10-02, PRs #33 and
+      #34, in Workers Builds because the account's GitHub Actions are locked.*
+      `npm run build` runs lint, the locale check, `next build` and the Umami
+      check, on every branch and on `main`. A GitHub ruleset on `main` requires
+      that check, requires a PR and has no bypass; a PR with a failing build was
+      shown to be blocked. A one-sided locale key does not fail `next build` by
+      itself, since next-intl ships the key path as text, so
+      `npm run check:locales` is what catches it. Settings are in
+      `cloudflare-setup.md`.
+- [ ] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** We are on 16.2.6, and
+      16.3.8 is the latest release (2026-10-05). None of the 16 audit findings
+      (1 critical, 14 high, 1 moderate) reach the live site: it is static files, with no server, no Server
       Actions, no middleware and no image optimiser running. They start to matter
       the day any server code ships, whether that is the form Worker or Vercel.
       Upgrading is cheapest now, while checking it means building and diffing
@@ -362,12 +261,6 @@ Cheap, and each one protects something already in production.
       it from there. Today `out/` holds four of them, and a manual
       `npm run deploy` from a Mac publishes them. Workers Builds runs on Linux
       and is unaffected.
-- [ ] **(S) T4. Scheduled rebuild.** A daily build, so a `releasedAt` badge
-      clears on its date without anyone pushing. That is the only date-driven
-      behaviour left: a sale is switched on and off by editing `salePrice`,
-      since `saleEndsAt` was removed in `8bd0e61`. Use a Workers Builds trigger if
-      the API offers one. Otherwise run a GitHub Actions cron that builds and
-      runs `wrangler deploy` with a scoped API token.
 - [ ] **(S) T5. Uptime monitor** on `velels.com/uk` and one product URL, on a free
       tier. A static Worker rarely goes down, but a bad deploy or a DNS mistake
       would otherwise surface only when a customer says so.
@@ -510,7 +403,8 @@ visitor downloads.
       - Unused message keys: `products.*.colorName` (all 11),
         `productDetail.saleBadge`, `nav.story`, `nav.ig`, `footer.ig`,
         `footer.legal` and `editorial.title`. Remove each from both locale
-        files together.
+        files together. That is 17 leaf keys, so update the key counts in
+        `AGENTS.md` in the same change.
       - `siteConfig.host`, which nothing reads.
       - Unused CSS classes: `.animate-slide-down`, `.aspect-9-16`, `.delay-400`,
         `.delay-500`.
@@ -522,8 +416,11 @@ visitor downloads.
       - `.env.example` describes the "via host" signature, removed on
         2026-09-21.
       - `indexing.ts` still talks about GitHub Pages and Vercel.
+      - `error.tsx` says "Log the error to an error reporting service". There is
+        none, and Sentry is under "Considered and not recommended".
 - [ ] **(S) D4. 23 bracket text values in 6 files.** Move them to `@utility`
-      classes. `StatusPage.tsx` holds 11 of them.
+      classes. `StatusPage.tsx` holds 11 of them. Clear the "Known violations"
+      line in `AGENTS.md` in the same change.
 - [ ] **(S) D5. Tracked leftovers.** `.gemini/pdf_content.txt` sits in a public
       repo and is not served. It is the owner's original brand copy, extracted
       from a PDF and garbled by the extraction. Keep it on purpose or delete it.
@@ -531,11 +428,19 @@ visitor downloads.
       Nothing referenced either one.
 - [ ] **(S) D6. A few unit tests with `node:test`, no new dependency.** For the
       logic that fails silently: `priceView()`, `isNewRelease()`,
-      `productImageAlt()` and `localeUrl()`. Run them in T1.
+      `productImageAlt()` and `localeUrl()`. Add `node --test` to
+      `npm run build`, so Workers Builds runs them with the other checks.
 - [ ] **(S) D7. Small fixes.**
       - `error.tsx` renders no `<h1>`.
-      - `smoothScroll.ts` cannot be interrupted by the user's own scroll, and
-        it lands 100 px away from where a native `#collection` jump does.
+      - `smoothScroll.ts` cannot be interrupted by the user's own scroll.
+      - The hero button and a native `#collection` jump stop 100 px apart,
+        measured in headless Chrome on 2026-10-05 at desktop and phone width.
+        The button stops right under the navbar, as intended. The native jump
+        stops 100 px lower because `globals.css` sets
+        `scroll-padding-top: 100px` on `html`, left from the first commit, and
+        native jumps add it to the section's own `scroll-mt`. Removing that
+        line probably fixes it, but check first whether any other `#hash`
+        target leans on it without a `scroll-mt` of its own.
       - The mobile drawer has no link to the whole catalogue.
       - English copy on the 404, only if B8 says English is a market.
         *(from L3)*
@@ -555,3 +460,4 @@ unchanged.
 | Dependabot or Renovate | Six runtime dependencies, and every merge deploys. A quarterly manual bump (T2) is less noise |
 | Google Merchant Center | Merchant listings need a purchase on the page (L3). Revisit with the form |
 | A Worker script for the `/` redirect | A dashboard Redirect Rule does the same job with no code (N) |
+| A scheduled rebuild (was T4) | Its only job was clearing the "New" badges, and the owner chose on 2026-10-02 to let them clear with the next merge. A badge shows until the first build on or after `releasedAt` + 60 days, and the build date is UTC, so on that day it takes a build after 03:00 Kyiv time. The five August badges clear with the first merge after that point on 2026-10-11 |

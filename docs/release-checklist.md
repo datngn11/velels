@@ -122,7 +122,8 @@ All cheap now that `basePath` is gone. These are defects, not improvements.
       `releasedAt` date so the badge computes itself.
       → `src/components/catalog/CatalogClient.tsx`
       *Done under lite L4, 2026-09-08. It compares the build date, so a badge
-      clears only when a build runs (post-launch T4).*
+      clears only when a build runs. A scheduled rebuild was considered and
+      dropped: see post-launch, "Considered and not recommended".*
 - [x] **S — Organization / WebSite JSON-LD** on the homepage; `BreadcrumbList` on
       product pages. Product JSON-LD already exists.
       *Done under lite L3, 2026-08-29, with a visible breadcrumb added on
