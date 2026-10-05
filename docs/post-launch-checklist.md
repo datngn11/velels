@@ -433,6 +433,10 @@ visitor downloads.
       `npm run build` runs them before `next build`. Each test was shown to
       fail when its function was broken on purpose; the first pass found that
       `absoluteUrl()` and the hreflang links needed tests of their own.
+      Vitest strips types without checking them, and `next build` type-checks
+      only the site's code, so a type error in a test passed every check.
+      `npm run typecheck` (`tsc --noEmit`, about 2 s) now runs after lint and
+      covers every `.ts` file.
 - [ ] **(S) D7. Small fixes.**
       - `error.tsx` renders no `<h1>`.
       - `smoothScroll.ts` cannot be interrupted by the user's own scroll.
