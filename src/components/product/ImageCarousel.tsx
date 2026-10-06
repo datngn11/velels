@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, type Ref } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/lib/data/products";
@@ -12,12 +12,14 @@ interface ImageCarouselProps {
   alts: string[];
   /** Kept in the HTML for crawlers while another colour is shown. */
   hidden?: boolean;
+  ref?: Ref<HTMLDivElement>;
 }
 
 export function ImageCarousel({
   images,
   alts,
   hidden = false,
+  ref,
 }: ImageCarouselProps) {
   const t = useTranslations("productDetail");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -44,7 +46,12 @@ export function ImageCarousel({
   }, []);
 
   return (
-    <div hidden={hidden} className="w-full md:w-2/3 flex flex-col gap-6">
+    <div
+      ref={ref}
+      hidden={hidden}
+      // scroll-mt clears the fixed navbar when ProductView scrolls here.
+      className="w-full md:w-2/3 flex flex-col gap-6 scroll-mt-16 md:scroll-mt-14"
+    >
       {/* Main slider */}
       <div
         ref={sliderRef}

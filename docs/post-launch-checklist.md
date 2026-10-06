@@ -381,6 +381,13 @@ visitor downloads.
       `workers_dev: false`, version preview URLs return 404 as well. A second
       Worker with `"routes": []` would give each PR a link to send to the owner,
       and a `noindex` build keeps it out of search.
+- [x] **(S) G9. Show the new colour on a phone.** *Done 2026-10-06.* On a phone
+      the gallery sits above the swatches, so a colour change happened off
+      screen. A swatch tap now brings the gallery up under the navbar, but only
+      when its top is hidden; never on desktop, and in one jump under reduced
+      motion. Focus stays on the swatch. The swatches then sit 53–117 px below
+      the fold on 360–430 px phones; showing the whole photo was preferred over
+      keeping them in view.
 
 ---
 

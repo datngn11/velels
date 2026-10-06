@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useTranslations } from "next-intl";
 import type { Product, ProductColor } from "@/lib/data/products";
+import { scrollBehavior } from "@/lib/utils/motion";
 import { productImageAlt } from "@/lib/utils/productImageAlt";
 import { ImageCarousel } from "./ImageCarousel";
 import { ProductInfo } from "./ProductInfo";
@@ -30,6 +31,21 @@ export function ProductView({ product }: ProductViewProps) {
     });
   }, [product.colors, product.images]);
   const name = tProducts(`${product.slug}.name`);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  // On a phone the photos sit above the swatches, so a new colour would change
+  // off screen. Bring the gallery back into view, but only when its top is
+  // hidden. Every gallery fills the same slot, so the one being replaced marks
+  // where the new one appears.
+  const selectColor = (color: ProductColor) => {
+    const gallery = galleryRef.current;
+    setSelectedColor(color);
+    if (color === selectedColor || !gallery) return;
+    if (window.matchMedia("(min-width: 48rem)").matches) return;
+    const clearance = parseFloat(getComputedStyle(gallery).scrollMarginTop) || 0;
+    if (gallery.getBoundingClientRect().top >= clearance) return;
+    gallery.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+  };
 
   return (
     <>
@@ -40,6 +56,7 @@ export function ProductView({ product }: ProductViewProps) {
             // Remounts the gallery being shown, so it opens on its first photo
             // as it did when only one gallery was rendered.
             key={`${color}-${shown}`}
+            ref={shown ? galleryRef : undefined}
             hidden={!shown}
             images={images}
             alts={images.map((image, i) =>
@@ -58,7 +75,7 @@ export function ProductView({ product }: ProductViewProps) {
       <ProductInfo
         product={product}
         selectedColor={selectedColor}
-        onSelectColor={setSelectedColor}
+        onSelectColor={selectColor}
       />
     </>
   );
