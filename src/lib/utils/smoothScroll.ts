@@ -7,9 +7,14 @@ import { prefersReducedMotion } from "@/lib/utils/motion";
  * the fixed navbar declares its own clearance rather than this function knowing
  * the header's height.
  */
+// The glide in progress. A new scroll ends it, and only the active glide may
+// restore `scroll-behavior`, or a cancelled one's last frame would undo the new one's.
+let active: AbortController | null = null;
+
 export const smoothScrollTo = (targetId: string, duration = 1400) => {
   const target = document.getElementById(targetId);
   if (!target) return;
+  active?.abort();
 
   const html = document.documentElement;
 
@@ -49,6 +54,7 @@ export const smoothScrollTo = (targetId: string, duration = 1400) => {
   // The visitor's own scroll wins: any wheel, touch or key press ends the glide
   // where it is, instead of the animation dragging the page back.
   const listeners = new AbortController();
+  active = listeners;
   for (const type of ["wheel", "touchstart", "keydown", "mousedown"] as const) {
     window.addEventListener(type, () => listeners.abort(), {
       passive: true,
@@ -57,6 +63,8 @@ export const smoothScrollTo = (targetId: string, duration = 1400) => {
   }
   const finish = () => {
     listeners.abort();
+    if (active !== listeners) return;
+    active = null;
     html.style.scrollBehavior = "";
   };
 

@@ -212,10 +212,11 @@ No code, but several of them hold up work in other groups.
       `aria-current` on the size and colour buttons, the catalogue filters, the
       size-guide tabs or the gallery thumbnails. A screen-reader user can't tell
       which size she has chosen before she opens Instagram.
-- [ ] **(S) A3. Mobile drawer.** When the catalogue section is collapsed, its links
-      are hidden with `max-h-0 opacity-0`, and neither removes them from the tab
-      order. That is the same defect L5 fixed in the desktop dropdown. The toggle
-      also has no `aria-expanded`.
+- [x] **(S) A3. Mobile drawer.** *Done 2026-10-06, found again by CodeRabbit on
+      PR #40.* The collapsed catalogue list is now `inert`, so Tab skips its
+      links, and the toggle carries `aria-expanded`. Checked in headless Chrome:
+      collapsed, Tab goes from the toggle straight to «Про бренд»; open, it
+      walks «Усі» and the three categories.
 - [ ] **(S) A4. Ukrainian labels for four controls.** "Open menu", "Close menu",
       "Close" and `Size ${size}` are hardcoded English on the Ukrainian site
       (`Navbar.tsx`, `SizeGuideModal.tsx`, `ProductInfo.tsx`). Each needs a key in
