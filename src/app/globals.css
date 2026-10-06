@@ -437,3 +437,37 @@ html[data-scroll-behavior="smooth"] {
 @utility text-label-xs {
   @apply font-sans text-[12px] leading-4 tracking-widest uppercase;
 }
+
+/* One-off styles: the status pages, the hero, the language switcher and the
+   Instagram heading. Values copied from the classes they replaced. */
+@utility text-status-code {
+  @apply font-serif text-[72px] md:text-[120px] leading-none tracking-[-0.04em];
+}
+
+@utility text-status-label {
+  @apply font-serif text-[20px] md:text-[28px] tracking-[0.1em] uppercase;
+}
+
+@utility text-status-title {
+  @apply font-serif text-[48px] md:text-[80px] leading-none tracking-[-0.02em];
+}
+
+@utility text-status-body {
+  @apply font-sans text-[14px] md:text-[16px] leading-relaxed;
+}
+
+@utility text-hero-title {
+  @apply font-serif text-4xl md:text-[80px] leading-12 md:leading-[90px] tracking-[8px] md:tracking-[12px];
+}
+
+@utility text-hero-tagline {
+  @apply text-[10px] tracking-[4px] uppercase;
+}
+
+@utility text-locale-label {
+  @apply font-sans text-[12px] leading-4 tracking-[0.1em] uppercase;
+}
+
+@utility text-feed-heading {
+  @apply font-sans text-[12px] leading-4 tracking-[0.3em] font-semibold uppercase;
+}

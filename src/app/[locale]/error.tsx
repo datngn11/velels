@@ -25,13 +25,13 @@ export default function ErrorPage({ error, reset }: Props) {
         <>
           <button
             onClick={() => reset()}
-            className="inline-block bg-primary text-on-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300 cursor-pointer"
+            className="inline-block bg-primary text-on-primary text-label-md px-8 py-4 hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             {t("retry")}
           </button>
           <Link
             href="/"
-            className="inline-block border border-outline text-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 hover:scale-105 transition-all duration-300"
+            className="inline-block border border-outline text-primary text-label-md px-8 py-4 hover:scale-105 transition-all duration-300"
           >
             {t("cta")}
           </Link>

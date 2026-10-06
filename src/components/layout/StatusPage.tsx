@@ -18,20 +18,20 @@ export function StatusPage({ code, title, subtitle, actions }: StatusPageProps) 
       <Navbar />
       <main className="grow flex flex-col items-center justify-center text-center px-margin-mobile md:px-margin-desktop py-stack-xl mt-16 md:mt-14">
         {code && (
-          <h1 className="font-serif text-[72px] md:text-[120px] leading-none tracking-[-0.04em] text-primary mb-6 animate-fade-in-up">
+          <h1 className="text-status-code text-primary mb-6 animate-fade-in-up">
             {code}
           </h1>
         )}
         <Title
-          className={`font-serif ${
+          className={`${
             code
-              ? "text-[20px] md:text-[28px] tracking-[0.1em] uppercase text-primary mb-4 animate-fade-in-up delay-100"
-              : "text-[48px] md:text-[80px] leading-none tracking-[-0.02em] text-primary mb-6 animate-fade-in-up"
+              ? "text-status-label text-primary mb-4 animate-fade-in-up delay-100"
+              : "text-status-title text-primary mb-6 animate-fade-in-up"
           }`}
         >
           {title}
         </Title>
-        <p className="font-sans text-[14px] md:text-[16px] text-secondary max-w-[480px] mb-12 leading-relaxed animate-fade-in-up delay-200">
+        <p className="text-status-body text-secondary max-w-[480px] mb-12 animate-fade-in-up delay-200">
           {subtitle}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-300">

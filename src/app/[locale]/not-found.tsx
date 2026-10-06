@@ -13,7 +13,7 @@ export default function NotFoundPage() {
       actions={
         <Link
           href="/"
-          className="inline-block bg-primary text-on-primary font-sans text-[12px] leading-4 tracking-[0.15em] font-medium uppercase px-8 py-4 animate-fade-in-up delay-300 hover:scale-105 transition-all duration-300"
+          className="inline-block bg-primary text-on-primary text-label-md px-8 py-4 animate-fade-in-up delay-300 hover:scale-105 transition-all duration-300"
         >
           {t("cta")}
         </Link>
