@@ -424,9 +424,13 @@ visitor downloads.
       `.env.example` no longer mentions the "via host" signature, `indexing.ts`
       describes Workers Builds instead of GitHub Pages and Vercel, and the
       error-reporting comment in `error.tsx` is gone.
-- [ ] **(S) D4. 23 bracket text values in 6 files.** Move them to `@utility`
-      classes. `StatusPage.tsx` holds 11 of them. Clear the "Known violations"
-      line in `AGENTS.md` in the same change.
+- [x] **(S) D4. 23 bracket text values in 6 files.** *Done 2026-10-06.* The
+      three buttons on the 404 and error pages matched `text-label-md` exactly.
+      The other ten elements got eight one-off `@utility` classes with the
+      same values. Computed font, size, line height, letter spacing, weight and
+      case match `main` for every one at desktop and phone width, error page
+      included, and five pages are pixel-identical to `main` with photos
+      hidden. The "Known violations" line in `AGENTS.md` is gone.
 - [x] **(S) D5. Tracked leftovers.** *Done 2026-10-05.* `.gemini/pdf_content.txt`
       is deleted: the owner's original brand copy, garbled by a PDF extraction
       for the info pages in `2becd87`, read by nothing, and still in git history.

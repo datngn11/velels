@@ -83,10 +83,10 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-20 text-center px-margin-mobile md:px-margin-desktop flex flex-col items-center gap-stack-sm max-w-3xl">
         <div>
-          <h1 className="text-display-lg text-on-primary opacity-0 animate-fade-in-up [animation-delay:200ms] tracking-[8px] md:tracking-[12px] max-w-full">
+          <h1 className="text-hero-title text-on-primary opacity-0 animate-fade-in-up [animation-delay:200ms] max-w-full">
             {t("title")}
           </h1>
-          <p className="text-[10px] text-on-primary/90 max-w-xl opacity-0 animate-fade-in-up [animation-delay:450ms] uppercase tracking-[4px]">
+          <p className="text-hero-tagline text-on-primary/90 max-w-xl opacity-0 animate-fade-in-up [animation-delay:450ms]">
             {t("subtitle")}
           </p>
         </div>

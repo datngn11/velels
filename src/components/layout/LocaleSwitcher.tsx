@@ -31,7 +31,7 @@ export function LocaleSwitcher() {
           <button
             onClick={() => router.replace(pathname, { locale: code })}
             aria-current={locale === code ? "true" : undefined}
-            className={`text-label-sm tracking-[0.1em] transition-all duration-300 pb-1 ${
+            className={`text-locale-label transition-all duration-300 pb-1 ${
               locale === code
                 ? "text-primary border-b border-primary"
                 : "text-secondary hover:text-primary hover-underline-anim"

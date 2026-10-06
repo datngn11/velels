@@ -31,7 +31,7 @@ export async function InstagramFeed() {
       {/* Header */}
       <ScrollReveal animation="reveal-fade-up">
         <div className="text-center mb-stack-md">
-          <h2 className="text-label-md tracking-[0.3em] font-semibold text-primary mb-2">
+          <h2 className="text-feed-heading text-primary mb-2">
             {t("heading")}
           </h2>
         </div>

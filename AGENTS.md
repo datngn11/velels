@@ -35,7 +35,8 @@ This project is a luxury e-commerce site utilizing modern frontend architecture.
    - Always use the semantic `@utility` classes defined in `globals.css`.
    - **Available Typography Utilities**: - `.text-display-lg`, `.text-display-md` (Hero/Section titles) - `.text-heading-lg`, `.text-heading-md` (Branding/Large headers) - `.text-body-lg`, `.text-body-md`, `.text-body-sm` (Paragraphs) - `.text-label-lg`, `.text-label-md`, `.text-label-sm`, `.text-label-xs` (Tags, uppercase labels) - `.text-nav-link`, `.text-nav-link-lg` (Navigation links)
    - All thirteen exist in `globals.css`. If a genuinely new size is needed, add an `@utility` rather than a bracket value.
-   - **Known violations:** 23 bracket values survive across 6 files — `StatusPage.tsx` (11), `error.tsx` (4), `HeroSection.tsx` (4), `not-found.tsx` (2), `LocaleSwitcher.tsx` (1), `InstagramFeed.tsx` (1). Verified 2026-09-28. `CatalogClient.tsx` is clean. They are debt, not precedent. Do not copy them.
+   - One-off utilities sit below them, each used in one place: `.text-status-code`, `.text-status-label`, `.text-status-title`, `.text-status-body` (404 and error pages), `.text-hero-title`, `.text-hero-tagline`, `.text-locale-label` and `.text-feed-heading`. Prefer the thirteen for anything new.
+   - No component uses a bracket value for text size, tracking or line height (verified 2026-10-06).
    <!-- END:project-rules -->
 
 <!-- BEGIN:domain-rules -->
