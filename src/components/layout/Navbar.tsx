@@ -14,6 +14,7 @@ const CATALOGUE_MENU = "catalogue";
 
 export function Navbar() {
   const t = useTranslations("nav");
+  const tCatalog = useTranslations("catalog");
   const [scrolled, setScrolled] = useState(false);
   const [navMenuValue, setNavMenuValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -199,6 +200,7 @@ export function Navbar() {
               <div className="flex flex-col">
                 <button
                   onClick={() => setCatalogueOpen(!catalogueOpen)}
+                  aria-expanded={catalogueOpen}
                   className="flex items-center justify-between w-full text-nav-link-lg text-primary font-semibold py-2 hover:opacity-75 transition-opacity text-left cursor-pointer"
                 >
                   <span>{t("catalogue")}</span>
@@ -217,14 +219,25 @@ export function Navbar() {
                   </svg>
                 </button>
 
-                {/* Subcategories Accordion Content */}
+                {/* Subcategories Accordion Content. `inert` takes the links
+                    out of the tab order while the list is collapsed. */}
                 <div
+                  inert={!catalogueOpen}
                   className={`flex flex-col gap-4 pl-4 overflow-hidden transition-all duration-300 ${
                     catalogueOpen
                       ? "max-h-48 pt-3 pb-2 opacity-100"
                       : "max-h-0 opacity-0"
                   }`}
                 >
+                  {/* The heading above only toggles this list, so the whole
+                      catalogue needs its own link here. */}
+                  <Link
+                    href="/catalog"
+                    onClick={() => setMenuOpen(false)}
+                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
+                  >
+                    {tCatalog("all")}
+                  </Link>
                   <Link
                     href="/catalog?category=one-piece"
                     onClick={() => setMenuOpen(false)}

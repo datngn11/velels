@@ -279,7 +279,6 @@ details summary {
 /* Smooth scroll for anchors, with fallback for older browsers */
 html[data-scroll-behavior="smooth"] {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px; /* Offset for sticky header */
 }
 
 /* Scroll progress bar (progressive enhancement) */
