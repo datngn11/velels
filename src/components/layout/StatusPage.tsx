@@ -10,6 +10,9 @@ interface StatusPageProps {
 }
 
 export function StatusPage({ code, title, subtitle, actions }: StatusPageProps) {
+  // The page's one h1: the code when there is one, otherwise the title.
+  const Title = code ? "h2" : "h1";
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -19,7 +22,7 @@ export function StatusPage({ code, title, subtitle, actions }: StatusPageProps) 
             {code}
           </h1>
         )}
-        <h2
+        <Title
           className={`font-serif ${
             code
               ? "text-[20px] md:text-[28px] tracking-[0.1em] uppercase text-primary mb-4 animate-fade-in-up delay-100"
@@ -27,7 +30,7 @@ export function StatusPage({ code, title, subtitle, actions }: StatusPageProps) 
           }`}
         >
           {title}
-        </h2>
+        </Title>
         <p className="font-sans text-[14px] md:text-[16px] text-secondary max-w-[480px] mb-12 leading-relaxed animate-fade-in-up delay-200">
           {subtitle}
         </p>

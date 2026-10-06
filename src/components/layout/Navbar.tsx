@@ -14,6 +14,7 @@ const CATALOGUE_MENU = "catalogue";
 
 export function Navbar() {
   const t = useTranslations("nav");
+  const tCatalog = useTranslations("catalog");
   const [scrolled, setScrolled] = useState(false);
   const [navMenuValue, setNavMenuValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -225,6 +226,15 @@ export function Navbar() {
                       : "max-h-0 opacity-0"
                   }`}
                 >
+                  {/* The heading above only toggles this list, so the whole
+                      catalogue needs its own link here. */}
+                  <Link
+                    href="/catalog"
+                    onClick={() => setMenuOpen(false)}
+                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
+                  >
+                    {tCatalog("all")}
+                  </Link>
                   <Link
                     href="/catalog?category=one-piece"
                     onClick={() => setMenuOpen(false)}

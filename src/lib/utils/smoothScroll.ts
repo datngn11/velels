@@ -46,7 +46,25 @@ export const smoothScrollTo = (targetId: string, duration = 1400) => {
   // Temporarily disable native smooth scrolling to prevent conflict jitter
   html.style.scrollBehavior = "auto";
 
+  // The visitor's own scroll wins: any wheel, touch or key press ends the glide
+  // where it is, instead of the animation dragging the page back.
+  const listeners = new AbortController();
+  for (const type of ["wheel", "touchstart", "keydown", "mousedown"] as const) {
+    window.addEventListener(type, () => listeners.abort(), {
+      passive: true,
+      signal: listeners.signal,
+    });
+  }
+  const finish = () => {
+    listeners.abort();
+    html.style.scrollBehavior = "";
+  };
+
   const animation = (currentTime: number) => {
+    if (listeners.signal.aborted) {
+      finish();
+      return;
+    }
     if (start === null) start = currentTime;
     const timeElapsed = currentTime - start;
     const progress = Math.min(timeElapsed / duration, 1);
@@ -56,8 +74,7 @@ export const smoothScrollTo = (targetId: string, duration = 1400) => {
     if (timeElapsed < duration) {
       requestAnimationFrame(animation);
     } else {
-      // Restore native scrolling once animation is complete
-      html.style.scrollBehavior = "";
+      finish();
     }
   };
 

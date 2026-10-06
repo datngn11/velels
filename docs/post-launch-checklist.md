@@ -437,20 +437,24 @@ visitor downloads.
       only the site's code, so a type error in a test passed every check.
       `npm run typecheck` (`tsc --noEmit`, about 2 s) now runs after lint and
       covers every `.ts` file.
-- [ ] **(S) D7. Small fixes.**
-      - `error.tsx` renders no `<h1>`.
-      - `smoothScroll.ts` cannot be interrupted by the user's own scroll.
-      - The hero button and a native `#collection` jump stop 100 px apart,
-        measured in headless Chrome on 2026-10-05 at desktop and phone width.
-        The button stops right under the navbar, as intended. The native jump
-        stops 100 px lower because `globals.css` sets
-        `scroll-padding-top: 100px` on `html`, left from the first commit, and
-        native jumps add it to the section's own `scroll-mt`. Removing that
-        line probably fixes it, but check first whether any other `#hash`
-        target leans on it without a `scroll-mt` of its own.
-      - The mobile drawer has no link to the whole catalogue.
+- [ ] **(S) D7. Small fixes.** *All but the last done 2026-10-06, each checked
+      in headless Chrome against the built site.*
+      - ~~`error.tsx` renders no `<h1>`.~~ `StatusPage` makes the title the
+        `<h1>` when there is no status code; the 404 keeps "404" as its `<h1>`.
+      - ~~`smoothScroll.ts` cannot be interrupted by the user's own scroll.~~
+        A wheel, touch, key or mouse press now ends the glide where it is.
+      - ~~The hero button and a native `#collection` jump stop 100 px
+        apart.~~ `scroll-padding-top: 100px` is gone from `globals.css`.
+        `#collection` was the only `#hash` target, and it carries its own
+        `scroll-mt`, so both now stop with the grid right under the navbar
+        at desktop and phone width.
+      - ~~The mobile drawer has no link to the whole catalogue.~~ «Усі» /
+        "All", the catalogue filter's own label, now heads the drawer's
+        catalogue list. The desktop dropdown is unchanged.
       - English copy on the 404, only if B8 says English is a market.
-        *(from L3)*
+        *(from L3)* There is one static `404.html` for every unknown path,
+        `/en` included, so English means a bilingual page or a script that
+        swaps the text on `/en` paths.
 
 ---
 
