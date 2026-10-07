@@ -43,9 +43,6 @@ and the missing pull-request build (T1).
 
 **Still open.**
 
-- **Grid cards are invisible until JavaScript runs** (P2). `.reveal-base` sets
-  `opacity: 0` in CSS, so the product cards in the static HTML cannot paint
-  until hydration. If the script fails, they never appear.
 - **The dress chart has gaps in all three measurements** (B1). Bust 85, 89 and
   93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size.
 - **The site states two production times** (C2, B5). The PDP says 2–4 working
@@ -291,13 +288,17 @@ visitor downloads.
       four widths plus a thumbnail come to about 500. Once `srcset` is live, the
       `InstagramFeed` `sizes` fix in full-plan Phase 7 starts to matter, and AVIF
       becomes possible.
-- [ ] **(S) P2. Cards visible without JavaScript.** Hide `.reveal-base` only
-      once a script has run. The root layout already has an inline script that
-      sets `lang` before paint. Have it add a `js` class to `<html>` as well, and
-      scope the `opacity: 0` rule to `.js .reveal-base`. Cards then paint from
-      the static HTML, and a failed script leaves them visible rather than blank.
-      Re-measure the catalogue LCP afterwards: cards painting before hydration
-      should move it.
+- [x] **(S) P2. Cards visible without JavaScript.** *Done 2026-10-06.* Every
+      `.reveal-base` section is visible in the static HTML. After hydration,
+      `ScrollReveal` hides only a section that starts below the screen
+      (`is-pending`), out of sight, and fades it in on arrival with the same
+      stagger. The `js`-class idea above would only have helped when scripts
+      fail: with them working, cards still waited for hydration.
+      Catalogue on a throttled phone (Lighthouse's 150 ms, 1.6 Mbps, 4× CPU),
+      median of three: first card visible 12.9 s → 2.2 s, LCP 4.05 s → 2.43 s.
+      With every script removed, no section stays hidden. What was on screen
+      at load, and cards a category switch brings in, now appear without the
+      fade.
 - [ ] **(S) P3. A script for product photos.** Put the recipe used for Azure
       (`37887f7`) and Linear (`3f34a26`) into `scripts/`, so the next photo takes
       one command. The recipe:

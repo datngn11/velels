@@ -9,20 +9,28 @@ interface ScrollRevealProps {
   className?: string;
 }
 
+/**
+ * Visible in the static HTML, so nothing waits on hydration. Only a section
+ * that starts below the screen is hidden, out of sight, then revealed on
+ * arrival; one already on screen stays as rendered.
+ */
 export function ScrollReveal({
   children,
   animation = "reveal-fade-up",
   delay = "",
   className = "",
 }: ScrollRevealProps) {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const [isPending, setIsPending] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el || el.getBoundingClientRect().top < window.innerHeight) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsRevealed(true);
+          setIsPending(false);
           observer.disconnect();
         }
       },
@@ -31,10 +39,8 @@ export function ScrollReveal({
         rootMargin: "0px 0px -50px 0px",
       }
     );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    setIsPending(true);
+    observer.observe(el);
 
     return () => {
       observer.disconnect();
@@ -45,7 +51,7 @@ export function ScrollReveal({
     <div
       ref={ref}
       className={`reveal-base ${animation} ${delay} ${
-        isRevealed ? "is-revealed" : ""
+        isPending ? "is-pending" : ""
       } ${className}`}
     >
       {children}

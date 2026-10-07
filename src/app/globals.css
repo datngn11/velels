@@ -139,29 +139,23 @@ body {
 
 /* ── Modern UX & Animation Utilities ── */
 
-/* Smooth, staggered scroll reveals */
+/* Smooth, staggered scroll reveals. Visible in the static HTML; ScrollReveal
+   hides only what starts below the screen, and unhides it on arrival. */
 .reveal-base {
-  opacity: 0;
   will-change: transform, opacity;
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.reveal-fade-up {
+.reveal-base.is-pending {
+  opacity: 0;
+}
+
+.reveal-fade-up.is-pending {
   transform: translateY(30px);
 }
 
-.reveal-fade-up.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-fade-in {
+.reveal-fade-in.is-pending {
   transform: scale(0.97);
-}
-
-.reveal-fade-in.is-revealed {
-  opacity: 1;
-  transform: scale(1);
 }
 
 /* Delay classes for staggered reveals */
