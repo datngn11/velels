@@ -50,8 +50,9 @@ and the missing pull-request build (T1).
 - **Images are most of the page weight** (P1, P3, P4). Scrolling the whole
   catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
   load the full photo each. The 101 photos come in 20 sizes.
-- **`npm audit` reports 16 advisories** (1 critical, 14 high, 1 moderate). None
-  reach a static site with no server (T2).
+- **`npm audit` reports 8 high advisories**, all in build and local tooling:
+  ESLint's glob matching and the `sharp` inside wrangler's local simulator.
+  npm's suggested fix downgrades both by years. None reach the site (T2).
 - **Live responses carry HSTS and `nosniff` only**, so any site can frame the
   pages (T7).
 - **A manual `npm run deploy` from a Mac publishes `.DS_Store` files** (T3).
@@ -242,15 +243,19 @@ Cheap, and each one protects something already in production.
       itself, since next-intl ships the key path as text, so
       `npm run check:locales` is what catches it. Settings are in
       `cloudflare-setup.md`.
-- [ ] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** We are on 16.2.6, and
-      16.3.8 is the latest release (2026-10-05). None of the 16 audit findings
-      (1 critical, 14 high, 1 moderate) reach the live site: it is static files, with no server, no Server
-      Actions, no middleware and no image optimiser running. They start to matter
-      the day any server code ships, whether that is the form Worker or Vercel.
-      Upgrading is cheapest now, while checking it means building and diffing
-      `out/` against the current build. Read `node_modules/next/dist/docs/` for
-      the new version first, per `AGENTS.md`. Repeat each quarter. Six runtime
-      dependencies don't justify a bot opening PRs.
+- [x] **(S) T2. Upgrade Next to 16.3.x and bump the rest.** *Done 2026-10-08.*
+      Next 16.2.6 → 16.3.8, and everything else to its latest within its major
+      version (next-intl 4.14.9, Tailwind 4.3.3, Radix dialog 1.2.0, wrangler
+      4.148.0). 16.4.0 was two days old with no patches, so it waits for next
+      quarter. `npm audit` went from 16 (1 critical) to 8 high, all tooling.
+      Against the previous build: every page's markup is identical except that
+      the closed menu button no longer carries `aria-controls` (Radix now adds it
+      when the menu opens), screenshots of six pages at two widths match to the
+      pixel, and in-page navigation, tabs and the language switch behave the
+      same. Each page loads 47 KB less JavaScript (about 264 KB → 217 KB gzipped).
+      Repeat each quarter: read `node_modules/next/dist/docs/` for the new
+      version first, per `AGENTS.md`. Six runtime dependencies don't justify a
+      bot opening PRs.
 - [ ] **(S) T3. Keep `.DS_Store` out of deploys.** Add `public/.assetsignore`
       containing `.DS_Store`. The build copies it into `out/`, and Wrangler reads
       it from there. Today `out/` holds four of them, and a manual
