@@ -50,8 +50,6 @@ and the missing pull-request build (T1).
 - **Images are most of the page weight** (P1, P3, P4). Scrolling the whole
   catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
   load the full photo each. The 101 photos come in 20 sizes.
-- **Every page carries all of its locale's text** (P5), all nine legal pages
-  and the copy for all 11 products included.
 - **`npm audit` reports 16 advisories** (1 critical, 14 high, 1 moderate). None
   reach a static site with no server (T2).
 - **Live responses carry HSTS and `nosniff` only**, so any site can frame the
@@ -318,12 +316,15 @@ visitor downloads.
       so about 17% of every 2:3 frame is never seen. Once P3 exists this is mostly
       waiting for the originals. Do it one product at a time, checking each crop
       by eye.
-- [ ] **(S) P5. Send each page only the text it uses.** `[locale]/layout.tsx`
-      hands the whole locale file to `NextIntlClientProvider`. As a result, every
-      product page carries the privacy policy and the copy for all 11 products,
-      both in its HTML and in its React payload. Pass only the namespaces that
-      client components read. Small next to the images, but each page pays it
-      again.
+- [x] **(S) P5. Send each page only the text it uses.** *Done 2026-10-08.*
+      `clientMessages()` in `src/i18n/clientMessages.ts` passes only the seven
+      namespaces client components read; the legal pages, footer and editorial
+      copy now reach the browser only as rendered HTML. Per page, gzipped: HTML
+      22.7 KB → 13.0 KB on average, and the `catalog.txt` a category switch
+      downloads 15 KB → 7 KB. All 47 pages render the same markup as before.
+      Not done: trimming `products` to the one product a page shows. The
+      catalogue cards need all 11 names, so it would take nested providers for
+      about 2 KB more.
 - [ ] **(S) P6. Longer caching for product photos, after P3.** Today `/products/*`
       revalidates on every view (`max-age=0`), on purpose, because a replaced
       photo keeps its filename. If P3 puts a short content hash in the filename,
