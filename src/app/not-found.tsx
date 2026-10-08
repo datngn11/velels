@@ -3,6 +3,7 @@ import Link from "next/link";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { clientMessages } from "@/i18n/clientMessages";
 import { StatusPage } from "@/components/layout/StatusPage";
 
 /**
@@ -32,7 +33,7 @@ export default async function RootNotFound() {
   const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={clientMessages(messages)}>
       {/* Undoes the root layout's correction: this page is served for /en paths too
           but its content is always the default locale, and a wrong `lang` is worse
           than a coarse one. */}

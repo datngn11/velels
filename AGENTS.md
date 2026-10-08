@@ -112,6 +112,10 @@ and a later phase must not be started before its dependency.
   `npm run build` runs it first. A key may be absent from a product in both files
   at once — `fabric`, `hardware` and `length` are read through `tProduct.has()` and
   only some Models carry them. That is parity, not a gap.
+- Client components receive only the namespaces listed in
+  `src/i18n/clientMessages.ts`. A client component that reads any other
+  namespace renders the raw key path, and the build still passes. Add the
+  namespace to that list in the same change.
 - Order Requests are business records. In the full plan they go to Postgres _and_ a
   Telegram notification — never only to a notification. Neither exists yet, and
   lite ships without both.
