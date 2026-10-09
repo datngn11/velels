@@ -18,19 +18,20 @@ Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or mo
 
 ---
 
-## Where things stand, 2026-10-05
+## Where things stand, 2026-10-08
 
 Checked against the code, the live site and `npm audit`. The previous snapshot,
-dated 2026-09-28, is in git history. Fixed since then: the bio link's
-client-side redirect (N), the false copy (C1), reduced motion in scripts (A1)
-and the missing pull-request build (T1).
+dated 2026-10-05, is in git history. Fixed since then: dead code and stale
+comments (D2, D3), unit tests and a type check in the build (D6), the small
+fixes (D4, most of D7, A3, G9), cards that waited for JavaScript (P2), the
+full locale file on every page (P5), the Next upgrade (T2), and `.DS_Store`
+deploys and framing (T3, T7).
 
 **Working.**
 
 - Every page is a static file on a Cloudflare assets-only Worker. Merging into
   `main` deploys it. Every pull request is built first, and a GitHub ruleset
-  will not merge one whose Workers Builds check failed (T1). The latest merge
-  is PR #36.
+  will not merge one whose Workers Builds check failed (T1).
 - `http` and `www` reach the apex in one 301, and `/` reaches `/uk` in one 302,
   both with the query string kept.
 - Canonicals, hreflang, the sitemap (44 URLs) and our own `robots.txt` are
@@ -47,17 +48,13 @@ and the missing pull-request build (T1).
   93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size.
 - **The site states two production times** (C2, B5). The PDP says 2–4 working
   days, the Product JSON-LD 3–5 calendar days.
-- **Images are most of the page weight** (P1, P3, P4). Scrolling the whole
+- **Images are most of the page weight** (P1, P4). Scrolling the whole
   catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
   load the full photo each. The 101 photos come in 20 sizes.
 - **`npm audit` reports 8 high advisories**, all in build and local tooling:
   ESLint's glob matching and the `sharp` inside wrangler's local simulator.
   npm's suggested fix downgrades both by years. None reach the site (T2).
-- **Live responses carry HSTS and `nosniff` only**, so any site can frame the
-  pages (T7).
-- **A manual `npm run deploy` from a Mac publishes `.DS_Store` files** (T3).
-- **The README is the stock `create-next-app` text**, and a few code comments
-  describe things that were removed (D1, D3).
+- **The README is the stock `create-next-app` text** (D1).
 - **The domain renews on 2027-08-28**, confirmed by RDAP (T6).
 
 ---
@@ -188,7 +185,7 @@ No code, but several of them hold up work in other groups.
       items.
 - [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)* Turn on
       Image Transformations for the `velels.com` zone. Until then
-      `/cdn-cgi/image/` returns 404, which blocks P1 and G3. Separately,
+      `/cdn-cgi/image/` returns 404, which blocks P1 and G4. Separately,
       re-export the homepage share image at 1200×630 from the source file.
 - [ ] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *(from
       C3)* Keep them in English, or translate them? Lite L4 records the badge as
@@ -236,8 +233,8 @@ Cheap, and each one protects something already in production.
 
 - [x] **(S) T1. A build on every pull request.** *Done 2026-10-02, PRs #33 and
       #34, in Workers Builds because the account's GitHub Actions are locked.*
-      `npm run build` runs lint, the locale check, `next build` and the Umami
-      check, on every branch and on `main`. A GitHub ruleset on `main` requires
+      `npm run build` runs lint, the type check, the locale check, the unit
+      tests, `next build` and the Umami check, on every branch and on `main`. A GitHub ruleset on `main` requires
       that check, requires a PR and has no bypass; a PR with a failing build was
       shown to be blocked. A one-sided locale key does not fail `next build` by
       itself, since next-intl ships the key path as text, so
@@ -256,22 +253,23 @@ Cheap, and each one protects something already in production.
       Repeat each quarter: read `node_modules/next/dist/docs/` for the new
       version first, per `AGENTS.md`. Six runtime dependencies don't justify a
       bot opening PRs.
-- [ ] **(S) T3. Keep `.DS_Store` out of deploys.** Add `public/.assetsignore`
-      containing `.DS_Store`. The build copies it into `out/`, and Wrangler reads
-      it from there. Today `out/` holds four of them, and a manual
-      `npm run deploy` from a Mac publishes them. Workers Builds runs on Linux
-      and is unaffected.
+- [x] **(S) T3. Keep `.DS_Store` out of deploys.** *Done 2026-10-08.*
+      `public/.assetsignore` lists `.DS_Store`; the build copies it into `out/`,
+      where Wrangler reads it with gitignore rules. Applied to the built `out/`,
+      those rules skip all four `.DS_Store` files and still upload all 101
+      product photos. Only a manual `npm run deploy` from a Mac was affected;
+      Workers Builds builds from git, which never had them.
 - [ ] **(S) T5. Uptime monitor** on `velels.com/uk` and one product URL, on a free
       tier. A static Worker rarely goes down, but a bad deploy or a DNS mistake
       would otherwise surface only when a customer says so.
 - [ ] **(S) T6. Confirm domain auto-renew.** RDAP shows expiry on 2027-08-28.
       Check in Cloudflare Registrar that auto-renew is on and the card on file
       will still be valid then.
-- [ ] **(S) T7. Stop other sites framing ours.** Add
-      `Content-Security-Policy: frame-ancestors 'none'` and
-      `X-Frame-Options: DENY` for `/*` in `public/_headers`. A full CSP is not
-      worth it here: the inline `lang` script and the JSON-LD would need hashes,
-      and the site takes no input.
+- [x] **(S) T7. Stop other sites framing ours.** *Done 2026-10-08.*
+      `public/_headers` sends `Content-Security-Policy: frame-ancestors 'none'`
+      and `X-Frame-Options: DENY` on every path. A full CSP is not worth it
+      here: the inline `lang` script and the JSON-LD would need hashes, and the
+      site takes no input.
 
 ---
 
@@ -302,25 +300,19 @@ visitor downloads.
       With every script removed, no section stays hidden. What was on screen
       at load, and cards a category switch brings in, now appear without the
       fade.
-- [ ] **(S) P3. A script for product photos.** Put the recipe used for Azure
-      (`37887f7`) and Linear (`3f34a26`) into `scripts/`, so the next photo takes
-      one command. The recipe:
-      - Apply the EXIF rotation and convert to sRGB.
-      - Crop to 4:5 and resize to 1167×1459.
-      - Encode WebP at quality 86 with effort 6.
-      - Print the file size, and the SSIM against the source as displayed.
-
-      The crop offset stays a human decision, so the script takes it as an
-      argument and writes a preview to look at. `sharp` is already in
-      `node_modules` through Next.
 - [ ] **(M) P4. Owner: re-encode the set from originals, all at 4:5.** *(from
       L5)* Seventeen photos are over-encoded, and the set comes in 20 sizes.
       Linear now has one 4:5 photo and four 2:3 ones. The Azure re-encode from the
       owner's HEIC files produced smaller files *and* higher SSIM than the shipped
       WebP. The reason is that the carousel shows a 4:5 box with `object-cover`,
-      so about 17% of every 2:3 frame is never seen. Once P3 exists this is mostly
-      waiting for the originals. Do it one product at a time, checking each crop
-      by eye.
+      so about 17% of every 2:3 frame is never seen. Do it one product at a time,
+      checking each crop by eye. Once P1 ships, each file is the master that
+      Cloudflare resizes and re-encodes, so it should be high quality rather than
+      small. Preparing one takes any photo app:
+      - Crop to 4:5 where it looks right. That choice stays human.
+      - Export about 1600–2000 px wide, sRGB, at high quality. HEIC needs
+        converting first; macOS `sips` reads the owner's files where `sharp`
+        could not.
 - [x] **(S) P5. Send each page only the text it uses.** *Done 2026-10-08.*
       `clientMessages()` in `src/i18n/clientMessages.ts` passes only the seven
       namespaces client components read; the legal pages, footer and editorial
@@ -330,11 +322,13 @@ visitor downloads.
       Not done: trimming `products` to the one product a page shows. The
       catalogue cards need all 11 names, so it would take nested providers for
       about 2 KB more.
-- [ ] **(S) P6. Longer caching for product photos, after P3.** Today `/products/*`
+- [ ] **(S) P6. Longer caching for product photos.** Today `/products/*`
       revalidates on every view (`max-age=0`), on purpose, because a replaced
-      photo keeps its filename. If P3 puts a short content hash in the filename,
-      photos can be cached for a year like `/_next/static`. The cost is updating
-      `products.ts` whenever a file changes, and P3 can print the new line.
+      photo keeps its filename. If a replaced photo always gets a new filename,
+      photos can be cached for a year like `/_next/static`. The cost is a rule
+      someone has to remember, and updating `products.ts` with each new name.
+      Decide after P1, once it is clear how Cloudflare caches the resized
+      copies.
 - [ ] **(S) P7. Lighthouse again**, once P1 and P2 ship, against the 2026-09-16
       baseline in L5. Use `--throttling-method=devtools`. After a month, compare
       with Umami's field Core Web Vitals, which count for more than a lab run.
@@ -381,7 +375,7 @@ visitor downloads.
       shouldn't pull hosting along with it.
 - [ ] **(S) G7. Count how often the owner asks for content changes.** Payload is
       in the plan so the owner can edit without a developer. If most requests are
-      photo swaps and copy fixes, P3 plus the PR flow may be enough for a long
+      photo swaps and copy fixes, the PR flow may be enough for a long
       time. If prices and new Models change monthly, the CMS earns its $5 a month
       (Workers Paid, for the bundle size). Decide from the count.
 - [ ] **(M) G8. Preview links the owner can open.** *(from the lite deferred
@@ -490,4 +484,5 @@ unchanged.
 | Dependabot or Renovate | Six runtime dependencies, and every merge deploys. A quarterly manual bump (T2) is less noise |
 | Google Merchant Center | Merchant listings need a purchase on the page (L3). Revisit with the form |
 | A Worker script for the `/` redirect | A dashboard Redirect Rule does the same job with no code (N) |
+| A photo script (was P3) | Once P1 ships, Cloudflare picks the width, quality and format per request, which was most of the script's job. What is left per photo, a 4:5 crop and a high-quality export, is a few clicks in any photo app (P4). Write it if photo changes become frequent |
 | A scheduled rebuild (was T4) | Its only job was clearing the "New" badges, and the owner chose on 2026-10-02 to let them clear with the next merge. A badge shows until the first build on or after `releasedAt` + 60 days, and the build date is UTC, so on that day it takes a build after 03:00 Kyiv time. The five August badges clear with the first merge after that point on 2026-10-11 |

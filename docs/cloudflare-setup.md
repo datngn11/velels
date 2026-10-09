@@ -34,7 +34,12 @@ per file.
   handling. The file comments each setting.
 - **`public/_headers`.** Caches `/_next/static/*` for a year. Everything else,
   photos included, keeps Cloudflare's default `max-age=0` on purpose, because a
-  replaced photo keeps its filename.
+  replaced photo keeps its filename. Every path also gets
+  `Content-Security-Policy: frame-ancestors 'none'` and `X-Frame-Options: DENY`,
+  so no other site can show ours in a frame.
+- **`public/.assetsignore`.** Files Wrangler leaves out of the upload, in
+  gitignore syntax: `.DS_Store`. The build copies it into `out/`, where
+  Wrangler looks for it.
 - **`npm run build`.** The checks live here, so every Workers Builds build runs
   them, on `main` and on every other branch: lint, `npm run typecheck`
   (`tsc --noEmit` over every `.ts` file, tests and scripts included, which
@@ -49,8 +54,8 @@ per file.
 - **`npm run deploy`.** Runs `npm run build && wrangler deploy`, the manual path
   to the same Worker. A local `.env` usually carries neither the Umami id nor
   `NEXT_PUBLIC_ALLOW_INDEXING`, and a manual deploy without them ships no
-  analytics and a `noindex` site. Run from a Mac, it also publishes any
-  `.DS_Store` files that ended up in `out/` (post-launch T3).
+  analytics and a `noindex` site. `.DS_Store` files that end up in `out/`
+  stay behind, through `.assetsignore`.
 
 ---
 
