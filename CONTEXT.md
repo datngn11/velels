@@ -21,10 +21,12 @@ The garment family a Model belongs to: **one-piece**, **two-piece**, or
 **dresses**. Category determines which sizing dimensions apply — most importantly,
 only one-pieces have a Ростовка.
 
-Those three strings are the identifiers, in code and in the `?category=` query
-parameter. Note the plural on `dresses` — it is inconsistent with its two siblings,
-but it is load-bearing in `ProductCategory`, in the `catalog` message keys and in
-public catalogue URLs. Do not "correct" it to `dress`.
+Those three strings are the identifiers in code. Public catalogue URLs use a
+slug per locale instead, in that locale's language (`/uk/catalog/kurortni-sukni`,
+`/en/catalog/resort-dresses`); the old `?category=` links are redirected to them.
+Note the plural on `dresses` — it is inconsistent with its two siblings, but it is
+load-bearing in `ProductCategory`, in the message keys and in those old links. Do
+not "correct" it to `dress`.
 
 ## Standard Size
 

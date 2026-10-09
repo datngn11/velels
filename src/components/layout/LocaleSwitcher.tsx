@@ -3,9 +3,8 @@
 import { Fragment } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
-
-type Locale = (typeof routing.locales)[number];
+import { routing, type Locale } from "@/i18n/routing";
+import { pathInLocale } from "@/lib/data/categories";
 
 /**
  * Each language named in itself, never translated. Someone who cannot read the
@@ -29,7 +28,9 @@ export function LocaleSwitcher() {
             <span className="text-outline-variant/30 text-label-xs">|</span>
           )}
           <button
-            onClick={() => router.replace(pathname, { locale: code })}
+            onClick={() =>
+              router.replace(pathInLocale(pathname, locale, code), { locale: code })
+            }
             aria-current={locale === code ? "true" : undefined}
             className={`text-locale-label transition-all duration-300 pb-1 ${
               locale === code
