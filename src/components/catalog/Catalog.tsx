@@ -1,14 +1,7 @@
-"use client";
-
-import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
-import {
-  products,
-  CATEGORIES,
-  categoryPath,
-  type ProductCategory,
-} from "@/lib/data/products";
+import { Link } from "@/i18n/navigation";
+import { products, type ProductCategory } from "@/lib/data/products";
+import { categoryPath } from "@/lib/data/categories";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
@@ -17,25 +10,13 @@ type FilterTab = "all" | ProductCategory;
 /**
  * The collection page: heading, category tabs, product grid. Without a
  * `category` it is the whole catalogue at `/catalog`; each category has its own
- * prerendered page, and the tabs are links between them.
+ * prerendered page, and the tabs are links between them. A server component, so
+ * the product list stays out of the browser's JavaScript.
  */
-export function CatalogClient({ category }: { category?: ProductCategory }) {
+export function Catalog({ category }: { category?: ProductCategory }) {
   const t = useTranslations("catalog");
   const locale = useLocale();
-  const { replace } = useRouter();
   const activeFilter: FilterTab = category ?? "all";
-
-  // Links to `/catalog?category=…`, from before the category pages, are still
-  // shared. Send them on, keeping any other parameter such as `ref`.
-  useEffect(() => {
-    if (category) return;
-    const params = new URLSearchParams(window.location.search);
-    const legacy = params.get("category") as ProductCategory | null;
-    if (!legacy || !CATEGORIES.includes(legacy)) return;
-    params.delete("category");
-    const rest = params.toString();
-    replace(categoryPath(locale, legacy) + (rest ? `?${rest}` : ""));
-  }, [category, locale, replace]);
 
   const filteredProducts =
     activeFilter === "all"

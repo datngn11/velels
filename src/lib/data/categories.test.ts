@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, categoryFromSlug, categoryPath, pathInLocale } from "./products";
+import { CATEGORIES, categoryFromSlug, categoryPath, categoryPaths, pathInLocale } from "./categories";
 
 describe("category slugs", () => {
   it("round-trip in both locales, with no two categories sharing a slug", () => {
@@ -21,5 +21,12 @@ describe("category slugs", () => {
     expect(pathInLocale("/catalog/bikinis", "en", "uk")).toBe("/catalog/rozdilni-kupalnyky");
     expect(pathInLocale("/catalog", "uk", "en")).toBe("/catalog");
     expect(pathInLocale("/product/azure", "uk", "en")).toBe("/product/azure");
+  });
+
+  it("give each category's path in every locale, for hreflang", () => {
+    expect(categoryPaths("dresses")).toEqual({
+      uk: "/catalog/kurortni-sukni",
+      en: "/catalog/resort-dresses",
+    });
   });
 });

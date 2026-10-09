@@ -654,30 +654,3 @@ export function getProductBySlug(slug: string): Product | undefined {
 export function getAllProductSlugs(): string[] {
   return products.map((p) => p.slug);
 }
-
-/**
- * Category page slugs, in each locale's own language and transliterated, as
- * Google advises. A changed slug breaks shared links and restarts its ranking.
- */
-export const CATEGORY_SLUGS: Record<ProductCategory, Record<"uk" | "en", string>> = {
-  "one-piece": { uk: "sutsilni-kupalnyky", en: "one-piece-swimsuits" },
-  "two-piece": { uk: "rozdilni-kupalnyky", en: "bikinis" },
-  dresses: { uk: "kurortni-sukni", en: "resort-dresses" },
-};
-
-export const CATEGORIES = Object.keys(CATEGORY_SLUGS) as ProductCategory[];
-
-/** Locale-relative, e.g. "/catalog/kurortni-sukni". */
-export function categoryPath(locale: string, category: ProductCategory): string {
-  return `/catalog/${CATEGORY_SLUGS[category][locale as "uk" | "en"]}`;
-}
-
-export function categoryFromSlug(locale: string, slug: string): ProductCategory | undefined {
-  return CATEGORIES.find((c) => CATEGORY_SLUGS[c][locale as "uk" | "en"] === slug);
-}
-
-/** The same page in locale `to`: a category slug is translated, other paths are shared. */
-export function pathInLocale(pathname: string, from: string, to: string): string {
-  const category = categoryFromSlug(from, pathname.replace(/^\/catalog\//, ""));
-  return category ? categoryPath(to, category) : pathname;
-}

@@ -34,7 +34,7 @@ deploys and framing (T3, T7).
   will not merge one whose Workers Builds check failed (T1).
 - `http` and `www` reach the apex in one 301, and `/` reaches `/uk` in one 302,
   both with the query string kept.
-- Canonicals, hreflang, the sitemap (50 URLs) and our own `robots.txt` are
+- Canonicals, hreflang, the sitemap (44 URLs) and our own `robots.txt` are
   correct at the edge.
 - Product JSON-LD says `MadeToOrder`. No stock or sold-out state exists anywhere
   in the UI.
@@ -355,7 +355,7 @@ visitor downloads.
       category is a prerendered page under a slug in its locale's language,
       transliterated, as Google advises: `/uk/catalog/sutsilni-kupalnyky`,
       `rozdilni-kupalnyky` and `kurortni-sukni`, `/en/catalog/one-piece-swimsuits`,
-      `bikinis` and `resort-dresses` (`CATEGORY_SLUGS` in `products.ts`). Each
+      `bikinis` and `resort-dresses` (`src/lib/data/categories.ts`). Each
       has its own title, description, canonical and `<h1>`, carries only its
       own products in the static HTML, and pairs with the other locale's slug
       in hreflang and the sitemap (now 50 URLs). The catalogue tabs and the

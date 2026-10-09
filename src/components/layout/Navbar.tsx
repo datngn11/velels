@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
-import { categoryPath } from "@/lib/data/products";
+import { categoryPath } from "@/lib/data/categories";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { LocaleSwitcher } from "./LocaleSwitcher";

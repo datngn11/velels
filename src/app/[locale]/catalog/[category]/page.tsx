@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CatalogClient } from "@/components/catalog/CatalogClient";
+import { Catalog } from "@/components/catalog/Catalog";
 import { pageMetadata } from "@/lib/seo/openGraph";
+import type { Locale } from "@/i18n/routing";
 import {
   CATEGORIES,
   CATEGORY_SLUGS,
   categoryFromSlug,
-  categoryPath,
-} from "@/lib/data/products";
+  categoryPaths,
+} from "@/lib/data/categories";
 
 type Props = {
   params: Promise<{ locale: string; category: string }>;
@@ -19,7 +20,7 @@ type Props = {
 /** One page per category, under its slug in this locale's language. */
 export function generateStaticParams({ params }: { params: { locale: string } }) {
   return CATEGORIES.map((c) => ({
-    category: CATEGORY_SLUGS[c][params.locale as "uk" | "en"],
+    category: CATEGORY_SLUGS[c][params.locale as Locale],
   }));
 }
 
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return pageMetadata({
     locale,
-    path: { uk: categoryPath("uk", category), en: categoryPath("en", category) },
+    path: categoryPaths(category),
     title: t(`${category}.title`),
     description: t(`${category}.description`),
   });
@@ -52,7 +53,7 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <Navbar />
       <main className="mt-16 md:mt-14 grow w-full">
-        <CatalogClient category={category} />
+        <Catalog category={category} />
       </main>
       <Footer />
     </>

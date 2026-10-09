@@ -1,3 +1,5 @@
+import { routing, type Locale } from "@/i18n/routing";
+
 /** Public brand constants and URL helpers. */
 
 // Set NEXT_PUBLIC_SITE_URL per environment; the default is production so a build
@@ -29,30 +31,31 @@ export function absoluteUrl(path = "/"): string {
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+/** A page's locale-relative path, or one per locale where the slug is translated. */
+export type LocalePath = string | Record<Locale, string>;
+
+/** `path` within `locale`, e.g. "/uk/catalog". */
+function localePath(locale: string, path: LocalePath = ""): string {
+  const p = typeof path === "string" ? path : path[locale as Locale];
+  return `/${locale}${!p || p === "/" ? "" : p.startsWith("/") ? p : `/${p}`}`;
+}
+
 /**
  * Absolute URL for `path` within `locale`. `localePrefix` is "always", so every
  * route carries its locale and there is nothing at `/product/dimaya`.
  */
-export function localeUrl(locale: string, path = ""): string {
-  const suffix = !path || path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
-  return `${siteUrl}/${locale}${suffix}`;
+export function localeUrl(locale: string, path: LocalePath = ""): string {
+  return `${siteUrl}${localePath(locale, path)}`;
 }
 
-/** A page's locale-relative path, or one per locale where the slug is translated. */
-export type LocalePath = string | Record<"uk" | "en", string>;
-
 /**
- * `alternates.languages` for a path that exists in both locales. `x-default` points
- * at Ukrainian: it is the default locale, and `/` is only a client-side redirect
- * stub, which is a poor thing to hand a crawler.
+ * `alternates.languages` for a path that exists in every locale. `x-default` points
+ * at the default locale: `/` is only a client-side redirect stub, which is a poor
+ * thing to hand a crawler.
  */
 export function localeAlternates(path: LocalePath = ""): Record<string, string> {
-  const suffix = (p: string) => (!p || p === "/" ? "" : p.startsWith("/") ? p : `/${p}`);
-  const uk = suffix(typeof path === "string" ? path : path.uk);
-  const en = suffix(typeof path === "string" ? path : path.en);
   return {
-    uk: `/uk${uk}`,
-    en: `/en${en}`,
-    "x-default": `/uk${uk}`,
+    ...Object.fromEntries(routing.locales.map((l) => [l, localePath(l, path)])),
+    "x-default": localePath(routing.defaultLocale, path),
   };
 }

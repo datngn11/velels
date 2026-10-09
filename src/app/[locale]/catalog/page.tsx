@@ -2,7 +2,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { CatalogClient } from "@/components/catalog/CatalogClient";
+import { Catalog } from "@/components/catalog/Catalog";
+import { LegacyCategoryRedirect } from "@/components/catalog/LegacyCategoryRedirect";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo/openGraph";
 
@@ -41,7 +42,8 @@ export default async function CatalogPage({ params }: Props) {
     <>
       <Navbar />
       <main className="mt-16 md:mt-14 grow w-full">
-        <CatalogClient />
+        <LegacyCategoryRedirect />
+        <Catalog />
       </main>
       <Footer />
     </>

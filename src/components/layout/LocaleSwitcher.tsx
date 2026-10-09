@@ -3,10 +3,8 @@
 import { Fragment } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
-import { pathInLocale } from "@/lib/data/products";
-
-type Locale = (typeof routing.locales)[number];
+import { routing, type Locale } from "@/i18n/routing";
+import { pathInLocale } from "@/lib/data/categories";
 
 /**
  * Each language named in itself, never translated. Someone who cannot read the

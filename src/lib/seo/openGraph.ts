@@ -29,7 +29,7 @@ export function pageMetadata({
   image?: string;
   imageAlt?: string;
 }): Metadata {
-  const url = localeUrl(locale, typeof path === "string" ? path : path[locale as "uk" | "en"]);
+  const url = localeUrl(locale, path);
   const socialTitle = `${title} — ${SITE_NAME}`;
 
   return {
