@@ -1,9 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
+import { categoryPath } from "@/lib/data/products";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -15,6 +16,7 @@ const CATALOGUE_MENU = "catalogue";
 export function Navbar() {
   const t = useTranslations("nav");
   const tCatalog = useTranslations("catalog");
+  const locale = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [navMenuValue, setNavMenuValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,15 +74,15 @@ export function Navbar() {
                   <NavigationMenu.Content className="absolute top-full left-0 w-64 bg-surface-container-lowest/95 backdrop-blur-xl border border-outline-variant/30 shadow-xl p-6 flex flex-col gap-4">
                     {[
                       {
-                        href: "/catalog?category=one-piece",
+                        href: categoryPath(locale, "one-piece"),
                         label: t("onePiece"),
                       },
                       {
-                        href: "/catalog?category=two-piece",
+                        href: categoryPath(locale, "two-piece"),
                         label: t("twoPiece"),
                       },
                       {
-                        href: "/catalog?category=dresses",
+                        href: categoryPath(locale, "dresses"),
                         label: t("dresses"),
                       },
                     ].map((item) => (
@@ -239,21 +241,21 @@ export function Navbar() {
                     {tCatalog("all")}
                   </Link>
                   <Link
-                    href="/catalog?category=one-piece"
+                    href={categoryPath(locale, "one-piece")}
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >
                     {t("onePiece")}
                   </Link>
                   <Link
-                    href="/catalog?category=two-piece"
+                    href={categoryPath(locale, "two-piece")}
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >
                     {t("twoPiece")}
                   </Link>
                   <Link
-                    href="/catalog?category=dresses"
+                    href={categoryPath(locale, "dresses")}
                     onClick={() => setMenuOpen(false)}
                     className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
                   >

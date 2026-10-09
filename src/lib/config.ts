@@ -38,16 +38,21 @@ export function localeUrl(locale: string, path = ""): string {
   return `${siteUrl}/${locale}${suffix}`;
 }
 
+/** A page's locale-relative path, or one per locale where the slug is translated. */
+export type LocalePath = string | Record<"uk" | "en", string>;
+
 /**
  * `alternates.languages` for a path that exists in both locales. `x-default` points
  * at Ukrainian: it is the default locale, and `/` is only a client-side redirect
  * stub, which is a poor thing to hand a crawler.
  */
-export function localeAlternates(path = ""): Record<string, string> {
-  const suffix = !path || path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+export function localeAlternates(path: LocalePath = ""): Record<string, string> {
+  const suffix = (p: string) => (!p || p === "/" ? "" : p.startsWith("/") ? p : `/${p}`);
+  const uk = suffix(typeof path === "string" ? path : path.uk);
+  const en = suffix(typeof path === "string" ? path : path.en);
   return {
-    uk: `/uk${suffix}`,
-    en: `/en${suffix}`,
-    "x-default": `/uk${suffix}`,
+    uk: `/uk${uk}`,
+    en: `/en${en}`,
+    "x-default": `/uk${uk}`,
   };
 }

@@ -34,7 +34,7 @@ deploys and framing (T3, T7).
   will not merge one whose Workers Builds check failed (T1).
 - `http` and `www` reach the apex in one 301, and `/` reaches `/uk` in one 302,
   both with the query string kept.
-- Canonicals, hreflang, the sitemap (44 URLs) and our own `robots.txt` are
+- Canonicals, hreflang, the sitemap (50 URLs) and our own `robots.txt` are
   correct at the edge.
 - Product JSON-LD says `MadeToOrder`. No stock or sold-out state exists anywhere
   in the UI.
@@ -101,7 +101,7 @@ Dated, or due because something shipped this week.
       - `size_guide_open` per product page view decides how urgent B1 and B2 are.
       - Country and `/en` share decide B8.
       - The `?ref=story` share says whether stories or the bio bring people in.
-- [ ] **(S) Search Console, first look.** How many of the 44 URLs are indexed,
+- [ ] **(S) Search Console, first look.** How many of the 50 URLs are indexed,
       whether Google accepted the English pages or folded them into the Ukrainian
       ones, and any "Google chose a different canonical" entries.
 
@@ -351,15 +351,18 @@ visitor downloads.
       is the fallback channel B6 asks for. Update the privacy policy in the same
       change: it currently says the site collects nothing, and after this that is
       false.
-- [ ] **(M) G3. Category pages as real routes.** Today
-      `/uk/catalog?category=dresses` declares `/uk/catalog` as its canonical,
-      which is correct for a filter. It also means no page can rank for
-      «суцільні купальники» or «курортні сукні». L4 named `/catalog/[category]` as
-      the better option for search and chose the smaller fix for launch.
-      Prerender one page per category, each with its own title and description,
-      and point the Navbar at them. Keep old `?category=` links working, since
-      they are already shared. This also fixes `LocaleSwitcher` dropping the
-      category when switching language.
+- [x] **(M) G3. Category pages as real routes.** *Done 2026-10-09.* Each
+      category is a prerendered page under a slug in its locale's language,
+      transliterated, as Google advises: `/uk/catalog/sutsilni-kupalnyky`,
+      `rozdilni-kupalnyky` and `kurortni-sukni`, `/en/catalog/one-piece-swimsuits`,
+      `bikinis` and `resort-dresses` (`CATEGORY_SLUGS` in `products.ts`). Each
+      has its own title, description, canonical and `<h1>`, carries only its
+      own products in the static HTML, and pairs with the other locale's slug
+      in hreflang and the sitemap (now 50 URLs). The catalogue tabs and the
+      Navbar are plain links between the pages. The language switch translates
+      the slug. Old `?category=` links are sent on after the page loads,
+      keeping parameters such as `ref`. After the deploy, request indexing for
+      the three Ukrainian category pages in Search Console.
 - [ ] **(M) G4. Landscape share cards per product.** *(from L3)* Blocked on B9, or
       the owner supplies 11 files. A portrait photo in a 1.91:1 card is cut to a
       strip across the middle of the garment. Someone has to choose the crop for

@@ -48,6 +48,11 @@ describe("localeUrl", () => {
       en: "/en/product/azure",
       "x-default": "/uk/product/azure",
     });
+    expect(localeAlternates({ uk: "/catalog/kurortni-sukni", en: "/catalog/resort-dresses" })).toEqual({
+      uk: "/uk/catalog/kurortni-sukni",
+      en: "/en/catalog/resort-dresses",
+      "x-default": "/uk/catalog/kurortni-sukni",
+    });
   });
 
   it("takes the origin from NEXT_PUBLIC_SITE_URL and drops trailing slashes", async () => {

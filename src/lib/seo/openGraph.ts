@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig, localeUrl, localeAlternates } from "@/lib/config";
+import { siteConfig, localeUrl, localeAlternates, type LocalePath } from "@/lib/config";
 
 const SITE_NAME = "VELÉLS";
 
@@ -21,7 +21,7 @@ export function pageMetadata({
 }: {
   locale: string;
   /** Locale-relative, e.g. "/catalog". Pass "" for a homepage. */
-  path: string;
+  path: LocalePath;
   /** Bare, with no " — VELÉLS" suffix. */
   title: string;
   description: string;
@@ -29,7 +29,7 @@ export function pageMetadata({
   image?: string;
   imageAlt?: string;
 }): Metadata {
-  const url = localeUrl(locale, path);
+  const url = localeUrl(locale, typeof path === "string" ? path : path[locale as "uk" | "en"]);
   const socialTitle = `${title} — ${SITE_NAME}`;
 
   return {
