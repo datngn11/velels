@@ -51,6 +51,20 @@
     "dresses": "Dresses",
     "noProducts": "No items found in this category."
   },
+  "categoryPages": {
+    "one-piece": {
+      "title": "One-Piece Swimsuits",
+      "description": "VELÉLS one-piece swimsuits: architectural cutouts, open backs, high-coverage cuts and a convertible style. A Ukrainian brand, every piece made to order."
+    },
+    "two-piece": {
+      "title": "Bikinis",
+      "description": "VELÉLS bikinis: underwired, triangle and moulded-cup tops with high-waisted bottoms. A Ukrainian brand, every piece made to order."
+    },
+    "dresses": {
+      "title": "Lace Resort Dresses",
+      "description": "VELÉLS resort dresses in Chantilly lace, for holidays, evenings by the sea and special occasions. A Ukrainian brand, every dress made to order."
+    }
+  },
   "products": {
     "sectionTitle": "Bestsellers",
     "viewAll": "View All",

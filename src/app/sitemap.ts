@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getAllProductSlugs } from "@/lib/data/products";
-import { localeUrl } from "@/lib/config";
+import { CATEGORIES, categoryPaths } from "@/lib/data/categories";
+import { localeUrl, type LocalePath } from "@/lib/config";
 import { shouldAllowIndexing } from "@/lib/seo/indexing";
 
 /**
@@ -38,9 +39,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Ordered by how much each page is worth to a catalogue arriving from Instagram:
   // products first, then the ways in, then the legal and support pages.
-  const paths: Array<{ path: string; priority: number }> = [
+  const paths: Array<{ path: LocalePath; priority: number }> = [
     { path: "", priority: 1 },
     { path: "/catalog", priority: 0.9 },
+    // Category slugs differ per locale, so each pairs its own two URLs.
+    ...CATEGORIES.map((c) => ({
+      path: categoryPaths(c),
+      priority: 0.9,
+    })),
     ...productSlugs.map((slug) => ({ path: `/product/${slug}`, priority: 0.8 })),
     ...INFO_SLUGS.map((slug) => ({ path: `/info/${slug}`, priority: 0.4 })),
   ];

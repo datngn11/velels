@@ -120,7 +120,7 @@ All cheap now that `basePath` is gone. These are defects, not improvements.
       *Done under lite L2.*
 - [x] **S — Replace the hardcoded "New" badge** (`slug === "lendai"`) with a
       `releasedAt` date so the badge computes itself.
-      → `src/components/catalog/CatalogClient.tsx`
+      → `src/components/catalog/Catalog.tsx`
       *Done under lite L4, 2026-09-08. It compares the build date, so a badge
       clears only when a build runs. A scheduled rebuild was considered and
       dropped: see post-launch, "Considered and not recommended".*
@@ -286,7 +286,7 @@ The core of the release.
       `srcset`. Today it is inert and the attribute is not even rendered.
 
       Only this component is wrong. `ProductGrid` (2 then 4 columns),
-      `CatalogClient` (2, 3, 4), `EditorialFeature` (1 then 2) and
+      `Catalog` (2, 3, 4), `EditorialFeature` (1 then 2) and
       `ImageCarousel` all declare widths matching their grids. Audited
       2026-09-21.
 

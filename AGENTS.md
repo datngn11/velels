@@ -105,8 +105,8 @@ and a later phase must not be started before its dependency.
   next-intl middleware enabled, image optimization on.
 - Product data lives in `src/lib/data/products.ts` (11 products), with per-product
   copy in the `products` namespace of `src/messages/{uk,en}.json`. **The two locale
-  files must stay key-identical** — 279 leaf keys across 12 top-level namespaces,
-  373 counting intermediate objects, verified 2026-10-05. Adding a key to one and
+  files must stay key-identical** — 285 leaf keys across 13 top-level namespaces,
+  383 counting intermediate objects, verified 2026-10-09. Adding a key to one and
   not the other does **not** break the build: next-intl renders the key path on
   the page and `next build` succeeds. `npm run check:locales` catches it, and
   `npm run build` runs it first. A key may be absent from a product in both files
