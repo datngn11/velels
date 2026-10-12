@@ -214,11 +214,12 @@ No code, but several of them hold up work in other groups.
       "Close" and `Size ${size}` are hardcoded English on the Ukrainian site
       (`Navbar.tsx`, `SizeGuideModal.tsx`, `ProductInfo.tsx`). Each needs a key in
       both locale files.
-- [ ] **(S) A5. The toast is silent.** `Toast.tsx` has no `role="status"`, so the
-      "copied" confirmation is never announced. Adding the role is not enough on
-      its own: the component returns `null` while hidden, and a live region that
-      appears together with its text is often not read out. Keep the region
-      mounted and change only its text. See G1 for the larger problem with that
+- [x] **(S) A5. The toast is silent.** *Done 2026-10-12.* `Toast.tsx` now keeps
+      an empty `role="status"` region mounted from page load and puts the
+      "copied" text into it, so screen readers announce it. In headless Chrome
+      the accessibility tree shows the region as polite and atomic before the
+      tap; the same node takes the text, then empties after 3 s. The toast
+      looks the same, pixel for pixel. See G1 for the larger problem with that
       confirmation.
 - [ ] **(S) A6. Owner: a pause control on the hero video.** It loops with no way
       to stop it. That fails WCAG 2.2.2 for visitors who have not set reduced
