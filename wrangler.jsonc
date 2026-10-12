@@ -24,6 +24,13 @@
   // deploy.
   "workers_dev": false,
 
+  // Every branch build gets a link to open on a phone before merge (post-launch
+  // G8): `<branch>-velels.<subdomain>.workers.dev`, posted on the PR. Branch
+  // builds get no build variables, so those pages say `noindex`, keep their
+  // canonical on velels.com and load no analytics. Applied by `wrangler deploy`,
+  // so a change here reaches previews only after it is merged.
+  "preview_urls": true,
+
   // No `main`: this is an assets-only Worker. There is no Worker script, so no
   // code runs on a page view and static-asset requests are free and unlimited.
   "assets": {

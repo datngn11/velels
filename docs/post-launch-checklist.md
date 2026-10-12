@@ -382,11 +382,15 @@ visitor downloads.
       photo swaps and copy fixes, the PR flow may be enough for a long
       time. If prices and new Models change monthly, the CMS earns its $5 a month
       (Workers Paid, for the bundle size). Decide from the count.
-- [ ] **(M) G8. Preview links the owner can open.** *(from the lite deferred
-      table)* The owner can't see a branch before it is merged. Since
-      `workers_dev: false`, version preview URLs return 404 as well. A second
-      Worker with `"routes": []` would give each PR a link to send to the owner,
-      and a `noindex` build keeps it out of search.
+- [ ] **(S) G8. Preview links the owner can open.** *(from the lite deferred
+      table) Shipped 2026-10-12; tick it once the first PR after that shows a
+      working link.* `preview_urls: true` in `wrangler.jsonc` gives every
+      branch build a link, posted on its PR as
+      `<branch>-velels.<subdomain>.workers.dev`. No second Worker was needed.
+      Branch builds get no build variables, so those pages say `noindex`, keep
+      their canonical on `velels.com` and load no analytics. To see a branch the
+      way customers do, send its link to yourself in an Instagram DM and open it
+      there, in Instagram's own browser.
 - [x] **(S) G9. Show the new colour on a phone.** *Done 2026-10-06.* On a phone
       the gallery sits above the swatches, so a colour change happened off
       screen. A swatch tap now brings the gallery up under the navbar, but only
