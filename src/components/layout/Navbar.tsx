@@ -106,7 +106,7 @@ export function Navbar() {
             <Dialog.Trigger asChild>
               <button
                 className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
-                aria-label="Open menu"
+                aria-label={t("openMenu")}
               >
                 <svg
                   width="24"
@@ -168,11 +168,11 @@ export function Navbar() {
       {/* Portal for mobile drawer overlays */}
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/45 z-50 animate-overlay-show md:hidden" />
-        <Dialog.Content className="fixed top-0 left-0 bottom-0 w-[80%] max-w-[360px] bg-surface-container-lowest z-55 shadow-2xl p-8 flex flex-col justify-between animate-drawer-show md:hidden overflow-y-auto">
-          <Dialog.Title className="sr-only">Menu</Dialog.Title>
-          <Dialog.Description className="sr-only">
-            Mobile navigation links
-          </Dialog.Description>
+        <Dialog.Content
+          className="fixed top-0 left-0 bottom-0 w-[80%] max-w-[360px] bg-surface-container-lowest z-55 shadow-2xl p-8 flex flex-col justify-between animate-drawer-show md:hidden overflow-y-auto"
+          aria-describedby={undefined}
+        >
+          <Dialog.Title className="sr-only">{t("menu")}</Dialog.Title>
           <div>
             {/* Drawer Header */}
             <div className="flex justify-between items-center mb-12">
@@ -180,7 +180,7 @@ export function Navbar() {
               <Dialog.Close asChild>
                 <button
                   className="text-primary hover:opacity-70 transition-opacity cursor-pointer"
-                  aria-label="Close menu"
+                  aria-label={t("closeMenu")}
                 >
                   <svg
                     width="24"

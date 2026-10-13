@@ -110,7 +110,7 @@ export function ProductInfo({
                   ? "border-primary text-primary bg-primary/5 font-semibold"
                   : "border-outline-variant text-secondary hover:border-primary hover:text-primary"
               }`}
-              aria-label={`Size ${size}`}
+              aria-label={`${t("size")} ${size}`}
             >
               {size}
             </button>

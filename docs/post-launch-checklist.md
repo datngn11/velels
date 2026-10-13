@@ -210,10 +210,15 @@ No code, but several of them hold up work in other groups.
       links, and the toggle carries `aria-expanded`. Checked in headless Chrome:
       collapsed, Tab goes from the toggle straight to «Про бренд»; open, it
       walks «Усі» and the three categories.
-- [ ] **(S) A4. Ukrainian labels for four controls.** "Open menu", "Close menu",
-      "Close" and `Size ${size}` are hardcoded English on the Ukrainian site
-      (`Navbar.tsx`, `SizeGuideModal.tsx`, `ProductInfo.tsx`). Each needs a key in
-      both locale files.
+- [x] **(S) A4. Ukrainian labels for four controls.** *Done 2026-10-13.* The
+      menu button, the drawer's title and close button, the size guide's close
+      button and the size buttons now read «Відкрити меню», «Меню», «Закрити
+      меню», «Закрити» and «Розмір S» on the Ukrainian site. The size buttons
+      reuse `productDetail.size`; the others are new keys in `nav` and
+      `productDetail`. The drawer's English description, "Mobile navigation
+      links", only repeated its title and is gone. Checked in Chrome's
+      accessibility tree at phone width in both locales; the pages look the same,
+      pixel for pixel.
 - [x] **(S) A5. The toast is silent.** *Done 2026-10-12.* `Toast.tsx` now keeps
       an empty `role="status"` region mounted from page load and puts the
       "copied" text into it, so screen readers announce it. In headless Chrome

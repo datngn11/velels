@@ -77,7 +77,7 @@ export function SizeGuideModal({
             <Dialog.Close asChild>
               <button
                 className="text-primary hover:opacity-50 transition-opacity cursor-pointer p-1"
-                aria-label="Close"
+                aria-label={t("close")}
               >
                 <svg
                   width="22"
