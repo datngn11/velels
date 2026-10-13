@@ -210,10 +210,15 @@ No code, but several of them hold up work in other groups.
       links, and the toggle carries `aria-expanded`. Checked in headless Chrome:
       collapsed, Tab goes from the toggle straight to «Про бренд»; open, it
       walks «Усі» and the three categories.
-- [ ] **(S) A4. Ukrainian labels for four controls.** "Open menu", "Close menu",
-      "Close" and `Size ${size}` are hardcoded English on the Ukrainian site
-      (`Navbar.tsx`, `SizeGuideModal.tsx`, `ProductInfo.tsx`). Each needs a key in
-      both locale files.
+- [x] **(S) A4. Ukrainian labels for four controls.** *Done 2026-10-13.* The
+      menu button, the drawer's title and close button, the size guide's close
+      button and the size buttons now read «Відкрити меню», «Меню», «Закрити
+      меню», «Закрити» and «Розмір S» on the Ukrainian site. The size buttons
+      reuse `productDetail.size`; the others are new keys in `nav` and
+      `productDetail`. The drawer's English description, "Mobile navigation
+      links", only repeated its title and is gone. Checked in Chrome's
+      accessibility tree at phone width in both locales; the pages look the same,
+      pixel for pixel.
 - [x] **(S) A5. The toast is silent.** *Done 2026-10-12.* `Toast.tsx` now keeps
       an empty `role="status"` region mounted from page load and puts the
       "copied" text into it, so screen readers announce it. In headless Chrome
@@ -382,11 +387,12 @@ visitor downloads.
       photo swaps and copy fixes, the PR flow may be enough for a long
       time. If prices and new Models change monthly, the CMS earns its $5 a month
       (Workers Paid, for the bundle size). Decide from the count.
-- [ ] **(S) G8. Preview links the owner can open.** *(from the lite deferred
-      table) Shipped 2026-10-12; tick it once the first PR after that shows a
-      working link.* `preview_urls: true` in `wrangler.jsonc` gives every
-      branch build a link, posted on its PR as
-      `<branch>-velels.<subdomain>.workers.dev`. No second Worker was needed.
+- [x] **(S) G8. Preview links the owner can open.** *(from the lite deferred
+      table) Done 2026-10-13; the first link came with PR #50.*
+      `preview_urls: true` in `wrangler.jsonc` gives every branch build a link,
+      posted on its PR as `<branch>-velels.datngn11.workers.dev`, plus one per
+      commit. No second Worker was needed. Cloudflare also sends
+      `X-Robots-Tag: noindex` on these hosts.
       Branch builds get no build variables, so those pages say `noindex`, keep
       their canonical on `velels.com` and load no analytics. To see a branch the
       way customers do, send its link to yourself in an Instagram DM and open it

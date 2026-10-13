@@ -80,9 +80,10 @@ command. Every other branch runs the version command, which uploads a Worker
 version without sending it traffic. `preview_urls: true` gives that version a
 public link even though `workers_dev` is off (post-launch G8): Workers Builds
 posts a branch link, `<branch>-velels.<subdomain>.workers.dev`, and a link for
-the commit on the PR. The live site still has no `workers.dev` copy. Wrangler
-applies the setting on `wrangler deploy`, so a change to it reaches previews only
-after the `main` deploy that carries it.
+the commit on the PR, on the account subdomain `datngn11.workers.dev`.
+Cloudflare sends `X-Robots-Tag: noindex` on those hosts. The live site still has
+no `workers.dev` copy. Wrangler applies the setting on `wrangler deploy`, so a
+change to it reaches previews only after the `main` deploy that carries it.
 
 Branch builds get **none** of the build variables (seen on the first one,
 2026-10-02). They build `noindex` with no analytics, and that is what makes a

@@ -32,7 +32,10 @@
     "onePiece": "One-Pieces",
     "twoPiece": "Bikinis",
     "dresses": "Dresses",
-    "about": "Our Story"
+    "about": "Our Story",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "hero": {
     "title": "VELÉLS",
@@ -196,7 +199,8 @@
     "bust": "Bust",
     "waist": "Waist",
     "hips": "Hips",
-    "sizeGuideHelp": "If you are between two sizes, send us a message on Instagram and we will help you choose the perfect size."
+    "sizeGuideHelp": "If you are between two sizes, send us a message on Instagram and we will help you choose the perfect size.",
+    "close": "Close"
   },
   "footer": {
     "copyright": "© 2026 VELÉLS",
