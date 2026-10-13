@@ -387,11 +387,12 @@ visitor downloads.
       photo swaps and copy fixes, the PR flow may be enough for a long
       time. If prices and new Models change monthly, the CMS earns its $5 a month
       (Workers Paid, for the bundle size). Decide from the count.
-- [ ] **(S) G8. Preview links the owner can open.** *(from the lite deferred
-      table) Shipped 2026-10-12; tick it once the first PR after that shows a
-      working link.* `preview_urls: true` in `wrangler.jsonc` gives every
-      branch build a link, posted on its PR as
-      `<branch>-velels.<subdomain>.workers.dev`. No second Worker was needed.
+- [x] **(S) G8. Preview links the owner can open.** *(from the lite deferred
+      table) Done 2026-10-13; the first link came with PR #50.*
+      `preview_urls: true` in `wrangler.jsonc` gives every branch build a link,
+      posted on its PR as `<branch>-velels.datngn11.workers.dev`, plus one per
+      commit. No second Worker was needed. Cloudflare also sends
+      `X-Robots-Tag: noindex` on these hosts.
       Branch builds get no build variables, so those pages say `noindex`, keep
       their canonical on `velels.com` and load no analytics. To see a branch the
       way customers do, send its link to yourself in an Instagram DM and open it
