@@ -63,15 +63,17 @@ deploys and framing (T3, T7).
 
 Dated, or due because something shipped this week.
 
-- [ ] **(S) Re-scrape share previews and request reindexing.** *(from L3 and L8)*
-      PR #30 changed every product title and alt on 2026-09-28, and C1 changed
-      copy again on 2026-10-02. Paste a product link and the homepage into the apps people actually share links
-      in: Telegram, Instagram DM, Viber and WhatsApp. Viber is on the list because
-      so many Ukrainian customers use it. Product `og:image` files are WebP, so
-      check that each app actually draws the image. Run the homepage and one
-      product through Facebook's Sharing Debugger, which also refreshes
-      Facebook's cache. In Search Console, request indexing for the 11 Ukrainian
-      product URLs.
+- [x] **(S) Re-scrape share previews and request reindexing.** *(from L3 and L8)
+      Done 2026-10-15.* PR #30 changed every product title and alt on
+      2026-09-28, and C1 changed copy again on 2026-10-02. In Telegram and
+      Instagram DM, the homepage and Lunar both show the current title and the
+      WebP photo. Instagram shows no description, which is normal for it. One
+      product stands for all 11, since every product page builds its preview the
+      same way. Viber and WhatsApp were skipped: the owner says customers don't
+      use them. The Sharing Debugger was skipped too, since Instagram already
+      shows the fresh preview. In Search Console, indexing was requested on
+      2026-10-12 and 13 for 16 Ukrainian pages: `/uk`, `/uk/catalog`, the 3
+      category pages and the 11 products. The limit for velels.com was 12 a day.
 - [x] **(S) Redirect `/` at the edge.** *Done 2026-09-30.* A Cloudflare Redirect
       Rule sends `/` to `/uk` with a 302 before any page loads ("Root to /uk" in
       `cloudflare-setup.md`). `RootRedirect` stays as the fallback. For the
