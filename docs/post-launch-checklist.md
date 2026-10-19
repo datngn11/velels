@@ -203,10 +203,14 @@ No code, but several of them hold up work in other groups.
       reduced-motion reset. In headless Chrome, under reduced motion, a far
       thumbnail tap and a `#collection` click now arrive in one frame; the old
       code passed through 57 and 25 positions.
-- [ ] **(S) A2. Selected state is visual only.** No `aria-pressed` or
-      `aria-current` on the size and colour buttons, the catalogue filters, the
-      size-guide tabs or the gallery thumbnails. A screen-reader user can't tell
-      which size she has chosen before she opens Instagram.
+- [x] **(S) A2. Selected state is visual only.** *Done 2026-10-16.* The size
+      and colour buttons and the size-guide tabs carry `aria-pressed`, and the
+      gallery thumbnails `aria-current`, so a screen reader says which size she
+      has chosen before she opens Instagram. The catalogue filters already had
+      `aria-current="page"` from G3. Checked in Chrome's accessibility tree at
+      phone width: the state follows each tap, a swipe of the gallery moves the
+      current thumbnail, and the page looks the same. VoiceOver and TalkBack
+      still need a real phone.
 - [x] **(S) A3. Mobile drawer.** *Done 2026-10-06, found again by CodeRabbit on
       PR #40.* The collapsed catalogue list is now `inert`, so Tab skips its
       links, and the toggle carries `aria-expanded`. Checked in headless Chrome:

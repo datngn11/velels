@@ -89,6 +89,7 @@ export function ImageCarousel({
                 : "opacity-60 border-transparent hover:opacity-90"
             }`}
             aria-label={t("showImage", { n: i + 1 })}
+            aria-current={i === activeIndex ? "true" : undefined}
           >
             {/* Empty alt: the button's label already names it, and a second
                 name would be read twice. */}

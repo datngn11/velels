@@ -101,6 +101,7 @@ export function SizeGuideModal({
           <div className="flex gap-6 border-b border-outline-variant/20 mb-6">
             <button
               onClick={() => setSelectedTab("swimwear")}
+              aria-pressed={activeTab === "swimwear"}
               className={`pb-2.5 text-label-md transition-all cursor-pointer ${
                 activeTab === "swimwear"
                   ? "text-primary border-b-2 border-primary font-medium"
@@ -111,6 +112,7 @@ export function SizeGuideModal({
             </button>
             <button
               onClick={() => setSelectedTab("dresses")}
+              aria-pressed={activeTab === "dresses"}
               className={`pb-2.5 text-label-md transition-all cursor-pointer ${
                 activeTab === "dresses"
                   ? "text-primary border-b-2 border-primary font-medium"
