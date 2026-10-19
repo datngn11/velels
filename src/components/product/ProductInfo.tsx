@@ -77,6 +77,7 @@ export function ProductInfo({
                       : "border-outline-variant/60 hover:border-primary"
                   }`}
                   aria-label={colorLabel}
+                  aria-pressed={isSelected}
                   title={colorLabel}
                 />
               );
@@ -111,6 +112,7 @@ export function ProductInfo({
                   : "border-outline-variant text-secondary hover:border-primary hover:text-primary"
               }`}
               aria-label={`${t("size")} ${size}`}
+              aria-pressed={selectedSize === size}
             >
               {size}
             </button>
