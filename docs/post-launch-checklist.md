@@ -232,10 +232,6 @@ No code, but several of them hold up work in other groups.
       tap; the same node takes the text, then empties after 3 s. The toast
       looks the same, pixel for pixel. See G1 for the larger problem with that
       confirmation.
-- [ ] **(S) A6. Owner: a pause control on the hero video.** It loops with no way
-      to stop it. That fails WCAG 2.2.2 for visitors who have not set reduced
-      motion. A small pause button in a corner is the usual answer, and the owner
-      should see it before it ships.
 
 ---
 
@@ -415,8 +411,8 @@ visitor downloads.
 
 ## D. Code and docs debt, low priority
 
-- [ ] **(S) D1. Rewrite the README.** Replace the `create-next-app` text with what
-      someone new needs:
+- [x] **(S) D1. Rewrite the README.** *Done 2026-10-19.* Replace the
+      `create-next-app` text with what someone new needs:
       - how to run the site locally
       - that a push to `main` deploys
       - the three build variables (`NEXT_PUBLIC_SITE_URL`,
@@ -505,4 +501,5 @@ unchanged.
 | Google Merchant Center | Merchant listings need a purchase on the page (L3). Revisit with the form |
 | A Worker script for the `/` redirect | A dashboard Redirect Rule does the same job with no code (N) |
 | A photo script (was P3) | Once P1 ships, Cloudflare picks the width, quality and format per request, which was most of the script's job. What is left per photo, a 4:5 crop and a high-quality export, is a few clicks in any photo app (P4). Write it if photo changes become frequent |
+| A pause button on the hero video (was A6) | By the letter the phone hero fails WCAG 2.2.2, Level A: it starts on its own, loops, and sits under the title. Decided 2026-10-19 to leave it. No law reaches a shop this size: Ukraine's bill 14278 is still a draft and leaves out small businesses, and the EU act exempts microenterprises. It has no effect on search, and a visitor with Reduce Motion on already gets the still photo. Of 10 big brands checked that day at phone size, 4 had no pause button, Burberry and Rolex among them. Revisit if the law changes |
 | A scheduled rebuild (was T4) | Its only job was clearing the "New" badges, and the owner chose on 2026-10-02 to let them clear with the next merge. A badge shows until the first build on or after `releasedAt` + 60 days, and the build date is UTC, so on that day it takes a build after 03:00 Kyiv time. The five August badges clear with the first merge after that point on 2026-10-11 |
