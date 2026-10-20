@@ -1,46 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VELÉLS
 
-## Getting Started
+The catalogue site for VELÉLS swimwear, live at [velels.com](https://velels.com)
+in Ukrainian and English. There is no cart and no order form. A customer picks a
+Model, colour and size, and the order button opens Instagram Direct with the
+message copied, ready to paste.
 
-First, run the development server:
+It is a static Next.js 16 export (`output: "export"`) with next-intl, Tailwind 4
+and Radix, served by Cloudflare as a Worker with static assets only. No server
+code runs on a page view.
+
+## Run it locally
+
+You need Node 22, pinned in `.nvmrc`.
 
 ```bash
+nvm use
+npm ci
+cp .env.example .env
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs at http://localhost:3000 and sends `/` on to `/uk`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`npm run build` runs every check a deploy runs: lint, the type check, the locale
+check, the unit tests, `next build` and the Umami check. Any failure stops a
+deploy, so run it before you open a pull request. The built site lands in
+`out/`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How a change ships
 
-## Environment variables
+1. Make a branch and open a pull request. `main` is protected, so a pull request
+   is the only way in.
+2. Cloudflare Workers Builds builds the branch and posts two things on the pull
+   request: a check that has to pass before merging, and a preview link,
+   `<branch>-velels.datngn11.workers.dev`. Open the link on a phone, since most
+   customers use one. Preview pages say `noindex` and load no analytics.
+3. Merge. Cloudflare builds `main` and deploys it to velels.com a few minutes
+   later.
 
-`.env` is gitignored, so these are set per environment — locally, and on the
-host once the Vercel migration lands.
+Don't use `npm run deploy` unless Workers Builds is down. It deploys from your
+machine with whatever your `.env` holds, and without the variables below the
+live site goes `noindex` with no analytics.
 
-| Variable | Effect |
-| --- | --- |
-| `NEXT_PUBLIC_ALLOW_INDEXING` | `"true"` allows search engines to index the build. **Anything else — unset included — emits `noindex, nofollow` on every route.** Indexing is opt-in on purpose: the GitHub Pages build declares a canonical pointing at `velels.com`, so an accidentally indexed preview competes with production. Set it only on the production deployment. |
-| `NEXT_PUBLIC_BASE_PATH` | Overrides the `/velels` GitHub Pages subpath. Set to `""` for a custom domain. Removed in Phase 1 of [the release checklist](./docs/release-checklist.md). |
+[`docs/cloudflare-setup.md`](docs/cloudflare-setup.md) records the dashboard
+settings behind all this.
 
-## Learn More
+## Build variables
 
-To learn more about Next.js, take a look at the following resources:
+Three variables, set in the Cloudflare dashboard under the Worker's Settings →
+Builds → Variables and secrets. Only `main` builds receive them. `next build`
+writes each value into the HTML, so a change reaches the site with the next
+build.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | What it does | When it is missing |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | The origin used in canonicals, share previews and the sitemap | The code uses `https://velels.com` |
+| `NEXT_PUBLIC_ALLOW_INDEXING` | `true` lets search engines index the site | Every page says `noindex` |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | The site id from the Umami dashboard | No analytics load. A `main` build fails rather than ship without it |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Never put them under the Worker's own Variables and Secrets. Those are runtime
+variables, this Worker runs no code, and a value there does nothing.
 
-## Deploy on Vercel
+## Photos and video
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The repo holds only the files the site serves, in `public/products/` and
+`public/hero/`. The originals are not in it: the owner's HEIC photos of each
+Model, and the master of the phone hero video, `hero_mobile_master.MP4`. The
+owner has the photos, and the developer keeps a copy of both.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Before you change anything
+
+- [`AGENTS.md`](AGENTS.md) has the project rules and a list of things not to
+  build.
+- [`CONTEXT.md`](CONTEXT.md) is the glossary. An Order Request is not an Order.
+- [`docs/post-launch-checklist.md`](docs/post-launch-checklist.md) is the task
+  list.
+- [`docs/cloudflare-setup.md`](docs/cloudflare-setup.md) covers hosting and
+  deploys.
+
+Two rules get broken most often. There is no stock: every garment is sewn after
+the order, so never add stock counts or sold-out states. And
+`prefers-reduced-motion` applies to JavaScript as well as CSS.
