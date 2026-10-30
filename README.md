@@ -64,9 +64,10 @@ variables, this Worker runs no code, and a value there does nothing.
 ## Photos and video
 
 The repo holds only the files the site serves, in `public/products/` and
-`public/hero/`. The originals are not in it: the owner's HEIC photos of each
-Model, and the master of the phone hero video, `hero_mobile_master.MP4`. The
-owner has the photos, and the developer keeps a copy of both.
+`public/hero/`. The originals are not in it. The owner sends them to the
+developer in a Telegram chat: HEIC photos of each Model, and the master of the
+phone hero video, `hero_mobile_master.MP4`. Ask for them as files, because
+Telegram compresses anything sent as a photo or a video.
 
 ## Before you change anything
 
