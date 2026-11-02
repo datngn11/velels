@@ -18,14 +18,13 @@ Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or mo
 
 ---
 
-## Where things stand, 2026-10-08
+## Where things stand, 2026-11-02
 
-Checked against the code, the live site and `npm audit`. The previous snapshot,
-dated 2026-10-05, is in git history. Fixed since then: dead code and stale
-comments (D2, D3), unit tests and a type check in the build (D6), the small
-fixes (D4, most of D7, A3, G9), cards that waited for JavaScript (P2), the
-full locale file on every page (P5), the Next upgrade (T2), and `.DS_Store`
-deploys and framing (T3, T7).
+Checked against the code, the live site, Search Console, Umami and `npm audit`.
+The previous snapshot, dated 2026-10-08, is in git history. Done since then:
+category pages (G3), screen-reader fixes (A2, A4, A5), preview links (G8), the
+README (D1), fresh share previews (N), the first read of Umami and Search
+Console (N), Next 16.4.3 (T8) and a header landmark (A7). The uptime monitor (T5) and the paste hint (G1) were declined.
 
 **Working.**
 
@@ -34,16 +33,27 @@ deploys and framing (T3, T7).
   will not merge one whose Workers Builds check failed (T1).
 - `http` and `www` reach the apex in one 301, and `/` reaches `/uk` in one 302,
   both with the query string kept.
-- Canonicals, hreflang, the sitemap (44 URLs) and our own `robots.txt` are
-  correct at the edge.
+- Canonicals, hreflang, the sitemap (50 URLs) and our own `robots.txt` are
+  correct at the edge. Google has indexed 37 of the 50, the English pages as
+  pages of their own.
 - Product JSON-LD says `MadeToOrder`. No stock or sold-out state exists anywhere
   in the UI.
-- Umami loads on every page.
+- Umami loads on every page, and the order button's event records (tested
+  2026-10-30).
+- On real phones the main image appears in 0.8 s at the 75th percentile (Umami,
+  2026-09-22 to 2026-10-30). Google's "good" is under 2.5 s.
 - `/_next/static` is cached for a year, and a stray URL returns a real 404.
 - The Direct handoff worked in the Instagram in-app browser on 2026-09-22.
 
 **Still open.**
 
+- **Nobody taps the order button.** Of 256 real visitors who opened a product
+  page from 2026-09-22 to 2026-10-30, none tapped it. Customers write from the
+  Instagram profile instead, so only the owner's weekly log (N) can count
+  orders, and it has not started.
+- **Google sends almost no one.** 3 clicks in five weeks, and the category
+  pages sit around position 62. The plan is in [`seo-plan.md`](./seo-plan.md)
+  (G10).
 - **The dress chart has gaps in all three measurements** (B1). Bust 85, 89 and
   93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size.
 - **The site states two production times** (C2, B5). The PDP says 2–4 working
@@ -51,10 +61,9 @@ deploys and framing (T3, T7).
 - **Images are most of the page weight** (P1, P4). Scrolling the whole
   catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
   load the full photo each. The 101 photos come in 20 sizes.
-- **`npm audit` reports 8 high advisories**, all in build and local tooling:
-  ESLint's glob matching and the `sharp` inside wrangler's local simulator.
-  npm's suggested fix downgrades both by years. None reach the site (T2).
-- **The README is the stock `create-next-app` text** (D1).
+- **`npm audit` flags 21 packages, 5 high**, all build and local tooling:
+  ESLint and wrangler with its simulator. None reach the site. Next's critical
+  advisories went with the 16.4.3 upgrade (T8).
 - **The domain renews on 2027-08-28**, confirmed by RDAP (T6).
 
 ---
@@ -86,26 +95,38 @@ Dated, or due because something shipped this week.
       the size-guide dialog.
 - [ ] **(S) Owner: start the weekly log.** *(from L7)* One row per week with DMs
       that came from the site, orders confirmed, parcels not collected, and size
-      exchanges. Site DMs are easy to recognise: the prefilled message opens with
-      «Вітаю!» and names model, colour and size. Customers who type their own
-      message will be missed, so the count is a floor. Umami shows how many people
-      tap the button, but only this log shows how many actually write and how many
-      buy.
+      exchanges. Nobody taps the order button (see the first read below), so
+      the prefilled «Вітаю!» message will not appear. Count every DM and order
+      instead, and note when a customer mentions the site or sends a link or
+      screenshot from it. Umami cannot see any of this.
 - [ ] **(S) Owner: tag the story links `?ref=story`.** *(from L3)* Leave the bio
       link bare. Without the tag, story and bio traffic look identical in Umami.
-- [ ] **(S) First read of the numbers, around 2026-10-06.** Two weeks of Umami
-      plus the weekly log. Each number below settles a decision further down this
-      document:
-      - Product page views and `ig_dm_click` per product decide what to
-        photograph next.
-      - `ig_dm_click` with `size=none`: a high share means people want to ask
-        before choosing a size, and the DM is doing that job.
-      - `size_guide_open` per product page view decides how urgent B1 and B2 are.
-      - Country and `/en` share decide B8.
-      - The `?ref=story` share says whether stories or the bio bring people in.
-- [ ] **(S) Search Console, first look.** How many of the 50 URLs are indexed,
-      whether Google accepted the English pages or folded them into the Ukrainian
-      ones, and any "Google chose a different canonical" entries.
+      No tagged visit had arrived by 2026-10-30.
+- [x] **(S) First read of the numbers.** *Done 2026-10-30, from the Umami
+      export for 2026-09-22 to 2026-10-30, without Vietnam (the developer).*
+      511 visitors, 546 visits and 1,649 page views; 94% of page views on
+      phones, 64% inside Instagram's own browser. The weekly log has not
+      started, so orders are unknown. Each number and what it settles:
+      - Product page visitors: Lunar 110, Dimaya 49, Azure 43, Lendai 40,
+        Noblesse 31, Linear 30, then 16 or fewer. Lunar draws twice any other
+        Model; the two-pieces Lauri, Naevi and Glacier draw the least.
+      - `ig_dm_click`: none from customers, though the event works. The
+        `size=none` question cannot be answered.
+      - `size_guide_open`: 29 opens from 256 product-page visitors, 10 of them
+        on the dresses. B1 matters.
+      - `/en` is 4% of page views. Ukraine is 72% of visitors, the US 11%. That
+        is under B8's 5% line.
+      - `?ref=story`: never seen. The bio link brought 61% of visits, other
+        Instagram and Facebook links 16%, Google 3 visits.
+- [x] **(S) Search Console, first look.** *Done 2026-10-30.* 37 of the 50 URLs
+      are indexed. Google kept the English pages as pages of their own and
+      reports no "chose a different canonical" entries. The 6 "Excluded by
+      noindex" pages are an old copy from before indexing was switched on;
+      validation was started. 7 pages are discovered but not yet fetched: six
+      English (`/en/catalog/one-piece-swimsuits`, `/en/info/about`,
+      `/en/info/contact`, and Glacier, Lauri and Laydee) and `/uk/info/privacy`.
+      Requesting them by hand is optional, since English is 4% of visits. What
+      to do about the low positions is in [`seo-plan.md`](./seo-plan.md).
 
 ---
 
@@ -147,7 +168,8 @@ No code, but several of them hold up work in other groups.
       While you're at it, confirm two swimwear values: L hips are 95–100, a 5 cm
       band where every other size has 4, and dress L bust is 94–98 where the
       other sizes span 2 cm. Either could be a typo. Changing the chart takes
-      five minutes once the numbers are settled.
+      five minutes once the numbers are settled. Lunar is the most visited
+      Model, and 10 of the 29 size-guide opens to 2026-10-30 were on dresses.
 - [ ] **(S) B2. Owner: height ranges per size.** *(from L0)* The direct
       competitor's size guide has a height column and ours does not.
 - [ ] **(M) B3. Owner: model height and size on every photo.** The full plan
@@ -184,14 +206,21 @@ No code, but several of them hold up work in other groups.
       country data. If `/en` is under roughly 5% of visits, stop spending on it:
       the approximate currency, the English 404 copy and the Ukrainian wording on
       international orders can all wait. If it is higher, those three become real
-      items.
+      items. *2026-10-30:* `/en` was 4% of page views over five weeks, so the
+      numbers say stop. The owner confirms.
 - [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)* Turn on
       Image Transformations for the `velels.com` zone. Until then
       `/cdn-cgi/image/` returns 404, which blocks P1 and G4. Separately,
       re-export the homepage share image at 1200×630 from the source file.
+      And a smaller logo: `public/logo_black.png` is 1326×499 (50 KB) for a
+      128×48 slot on every page. An SVG, or a PNG about 384 px wide
+      (`seo-plan.md` item 12).
 - [ ] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *(from
       C3)* Keep them in English, or translate them? Lite L4 records the badge as
       translated, but `uk.json` says «New».
+- [ ] **(S) B11. Owner: approve the category intro sentences.** Three drafts,
+      one per category page, are in `seo-plan.md` item 7. They give Google a
+      sentence to quote under the category result.
 
 ---
 
@@ -230,8 +259,16 @@ No code, but several of them hold up work in other groups.
       "copied" text into it, so screen readers announce it. In headless Chrome
       the accessibility tree shows the region as polite and atomic before the
       tap; the same node takes the text, then empties after 3 s. The toast
-      looks the same, pixel for pixel. See G1 for the larger problem with that
-      confirmation.
+      looks the same, pixel for pixel.
+- [x] **(S) A7. The site header is a `<nav>`.** *Done 2026-11-02.*
+      `Navbar.tsx` wrapped the logo, the links and the menu button in
+      `<nav id="top-nav">`, so no page had a `<header>` landmark, and on desktop
+      Radix's menu inside it was labelled "Main" in English on the Ukrainian
+      site too. The outer element is now `<header id="top-nav">`, and the menu
+      reads `nav.mainNav`: «Основна» and "Main". In Chrome's accessibility tree
+      the page now starts with a banner at phone and desktop width, and the
+      desktop menu is named «Основна» on `/uk`. Screenshots of eight pages at
+      both widths match the build before, pixel for pixel with photos hidden.
 
 ---
 
@@ -267,9 +304,6 @@ Cheap, and each one protects something already in production.
       those rules skip all four `.DS_Store` files and still upload all 101
       product photos. Only a manual `npm run deploy` from a Mac was affected;
       Workers Builds builds from git, which never had them.
-- [ ] **(S) T5. Uptime monitor** on `velels.com/uk` and one product URL, on a free
-      tier. A static Worker rarely goes down, but a bad deploy or a DNS mistake
-      would otherwise surface only when a customer says so.
 - [ ] **(S) T6. Confirm domain auto-renew.** RDAP shows expiry on 2027-08-28.
       Check in Cloudflare Registrar that auto-renew is on and the card on file
       will still be valid then.
@@ -278,6 +312,20 @@ Cheap, and each one protects something already in production.
       and `X-Frame-Options: DENY` on every path. A full CSP is not worth it
       here: the inline `lang` script and the JSON-LD would need hashes, and the
       site takes no input.
+- [x] **(S) T8. Next 16.4.3.** *Done 2026-11-02.* `npm audit` rated Next
+      16.3.8 critical, for the image optimisation API, Server Actions and
+      `use cache`. The site uses none of them, being a static export with
+      unoptimised images, so nothing reached visitors. Next and
+      `eslint-config-next` 16.3.8 → 16.4.3, the current release, ten days old.
+      The bundled docs show no change that touches a static export. Against
+      the 16.3.8 build: all 53 pages carry the same markup and text, the
+      sitemap, `robots.txt` and manifest are identical, and total JavaScript is
+      the same 225 KB gzipped. What differs is shorter font class names, one
+      script file fewer per page and a small inline list of script files.
+      Screenshots of eight pages at phone width match pixel for pixel with
+      photos hidden, the same fonts load, and a size tap, the size guide, the
+      catalogue tabs and the menu work with no console errors. `npm audit`:
+      22 packages (1 critical) → 21 (none critical), all tooling.
 
 ---
 
@@ -345,14 +393,6 @@ visitor downloads.
 
 ## G. Growth: conversion, search and the next features
 
-- [ ] **(S) G1. Tell the visitor to paste.** Direct is the only purchase path.
-      The DM link cannot carry text, so the button copies the message for the
-      visitor to paste. Nothing on the page says so. The only confirmation is a
-      toast on the tab she has just left. If the clipboard write fails, the
-      failure is swallowed silently and the legacy fallback is never tried. Add
-      one visible line by the button, for example «Ми скопіюємо повідомлення,
-      вставте його в чат». Fall back to the legacy copy when the async write
-      rejects.
 - [ ] **(M) G2. Email signup in the footer.** *(from full plan Phase 6)* One
       field, double opt-in, on MailerLite's free tier. Their hosted form posts
       straight to MailerLite, so it works on a static export with no server. This
@@ -406,6 +446,11 @@ visitor downloads.
       motion. Focus stays on the swatch. The swatches then sit 53–117 px below
       the fold on 360–430 px phones; showing the whole photo was preferred over
       keeping them in view.
+- [ ] **(L) G10. SEO plan, Phase 1.** Six code changes from
+      [`seo-plan.md`](./seo-plan.md), none needing the owner: category links in
+      the footer, product breadcrumbs through the category, a photo for each
+      category page, the site-name data, the category's full name as its
+      heading, and dropping the unused fonts. Phase 2 waits on B11.
 
 ---
 
@@ -495,7 +540,9 @@ unchanged.
 | Not doing | Why |
 | --- | --- |
 | A/B testing | At about 10 orders a month no test would ever reach significance. Decide from the counts and the owner's judgement |
-| Client-side error reporting (Sentry etc.) | The site is static, and the one path that matters, the Direct handoff, was tested by hand. G1 covers its silent failure. Revisit when the form lands |
+| Client-side error reporting (Sentry etc.) | The site is static, and the one path that matters, the Direct handoff, was tested by hand. Revisit when the form lands |
+| A "paste the message" line by the order button (was G1) | Declined 2026-10-12. Umami later showed that no customer taps the button (N), so the line would reach almost no one |
+| An uptime monitor (was T5) | Declined 2026-11-02. A static Worker has no server to fail, and every deploy passes the build check first (T1). Revisit if the site is ever down without anyone noticing |
 | A full Content-Security-Policy | Hashing the inline scripts costs more than it protects on a site that takes no input. T7 covers framing |
 | Dependabot or Renovate | Six runtime dependencies, and every merge deploys. A quarterly manual bump (T2) is less noise |
 | Google Merchant Center | Merchant listings need a purchase on the page (L3). Revisit with the form |
