@@ -30,7 +30,7 @@ export function Navbar() {
 
   return (
     <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
-      <nav
+      <header
         className={`fixed top-0 w-full z-50 h-16 md:h-14 border-b border-outline-variant/30 transition-all duration-300 ${
           scrolled
             ? "bg-surface-container-lowest/90 backdrop-blur-xl shadow-sm"
@@ -54,6 +54,8 @@ export function Navbar() {
               that opens on hover.
             */}
             <NavigationMenu.Root
+              // Radix's default label is the English "Main".
+              aria-label={t("mainNav")}
               value={navMenuValue}
               onValueChange={setNavMenuValue}
               delayDuration={0}
@@ -163,7 +165,7 @@ export function Navbar() {
             </a>
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* Portal for mobile drawer overlays */}
       <Dialog.Portal>
