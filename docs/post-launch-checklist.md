@@ -18,13 +18,17 @@ Effort: **S** ≈ under an hour · **M** ≈ half a day · **L** ≈ a day or mo
 
 ---
 
-## Where things stand, 2026-11-02
+## Where things stand, 2026-11-03
 
 Checked against the code, the live site, Search Console, Umami and `npm audit`.
 The previous snapshot, dated 2026-10-08, is in git history. Done since then:
 category pages (G3), screen-reader fixes (A2, A4, A5), preview links (G8), the
 README (D1), fresh share previews (N), the first read of Umami and Search
-Console (N), Next 16.4.3 (T8) and a header landmark (A7). The uptime monitor (T5) and the paste hint (G1) were declined.
+Console (N), Next 16.4.3 (T8), a header landmark (A7), two-factor on
+Instagram (B6) and domain auto-renew (T6). English is not a market (B8), and
+«New» and «Swimwear» stay in English (B10). The production time stays 2–4
+working days (B5, C2: the two figures already agreed). The uptime monitor (T5)
+and the paste hint (G1) were declined, and the dress chart gaps (B1) skipped.
 
 **Working.**
 
@@ -44,6 +48,9 @@ Console (N), Next 16.4.3 (T8) and a header landmark (A7). The uptime monitor (T5
   2026-09-22 to 2026-10-30). Google's "good" is under 2.5 s.
 - `/_next/static` is cached for a year, and a stray URL returns a real 404.
 - The Direct handoff worked in the Instagram in-app browser on 2026-09-22.
+- The production time agrees everywhere: 2–4 working days to sew, then
+  dispatch, then 1–3 days with Nova Poshta (B5). The domain renews itself on
+  2027-08-28 (T6).
 
 **Still open.**
 
@@ -54,17 +61,12 @@ Console (N), Next 16.4.3 (T8) and a header landmark (A7). The uptime monitor (T5
 - **Google sends almost no one.** 3 clicks in five weeks, and the category
   pages sit around position 62. The plan is in [`seo-plan.md`](./seo-plan.md)
   (G10).
-- **The dress chart has gaps in all three measurements** (B1). Bust 85, 89 and
-  93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size.
-- **The site states two production times** (C2, B5). The PDP says 2–4 working
-  days, the Product JSON-LD 3–5 calendar days.
 - **Images are most of the page weight** (P1, P4). Scrolling the whole
   catalogue downloads 2.0 MB of full-size card photos, and gallery thumbnails
   load the full photo each. The 101 photos come in 20 sizes.
 - **`npm audit` flags 21 packages, 5 high**, all build and local tooling:
   ESLint and wrangler with its simulator. None reach the site. Next's critical
   advisories went with the 16.4.3 upgrade (T8).
-- **The domain renews on 2027-08-28**, confirmed by RDAP (T6).
 
 ---
 
@@ -139,10 +141,11 @@ Text changes in both locale files. Each one is small, and each is live now.
       model and size, and is dated 2 October. The FAQ no longer asks customers to
       confirm availability. Both brand paragraphs say «шиється на замовлення»
       instead of «невеликими партіями».
-- [ ] **(S) C2. Production time in the JSON-LD.** `jsonLd.ts` declares handling
-      time as 3–5 `DAY`. The PDP says «Виготовлення 2–4 робочі дні», and the
-      launch plan says 4 working days. Once B5 settles one figure, the JSON-LD
-      should state it in working days.
+- [x] **(S) C2. Production time in the JSON-LD.** *Closed 2026-11-03 with B5:
+      nothing was wrong.* Handling is 3–5 `DAY`: 2–4 to sew, plus the dispatch
+      day the PDP promises. Transit is Nova Poshta's 1–3, in a field of its own.
+      Google reads both as business days, Monday to Saturday unless
+      `businessDays` says otherwise, so no extra property is needed.
 - [x] **(S) C3. Smaller copy errors.** *Shipped 2026-10-02 in PR #36.* The
       English Ezra no longer says "unlined", «Бестселери» is spelt right, the
       Instagram heading names `@velelswim`, the terms describe the COD
@@ -161,7 +164,8 @@ Text changes in both locale files. Each one is small, and each is live now.
 
 No code, but several of them hold up work in other groups.
 
-- [ ] **(S) B1. Owner: close the dress size chart gaps.** *(from L0 and L4)* Each
+- [ ] **(S) B1. Owner: close the dress size chart gaps.** *Skipped by the owner
+      2026-11-03.* *(from L0 and L4)* Each
       dress size is a 2 cm band with a 1 cm hole before the next. Bust 85, 89 and
       93, waist 65, 69 and 73, and hips 91, 95 and 99 fit no size. Lite records
       only the bust. The size a customer reads is the size she puts in the DM.
@@ -183,14 +187,21 @@ No code, but several of them hold up work in other groups.
       month for two months running, or DMs going unanswered past a day. The form
       is about a week of work (full plan phases 3 and 5), so the trigger has to
       fire well before the pain does.
-- [ ] **(S) B5. Owner: one production time, and when it changes.** The PDP says
-      2–4 working days, the JSON-LD 3–5 days, and the launch plan 4 working
-      days (C2). Pick one. The launch plan says the promise holds while no more
-      than three garments are in work. Decide the queue length at which the
-      promise changes, and what it changes to. The site line is one key per
-      locale (`productDetail.productionTime`). The 30-orders-a-month threshold
-      for finding a workshop belongs in the same conversation.
-- [ ] **(S) B6. Owner: protect the Instagram account.** It is the only order
+- [x] **(S) B5. One production time, and when it changes.** *Settled
+      2026-11-03: the site keeps 2–4 working days. Don't reopen it unless the
+      owner's figures change.* The two "different" figures were one: the JSON-LD
+      handling time of 3–5 days is the PDP's 2–4 days of sewing plus the
+      dispatch the next working day. Delivery, 1–3 days, is stated separately in
+      both. The owner's figures are sewing 2–3 working days and Nova Poshta 1–3,
+      usually 2 and 1, both depending on the situation in Ukraine. The owner
+      chose to keep 2–4 as a buffer day rather than promise 2–3. No queue rule
+      goes on the site: at about 10 orders a month the queue is a garment or two,
+      and every order is agreed in Direct before the prepayment, so a longer wait
+      is said in that conversation. The launch plan's "4 working days", its
+      three-garment limit and the 30-orders-a-month workshop threshold are
+      frozen at 2026-08-19 and stay as written.
+- [x] **(S) B6. Owner: protect the Instagram account.** *Done 2026-11-03:
+      two-factor authentication is on.* It is the only order
       channel and holds every customer conversation. If the account is lost or
       hacked, sales stop. Two-factor authentication is the minimum. The email list
       in G2 is the only fallback the site can offer, and I would build it sooner
@@ -202,7 +213,9 @@ No code, but several of them hold up work in other groups.
       Consultant, not to a rule on the site, and this item doesn't change that. It
       asks one thing: does the rate go up now that cold visitors from search
       arrive alongside followers? The weekly log in N answers it.
-- [ ] **(S) B8. Owner: decide whether English is a market.** After a month of
+- [x] **(S) B8. Owner: decide whether English is a market.** *Decided
+      2026-11-03: not a market. `/en` stays live and key-identical, with no new
+      work on it.* After a month of
       country data. If `/en` is under roughly 5% of visits, stop spending on it:
       the approximate currency, the English 404 copy and the Ukrainian wording on
       international orders can all wait. If it is higher, those three become real
@@ -215,9 +228,11 @@ No code, but several of them hold up work in other groups.
       And a smaller logo: `public/logo_black.png` is 1326×499 (50 KB) for a
       128×48 slot on every page. An SVG, or a PNG about 384 px wide
       (`seo-plan.md` item 12).
-- [ ] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *(from
-      C3)* Keep them in English, or translate them? Lite L4 records the badge as
-      translated, but `uk.json` says «New».
+- [x] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *Decided
+      2026-11-03: both stay in English.* «New» is the product badge and
+      «Swimwear» the line under VELÉLS on the home hero (`hero.subtitle`); the
+      owner reads both as part of the brand. *(from C3)* Lite L4 records the
+      badge as translated; `uk.json` saying «New» is the intended state.
 - [ ] **(S) B11. Owner: approve the category intro sentences.** Three drafts,
       one per category page, are in `seo-plan.md` item 7. They give Google a
       sentence to quote under the category result.
@@ -304,9 +319,9 @@ Cheap, and each one protects something already in production.
       those rules skip all four `.DS_Store` files and still upload all 101
       product photos. Only a manual `npm run deploy` from a Mac was affected;
       Workers Builds builds from git, which never had them.
-- [ ] **(S) T6. Confirm domain auto-renew.** RDAP shows expiry on 2027-08-28.
-      Check in Cloudflare Registrar that auto-renew is on and the card on file
-      will still be valid then.
+- [x] **(S) T6. Confirm domain auto-renew.** *Done 2026-11-03.* Auto-renew is
+      on in Cloudflare Registrar. RDAP shows expiry on 2027-08-28; the card on
+      file has to be valid then.
 - [x] **(S) T7. Stop other sites framing ours.** *Done 2026-10-08.*
       `public/_headers` sends `Content-Security-Policy: frame-ancestors 'none'`
       and `X-Frame-Options: DENY` on every path. A full CSP is not worth it
