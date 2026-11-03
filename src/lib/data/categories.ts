@@ -15,6 +15,13 @@ export const CATEGORY_SLUGS: Record<ProductCategory, Record<Locale, string>> = {
 
 export const CATEGORIES = Object.keys(CATEGORY_SLUGS) as ProductCategory[];
 
+/** The category's short name, a key in the `catalog` namespace. */
+export const CATEGORY_LABEL_KEY = {
+  "one-piece": "onePiece",
+  "two-piece": "twoPiece",
+  dresses: "dresses",
+} as const satisfies Record<ProductCategory, string>;
+
 /** Locale-relative, e.g. "/catalog/kurortni-sukni". */
 export function categoryPath(locale: string, category: ProductCategory): string {
   return `/catalog/${CATEGORY_SLUGS[category][locale as Locale]}`;

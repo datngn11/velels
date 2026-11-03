@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Bodoni_Moda, Inter, Cormorant_Garamond } from "next/font/google";
+import { Bodoni_Moda, Inter } from "next/font/google";
 import { SmoothScrollHandler } from "@/components/ui/SmoothScrollHandler";
 import { shouldAllowIndexing } from "@/lib/seo/indexing";
 import { routing } from "@/i18n/routing";
@@ -22,8 +22,10 @@ export const metadata: Metadata = {
     : { index: false, follow: false },
 };
 
+// `subsets` picks only the files to preload. Every subset stays declared and
+// loads when a page uses it, so dropping latin-ext here loses no character.
 const bodoniModa = Bodoni_Moda({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   variable: "--font-bodoni-moda",
   display: "swap",
 });
@@ -31,13 +33,6 @@ const bodoniModa = Bodoni_Moda({
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
   display: "swap",
 });
 
@@ -60,7 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang={routing.defaultLocale}
-      className={`${bodoniModa.variable} ${inter.variable} ${cormorant.variable}`}
+      className={`${bodoniModa.variable} ${inter.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

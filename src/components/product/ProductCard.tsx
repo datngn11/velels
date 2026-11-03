@@ -18,6 +18,8 @@ interface ProductCardProps {
    * it, so its cards are `h2`. Passing the wrong one skips a level.
    */
   as?: "h2" | "h3";
+  /** Load the photo at once instead of lazily, for cards in the first row. */
+  eager?: boolean;
 }
 
 /**
@@ -35,6 +37,7 @@ export function ProductCard({
   sizes,
   className = "",
   as: Heading = "h3",
+  eager = false,
 }: ProductCardProps) {
   const t = useTranslations("products");
   const tMeta = useTranslations("meta");
@@ -62,6 +65,7 @@ export function ProductCard({
           fill
           className="object-cover"
           sizes={sizes}
+          loading={eager ? "eager" : undefined}
         />
       </div>
       <div className="flex justify-between items-baseline px-1 gap-2">
