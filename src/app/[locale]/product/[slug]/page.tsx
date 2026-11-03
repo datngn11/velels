@@ -17,6 +17,7 @@ import {
 import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
 import { priceView } from "@/lib/utils/price";
 import { CATEGORY_KEY, productImageAlt } from "@/lib/utils/productImageAlt";
+import { CATEGORY_LABEL_KEY, categoryPath } from "@/lib/data/categories";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -128,7 +129,10 @@ export default async function ProductPage({ params }: Props) {
   // drift apart — Google expects the markup to reflect what a visitor can see.
   const crumbs: Crumb[] = [
     { name: tMeta("siteName"), path: "" },
-    { name: tCatalog("title"), path: "/catalog" },
+    {
+      name: tCatalog(CATEGORY_LABEL_KEY[product.category]),
+      path: categoryPath(locale, product.category),
+    },
     { name: productName, path: `/product/${slug}` },
   ];
   const breadcrumbs = breadcrumbJsonLd(locale, crumbs);

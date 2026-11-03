@@ -31,7 +31,7 @@ export default async function HomePage({ params }: Props) {
   // every page.
   const jsonLd = [
     organizationJsonLd(siteName),
-    webSiteJsonLd(locale, siteName),
+    webSiteJsonLd(siteName),
   ];
 
   return (

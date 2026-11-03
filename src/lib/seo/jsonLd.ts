@@ -1,5 +1,4 @@
-import { siteConfig, localeUrl, absoluteUrl } from "@/lib/config";
-import { routing } from "@/i18n/routing";
+import { siteConfig, localeUrl, absoluteUrl, type LocalePath } from "@/lib/config";
 import type { ProductCategory } from "@/lib/data/products";
 
 /**
@@ -8,41 +7,60 @@ import type { ProductCategory } from "@/lib/data/products";
  * beyond `MadeToOrder`.
  */
 
-const BCP47: Record<string, string> = { uk: "uk-UA", en: "en-US" };
+/**
+ * The domain root. Google's site name wants `url` at "the domain or subdomain
+ * level root URI". `/` itself is a 302 to `/uk`, so Google reads this data on
+ * the redirect target.
+ */
+const SITE_ROOT = `${siteConfig.url}/`;
 
-/** Language tag for `locale`, falling back to the locale itself. */
-export function languageTag(locale: string): string {
-  return BCP47[locale] ?? locale;
-}
-
-/** The brand as an entity. Emitted once, on the homepage. */
+/** The brand as an entity. Emitted on both homepages, identically. */
 export function organizationJsonLd(name: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name,
-    // The default-locale homepage, not the current one. This markup renders on
-    // both homepages, and a per-locale url would describe two organisations
-    // instead of one.
-    url: localeUrl(routing.defaultLocale),
+    url: SITE_ROOT,
     logo: absoluteUrl("/logo_black.png"),
     email: siteConfig.email,
     sameAs: [siteConfig.social.instagram],
   };
 }
 
-/** The site as distinct from the brand. No `SearchAction` — there is no search. */
-export function webSiteJsonLd(locale: string, name: string) {
+/**
+ * The site as distinct from the brand. No `SearchAction` — there is no search.
+ * Identical on both homepages, as Google asks of duplicate home pages, so no
+ * `inLanguage`: one url cannot be both uk-UA and en-US.
+ */
+export function webSiteJsonLd(name: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name,
-    // Per-locale, matching this page's canonical. Unlike Organization — one brand,
-    // one url — a fixed url here combined with a per-locale `inLanguage` would
-    // assert that a single resource is both uk-UA and en-US.
-    url: localeUrl(locale),
-    inLanguage: languageTag(locale),
+    // The spelling people type, without the accent.
+    alternateName: "Velels",
+    url: SITE_ROOT,
     publisher: { "@type": "Organization", name },
+  };
+}
+
+/**
+ * A category page and its photo, so Google has an image for the result. No list
+ * of products: `Product` entries without offers would put an error on every
+ * category page in the Product snippets report.
+ */
+export function collectionPageJsonLd(
+  locale: string,
+  path: LocalePath,
+  name: string,
+  image?: string,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name,
+    url: localeUrl(locale, path),
+    ...(image && { primaryImageOfPage: { "@type": "ImageObject", url: image } }),
   };
 }
 

@@ -15,6 +15,7 @@ type FilterTab = "all" | ProductCategory;
  */
 export function Catalog({ category }: { category?: ProductCategory }) {
   const t = useTranslations("catalog");
+  const tPages = useTranslations("categoryPages");
   const locale = useLocale();
   const activeFilter: FilterTab = category ?? "all";
 
@@ -34,10 +35,9 @@ export function Catalog({ category }: { category?: ProductCategory }) {
     <div className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop pt-6 md:pt-stack-md pb-stack-lg">
       {/* Header Section */}
       <section className="mb-8 md:mb-stack-lg flex flex-col items-center text-center">
-        <h1 className="font-serif text-3xl md:text-5xl text-primary text-center mb-6 md:mb-8 tracking-tight">
-          {category
-            ? filterTabs.find((tab) => tab.id === category)?.label
-            : t("title")}
+        <h1 className="font-serif text-3xl md:text-5xl text-primary text-center text-balance mb-6 md:mb-8 tracking-tight">
+          {/* The full name, not the tab label: Google quotes the heading. */}
+          {category ? tPages(`${category}.title`) : t("title")}
         </h1>
 
         {/* Filters (Mobile horizontal scroll with no-scrollbar) */}
@@ -81,6 +81,9 @@ export function Catalog({ category }: { category?: ProductCategory }) {
                 <ProductCard
                   as="h2"
                   product={product}
+                  // The first row is on screen at once on a phone, where lazy
+                  // loading only delays it.
+                  eager={index < 2}
                   sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
               </ScrollReveal>
