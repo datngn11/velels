@@ -2,8 +2,10 @@
 
 Written 2026-10-30 from Google's own documentation, the Search Console and
 Umami exports of 2026-10-30, a check of the live site, and a second audit
-checked against the code the same day. Items chosen from here move into
-`docs/post-launch-checklist.md`, which stays the only task list.
+checked against the code the same day. A third audit on 2026-11-03 (the
+claude-seo plugin, with the Search Console API) added the notes dated that day.
+Items chosen from here move into `docs/post-launch-checklist.md`, which stays
+the only task list.
 
 ## 1. Where we stand
 
@@ -27,6 +29,11 @@ Every top query is generic and Ukrainian: «купальник суцільни�
 роздільний купальник» and their variants. The category pages built in G3
 started appearing for them on 2026-10-13, but at position 60, which is page 6.
 Searches for the brand name find `/uk` around position 6 and `/en` around 1.
+
+*2026-11-03, from the Search Console API:* 3 clicks and 412 impressions since
+launch. The two swimsuit category pages hold 343 of them, still around position
+62, and the dresses page still has none. All 10 URLs inspected are indexed, with
+Google's canonical the same as ours.
 
 The category result looks plain for two reasons:
 
@@ -61,8 +68,10 @@ Only what applies to a small catalogue that sells through Instagram.
   ([breadcrumbs](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb),
   [announcement](https://developers.google.com/search/blog/2025/01/simplifying-breadcrumbs)).
 - **Site name** comes from `WebSite` structured data on the domain's home page,
-  with `url` set to that home page. A locale path such as `/uk` is not a home
-  page. It can take weeks to update
+  with `url` set to "the domain or subdomain level root URI". A locale path such
+  as `/uk` is not a home page. When the home page redirects, "the site name will
+  reflect the redirect target", and duplicate home pages need "the same
+  structured data on all page duplicates". It can take weeks to update
   ([site names](https://developers.google.com/search/docs/appearance/site-names)).
 - **Product data:** product snippets are for "product pages where people can't
   directly purchase the product". Merchant listings are for pages where
@@ -91,7 +100,7 @@ Only what applies to a small catalogue that sells through Instagram.
 | Product structured data | Good | Brand, 13 images, price, `MadeToOrder`, return policy, shipping |
 | Image alt text and formats | Good | Descriptive alts, and Google supports WebP. The three photos measured are 1167–1400 px wide |
 | **Links to category pages** | **Weak** | The menu's category links are not in the HTML until someone opens the menu. Of the pages checked, only `/uk/catalog` links to the 3 categories. The homepage, product pages and info pages link to none |
-| **Product pages link nowhere** | **Weak** | The breadcrumb goes to «Колекція» (`/uk/catalog`), not to the product's category. No links to other Models. The 2026-10-29 audit calls these dead ends too |
+| **Product pages link nowhere** | **Weak** | The breadcrumb goes to «Колекція» (`/uk/catalog`), not to the product's category. No links to other Models |
 | **Category page image** | **Missing** | Share image is `og/home.jpg`. No structured data at all |
 | **Category page text** | **Thin** | A heading and the cards. Google quotes names and prices |
 | **Category page heading** | **Short** | The `<h1>` is the tab label («Сукні»), while the title says «Курортні сукні з мережива» |
@@ -99,11 +108,11 @@ Only what applies to a small catalogue that sells through Instagram.
 | Breadcrumb data on category pages | Missing | Product pages have it, category pages do not |
 | Page speed | Good on real phones | Umami, p75 of the main image on phones: home 0.79 s, products 0.85 s, catalogue 0.99 s (14 samples). Google's "good" is under 2.5 s. Full-size photos still cost data, tracked as P1 (blocked on B9) |
 | Unused downloads | Waste | Every page preloads 2 files of a font used nowhere (58 KB) and a 50 KB logo shown at 128×48. The first catalogue photos are set to load late |
-| Links from other sites | Not checked yet | Search Console's Links report lists them. Instagram marks its links `nofollow`, so they bring visitors rather than ranking |
+| Links from other sites | Not checked yet | Search Console's Links report lists them. Common Crawl's latest release predates the launch, so it has no data yet (2026-11-03). Instagram marks its links `nofollow`, so they bring visitors rather than ranking |
 
 ## 4. The plan
 
-### Phase 1. Code only, no owner input (about 1 day)
+### Phase 1. Code only, no owner input (about 1 day). Done 2026-11-03 (G10)
 
 1. **Category links in every page's HTML.** Add a «Колекція» column to the
    footer with the 3 category pages and «Усі». Every page then links to every
@@ -111,7 +120,8 @@ Only what applies to a small catalogue that sells through Instagram.
    stack, so it is one more short column at the bottom of the page. On desktop
    the grid holds two columns in 560 px and needs widening for a third.
    *Effect: the biggest of this phase. It tells Google the category pages
-   matter, and helps the 7 waiting pages get fetched.*
+   matter. Of the 7 waiting pages, six are English and one is the privacy
+   page, so this helps only the English one-piece category among them.*
 2. **Product breadcrumbs point to the category.** «VELÉLS › Роздільні
    купальники › Lauri», both visible and in the structured data. Each of the 11
    product pages then links to its category.
@@ -125,10 +135,11 @@ Only what applies to a small catalogue that sells through Instagram.
 4. **Site name.** Point the `WebSite` data's `url` at `https://velels.com/` and
    add `alternateName: "Velels"`, the spelling people type. With one url for
    both languages, drop `inLanguage`, or the two homepages would call one
-   address both Ukrainian and English. Put the same `WebSite` data on `/` too:
-   it is the bio link, and Google asks for the same data on every copy of the
-   home page. Point `Organization`'s `url` at the root as well. Not
-   guaranteed, and it can take weeks.
+   address both Ukrainian and English. `/uk` and `/en` then carry the same
+   `WebSite` data, which is what Google asks of duplicate home pages. `/`
+   needs nothing: Cloudflare answers it with a 302 before any HTML loads, so
+   Google reads the data on `/uk`, the redirect target. Point `Organization`'s
+   `url` at the root as well. Not guaranteed, and it can take weeks.
 5. **The category's full name as its heading.** «Жіночі роздільні купальники»
    instead of «Роздільні купальники», «Курортні сукні з мережива» instead of
    «Сукні». The names already exist as each category's title
@@ -144,33 +155,48 @@ Only what applies to a small catalogue that sells through Instagram.
    on the site is ₴, and prices are set in Inter. Load the first two catalogue
    photos straight away instead of late.
    *Effect: about 70 KB less on every first visit. Ranking won't move, since
-   phone speed is already good.*
+   phone speed is already good. The late catalogue photos are why PageSpeed's
+   slow-phone simulation puts the catalogue's main image at 9.3 s, the worst
+   page it tested on 2026-11-03; real phones see 0.99 s.*
 
 ### Phase 2. Copy the owner approves (about half a day)
 
 7. **One intro sentence on each category page**, under the heading. It gives
    Google a sentence worth quoting and helps ranking a little. Drafts:
    - Суцільні: «Архітектурні вирізи, відкрита спина, закриті фасони та
-     модель-трансформер. Шиємо кожен купальник на замовлення.»
+     модель-трансформер. Шиємо кожен купальник на замовлення, розміри XXS–L.»
    - Роздільні: «Ліф на кісточках, трикутник або формована чашка, трусики на
-     високій талії. Шиємо кожен купальник на замовлення.»
+     високій талії. Шиємо кожен купальник на замовлення, розміри XXS–L.»
    - Сукні: «Мереживо Chantilly для відпустки, вечора біля моря й особливих
-     подій. Шиємо кожну сукню на замовлення.»
+     подій. Шиємо кожну сукню на замовлення, розміри XS–L.»
 
    On a phone this adds about two lines above the products. For the dresses,
-   the owner can also use words people type, such as «мереживна сукня» or
-   «пляжна сукня», where they are true of the Models. Search Console shows no
-   dress searches yet, so which words matter is not known.
+   the owner can also use words people type, such as «мереживна сукня», where
+   they are true of the Models. Search Console shows no dress searches yet, so
+   which words matter is not known.
+
+   *2026-11-03:* Ukrainian results for «купальник жіночий», «суцільний» and
+   «роздільний купальник» are marketplaces (Rozetka, Prom, Allo); no single-brand
+   shop ranks for them. Style words like those in the drafts («відкрита спина»,
+   «трансформер») are the realistic targets. Avoid «пляжна сукня»: its results
+   are cover-ups around 499 ₴. «Купальник на замовлення» brings up guides to
+   custom sewing, so a reader can take «на замовлення» for made to measure.
+   That is why the drafts name the sizes.
 8. **Category descriptions with the starting price**, worked out from the
-   product data so it stays true: «…від 2 700 ₴». Google may still write its own
-   snippet.
+   product data so it stays true. Today that is від 3 350 ₴ for one-pieces,
+   від 2 700 ₴ for two-pieces and від 5 900 ₴ for dresses. Google may still
+   write its own snippet.
 
 ### Phase 3. Outside the code (owner and developer, ongoing)
 
-9. **Search Console.** Click Validate fix on the `noindex` row now, and look at
-   the Links report to see which sites already link to velels.com. Then once a
+9. **Search Console.** The `noindex` row's validation was started on
+   2026-10-30. Look at the Links report to see which sites already link to
+   velels.com. Then once a
    month: indexed count, the impressions and position of the 3 category pages,
-   and the Product snippets and Breadcrumbs reports.
+   and the Product snippets and Breadcrumbs reports. Also add velels.com to
+   Bing Webmaster Tools by importing it from Search Console, and submit the
+   sitemap there: about 15 minutes. ChatGPT search and Copilot draw on Bing's
+   index, and nothing has been sent to Bing yet.
 10. **Earn links from Ukrainian sites.** Fashion media regularly publish
     roundups of Ukrainian swimwear brands. Being in one gives a strong, relevant
     link. Collaborations with bloggers who have their own site help the same way.
@@ -187,7 +213,7 @@ Only what applies to a small catalogue that sells through Instagram.
 13. **Faster photos** (P1, blocked on B9). Helps Core Web Vitals and the phone
     experience.
 14. **Other Models on each product page.** «Інші моделі» or the mix-and-match
-    pairs (Lauri with Naevi) the audit mentions. More internal links and fewer
+    pairs (Lauri with Naevi). More internal links and fewer
     dead ends, but it is a design change, so it needs the owner. A first step
     needs no design: Lauri's and Naevi's details already name each other, so
     those names can become links.
@@ -195,7 +221,9 @@ Only what applies to a small catalogue that sells through Instagram.
     the set. A small help for Google Images, not worth renaming files on its
     own.
 16. **Merchant listings and Google Shopping**, once the order form (G6) lets
-    customers buy on the site.
+    customers buy on the site. Change the availability then: Google's merchant
+    listing documentation does not list `MadeToOrder` (checked 2026-11-03), so
+    pick a value it supports that the business can back.
 
 ## 5. Not doing, and why
 
@@ -213,12 +241,17 @@ Only what applies to a small catalogue that sells through Instagram.
 | `x-default` in the sitemap | Every page already declares it in its head |
 | Language switcher as links | Google finds the English pages through hreflang, and Search Console shows them indexed |
 | Hero photo preload | The photo is already in the HTML with high priority, and the home page shows it in 0.79 s on phones |
-| `robots` tag on the 404 page | The page is served with a real 404 status and already says `noindex` |
+| `robots` tag on the 404 page | The page is served with a real 404 status. It carries `noindex` and, from the root layout, the site's default `index` tag too; with a 404 status neither matters |
 | Width and height of product share images | Telegram and Instagram previews were checked on 2026-10-14 and work |
 | Twitter/X tags, `theme-color`, `og:locale:alternate` | Google ignores them, and customers don't share to X |
 | Refactors: one metadata builder, a `JsonLd` component, `@id` links, per-page translations, a server-rendered hero | Tidier code, no change in search |
 | «купальник» and the price in product descriptions | Every product title already names the category («Dimaya, суцільний купальник»), and Google shows the price from the product data |
 | Resizing the logo ourselves | Brand files come from the owner (item 12) |
+| A descriptive Ukrainian heading on the home page (2026-11-03 audit) | The brand name is the home page's heading, and «Swimwear» stays in English (B10). The category pages carry the descriptive names (item 5) |
+| `lang="en"` in the English pages' raw HTML (2026-11-03 audit) | One root layout serves both languages and a script corrects `lang`, as `src/app/layout.tsx` explains. Google reads the language from hreflang, and English is not a market (B8) |
+| A long cache on photos (2026-11-03 audit) | Photo filenames are stable, so a replaced photo would keep showing for as long as the cache lasts. `public/_headers` explains |
+| `llms.txt`, WebMCP, Content-Signal, IndexNow (2026-11-03 audit) | Google ignores `llms.txt`, nothing on the site is a tool for agents, and 50 URLs are crawled without IndexNow |
+| Product `sku` and `color` (2026-11-03 audit) | Optional for product snippets. They matter for Merchant Center, so add them with item 16 |
 
 ## 6. How we will know it worked
 

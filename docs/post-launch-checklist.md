@@ -29,6 +29,9 @@ Instagram (B6) and domain auto-renew (T6). English is not a market (B8), and
 «New» and «Swimwear» stay in English (B10). The production time stays 2–4
 working days (B5, C2: the two figures already agreed). The uptime monitor (T5)
 and the paste hint (G1) were declined, and the dress chart gaps (B1) skipped.
+What was left of the 2026-10-29 code audit, once checked against the code, is
+A8, A9, B12, D8, G11 and G12; the rest was already here or is under "Considered
+and not recommended".
 
 **Working.**
 
@@ -157,6 +160,19 @@ Text changes in both locale files. Each one is small, and each is live now.
       варіанти низу на вибір». Nothing on the page selects one, and the
       prefilled message does not carry the choice. If the Consultant always asks,
       leave it. If customers forget to say, one line in the message fixes it.
+- [ ] **(S) C5. Owner: the exchange line on dress pages, and five wordings.**
+      *(from the 2026-11-03 SEO audit)* Every product page says «Одноразовий
+      обмін розміру або моделі протягом 14 днів» (`productDetail.exchangeNote`).
+      That is the swimwear rule. Dresses are ordinary clothing: the returns page
+      and their Product data allow an exchange or a return within 14 days. A
+      dress line such as «Обмін або повернення протягом 14 днів» fixes it. Five
+      wordings in `uk.json` for the owner to confirm:
+      - «вигодно» → «вигідно» (Dimaya).
+      - «3-ма способами» → «трьома способами» (Lendai).
+      - «візуально струнить» reads oddly (Lendai).
+      - «Як бачено на @velelswim» copies the English "As seen on" (the Instagram
+        block on the home page).
+      - The footer says «FAQ», while the page is «Часті запитання».
 
 ---
 
@@ -236,6 +252,14 @@ No code, but several of them hold up work in other groups.
 - [ ] **(S) B11. Owner: approve the category intro sentences.** Three drafts,
       one per category page, are in `seo-plan.md` item 7. They give Google a
       sentence to quote under the category result.
+- [ ] **(S) B12. Owner: say on one-piece pages that the fit follows her height.**
+      The seamstress cuts every one-piece's torso to the customer's Height
+      (`CONTEXT.md`), and no page says so. For a tall or petite customer that is
+      the main doubt about buying a one-piece online. One line in the PDP
+      bullets, for one-pieces only, for example «Суцільний купальник шиємо з
+      урахуванням вашого зросту». It must not name ростовка or its ranges. If
+      the line asks her to give her height, the prefilled message needs a place
+      for it too.
 
 ---
 
@@ -284,6 +308,19 @@ No code, but several of them hold up work in other groups.
       the page now starts with a banner at phone and desktop width, and the
       desktop menu is named «Основна» on `/uk`. Screenshots of eight pages at
       both widths match the build before, pixel for pixel with photos hidden.
+- [ ] **(S) A8. Small tap targets on phones.** The menu button, the Instagram
+      icon and the drawer's close button in `Navbar.tsx` are 24×24 px with no
+      padding, and the colour swatches in `ProductInfo.tsx` are 36×36 px
+      (`w-9 h-9`), while the size buttons beside them are 44×44 px. 24 px passes
+      WCAG 2.2 AA, but 94% of page views are on phones. Padding with an equal
+      negative margin (`p-2.5 -m-2.5`) enlarges the icons' tap area without
+      moving them. Larger swatches change the look, so compare screenshots first.
+- [ ] **(S) A9. The size guide cannot scroll.** Its `Dialog.Content` in
+      `SizeGuideModal.tsx` is centred with no maximum height and no overflow,
+      so on a short screen (a phone held sideways, or Instagram's browser with
+      its toolbar) the bottom of the guide is cut off and cannot be reached.
+      `max-h-[85dvh] overflow-y-auto` fixes it. Check on a real phone held
+      sideways.
 
 ---
 
@@ -461,11 +498,36 @@ visitor downloads.
       motion. Focus stays on the swatch. The swatches then sit 53–117 px below
       the fold on 360–430 px phones; showing the whole photo was preferred over
       keeping them in view.
-- [ ] **(L) G10. SEO plan, Phase 1.** Six code changes from
+- [x] **(L) G10. SEO plan, Phase 1.** *Done 2026-11-03.* Six code changes from
       [`seo-plan.md`](./seo-plan.md), none needing the owner: category links in
       the footer, product breadcrumbs through the category, a photo for each
       category page, the site-name data, the category's full name as its
-      heading, and dropping the unused fonts. Phase 2 waits on B11.
+      heading, and dropping the unused fonts. Phase 2 waits on B11. Checked in
+      the build: all 50 pages link to the category pages; both homepages carry
+      the same `WebSite` and `Organization` data with `url`
+      `https://velels.com/` and `alternateName` "Velels"; each category page
+      has its first Model's cover as share image and `CollectionPage`, plus a
+      breadcrumb; product breadcrumbs read «VELÉLS / Сукні / Lunar» on the page
+      and in the data. Font files preloaded per page went from 6 (162 KB) to 3
+      (90 KB), and the first two catalogue photos load at once. On a phone the
+      footer adds a «Колекція» column (172 px), and the dresses heading takes
+      two balanced lines. At 768 px the footer has two columns, at 1024 px three.
+      Above the footer the eight pages screenshot match the build before, except
+      the breadcrumb and the category heading. Size tap, size guide, catalogue
+      tabs and the menu still work, with no console errors. Check in Search
+      Console from the end of November (`seo-plan.md` section 6).
+- [ ] **(S) G11. Count taps on the Instagram links.** Customers write from
+      the Instagram profile rather than the order button (N), but nothing
+      counts the way there: the navbar's Instagram icon and the three posts in
+      `InstagramFeed.tsx` carry no Umami event. One event, such as
+      `ig_profile_click` with the place it was tapped, shows how many visitors
+      leave the site for the profile.
+- [ ] **(S) G12. Owner: show on catalogue cards that a second colour exists.**
+      7 of the 11 Models come in black and white, and a card shows only its
+      first photo. Lendai, Lauri, Ezra and Laydee open on white, so someone
+      looking for black swimwear can't tell they come in black too. Two small
+      dots by the price would show it. It is a design change, so the owner
+      approves it.
 
 ---
 
@@ -544,6 +606,35 @@ visitor downloads.
         *(from L3)* There is one static `404.html` for every unknown path,
         `/en` included, so English means a bilingual page or a script that
         swaps the text on `/en` paths.
+- [ ] **(S) D8. Small fixes from the 2026-10-29 audit.** Each one was checked
+      against the code on 2026-11-03.
+      - **The copy can fail without a sound.** In `InstagramCheckout.tsx`, if
+        `navigator.clipboard.writeText` exists but rejects, the rejection
+        handler is empty: nothing is copied, no toast shows, and the
+        `execCommand` fallback below it never runs. Running the fallback in the
+        rejection handler may be too late, since the tap's activation is gone
+        and the page is in the background by then. Running `execCommand` first,
+        synchronously, and using `writeText` only when it returns false avoids
+        that. Test in Instagram's browser on a real phone. Low priority while
+        nobody taps the button (N).
+      - **`SmoothScrollHandler` has little left to do.** No link in `src` has a
+        `#` in it, and the hero button calls `smoothScrollTo()` directly. What
+        remains is a re-scroll 150 ms after load when the URL carries a hash.
+        Check that `/uk#collection` still lands under the navbar without it,
+        then delete it and its mount in `src/app/layout.tsx`.
+      - **Hero height.** `HeroSection.tsx` uses `h-[90vh]`. In iOS Safari and
+        Instagram's browser `vh` is the height with the toolbars hidden, so
+        the hero is taller than the screen on first load. `svh` uses the
+        height with the toolbars shown. Check on a real phone.
+      - **`InfoPage` types.** `info/[slug]/page.tsx` imports `getMessages`
+        dynamically and casts `section.list as unknown as string[]`. A typed
+        section interface removes both.
+      - **`INFO_SLUGS` exists twice**, in the info page and in `sitemap.ts`,
+        kept in step by a comment. Move it to `src/lib/data`: a `page.tsx` may
+        only export the names Next allows.
+      - **Size guide type.** Its four `<th>` and its title carry `uppercase
+        tracking-wider text-xs` and similar raw classes where `AGENTS.md` asks
+        for the label utilities. The catalogue heading is part of G10.
 
 ---
 
@@ -564,4 +655,8 @@ unchanged.
 | A Worker script for the `/` redirect | A dashboard Redirect Rule does the same job with no code (N) |
 | A photo script (was P3) | Once P1 ships, Cloudflare picks the width, quality and format per request, which was most of the script's job. What is left per photo, a 4:5 crop and a high-quality export, is a few clicks in any photo app (P4). Write it if photo changes become frequent |
 | A pause button on the hero video (was A6) | By the letter the phone hero fails WCAG 2.2.2, Level A: it starts on its own, loops, and sits under the title. Decided 2026-10-19 to leave it. No law reaches a shop this size: Ukraine's bill 14278 is still a draft and leaves out small businesses, and the EU act exempts microenterprises. It has no effect on search, and a visitor with Reduce Motion on already gets the still photo. Of 10 big brands checked that day at phone size, 4 had no pause button, Burberry and Rolex among them. Revisit if the law changes |
+| Stop remounting the gallery on a colour tap (2026-10-29 audit) | The key `${color}-${shown}` is deliberate: it opens the new colour on its first photo, as the comment in `ProductView.tsx` says. Nobody can see the cost |
+| The colour in the URL, `?color=white` (2026-10-29 audit) | Nobody shares links to one colourway, and the order message already names the colour |
+| A product link in the order message (2026-10-29 audit) | The message already names the Model, colour and size |
+| `size_select` and `color_select` events (2026-10-29 audit) | Nobody taps the order button (N), so these would measure the steps before a step nobody takes. G11 counts the path customers do take |
 | A scheduled rebuild (was T4) | Its only job was clearing the "New" badges, and the owner chose on 2026-10-02 to let them clear with the next merge. A badge shows until the first build on or after `releasedAt` + 60 days, and the build date is UTC, so on that day it takes a build after 03:00 Kyiv time. The five August badges clear with the first merge after that point on 2026-10-11 |
