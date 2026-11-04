@@ -11,6 +11,19 @@ describe("categorySummary", () => {
     ).toEqual({ from: 2900, sizes: "XXS–L" });
   });
 
+  it("starts the span at XS when no Model has XXS", () => {
+    expect(
+      categorySummary([
+        { price: 5900, sizes: ["XS", "S", "M", "L"] },
+        { price: 6100, sizes: ["XS", "S", "M", "L"] },
+      ]),
+    ).toEqual({ from: 5900, sizes: "XS–L" });
+  });
+
+  it("is null when no Model lists a size", () => {
+    expect(categorySummary([{ price: 3400, sizes: [] }])).toBeNull();
+  });
+
   it("is null for an empty category", () => {
     expect(categorySummary([])).toBeNull();
   });
