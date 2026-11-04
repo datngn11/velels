@@ -1,4 +1,6 @@
-export type Size = "XXS" | "XS" | "S" | "M" | "L";
+/** Smallest first. */
+export const SIZES = ["XXS", "XS", "S", "M", "L"] as const;
+export type Size = (typeof SIZES)[number];
 export type ProductSlug =
   | "azure"
   | "linear"

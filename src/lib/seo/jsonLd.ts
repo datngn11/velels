@@ -45,15 +45,17 @@ export function webSiteJsonLd(name: string) {
 }
 
 /**
- * A category page and its photo, so Google has an image for the result. No list
- * of products: `Product` entries without offers would put an error on every
- * category page in the Product snippets report.
+ * A category page, its photo and its Models, so Google has images for the
+ * result. The Models are plain list entries, not `Product`: a `Product`
+ * without offers would put an error on every category page in the Product
+ * snippets report.
  */
 export function collectionPageJsonLd(
   locale: string,
   path: LocalePath,
   name: string,
-  image?: string,
+  image: string | undefined,
+  items: Array<{ name: string; path: string; image: string }>,
 ) {
   return {
     "@context": "https://schema.org",
@@ -61,6 +63,18 @@ export function collectionPageJsonLd(
     name,
     url: localeUrl(locale, path),
     ...(image && { primaryImageOfPage: { "@type": "ImageObject", url: image } }),
+    ...(items.length > 0 && {
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          url: localeUrl(locale, item.path),
+          image: item.image,
+        })),
+      },
+    }),
   };
 }
 

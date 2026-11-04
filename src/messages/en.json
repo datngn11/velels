@@ -9,6 +9,7 @@
     "categoryTwoPiece": "two-piece swimsuit",
     "categoryDresses": "resort dress",
     "productDescriptionTail": "Sizes {sizes}, made to order.",
+    "categoryDescriptionTail": "Made to order in Ukraine, sizes {sizes}, from {price}.",
     "imageColorBlack": "black",
     "imageColorWhite": "white",
     "imagePosition": "photo {n}",
@@ -58,15 +59,18 @@
   "categoryPages": {
     "one-piece": {
       "title": "One-Piece Swimsuits",
-      "description": "VELÉLS one-piece swimsuits: architectural cutouts, open backs, high-coverage cuts and a convertible style. A Ukrainian brand, every piece made to order."
+      "description": "VELÉLS one-piece swimsuits: minimal, comfortable, with a flawless fit.",
+      "intro": "One-piece swimsuits that follow the natural lines of the body. Minimal, comfortable, with a flawless fit — each one made to order."
     },
     "two-piece": {
       "title": "Bikinis",
-      "description": "VELÉLS bikinis: underwired, triangle and moulded-cup tops with high-waisted bottoms. A Ukrainian brand, every piece made to order."
+      "description": "VELÉLS bikinis: minimal, comfortable, with a flawless fit.",
+      "intro": "Bikinis that follow the natural lines of the body. Minimal, comfortable, with a flawless fit — each one made to order."
     },
     "dresses": {
       "title": "Lace Resort Dresses",
-      "description": "VELÉLS resort dresses in Chantilly lace, for holidays, evenings by the sea and special occasions. A Ukrainian brand, every dress made to order."
+      "description": "VELÉLS lace resort dresses in Chantilly, for holidays and evenings by the sea.",
+      "intro": "Lace dresses for holidays, evenings by the sea and special occasions. Each one made to order."
     }
   },
   "products": {

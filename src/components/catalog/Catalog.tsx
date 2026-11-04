@@ -95,6 +95,14 @@ export function Catalog({ category }: { category?: ProductCategory }) {
           {t("noProducts")}
         </div>
       )}
+
+      {/* The sentence Google can quote under the result. Below the grid, as
+          on competitors' pages, so a phone opens on the products. */}
+      {category && (
+        <p className="mt-stack-md md:mt-stack-lg mx-auto max-w-xl text-center text-body-md text-secondary text-balance">
+          {tPages(`${category}.intro`)}
+        </p>
+      )}
     </div>
   );
 }

@@ -8,6 +8,9 @@ import { pageMetadata } from "@/lib/seo/openGraph";
 import { breadcrumbJsonLd, collectionPageJsonLd, serialiseJsonLd } from "@/lib/seo/jsonLd";
 import { absoluteUrl } from "@/lib/config";
 import { products, type ProductCategory } from "@/lib/data/products";
+import { Breadcrumbs, type Crumb } from "@/components/layout/Breadcrumbs";
+import { categorySummary } from "@/lib/utils/categorySummary";
+import { formatPrice } from "@/lib/utils/formatPrice";
 import type { Locale } from "@/i18n/routing";
 import {
   CATEGORIES,
@@ -47,12 +50,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = categoryFromSlug(locale, slug);
   if (!category) return {};
   const t = await getTranslations({ locale, namespace: "categoryPages" });
+  const tMeta = await getTranslations({ locale, namespace: "meta" });
+
+  const summary = categorySummary(products.filter((p) => p.category === category));
+  const tail = summary
+    ? ` ${tMeta("categoryDescriptionTail", { sizes: summary.sizes, price: formatPrice(summary.from) })}`
+    : "";
 
   return pageMetadata({
     locale,
     path: categoryPaths(category),
     title: t(`${category}.title`),
-    description: t(`${category}.description`),
+    description: `${t(`${category}.description`)}${tail}`,
     image: categoryImage(category),
     imageAlt: t(`${category}.title`),
   });
@@ -68,26 +77,40 @@ export default async function CategoryPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "categoryPages" });
   const tCatalog = await getTranslations({ locale, namespace: "catalog" });
   const tMeta = await getTranslations({ locale, namespace: "meta" });
+  const tProducts = await getTranslations({ locale, namespace: "products" });
+  const tDetail = await getTranslations({ locale, namespace: "productDetail" });
 
-  // Data only: the logo and the catalogue tabs already show the way back.
+  // One array for the visible trail and the data, as on the product page.
+  const crumbs: Crumb[] = [
+    { name: tMeta("siteName"), path: "" },
+    { name: tCatalog("title"), path: "/catalog" },
+    { name: tCatalog(CATEGORY_LABEL_KEY[category]), path: categoryPath(locale, category) },
+  ];
+
   const jsonLd = [
     collectionPageJsonLd(
       locale,
       categoryPath(locale, category),
       t(`${category}.title`),
       categoryImage(category),
+      products
+        .filter((p) => p.category === category)
+        .map((p) => ({
+          name: tProducts(`${p.slug}.name`),
+          path: `/product/${p.slug}`,
+          image: absoluteUrl(p.images[0].src),
+        })),
     ),
-    breadcrumbJsonLd(locale, [
-      { name: tMeta("siteName"), path: "" },
-      { name: tCatalog("title"), path: "/catalog" },
-      { name: tCatalog(CATEGORY_LABEL_KEY[category]), path: categoryPath(locale, category) },
-    ]),
+    breadcrumbJsonLd(locale, crumbs),
   ];
 
   return (
     <>
       <Navbar />
-      <main className="mt-16 md:mt-14 grow w-full">
+      <div className="mt-20 md:mt-18 w-full max-w-container mx-auto px-margin-mobile md:px-margin-desktop">
+        <Breadcrumbs items={crumbs} label={tDetail("breadcrumbLabel")} />
+      </div>
+      <main className="grow w-full">
         <Catalog category={category} />
       </main>
       <Footer />
