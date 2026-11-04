@@ -175,7 +175,11 @@ from the product data. Added with it: a visible breadcrumb on category pages
 (item 3 had it as data only), an `ItemList` of each category's Models with
 their covers inside `CollectionPage`, as bianka.com.ua does, and the
 Ukrainian home title without "resort wear". The live text is in
-`src/messages/*.json` (`categoryPages`, `meta.categoryDescriptionTail`).*
+`src/messages/*.json` (`categoryPages`, `meta.categoryDescriptionTail`).
+The intro sits below the product grid, not under the heading: above it, the
+full text took four lines on a phone and pushed the products off the first
+screen. Every competitor crawled puts category text below the grid, and
+Google quotes it from there (Alisa's result).*
 
 7. **One intro sentence on each category page**, under the heading. It gives
    Google a sentence worth quoting and helps ranking a little. Drafts:

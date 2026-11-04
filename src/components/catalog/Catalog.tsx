@@ -35,20 +35,10 @@ export function Catalog({ category }: { category?: ProductCategory }) {
     <div className="max-w-container mx-auto px-margin-mobile md:px-margin-desktop pt-6 md:pt-stack-md pb-stack-lg">
       {/* Header Section */}
       <section className="mb-8 md:mb-stack-lg flex flex-col items-center text-center">
-        <h1
-          className={`font-serif text-3xl md:text-5xl text-primary text-center text-balance tracking-tight ${
-            category ? "mb-3 md:mb-4" : "mb-6 md:mb-8"
-          }`}
-        >
+        <h1 className="font-serif text-3xl md:text-5xl text-primary text-center text-balance mb-6 md:mb-8 tracking-tight">
           {/* The full name, not the tab label: Google quotes the heading. */}
           {category ? tPages(`${category}.title`) : t("title")}
         </h1>
-        {/* The sentence Google can quote under the result, instead of the cards' names and prices. */}
-        {category && (
-          <p className="text-body-md text-secondary text-balance max-w-xl mb-6 md:mb-8">
-            {tPages(`${category}.intro`)}
-          </p>
-        )}
 
         {/* Filters (Mobile horizontal scroll with no-scrollbar) */}
         <div className="w-full overflow-x-auto no-scrollbar py-2 border-b border-outline-variant/30">
@@ -104,6 +94,14 @@ export function Catalog({ category }: { category?: ProductCategory }) {
         <div className="text-center py-stack-lg text-secondary text-body-md">
           {t("noProducts")}
         </div>
+      )}
+
+      {/* The sentence Google can quote under the result. Below the grid, as
+          on competitors' pages, so a phone opens on the products. */}
+      {category && (
+        <p className="mt-stack-md md:mt-stack-lg mx-auto max-w-xl text-center text-body-md text-secondary text-balance">
+          {tPages(`${category}.intro`)}
+        </p>
       )}
     </div>
   );
