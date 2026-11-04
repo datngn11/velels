@@ -131,7 +131,10 @@ Only what applies to a small catalogue that sells through Instagram.
    back). Don't list the products in it: `Product` entries without prices
    would put an error on all 6 category pages in Search Console's Product
    snippets report. Also fixes shared category links in Telegram and
-   Instagram, which show the homepage photo today.
+   Instagram, which show the homepage photo today. *Phase 2 (2026-11-04)
+   made the breadcrumb visible and added the Models as plain `ItemList`
+   entries, not `Product`, so the Product snippets concern above still
+   holds.*
 4. **Site name.** Point the `WebSite` data's `url` at `https://velels.com/` and
    add `alternateName: "Velels"`, the spelling people type. With one url for
    both languages, drop `inLanguage`, or the two homepages would call one
@@ -159,7 +162,20 @@ Only what applies to a small catalogue that sells through Instagram.
    slow-phone simulation puts the catalogue's main image at 9.3 s, the worst
    page it tested on 2026-11-03; real phones see 0.99 s.*
 
-### Phase 2. Copy the owner approves (about half a day)
+### Phase 2. Copy the owner approves (about half a day). Built 2026-11-04
+
+*Built 2026-11-04 with more generic wording than the drafts below, chosen
+after comparing Ukrainian brands' category pages and Google results for the
+category queries. The intros start with the search phrase, as the top
+results' quoted text does («Суцільні купальники, що підкреслюють природні
+лінії тіла…»), and the dresses' starts with «Мереживні»: Google showed
+"Missing: курортна" for «курортна сукня мереживна». Descriptions end with
+«Шиємо на замовлення в Україні, розміри {sizes}, від {price}», worked out
+from the product data. Added with it: a visible breadcrumb on category pages
+(item 3 had it as data only), an `ItemList` of each category's Models with
+their covers inside `CollectionPage`, as bianka.com.ua does, and the
+Ukrainian home title without "resort wear". The live text is in
+`src/messages/*.json` (`categoryPages`, `meta.categoryDescriptionTail`).*
 
 7. **One intro sentence on each category page**, under the heading. It gives
    Google a sentence worth quoting and helps ranking a little. Drafts:
@@ -181,7 +197,8 @@ Only what applies to a small catalogue that sells through Instagram.
    «трансформер») are the realistic targets. Avoid «пляжна сукня»: its results
    are cover-ups around 499 ₴. «Купальник на замовлення» brings up guides to
    custom sewing, so a reader can take «на замовлення» for made to measure.
-   That is why the drafts name the sizes.
+   That is why the drafts name the sizes. *As built (2026-11-04), the sizes
+   and starting price are in the descriptions, not the intros.*
 8. **Category descriptions with the starting price**, worked out from the
    product data so it stays true. Today that is від 3 350 ₴ for one-pieces,
    від 2 700 ₴ for two-pieces and від 5 900 ₴ for dresses. Google may still

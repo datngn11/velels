@@ -251,7 +251,9 @@ No code, but several of them hold up work in other groups.
       badge as translated; `uk.json` saying «New» is the intended state.
 - [ ] **(S) B11. Owner: approve the category intro sentences.** Three drafts,
       one per category page, are in `seo-plan.md` item 7. They give Google a
-      sentence to quote under the category result.
+      sentence to quote under the category result. *2026-11-04: built with
+      the wording chosen by the developer (`seo-plan.md` Phase 2); the owner
+      can still change it in `categoryPages.*.intro` before or after merge.*
 - [ ] **(S) B12. Owner: say on one-piece pages that the fit follows her height.**
       The seamstress cuts every one-piece's torso to the customer's Height
       (`CONTEXT.md`), and no page says so. For a tall or petite customer that is
