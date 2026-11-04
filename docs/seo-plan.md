@@ -227,12 +227,14 @@ Google quotes it from there (Alisa's result).*
 12. **A smaller logo file.** `public/logo_black.png` is 1326×499 (50 KB), shown
     at 128×48 and preloaded on every page. The owner sends an SVG, or a PNG
     about 384 px wide, and the code swaps it in. Saves about 45 KB per first
-    visit.
+    visit. *2026-11-04: P1 now serves the logo at 128 to 384 px by screen density (3.5 KB at 256 px), so the
+    saving is had; an SVG from the owner would only add sharpness.*
 
 ### Phase 4. Later, or blocked
 
 13. **Faster photos** (P1, blocked on B9). Helps Core Web Vitals and the phone
-    experience.
+    experience. *Built 2026-11-04 (P1): the catalogue's photos on a phone drop
+    from 2.0 MB to 1.0 MB with no visible change.*
 14. **Other Models on each product page.** «Інші моделі» or the mix-and-match
     pairs (Lauri with Naevi). More internal links and fewer
     dead ends, but it is a design change, so it needs the owner. A first step

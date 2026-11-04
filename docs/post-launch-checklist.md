@@ -237,7 +237,10 @@ No code, but several of them hold up work in other groups.
       international orders can all wait. If it is higher, those three become real
       items. *2026-10-30:* `/en` was 4% of page views over five weeks, so the
       numbers say stop. The owner confirms.
-- [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)* Turn on
+- [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)*
+      *2026-11-04: Image Transformations is on (P1). The logo is now served at
+      128 to 384 px through it, by screen density (3.5 KB at 256 px instead of 50 KB), so the smaller logo file
+      is no longer needed for speed; an SVG would still be sharper.* Turn on
       Image Transformations for the `velels.com` zone. Until then
       `/cdn-cgi/image/` returns 404, which blocks P1 and G4. Separately,
       re-export the homepage share image at 1200×630 from the source file.
@@ -388,7 +391,15 @@ Cheap, and each one protects something already in production.
 This is where the biggest measurable win is. Images are nearly all of what a
 visitor downloads.
 
-- [ ] **(M) P1. Cloudflare image loader for `next/image`.** *(from L1)* Blocked on
+- [x] **(M) P1. Cloudflare image loader for `next/image`.** *Built 2026-11-04;
+      live with the merge.* `src/lib/imageLoader.ts`, on `main` builds only:
+      width from `srcset`, quality 90, `fit=scale-down` (never enlarges),
+      `format=auto` and `onerror=redirect`. Checked against velels.com: all 106
+      photos transform; at 640 px they average 42 dB PSNR against the original
+      scaled to the same size (worst photo 39 dB, indistinguishable side by
+      side), and at 1200 px 90 of 106 come back untouched. On a phone at DPR 3
+      the catalogue's photos drop from 2,058 KB to 1,012 KB and Lunar's page
+      from 564 KB to 462 KB, with no broken image. *(from L1)* Was blocked on
       B9. It gives the biggest saving on the site:
       - The catalogue's 2.0 MB of cards drops to roughly a quarter. A phone card
         needs about 570 px at DPR 3, not 1167 px.

@@ -164,12 +164,15 @@ it, read the canonical on a live page.
 
 - **`robots.txt`.** Cloudflare can serve a managed `robots.txt` of its own. The
   one at the edge is ours, from `src/app/robots.ts` (checked 2026-09-28).
-- **Image Transformations.** Off, so `/cdn-cgi/image/` returns 404. Turning it on
-  unblocks the image loader and the landscape share cards (post-launch B9, P1,
-  G4). The free plan includes 5,000 unique transformations a month. Past that,
-  cached results keep serving, new ones fail with error 9422, and nothing is
-  billed. OG images don't pass through `next/image`, so their transformation
-  URLs have to be written by hand.
+- **Image Transformations.** On since 2026-11-04 (post-launch B9). `next/image`
+  goes through `src/lib/imageLoader.ts` on `main` builds only, because
+  `/cdn-cgi/image/` exists on the velels.com zone and not on branch previews,
+  so previews and local builds show the original files. The free plan
+  includes 5,000 unique transformations a month; the site uses about 900.
+  Past the limit, cached results keep serving and new ones fail with error
+  9422, which `onerror=redirect` turns into the original photo, and nothing
+  is billed. OG images don't pass through `next/image`, so their
+  transformation URLs have to be written by hand.
 - **Web Analytics.** Not used. It logs no query strings and has no custom events,
   so it can't see `?ref=story` or the Direct button. The site uses Umami Cloud
   (lite L7).
