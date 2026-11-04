@@ -106,6 +106,15 @@ branch a URL without it.
 The free plan allows 3,000 build minutes a month and one build at a time, so a
 branch build and a `main` deploy queue behind each other.
 
+**`ERR_SWC_NATIVE_CACHE` while loading `next.config.ts`** (2026-11-04). The
+next-intl plugin loads `@swc/core` as soon as the config is read. From 1.16,
+`@swc/core` refuses to unpack its native addon under a cache folder whose
+parent other users can write to, and the builder's `/opt/buildhome` is such a
+folder. 1.16.18 falls back to the system temp folder, so keep `@swc/core` at
+1.16.18 or later in `package-lock.json`. It is next-intl's dependency, not
+ours. `SWC_NATIVE_BINDING_CACHE=0` does not help: temporary mode checks the
+same folders.
+
 ### Build variables
 
 All three are set under Builds, and only `main` builds receive them. `next build` inlines every `NEXT_PUBLIC_*` value
