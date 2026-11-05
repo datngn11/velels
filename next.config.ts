@@ -1,13 +1,17 @@
 import type { NextConfig } from "next";
-import createNextIntlPlugin from "next-intl/plugin";
-
-const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 // Read by isNewRelease(); must be inlined so server and client agree.
 const buildDate = new Date().toISOString().slice(0, 10);
 
 const nextConfig: NextConfig = {
   output: "export",
+  // What `next-intl/plugin` does for this config, without the plugin: its
+  // module imports @swc/core, which fails to load on some Workers Builds
+  // machines (ERR_SWC_NATIVE_CACHE: no folder there passes its permission
+  // check). Revisit when next-intl loads @swc/core lazily (amannn/next-intl#2437).
+  turbopack: {
+    resolveAlias: { "next-intl/config": "./src/i18n/request.ts" },
+  },
   env: {
     NEXT_PUBLIC_BUILD_DATE: buildDate,
   },
@@ -27,4 +31,4 @@ const nextConfig: NextConfig = {
       : { unoptimized: true },
 };
 
-export default withNextIntl(nextConfig);
+export default nextConfig;

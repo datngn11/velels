@@ -109,14 +109,16 @@ branch a URL without it.
 The free plan allows 3,000 build minutes a month and one build at a time, so a
 branch build and a `main` deploy queue behind each other.
 
-**`ERR_SWC_NATIVE_CACHE` while loading `next.config.ts`** (2026-11-04). The
-next-intl plugin loads `@swc/core` as soon as the config is read. From 1.16,
-`@swc/core` refuses to unpack its native addon under a cache folder whose
-parent other users can write to, and the builder's `/opt/buildhome` is such a
-folder. 1.16.18 falls back to the system temp folder, so keep `@swc/core` at
-1.16.18 or later in `package-lock.json`. It is next-intl's dependency, not
-ours. `SWC_NATIVE_BINDING_CACHE=0` does not help: temporary mode checks the
-same folders.
+**`ERR_SWC_NATIVE_CACHE` while loading `next.config.ts`** (2026-11-04/05).
+`next-intl/plugin` imports `@swc/core` as soon as the config is read. From
+1.16.12, `@swc/core` refuses to unpack its native addon unless no folder above
+its cache is writable by other users. On some builder machines `/opt/buildhome`
+fails that, and so does the `/tmp` fallback that 1.16.18 added, because `/`
+itself fails (swc-project/swc#12542, open). No cache setting can pass there.
+So `next.config.ts` no longer uses the plugin and sets the one alias it added
+for this config, `next-intl/config`, itself. `@swc/core` is still installed as
+next-intl's dependency but never loaded. Don't bring the plugin back until
+next-intl loads `@swc/core` lazily (amannn/next-intl#2437).
 
 ### Build variables
 
