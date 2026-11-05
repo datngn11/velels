@@ -441,7 +441,13 @@ visitor downloads.
       Not done: trimming `products` to the one product a page shows. The
       catalogue cards need all 11 names, so it would take nested providers for
       about 2 KB more.
-- [ ] **(S) P6. Longer caching for product photos.** Today `/products/*`
+- [x] **(S) P6. Longer caching for product photos.** *Decided 2026-11-05 with
+      P1: an hour, for every photo that goes through Image Transformations.*
+      With `max-age=0` Cloudflare resized "with reduced effort" and barely kept
+      the result (`cf-images 299 "cache-control is too restrictive"`); it wants
+      an hour or more. A year would need a new filename for every replaced
+      photo, so the hour stands, and a purge covers an urgent replacement
+      (`cloudflare-setup.md`). Was: today `/products/*`
       revalidates on every view (`max-age=0`), on purpose, because a replaced
       photo keeps its filename. If a replaced photo always gets a new filename,
       photos can be cached for a year like `/_next/static`. The cost is a rule

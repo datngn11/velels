@@ -32,9 +32,12 @@ per file.
 - **`wrangler.jsonc`.** The Worker name (`velels`), the assets directory, the
   apex as a Custom Domain, `workers_dev: false`, `preview_urls: true`, and the
   404 and trailing-slash handling. The file comments each setting.
-- **`public/_headers`.** Caches `/_next/static/*` for a year. Everything else,
-  photos included, keeps Cloudflare's default `max-age=0` on purpose, because a
-  replaced photo keeps its filename. Every path also gets
+- **`public/_headers`.** Caches `/_next/static/*` for a year, and the photos
+  that go through Image Transformations (`/products`, `/about`, `/instagram`,
+  the logo) for an hour: shorter makes Cloudflare resize with reduced effort,
+  longer would keep a replaced photo, which keeps its filename, stale for
+  longer. Everything else keeps Cloudflare's default `max-age=0`. Every path
+  also gets
   `Content-Security-Policy: frame-ancestors 'none'` and `X-Frame-Options: DENY`,
   so no other site can show ours in a frame.
 - **`public/.assetsignore`.** Files Wrangler leaves out of the upload, in
@@ -173,10 +176,9 @@ it, read the canonical on a live page.
   9422, which `onerror=redirect` turns into the original photo, and nothing
   is billed. OG images don't pass through `next/image`, so their
   transformation URLs have to be written by hand.
-  **After replacing a photo under the same filename, purge it.** Cloudflare
-  keeps resized copies at the edge even though our photos send `max-age=0`
-  (responses carry `cf-images 299 "cache-control is too restrictive"`), so
-  phones would keep seeing the old picture. Once the deploy is live:
+  **After replacing a photo under the same filename, purge it.** Photos are
+  cached for an hour (`public/_headers`), so without a purge a phone can show
+  the old picture for up to that long. Once the deploy is live:
   Caching → Configuration → Purge Cache → Custom Purge, and enter the photo's
   URL, e.g. `https://velels.com/products/lunar/black_1.webp`. Purging the
   original also clears its resized copies. For many photos, Purge Everything

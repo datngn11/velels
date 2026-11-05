@@ -7,13 +7,24 @@
 # filenames, so a changed file gets a new name and the old one can never go
 # stale. That is exactly what `immutable` promises.
 #
-# Product, hero and Instagram images are deliberately left alone. Their
-# filenames are stable, so a replaced photo would keep serving from cache for
-# as long as the max-age says. We overwrote three Instagram images and four
-# Lendai photos this week; a week of stale pictures is worse than the round
-# trips.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Photos that go through Image Transformations (src/lib/imageLoader.ts) get
+# an hour. Below that, Cloudflare resizes "with reduced effort" and barely
+# keeps the result ("cache-control is too restrictive"). Not longer: the
+# filenames are stable, so a replaced photo can show its old self until the
+# max-age runs out, and an hour is the most we accept. Purging the photo's
+# URL clears Cloudflare's copies at once. The hero files are not resized and
+# keep the default.
+/products/*
+  Cache-Control: public, max-age=3600
+/about/*
+  Cache-Control: public, max-age=3600
+/instagram/*
+  Cache-Control: public, max-age=3600
+/logo_black.png
+  Cache-Control: public, max-age=3600
 
 # No other site may show ours in a frame, which is how clickjacking works.
 # `frame-ancestors` is the current standard, `X-Frame-Options` the older one.
