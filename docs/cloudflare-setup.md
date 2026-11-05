@@ -173,6 +173,14 @@ it, read the canonical on a live page.
   9422, which `onerror=redirect` turns into the original photo, and nothing
   is billed. OG images don't pass through `next/image`, so their
   transformation URLs have to be written by hand.
+  **After replacing a photo under the same filename, purge it.** Cloudflare
+  keeps resized copies at the edge even though our photos send `max-age=0`
+  (responses carry `cf-images 299 "cache-control is too restrictive"`), so
+  phones would keep seeing the old picture. Once the deploy is live:
+  Caching → Configuration → Purge Cache → Custom Purge, and enter the photo's
+  URL, e.g. `https://velels.com/products/lunar/black_1.webp`. Purging the
+  original also clears its resized copies. For many photos, Purge Everything
+  is fine on a site this size.
 - **Web Analytics.** Not used. It logs no query strings and has no custom events,
   so it can't see `?ref=story` or the Direct button. The site uses Umami Cloud
   (lite L7).

@@ -270,6 +270,7 @@ Google quotes it from there (Alisa's result).*
 | Refactors: one metadata builder, a `JsonLd` component, `@id` links, per-page translations, a server-rendered hero | Tidier code, no change in search |
 | «купальник» and the price in product descriptions | Every product title already names the category («Dimaya, суцільний купальник»), and Google shows the price from the product data |
 | Resizing the logo ourselves | Brand files come from the owner (item 12) |
+| Alt text on product gallery thumbnails (Bing Site Scan, 2026-11-05) | Bing reports the 8 thumbnails per product page as "alt missing". Their `alt=""` is deliberate: each thumbnail is a button with its own label (`productDetail.showImage`, the photo's number), and alt text would be read on top of it (`ImageCarousel.tsx`). The same photos carry full alt text in the main gallery. The scan found nothing else |
 | A descriptive Ukrainian heading on the home page (2026-11-03 audit) | The brand name is the home page's heading, and «Swimwear» stays in English (B10). The category pages carry the descriptive names (item 5) |
 | `lang="en"` in the English pages' raw HTML (2026-11-03 audit) | One root layout serves both languages and a script corrects `lang`, as `src/app/layout.tsx` explains. Google reads the language from hreflang, and English is not a market (B8) |
 | A long cache on photos (2026-11-03 audit) | Photo filenames are stable, so a replaced photo would keep showing for as long as the cache lasts. `public/_headers` explains |

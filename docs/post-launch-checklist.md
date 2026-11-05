@@ -237,16 +237,13 @@ No code, but several of them hold up work in other groups.
       international orders can all wait. If it is higher, those three become real
       items. *2026-10-30:* `/en` was 4% of page views over five weeks, so the
       numbers say stop. The owner confirms.
-- [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)*
-      *2026-11-04: Image Transformations is on (P1). The logo is now served at
-      128 to 384 px through it, by screen density (3.5 KB at 256 px instead of 50 KB), so the smaller logo file
-      is no longer needed for speed; an SVG would still be sharper.* Turn on
-      Image Transformations for the `velels.com` zone. Until then
-      `/cdn-cgi/image/` returns 404, which blocks P1 and G4. Separately,
+- [ ] **(S) B9. Owner: the share image, and optionally the logo.** *(from L3)*
+      Image Transformations has been on since 2026-11-04 (P1). What is left:
       re-export the homepage share image at 1200×630 from the source file.
-      And a smaller logo: `public/logo_black.png` is 1326×499 (50 KB) for a
-      128×48 slot on every page. An SVG, or a PNG about 384 px wide
-      (`seo-plan.md` item 12).
+      Optional: the logo as an SVG. `public/logo_black.png` (1326×499) is now
+      served at 128 to 384 px by screen density, a few KB, so the file is no
+      longer a speed problem; an SVG would only be sharper (`seo-plan.md` item
+      12).
 - [x] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *Decided
       2026-11-03: both stay in English.* «New» is the product badge and
       «Swimwear» the line under VELÉLS on the home hero (`hero.subtitle`); the
@@ -401,8 +398,9 @@ visitor downloads.
       the catalogue's photos drop from 2,058 KB to 1,012 KB and Lunar's page
       from 564 KB to 462 KB, with no broken image. *(from L1)* Was blocked on
       B9. It gives the biggest saving on the site:
-      - The catalogue's 2.0 MB of cards drops to roughly a quarter. A phone card
-        needs about 570 px at DPR 3, not 1167 px.
+      - The catalogue's 2.0 MB of cards drops to about half on a phone at DPR 3
+        (2,058 KB to 1,012 KB, measured). A phone card needs about 570 px at
+        DPR 3, not 1167 px.
       - Thumbnails drop from full photos to a few KB each, so a product page
         stops downloading its whole gallery on open.
 
