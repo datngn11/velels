@@ -135,6 +135,9 @@ export function Navbar() {
               width={128}
               height={48}
               className="h-12 w-auto object-contain"
+              // Width-based srcset, so a 3x phone gets the 384 px logo; a
+              // fixed-size image would only offer 1x and 2x.
+              sizes="128px"
               priority
             />
           </Link>

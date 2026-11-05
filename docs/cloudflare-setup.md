@@ -32,9 +32,12 @@ per file.
 - **`wrangler.jsonc`.** The Worker name (`velels`), the assets directory, the
   apex as a Custom Domain, `workers_dev: false`, `preview_urls: true`, and the
   404 and trailing-slash handling. The file comments each setting.
-- **`public/_headers`.** Caches `/_next/static/*` for a year. Everything else,
-  photos included, keeps Cloudflare's default `max-age=0` on purpose, because a
-  replaced photo keeps its filename. Every path also gets
+- **`public/_headers`.** Caches `/_next/static/*` for a year, and the photos
+  that go through Image Transformations (`/products`, `/about`, `/instagram`,
+  the logo) for an hour: shorter makes Cloudflare resize with reduced effort,
+  longer would keep a replaced photo, which keeps its filename, stale for
+  longer. Everything else keeps Cloudflare's default `max-age=0`. Every path
+  also gets
   `Content-Security-Policy: frame-ancestors 'none'` and `X-Frame-Options: DENY`,
   so no other site can show ours in a frame.
 - **`public/.assetsignore`.** Files Wrangler leaves out of the upload, in
@@ -106,14 +109,16 @@ branch a URL without it.
 The free plan allows 3,000 build minutes a month and one build at a time, so a
 branch build and a `main` deploy queue behind each other.
 
-**`ERR_SWC_NATIVE_CACHE` while loading `next.config.ts`** (2026-11-04). The
-next-intl plugin loads `@swc/core` as soon as the config is read. From 1.16,
-`@swc/core` refuses to unpack its native addon under a cache folder whose
-parent other users can write to, and the builder's `/opt/buildhome` is such a
-folder. 1.16.18 falls back to the system temp folder, so keep `@swc/core` at
-1.16.18 or later in `package-lock.json`. It is next-intl's dependency, not
-ours. `SWC_NATIVE_BINDING_CACHE=0` does not help: temporary mode checks the
-same folders.
+**`ERR_SWC_NATIVE_CACHE` while loading `next.config.ts`** (2026-11-04/05).
+`next-intl/plugin` imports `@swc/core` as soon as the config is read. From
+1.16.12, `@swc/core` refuses to unpack its native addon unless no folder above
+its cache is writable by other users. On some builder machines `/opt/buildhome`
+fails that, and so does the `/tmp` fallback that 1.16.18 added, because `/`
+itself fails (swc-project/swc#12542, open). No cache setting can pass there.
+So `next.config.ts` no longer uses the plugin and sets the one alias it added
+for this config, `next-intl/config`, itself. `@swc/core` is still installed as
+next-intl's dependency but never loaded. Don't bring the plugin back until
+next-intl loads `@swc/core` lazily (amannn/next-intl#2437).
 
 ### Build variables
 
@@ -164,12 +169,22 @@ it, read the canonical on a live page.
 
 - **`robots.txt`.** Cloudflare can serve a managed `robots.txt` of its own. The
   one at the edge is ours, from `src/app/robots.ts` (checked 2026-09-28).
-- **Image Transformations.** Off, so `/cdn-cgi/image/` returns 404. Turning it on
-  unblocks the image loader and the landscape share cards (post-launch B9, P1,
-  G4). The free plan includes 5,000 unique transformations a month. Past that,
-  cached results keep serving, new ones fail with error 9422, and nothing is
-  billed. OG images don't pass through `next/image`, so their transformation
-  URLs have to be written by hand.
+- **Image Transformations.** On since 2026-11-04 (post-launch B9). `next/image`
+  goes through `src/lib/imageLoader.ts` on `main` builds only, because
+  `/cdn-cgi/image/` exists on the velels.com zone and not on branch previews,
+  so previews and local builds show the original files. The free plan
+  includes 5,000 unique transformations a month; the site uses about 900.
+  Past the limit, cached results keep serving and new ones fail with error
+  9422, which `onerror=redirect` turns into the original photo, and nothing
+  is billed. OG images don't pass through `next/image`, so their
+  transformation URLs have to be written by hand.
+  **After replacing a photo under the same filename, purge it.** Photos are
+  cached for an hour (`public/_headers`), so without a purge a phone can show
+  the old picture for up to that long. Once the deploy is live:
+  Caching → Configuration → Purge Cache → Custom Purge, and enter the photo's
+  URL, e.g. `https://velels.com/products/lunar/black_1.webp`. Purging the
+  original also clears its resized copies. For many photos, Purge Everything
+  is fine on a site this size.
 - **Web Analytics.** Not used. It logs no query strings and has no custom events,
   so it can't see `?ref=story` or the Direct button. The site uses Umami Cloud
   (lite L7).

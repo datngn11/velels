@@ -227,12 +227,14 @@ Google quotes it from there (Alisa's result).*
 12. **A smaller logo file.** `public/logo_black.png` is 1326×499 (50 KB), shown
     at 128×48 and preloaded on every page. The owner sends an SVG, or a PNG
     about 384 px wide, and the code swaps it in. Saves about 45 KB per first
-    visit.
+    visit. *2026-11-04: P1 now serves the logo at 128 to 384 px by screen density (3.5 KB at 256 px), so the
+    saving is had; an SVG from the owner would only add sharpness.*
 
 ### Phase 4. Later, or blocked
 
 13. **Faster photos** (P1, blocked on B9). Helps Core Web Vitals and the phone
-    experience.
+    experience. *Built 2026-11-04 (P1): the catalogue's photos on a phone drop
+    from 2.0 MB to 1.0 MB with no visible change.*
 14. **Other Models on each product page.** «Інші моделі» or the mix-and-match
     pairs (Lauri with Naevi). More internal links and fewer
     dead ends, but it is a design change, so it needs the owner. A first step
@@ -268,6 +270,7 @@ Google quotes it from there (Alisa's result).*
 | Refactors: one metadata builder, a `JsonLd` component, `@id` links, per-page translations, a server-rendered hero | Tidier code, no change in search |
 | «купальник» and the price in product descriptions | Every product title already names the category («Dimaya, суцільний купальник»), and Google shows the price from the product data |
 | Resizing the logo ourselves | Brand files come from the owner (item 12) |
+| Alt text on product gallery thumbnails (Bing Site Scan, 2026-11-05) | Bing reports the 8 thumbnails per product page as "alt missing". Their `alt=""` is deliberate: each thumbnail is a button with its own label (`productDetail.showImage`, the photo's number), and alt text would be read on top of it (`ImageCarousel.tsx`). The same photos carry full alt text in the main gallery. The scan found nothing else |
 | A descriptive Ukrainian heading on the home page (2026-11-03 audit) | The brand name is the home page's heading, and «Swimwear» stays in English (B10). The category pages carry the descriptive names (item 5) |
 | `lang="en"` in the English pages' raw HTML (2026-11-03 audit) | One root layout serves both languages and a script corrects `lang`, as `src/app/layout.tsx` explains. Google reads the language from hreflang, and English is not a market (B8) |
 | A long cache on photos (2026-11-03 audit) | Photo filenames are stable, so a replaced photo would keep showing for as long as the cache lasts. `public/_headers` explains |

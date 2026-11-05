@@ -237,13 +237,13 @@ No code, but several of them hold up work in other groups.
       international orders can all wait. If it is higher, those three become real
       items. *2026-10-30:* `/en` was 4% of page views over five weeks, so the
       numbers say stop. The owner confirms.
-- [ ] **(S) B9. Owner: two dashboard jobs, or the files.** *(from L3)* Turn on
-      Image Transformations for the `velels.com` zone. Until then
-      `/cdn-cgi/image/` returns 404, which blocks P1 and G4. Separately,
+- [ ] **(S) B9. Owner: the share image, and optionally the logo.** *(from L3)*
+      Image Transformations has been on since 2026-11-04 (P1). What is left:
       re-export the homepage share image at 1200×630 from the source file.
-      And a smaller logo: `public/logo_black.png` is 1326×499 (50 KB) for a
-      128×48 slot on every page. An SVG, or a PNG about 384 px wide
-      (`seo-plan.md` item 12).
+      Optional: the logo as an SVG. `public/logo_black.png` (1326×499) is now
+      served at 128 to 384 px by screen density, a few KB, so the file is no
+      longer a speed problem; an SVG would only be sharper (`seo-plan.md` item
+      12).
 - [x] **(S) B10. Owner: «New» and «Swimwear» on the Ukrainian site.** *Decided
       2026-11-03: both stay in English.* «New» is the product badge and
       «Swimwear» the line under VELÉLS on the home hero (`hero.subtitle`); the
@@ -388,10 +388,19 @@ Cheap, and each one protects something already in production.
 This is where the biggest measurable win is. Images are nearly all of what a
 visitor downloads.
 
-- [ ] **(M) P1. Cloudflare image loader for `next/image`.** *(from L1)* Blocked on
+- [x] **(M) P1. Cloudflare image loader for `next/image`.** *Built 2026-11-04;
+      live with the merge.* `src/lib/imageLoader.ts`, on `main` builds only:
+      width from `srcset`, quality 90, `fit=scale-down` (never enlarges),
+      `format=auto` and `onerror=redirect`. Checked against velels.com: all 106
+      photos transform; at 640 px they average 42 dB PSNR against the original
+      scaled to the same size (worst photo 39 dB, indistinguishable side by
+      side), and at 1200 px 90 of 106 come back untouched. On a phone at DPR 3
+      the catalogue's photos drop from 2,058 KB to 1,012 KB and Lunar's page
+      from 564 KB to 462 KB, with no broken image. *(from L1)* Was blocked on
       B9. It gives the biggest saving on the site:
-      - The catalogue's 2.0 MB of cards drops to roughly a quarter. A phone card
-        needs about 570 px at DPR 3, not 1167 px.
+      - The catalogue's 2.0 MB of cards drops to about half on a phone at DPR 3
+        (2,058 KB to 1,012 KB, measured). A phone card needs about 570 px at
+        DPR 3, not 1167 px.
       - Thumbnails drop from full photos to a few KB each, so a product page
         stops downloading its whole gallery on open.
 
@@ -432,7 +441,13 @@ visitor downloads.
       Not done: trimming `products` to the one product a page shows. The
       catalogue cards need all 11 names, so it would take nested providers for
       about 2 KB more.
-- [ ] **(S) P6. Longer caching for product photos.** Today `/products/*`
+- [x] **(S) P6. Longer caching for product photos.** *Decided 2026-11-05 with
+      P1: an hour, for every photo that goes through Image Transformations.*
+      With `max-age=0` Cloudflare resized "with reduced effort" and barely kept
+      the result (`cf-images 299 "cache-control is too restrictive"`); it wants
+      an hour or more. A year would need a new filename for every replaced
+      photo, so the hour stands, and a purge covers an urgent replacement
+      (`cloudflare-setup.md`). Was: today `/products/*`
       revalidates on every view (`max-age=0`), on purpose, because a replaced
       photo keeps its filename. If a replaced photo always gets a new filename,
       photos can be cached for a year like `/_next/static`. The cost is a rule
