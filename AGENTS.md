@@ -74,7 +74,9 @@ Check what has actually landed before assuming any state — `docs/post-launch-c
 tracks the live site, `docs/release-checklist.md` holds the full plan's phase order,
 and a later phase must not be started before its dependency.
 
-- **Today:** `output: "export"`, `images.unoptimized: true`, no middleware.
+- **Today:** `output: "export"`, no middleware. `next/image` goes through
+  Cloudflare Image Transformations (`src/lib/imageLoader.ts`) on `main` builds
+  only; previews and local builds are `unoptimized` and show the original files.
 - **Merging into `main` deploys.** Cloudflare's Git integration builds and ships
   every commit on `main`. It is configured in the Cloudflare dashboard, so **no
   code in this repository records it** (`docs/cloudflare-setup.md` writes the
@@ -86,11 +88,15 @@ and a later phase must not be started before its dependency.
   only one that covers tests and scripts: `next build` checks the site's code
   only.
   Unit tests are Vitest (`npm test`), in `src/**/*.test.ts` next to the code
-  they cover. There are no `.github/workflows`: the account's Actions are
-  locked. Never tell the user a pushed change is not live. `npm run deploy`
+  they cover. Node 22 (`.nvmrc`). A shell on Node 20 fails at Vitest startup:
+  run `source ~/.nvm/nvm.sh && nvm use` first. There are no
+  `.github/workflows`: the account's Actions are locked. Never tell the user a pushed change is not live. `npm run deploy`
   (`npm run build && wrangler deploy`) is the manual path to the same place;
   `wrangler.jsonc` serves `./out` as an assets-only Worker.
   GitHub Pages was retired in `009d2e5` — the `gh-pages` script is gone.
+- **Don't add `next-intl/plugin` back.** It loads `@swc/core`, which fails on
+  some Workers Builds machines (`ERR_SWC_NATIVE_CACHE`). `next.config.ts` sets
+  its one alias by hand; `docs/cloudflare-setup.md` says when to revisit.
 - **`basePath` and `getAssetPath()` are gone.** Removed 2026-08-27 along with
   `src/lib/utils/assetPath.ts`; the site is served from a domain root. Public asset
   URLs are plain root-relative paths now. Do not reintroduce either, and do not

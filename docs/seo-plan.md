@@ -93,6 +93,9 @@ Only what applies to a small catalogue that sells through Instagram.
 
 ## 3. How velels.com measures up
 
+As of 2026-10-30, the baseline the plan was written against. Section 4 says
+what has changed since.
+
 | Area | State | Evidence |
 | --- | --- | --- |
 | Indexing, canonicals, hreflang | Good | All 50 sitemap URLs return 200, no `noindex`, self canonical. English pages indexed on their own |
@@ -108,7 +111,7 @@ Only what applies to a small catalogue that sells through Instagram.
 | Breadcrumb data on category pages | Missing | Product pages have it, category pages do not |
 | Page speed | Good on real phones | Umami, p75 of the main image on phones: home 0.79 s, products 0.85 s, catalogue 0.99 s (14 samples). Google's "good" is under 2.5 s. Full-size photos still cost data, tracked as P1 (blocked on B9) |
 | Unused downloads | Waste | Every page preloads 2 files of a font used nowhere (58 KB) and a 50 KB logo shown at 128×48. The first catalogue photos are set to load late |
-| Links from other sites | Not checked yet | Search Console's Links report lists them. Common Crawl's latest release predates the launch, so it has no data yet (2026-11-03). Instagram marks its links `nofollow`, so they bring visitors rather than ranking |
+| Links from other sites | None | Search Console's Links report showed no external links on 2026-11-03. Common Crawl's latest release predates the launch, so it has no data yet. Instagram marks its links `nofollow`, so they bring visitors rather than ranking |
 
 ## 4. The plan
 
@@ -210,14 +213,15 @@ Google quotes it from there (Alisa's result).*
 
 ### Phase 3. Outside the code (owner and developer, ongoing)
 
-9. **Search Console.** The `noindex` row's validation was started on
-   2026-10-30. Look at the Links report to see which sites already link to
-   velels.com. Then once a
-   month: indexed count, the impressions and position of the 3 category pages,
-   and the Product snippets and Breadcrumbs reports. Also add velels.com to
-   Bing Webmaster Tools by importing it from Search Console, and submit the
-   sitemap there: about 15 minutes. ChatGPT search and Copilot draw on Bing's
-   index, and nothing has been sent to Bing yet.
+9. **Search Console and Bing, once a month:** indexed count, the impressions
+   and position of the 3 category pages, and the Product snippets and
+   Breadcrumbs reports. *Set up:* the `noindex` row's validation was started on
+   2026-10-30, and indexing was requested for the 5 changed pages after
+   Phase 2. The Links report showed no external links (2026-11-03).
+   velels.com was added to Bing Webmaster Tools from Search Console on
+   2026-11-05, with the sitemap and all 50 URLs submitted. ChatGPT search and
+   Copilot draw on Bing's index. Bing's Site Scan found no errors, only the
+   thumbnail alt warnings explained in section 5.
 10. **Earn links from Ukrainian sites.** Fashion media regularly publish
     roundups of Ukrainian swimwear brands. Being in one gives a strong, relevant
     link. Collaborations with bloggers who have their own site help the same way.
@@ -232,9 +236,10 @@ Google quotes it from there (Alisa's result).*
 
 ### Phase 4. Later, or blocked
 
-13. **Faster photos** (P1, blocked on B9). Helps Core Web Vitals and the phone
+13. **Faster photos** (P1). Helps Core Web Vitals and the phone
     experience. *Built 2026-11-04 (P1): the catalogue's photos on a phone drop
-    from 2.0 MB to 1.0 MB with no visible change.*
+    from 2.0 MB to 1.0 MB with no visible change. The photos' existing `sizes`
+    now pick the width. Photos are cached for an hour (P6).*
 14. **Other Models on each product page.** «Інші моделі» or the mix-and-match
     pairs (Lauri with Naevi). More internal links and fewer
     dead ends, but it is a design change, so it needs the owner. A first step
@@ -260,7 +265,6 @@ Google quotes it from there (Alisa's result).*
 | Sitemap `priority`, `changefreq`, `lastmod` | Google ignores the first two. We have no true per-page change date for the third |
 | Pages for Google Shopping now | Merchant listings are for pages where customers can buy. Revisit with the form |
 | FAQ structured data | Google stopped showing FAQ results on 2026-05-07 ([FAQPage](https://developers.google.com/search/docs/appearance/structured-data/faqpage)) |
-| Responsive `sizes` on photos | No effect today: with `images.unoptimized` each photo is one file with no `srcset`. Belongs to image optimisation in the full plan |
 | `x-default` in the sitemap | Every page already declares it in its head |
 | Language switcher as links | Google finds the English pages through hreflang, and Search Console shows them indexed |
 | Hero photo preload | The photo is already in the HTML with high priority, and the home page shows it in 0.79 s on phones |
@@ -273,7 +277,7 @@ Google quotes it from there (Alisa's result).*
 | Alt text on product gallery thumbnails (Bing Site Scan, 2026-11-05) | Bing reports the 8 thumbnails per product page as "alt missing". Their `alt=""` is deliberate: each thumbnail is a button with its own label (`productDetail.showImage`, the photo's number), and alt text would be read on top of it (`ImageCarousel.tsx`). The same photos carry full alt text in the main gallery. The scan found nothing else |
 | A descriptive Ukrainian heading on the home page (2026-11-03 audit) | The brand name is the home page's heading, and «Swimwear» stays in English (B10). The category pages carry the descriptive names (item 5) |
 | `lang="en"` in the English pages' raw HTML (2026-11-03 audit) | One root layout serves both languages and a script corrects `lang`, as `src/app/layout.tsx` explains. Google reads the language from hreflang, and English is not a market (B8) |
-| A long cache on photos (2026-11-03 audit) | Photo filenames are stable, so a replaced photo would keep showing for as long as the cache lasts. `public/_headers` explains |
+| A cache longer than an hour on photos (2026-11-03 audit) | Photo filenames are stable, so a replaced photo keeps showing for as long as the cache lasts. An hour is Cloudflare's minimum for full-effort resizing (P6); `public/_headers` explains |
 | `llms.txt`, WebMCP, Content-Signal, IndexNow (2026-11-03 audit) | Google ignores `llms.txt`, nothing on the site is a tool for agents, and 50 URLs are crawled without IndexNow |
 | Product `sku` and `color` (2026-11-03 audit) | Optional for product snippets. They matter for Merchant Center, so add them with item 16 |
 
