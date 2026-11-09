@@ -276,7 +276,8 @@
       "content": [
         {
           "question": "How do I choose the right size?",
-          "answer": "Use our size guide or send us a message on Instagram. We will help select the optimal size for your measurements."
+          "answer": "Use our size guide or send us a message on Instagram. We will help select the optimal size for your measurements.",
+          "sizeChart": true
         },
         {
           "question": "Can I order the top or bottom separately?",

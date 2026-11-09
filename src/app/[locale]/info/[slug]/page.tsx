@@ -6,6 +6,11 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import { linkifyContacts } from "@/lib/utils/linkifyContacts";
+import {
+  dressesSizeChart,
+  SizeChartTable,
+  swimwearSizeChart,
+} from "@/components/product/SizeChart";
 
 const INFO_SLUGS = [
   "delivery",
@@ -77,6 +82,13 @@ export default async function InfoPage({ params }: Props) {
   const content = pageData?.content ?? [];
 
   const isFaq = slug === "faq";
+  const tSize = await getTranslations({ locale, namespace: "productDetail" });
+  const sizeLabels = {
+    size: tSize("size"),
+    bust: tSize("bust"),
+    waist: tSize("waist"),
+    hips: tSize("hips"),
+  };
 
   return (
     <>
@@ -97,6 +109,22 @@ export default async function InfoPage({ params }: Props) {
                   <p className="text-body-md text-secondary leading-relaxed">
                     {linkifyContacts(section.answer)}
                   </p>
+                  {/* In the HTML, unlike the product page's dialog, so crawlers see it. */}
+                  {section.sizeChart && (
+                    <div className="flex flex-col gap-4 mt-2">
+                      <p className="text-body-sm text-secondary">
+                        {tSize("sizeGuideSubtitle")}
+                      </p>
+                      <h3 className="text-label-md text-primary">
+                        {tSize("swimwearCategory")}
+                      </h3>
+                      <SizeChartTable rows={swimwearSizeChart} labels={sizeLabels} />
+                      <h3 className="text-label-md text-primary mt-2">
+                        {tSize("dressesCategory")}
+                      </h3>
+                      <SizeChartTable rows={dressesSizeChart} labels={sizeLabels} />
+                    </div>
+                  )}
                 </>
               ) : (
                 <>

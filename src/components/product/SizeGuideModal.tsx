@@ -4,34 +4,17 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import * as Dialog from "@radix-ui/react-dialog";
 import type { ProductCategory } from "@/lib/data/products";
+import {
+  dressesSizeChart,
+  SizeChartTable,
+  swimwearSizeChart,
+} from "./SizeChart";
 
 interface SizeGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   category?: ProductCategory;
 }
-
-interface SizeRow {
-  size: string;
-  bust: string;
-  waist: string;
-  hips: string;
-}
-
-const swimwearSizeChart: SizeRow[] = [
-  { size: "XXS", bust: "74–78", waist: "54–58", hips: "79–83" },
-  { size: "XS", bust: "78–82", waist: "58–62", hips: "83–87" },
-  { size: "S", bust: "82–86", waist: "62–66", hips: "87–91" },
-  { size: "M", bust: "86–90", waist: "66–70", hips: "91–95" },
-  { size: "L", bust: "90–94", waist: "70–74", hips: "95–100" },
-];
-
-const dressesSizeChart: SizeRow[] = [
-  { size: "XS", bust: "82–84", waist: "62–64", hips: "88–90" },
-  { size: "S", bust: "86–88", waist: "66–68", hips: "92–94" },
-  { size: "M", bust: "90–92", waist: "70–72", hips: "96–98" },
-  { size: "L", bust: "94–98", waist: "74–76", hips: "100–102" },
-];
 
 export function SizeGuideModal({
   isOpen,
@@ -124,47 +107,15 @@ export function SizeGuideModal({
           </div>
 
           {/* Sizing Table */}
-          <div className="w-full overflow-x-auto">
-            <table className="w-full text-left text-body-sm">
-              <thead>
-                <tr className="border-b border-primary/20 text-primary">
-                  <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs">
-                    {t("size")}
-                  </th>
-                  <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-                    {t("bust")}
-                  </th>
-                  <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-                    {t("waist")}
-                  </th>
-                  <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-                    {t("hips")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant/15 text-secondary">
-                {currentChart.map((row) => (
-                  <tr
-                    key={row.size}
-                    className="hover:bg-surface-container-low/50 transition-colors"
-                  >
-                    <td className="py-3.5 px-3 font-medium text-primary">
-                      {row.size}
-                    </td>
-                    <td className="py-3.5 px-3 text-center tabular-nums">
-                      {row.bust}
-                    </td>
-                    <td className="py-3.5 px-3 text-center tabular-nums">
-                      {row.waist}
-                    </td>
-                    <td className="py-3.5 px-3 text-center tabular-nums">
-                      {row.hips}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <SizeChartTable
+            rows={currentChart}
+            labels={{
+              size: t("size"),
+              bust: t("bust"),
+              waist: t("waist"),
+              hips: t("hips"),
+            }}
+          />
 
           {/* Sizing Advice */}
           <p className="text-body-sm text-secondary/80 mt-6 pt-4 border-t border-outline-variant/20 text-center leading-relaxed">
