@@ -169,6 +169,13 @@ it, read the canonical on a live page.
 
 - **`robots.txt`.** Cloudflare can serve a managed `robots.txt` of its own. The
   one at the edge is ours, from `src/app/robots.ts` (checked 2026-09-28).
+- **AI crawlers and bots.** Security → Settings, checked 2026-11-06. "AI Crawler
+  and Agent access policies": Search, Training, Agents and every personal agent
+  set to Allow. Bot Preference Sync off, so it adds nothing to our
+  `robots.txt`. Bot fight mode and AI Labyrinth off. Keep Search on Allow: it
+  covers the crawlers behind ChatGPT Search, Perplexity and Claude's search.
+  Training can be blocked without losing search visibility, if the owner ever
+  wants that.
 - **Image Transformations.** On since 2026-11-04 (post-launch B9). `next/image`
   goes through `src/lib/imageLoader.ts` on `main` builds only, because
   `/cdn-cgi/image/` exists on the velels.com zone and not on branch previews,
