@@ -48,7 +48,7 @@ export function ProductCard({
       href={`/product/${product.slug}`}
       className={`group flex flex-col gap-3 cursor-pointer ${className}`}
     >
-      <div className="w-full aspect-4-5 bg-surface-container-low relative hover-image-zoom">
+      <div className="w-full aspect-4/5 bg-surface-container-low relative hover-image-zoom">
         {isNewRelease(product) && (
           <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 text-label-xs bg-primary text-on-primary border border-on-primary px-2.5 py-1">
             {t("newBadge")}

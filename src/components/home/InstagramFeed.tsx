@@ -38,7 +38,7 @@ export async function InstagramFeed() {
       </ScrollReveal>
 
       {/* Mobile Carousel / Desktop Grid */}
-      <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 pb-4 md:pb-0 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+      <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 gap-4 pb-4 md:pb-0 no-scrollbar -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
         {instagramPosts.map((item, i) => {
           const delays = ["", "delay-100", "delay-200"] as const;
 

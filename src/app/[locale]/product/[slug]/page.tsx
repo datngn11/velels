@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ProductView } from "@/components/product/ProductView";
-import { getProductBySlug, getAllProductSlugs } from "@/lib/data/products";
+import { getProductBySlug, products } from "@/lib/data/products";
 import { localeUrl, absoluteUrl } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import {
@@ -23,9 +23,8 @@ type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
 
-export async function generateStaticParams() {
-  const slugs = getAllProductSlugs();
-  return slugs.map((slug) => ({ slug }));
+export function generateStaticParams() {
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 /**
@@ -106,7 +105,7 @@ export default async function ProductPage({ params }: Props) {
     offers: {
       "@type": "Offer",
       url: localeUrl(locale, `/product/${slug}`),
-      priceCurrency: product.currency,
+      priceCurrency: "UAH",
       // The price on the page, not the list price — otherwise a sale is advertised
       // to visitors and hidden from Google, or the reverse.
       price: price.current.toString(),

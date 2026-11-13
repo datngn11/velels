@@ -3,6 +3,32 @@ import { LocaleSwitcher } from "./LocaleSwitcher";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, CATEGORY_LABEL_KEY, categoryPath } from "@/lib/data/categories";
 
+const LINK =
+  "text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case";
+
+/** The two info columns: a `footer` heading key, then `[info slug, footer label key]`. */
+const COLUMNS = [
+  {
+    heading: "customerCare",
+    links: [
+      ["payment", "payment"],
+      ["delivery", "delivery"],
+      ["returns", "returns"],
+      ["care", "productCare"],
+      ["faq", "faq"],
+    ],
+  },
+  {
+    heading: "about",
+    links: [
+      ["about", "aboutUs"],
+      ["contact", "contact"],
+      ["privacy", "privacyPolicy"],
+      ["terms", "terms"],
+    ],
+  },
+] as const;
+
 export function Footer() {
   const t = useTranslations("footer");
   const tCatalog = useTranslations("catalog");
@@ -19,90 +45,28 @@ export function Footer() {
             <h2 className="text-label-lg text-primary uppercase font-semibold">
               {tCatalog("title")}
             </h2>
-            <Link
-              href="/catalog"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
+            <Link href="/catalog" className={LINK}>
               {tCatalog("all")}
             </Link>
             {CATEGORIES.map((category) => (
-              <Link
-                key={category}
-                href={categoryPath(locale, category)}
-                className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-              >
+              <Link key={category} href={categoryPath(locale, category)} className={LINK}>
                 {tCatalog(CATEGORY_LABEL_KEY[category])}
               </Link>
             ))}
           </div>
 
-          {/* Customer Care */}
-          <div className="flex flex-col gap-3 items-center md:items-start">
-            <h2 className="text-label-lg text-primary uppercase font-semibold">
-              {t("customerCare")}
-            </h2>
-            <Link
-              href="/info/payment"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("payment")}
-            </Link>
-            <Link
-              href="/info/delivery"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("delivery")}
-            </Link>
-            <Link
-              href="/info/returns"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("returns")}
-            </Link>
-            <Link
-              href="/info/care"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("productCare")}
-            </Link>
-            <Link
-              href="/info/faq"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("faq")}
-            </Link>
-          </div>
-
-          {/* Information */}
-          <div className="flex flex-col gap-3 items-center md:items-start">
-            <h2 className="text-label-lg text-primary uppercase font-semibold">
-              {t("about")}
-            </h2>
-            <Link
-              href="/info/about"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("aboutUs")}
-            </Link>
-            <Link
-              href="/info/contact"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("contact")}
-            </Link>
-            <Link
-              href="/info/privacy"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("privacyPolicy")}
-            </Link>
-            <Link
-              href="/info/terms"
-              className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim normal-case"
-            >
-              {t("terms")}
-            </Link>
-          </div>
+          {COLUMNS.map(({ heading, links }) => (
+            <div key={heading} className="flex flex-col gap-3 items-center md:items-start">
+              <h2 className="text-label-lg text-primary uppercase font-semibold">
+                {t(heading)}
+              </h2>
+              {links.map(([slug, label]) => (
+                <Link key={slug} href={`/info/${slug}`} className={LINK}>
+                  {t(label)}
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
 
         {/* Utilities */}

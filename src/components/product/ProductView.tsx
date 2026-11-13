@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
+import { useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import type { Product, ProductColor } from "@/lib/data/products";
 import { scrollBehavior } from "@/lib/utils/motion";
@@ -16,20 +16,16 @@ export function ProductView({ product }: ProductViewProps) {
   const tMeta = useTranslations("meta");
   const tProducts = useTranslations("products");
   const [selectedColor, setSelectedColor] = useState<ProductColor>(
-    product.colors && product.colors.length > 0 ? product.colors[0] : "black"
+    product.colors[0],
   );
 
   // One gallery per colour, all in the static HTML, the inactive ones hidden.
   // Crawlers never tap the swatch, so rendering only the selected colour kept
   // the second colourway, and its alts, out of search.
-  const galleries = useMemo(() => {
-    const colors: ProductColor[] =
-      product.colors.length > 0 ? product.colors : ["black"];
-    return colors.map((color) => {
-      const images = product.images.filter((img) => img.color === color);
-      return { color, images: images.length > 0 ? images : product.images };
-    });
-  }, [product.colors, product.images]);
+  const galleries = product.colors.map((color) => {
+    const images = product.images.filter((img) => img.color === color);
+    return { color, images: images.length > 0 ? images : product.images };
+  });
   const name = tProducts(`${product.slug}.name`);
   const galleryRef = useRef<HTMLDivElement>(null);
 

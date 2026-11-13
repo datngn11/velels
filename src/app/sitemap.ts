@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
-import { getAllProductSlugs } from "@/lib/data/products";
+import { products } from "@/lib/data/products";
+import { INFO_SLUGS } from "@/lib/data/infoPages";
 import { CATEGORIES, categoryPaths } from "@/lib/data/categories";
 import { localeUrl, type LocalePath } from "@/lib/config";
 import { shouldAllowIndexing } from "@/lib/seo/indexing";
@@ -16,26 +17,11 @@ import { shouldAllowIndexing } from "@/lib/seo/indexing";
  * inviting crawlers to pages whose own meta tags say `noindex`.
  */
 
-// Kept in step with INFO_SLUGS in src/app/[locale]/info/[slug]/page.tsx.
-const INFO_SLUGS = [
-  "delivery",
-  "returns",
-  "faq",
-  "payment",
-  "care",
-  "about",
-  "privacy",
-  "terms",
-  "contact",
-] as const;
-
 // Required under `output: "export"` — see the note in robots.ts.
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!shouldAllowIndexing()) return [];
-
-  const productSlugs = getAllProductSlugs();
 
   // Ordered by how much each page is worth to a catalogue arriving from Instagram:
   // products first, then the ways in, then the legal and support pages.
@@ -47,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: categoryPaths(c),
       priority: 0.9,
     })),
-    ...productSlugs.map((slug) => ({ path: `/product/${slug}`, priority: 0.8 })),
+    ...products.map((p) => ({ path: `/product/${p.slug}`, priority: 0.8 })),
     ...INFO_SLUGS.map((slug) => ({ path: `/info/${slug}`, priority: 0.4 })),
   ];
 
