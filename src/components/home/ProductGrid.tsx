@@ -46,7 +46,7 @@ export function ProductGrid() {
 
           return (
             <ScrollReveal
-              key={product.id}
+              key={product.slug}
               animation="reveal-fade-up"
               delay={delayClass}
             >

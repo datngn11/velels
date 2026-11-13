@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, type Ref } from "react";
+import { useState, useRef, type Ref } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ProductImage } from "@/lib/data/products";
@@ -25,25 +25,21 @@ export function ImageCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const scrollToIndex = useCallback((index: number) => {
-    if (sliderRef.current) {
-      const width = sliderRef.current.offsetWidth;
-      sliderRef.current.scrollTo({
-        left: width * index,
-        behavior: scrollBehavior(),
-      });
-      setActiveIndex(index);
-    }
-  }, []);
+  const scrollToIndex = (index: number) => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    slider.scrollTo({
+      left: slider.offsetWidth * index,
+      behavior: scrollBehavior(),
+    });
+    setActiveIndex(index);
+  };
 
-  const handleScroll = useCallback(() => {
-    if (sliderRef.current) {
-      const index = Math.round(
-        sliderRef.current.scrollLeft / sliderRef.current.offsetWidth,
-      );
-      setActiveIndex(index);
-    }
-  }, []);
+  const handleScroll = () => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    setActiveIndex(Math.round(slider.scrollLeft / slider.offsetWidth));
+  };
 
   return (
     <div
@@ -61,7 +57,7 @@ export function ImageCarousel({
         {images.map((image, i) => (
           <div
             key={i}
-            className="min-w-full snap-center aspect-4-5 bg-surface-container relative"
+            className="min-w-full snap-center aspect-4/5 bg-surface-container relative"
           >
             <Image
               src={image.src}

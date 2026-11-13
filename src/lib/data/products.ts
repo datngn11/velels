@@ -43,13 +43,12 @@ export interface ProductImage {
 }
 
 export interface Product {
-  id: string;
   slug: ProductSlug;
   category: ProductCategory;
   price: number;
-  currency: string;
   sizes: Size[];
-  colors: ProductColor[];
+  /** At least one; the first is shown first. */
+  colors: [ProductColor, ...ProductColor[]];
   images: ProductImage[];
   /** The day this Model entered the catalogue, `YYYY-MM-DD`. */
   releasedAt?: string;
@@ -59,11 +58,9 @@ export interface Product {
 
 export const products: Product[] = [
   {
-    id: "1",
     slug: "dimaya",
     category: "one-piece",
     price: 3400,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black", "white"],
     images: [
@@ -114,11 +111,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "2",
     slug: "lendai",
     category: "one-piece",
     price: 3400,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -180,11 +175,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "5",
     slug: "linear",
     category: "one-piece",
     price: 3750,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
     releasedAt: "2026-08-12",
@@ -216,11 +209,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "0",
     slug: "azure",
     category: "one-piece",
     price: 3750,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
     releasedAt: "2026-08-12",
@@ -272,11 +263,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "3",
     slug: "lauri",
     category: "two-piece",
     price: 2900,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -343,11 +332,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "4",
     slug: "ezra",
     category: "one-piece",
     price: 3350,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -405,11 +392,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "7",
     slug: "naevi",
     category: "two-piece",
     price: 2700,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black", "white"],
     images: [
@@ -461,11 +446,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "6",
     slug: "glacier",
     category: "two-piece",
     price: 3100,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white"],
     releasedAt: "2026-08-12",
@@ -502,11 +485,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "8",
     slug: "laydee",
     category: "one-piece",
     price: 3350,
-    currency: "UAH",
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -553,11 +534,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "9",
     slug: "lunar",
     category: "dresses",
     price: 5900,
-    currency: "UAH",
     sizes: ["XS", "S", "M", "L"],
     colors: ["black", "white"],
     releasedAt: "2026-08-12",
@@ -600,11 +579,9 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "10",
     slug: "noblesse",
     category: "dresses",
     price: 6100,
-    currency: "UAH",
     sizes: ["XS", "S", "M", "L"],
     colors: ["black"],
     releasedAt: "2026-08-12",
@@ -651,8 +628,4 @@ export const products: Product[] = [
 
 export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug);
-}
-
-export function getAllProductSlugs(): string[] {
-  return products.map((p) => p.slug);
 }

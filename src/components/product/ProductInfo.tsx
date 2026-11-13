@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Product, Size, ProductColor } from "@/lib/data/products";
 import { Price } from "./Price";
@@ -28,9 +28,6 @@ export function ProductInfo({
   const slug = product.slug;
   const productName = tProduct(`${slug}.name`);
 
-  const handleSizeGuideOpen = useCallback(() => setSizeGuideOpen(true), []);
-  const handleSizeGuideClose = useCallback(() => setSizeGuideOpen(false), []);
-
   return (
     <div className="w-full md:w-1/3 md:sticky md:top-32 h-max flex flex-col pt-stack-sm md:pt-0">
       {/* Product header */}
@@ -49,42 +46,40 @@ export function ProductInfo({
       </div>
 
       {/* Color selector */}
-      {product.colors && product.colors.length > 0 && (
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-label-md text-primary">
-              {t("color")}:{" "}
-              <span className="font-normal text-secondary">
-                {t(selectedColor === "black" ? "colorBlack" : "colorWhite")}
-              </span>
+      <div className="mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-label-md text-primary">
+            {t("color")}:{" "}
+            <span className="font-normal text-secondary">
+              {t(selectedColor === "black" ? "colorBlack" : "colorWhite")}
             </span>
-          </div>
-          <div className="flex gap-3">
-            {product.colors.map((color) => {
-              const isSelected = selectedColor === color;
-              const bgColorClass = color === "black" ? "bg-black" : "bg-white";
-              const colorLabel = t(
-                color === "black" ? "colorBlack" : "colorWhite"
-              );
-
-              return (
-                <button
-                  key={color}
-                  onClick={() => onSelectColor(color)}
-                  className={`w-9 h-9 border transition-all cursor-pointer ${bgColorClass} ${
-                    isSelected
-                      ? "border-primary ring-1 ring-primary ring-offset-2"
-                      : "border-outline-variant/60 hover:border-primary"
-                  }`}
-                  aria-label={colorLabel}
-                  aria-pressed={isSelected}
-                  title={colorLabel}
-                />
-              );
-            })}
-          </div>
+          </span>
         </div>
-      )}
+        <div className="flex gap-3">
+          {product.colors.map((color) => {
+            const isSelected = selectedColor === color;
+            const bgColorClass = color === "black" ? "bg-black" : "bg-white";
+            const colorLabel = t(
+              color === "black" ? "colorBlack" : "colorWhite"
+            );
+
+            return (
+              <button
+                key={color}
+                onClick={() => onSelectColor(color)}
+                className={`w-9 h-9 border transition-all cursor-pointer ${bgColorClass} ${
+                  isSelected
+                    ? "border-primary ring-1 ring-primary ring-offset-2"
+                    : "border-outline-variant/60 hover:border-primary"
+                }`}
+                aria-label={colorLabel}
+                aria-pressed={isSelected}
+                title={colorLabel}
+              />
+            );
+          })}
+        </div>
+      </div>
 
       {/* Size selector */}
       <div className="mb-12">
@@ -93,7 +88,7 @@ export function ProductInfo({
             {t("size")}
           </span>
           <button
-            onClick={handleSizeGuideOpen}
+            onClick={() => setSizeGuideOpen(true)}
             className="text-label-md text-secondary underline hover:text-primary transition-colors"
             data-umami-event="size_guide_open"
             data-umami-event-product={slug}
@@ -208,7 +203,7 @@ export function ProductInfo({
       {/* Size Guide Modal */}
       <SizeGuideModal
         isOpen={sizeGuideOpen}
-        onClose={handleSizeGuideClose}
+        onClose={() => setSizeGuideOpen(false)}
         category={product.category}
       />
     </div>

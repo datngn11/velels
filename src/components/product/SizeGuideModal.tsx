@@ -13,14 +13,10 @@ import {
 interface SizeGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
-  category?: ProductCategory;
+  category: ProductCategory;
 }
 
-export function SizeGuideModal({
-  isOpen,
-  onClose,
-  category = "one-piece",
-}: SizeGuideModalProps) {
+export function SizeGuideModal({ isOpen, onClose, category }: SizeGuideModalProps) {
   const t = useTranslations("productDetail");
   const defaultTab = category === "dresses" ? "dresses" : "swimwear";
   const [selectedTab, setSelectedTab] = useState<"swimwear" | "dresses" | null>(
