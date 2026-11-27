@@ -5,6 +5,9 @@ const buildDate = new Date().toISOString().slice(0, 10);
 
 const nextConfig: NextConfig = {
   output: "export",
+  experimental: {
+    agentUpgrade: "security",
+  },
   // What `next-intl/plugin` does for this config, without the plugin: its
   // module imports @swc/core, which fails to load on some Workers Builds
   // machines (ERR_SWC_NATIVE_CACHE: no folder there passes its permission
