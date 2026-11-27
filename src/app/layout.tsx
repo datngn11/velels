@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Bodoni_Moda, Inter } from "next/font/google";
-import { SmoothScrollHandler } from "@/components/ui/SmoothScrollHandler";
 import { shouldAllowIndexing } from "@/lib/seo/indexing";
 import { routing } from "@/i18n/routing";
 import "./globals.css";
@@ -69,7 +68,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             data-performance="true"
           />
         )}
-        <SmoothScrollHandler />
         <div className="scroll-progress-bar" />
         {children}
       </body>

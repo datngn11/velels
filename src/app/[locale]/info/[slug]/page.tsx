@@ -1,30 +1,27 @@
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { pageMetadata } from "@/lib/seo/openGraph";
 import { linkifyContacts } from "@/lib/utils/linkifyContacts";
+import { INFO_SLUGS, isInfoSlug } from "@/lib/data/infoPages";
 import {
   dressesSizeChart,
   SizeChartTable,
   swimwearSizeChart,
 } from "@/components/product/SizeChart";
 
-const INFO_SLUGS = [
-  "delivery",
-  "returns",
-  "faq",
-  "payment",
-  "care",
-  "about",
-  "privacy",
-  "terms",
-  "contact",
-] as const;
-
-type InfoSlug = (typeof INFO_SLUGS)[number];
+/** One entry in `info.<slug>.content`. FAQ entries use `question`/`answer`. */
+interface InfoSection {
+  heading?: string;
+  body?: string;
+  list?: string[];
+  bodyAfter?: string;
+  question?: string;
+  answer?: string;
+  sizeChart?: boolean;
+}
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -41,7 +38,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
 
-  if (!INFO_SLUGS.includes(slug as InfoSlug)) return {};
+  if (!isInfoSlug(slug)) return {};
 
   const t = await getTranslations({ locale, namespace: "info" });
 
@@ -57,29 +54,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 /**
- * Reads the raw message object rather than using `useTranslations`, because each
- * info page's body is an array of sections of varying shape — heading, body, list,
- * bodyAfter — and the translation helpers return strings, not structures.
+ * Reads the body with `t.raw`: it is an array of sections of varying shape, and
+ * the other translation helpers return strings, not structures.
  */
 export default async function InfoPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  if (!INFO_SLUGS.includes(slug as InfoSlug)) {
+  if (!isInfoSlug(slug)) {
     notFound();
   }
 
   const t = await getTranslations({ locale, namespace: "info" });
   const title = t(`${slug}.title`);
-
-  // Read raw messages to access content arrays
-  const { getMessages } = await import("next-intl/server");
-  const messages = (await getMessages({ locale })) as Record<
-    string,
-    Record<string, { title: string; content: Array<Record<string, string>> }>
-  >;
-  const pageData = messages.info[slug];
-  const content = pageData?.content ?? [];
+  const content = t.raw(`${slug}.content`) as InfoSection[];
 
   const isFaq = slug === "faq";
   const tSize = await getTranslations({ locale, namespace: "productDetail" });
@@ -99,7 +87,7 @@ export default async function InfoPage({ params }: Props) {
 
         {/* Content Sections */}
         <div className="flex flex-col gap-5 md:gap-6">
-          {content.map((section: Record<string, string>, index: number) => (
+          {content.map((section, index) => (
             <section key={index} className="flex flex-col gap-3">
               {isFaq ? (
                 <>
@@ -107,7 +95,7 @@ export default async function InfoPage({ params }: Props) {
                     {section.question}
                   </h2>
                   <p className="text-body-md text-secondary leading-relaxed">
-                    {linkifyContacts(section.answer)}
+                    {linkifyContacts(section.answer ?? "")}
                   </p>
                   {/* In the HTML, unlike the product page's dialog, so crawlers see it. */}
                   {section.sizeChart && (
@@ -140,7 +128,7 @@ export default async function InfoPage({ params }: Props) {
                   )}
                   {section.list && (
                     <ul className="list-disc list-inside flex flex-col gap-1.5 text-body-md text-secondary leading-relaxed">
-                      {(section.list as unknown as string[]).map((item: string, i: number) => (
+                      {section.list.map((item, i) => (
                         <li key={i}>{linkifyContacts(item)}</li>
                       ))}
                     </ul>

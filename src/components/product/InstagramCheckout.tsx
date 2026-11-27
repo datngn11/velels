@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Size, ProductColor } from "@/lib/data/products";
 import { Toast } from "@/components/ui/Toast";
@@ -12,7 +12,7 @@ interface InstagramCheckoutProps {
   productSlug: string;
   /** `null` until she picks one — the message then carries a blank, not a guess. */
   selectedSize: Size | null;
-  selectedColor?: ProductColor;
+  selectedColor: ProductColor;
 }
 
 /** Stands in for a size she never chose, so the Consultant knows to ask. */
@@ -32,12 +32,12 @@ export function InstagramCheckout({
   productName,
   productSlug,
   selectedSize,
-  selectedColor = "black",
+  selectedColor,
 }: InstagramCheckoutProps) {
   const t = useTranslations("productDetail");
   const [showToast, setShowToast] = useState(false);
 
-  const copyMessage = useCallback(() => {
+  const copyMessage = () => {
     const colorLabel =
       selectedColor === "black" ? t("colorBlack") : t("colorWhite");
 
@@ -73,7 +73,7 @@ export function InstagramCheckout({
     } catch {
       // The copy is the part that is allowed to fail. The handoff is not.
     }
-  }, [productName, selectedSize, selectedColor, t]);
+  };
 
   return (
     <>

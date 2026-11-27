@@ -25,25 +25,22 @@ interface SizeChartTableProps {
   labels: SizeRow;
 }
 
+const MEASURES = ["bust", "waist", "hips"] as const;
+
 /** No hooks, so it renders in the size guide dialog and on the FAQ page alike. */
 export function SizeChartTable({ rows, labels }: SizeChartTableProps) {
+  const th = "py-3.5 px-3 font-semibold uppercase tracking-wider text-xs";
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full text-left text-body-sm">
         <thead>
           <tr className="border-b border-primary/20 text-primary">
-            <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs">
-              {labels.size}
-            </th>
-            <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-              {labels.bust}
-            </th>
-            <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-              {labels.waist}
-            </th>
-            <th className="py-3.5 px-3 font-semibold uppercase tracking-wider text-xs text-center">
-              {labels.hips}
-            </th>
+            <th className={th}>{labels.size}</th>
+            {MEASURES.map((m) => (
+              <th key={m} className={`${th} text-center`}>
+                {labels[m]}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-outline-variant/15 text-secondary">
@@ -55,15 +52,11 @@ export function SizeChartTable({ rows, labels }: SizeChartTableProps) {
               <td className="py-3.5 px-3 font-medium text-primary">
                 {row.size}
               </td>
-              <td className="py-3.5 px-3 text-center tabular-nums">
-                {row.bust}
-              </td>
-              <td className="py-3.5 px-3 text-center tabular-nums">
-                {row.waist}
-              </td>
-              <td className="py-3.5 px-3 text-center tabular-nums">
-                {row.hips}
-              </td>
+              {MEASURES.map((m) => (
+                <td key={m} className="py-3.5 px-3 text-center tabular-nums">
+                  {row[m]}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

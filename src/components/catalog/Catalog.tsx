@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { products, type ProductCategory } from "@/lib/data/products";
-import { categoryPath } from "@/lib/data/categories";
+import { CATEGORIES, CATEGORY_LABEL_KEY, categoryPath } from "@/lib/data/categories";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
@@ -26,9 +26,11 @@ export function Catalog({ category }: { category?: ProductCategory }) {
 
   const filterTabs: { id: FilterTab; label: string; href: string }[] = [
     { id: "all", label: t("all"), href: "/catalog" },
-    { id: "one-piece", label: t("onePiece"), href: categoryPath(locale, "one-piece") },
-    { id: "two-piece", label: t("twoPiece"), href: categoryPath(locale, "two-piece") },
-    { id: "dresses", label: t("dresses"), href: categoryPath(locale, "dresses") },
+    ...CATEGORIES.map((c) => ({
+      id: c,
+      label: t(CATEGORY_LABEL_KEY[c]),
+      href: categoryPath(locale, c),
+    })),
   ];
 
   return (
@@ -74,7 +76,7 @@ export function Catalog({ category }: { category?: ProductCategory }) {
 
             return (
               <ScrollReveal
-                key={product.id}
+                key={product.slug}
                 animation="reveal-fade-up"
                 delay={delayClass}
               >

@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/config";
-import { categoryPath } from "@/lib/data/categories";
+import { CATEGORIES, CATEGORY_LABEL_KEY, categoryPath } from "@/lib/data/categories";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -74,26 +74,13 @@ export function Navbar() {
                   </NavigationMenu.Trigger>
 
                   <NavigationMenu.Content className="absolute top-full left-0 w-64 bg-surface-container-lowest/95 backdrop-blur-xl border border-outline-variant/30 shadow-xl p-6 flex flex-col gap-4">
-                    {[
-                      {
-                        href: categoryPath(locale, "one-piece"),
-                        label: t("onePiece"),
-                      },
-                      {
-                        href: categoryPath(locale, "two-piece"),
-                        label: t("twoPiece"),
-                      },
-                      {
-                        href: categoryPath(locale, "dresses"),
-                        label: t("dresses"),
-                      },
-                    ].map((item) => (
-                      <NavigationMenu.Link key={item.href} asChild>
+                    {CATEGORIES.map((category) => (
+                      <NavigationMenu.Link key={category} asChild>
                         <Link
-                          href={item.href}
+                          href={categoryPath(locale, category)}
                           className="text-label-sm text-secondary hover:text-primary transition-colors duration-300 hover-underline-anim w-fit capitalize"
                         >
-                          {item.label}
+                          {tCatalog(CATEGORY_LABEL_KEY[category])}
                         </Link>
                       </NavigationMenu.Link>
                     ))}
@@ -238,34 +225,22 @@ export function Navbar() {
                 >
                   {/* The heading above only toggles this list, so the whole
                       catalogue needs its own link here. */}
-                  <Link
-                    href="/catalog"
-                    onClick={() => setMenuOpen(false)}
-                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
-                  >
-                    {tCatalog("all")}
-                  </Link>
-                  <Link
-                    href={categoryPath(locale, "one-piece")}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
-                  >
-                    {t("onePiece")}
-                  </Link>
-                  <Link
-                    href={categoryPath(locale, "two-piece")}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
-                  >
-                    {t("twoPiece")}
-                  </Link>
-                  <Link
-                    href={categoryPath(locale, "dresses")}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
-                  >
-                    {t("dresses")}
-                  </Link>
+                  {[
+                    { href: "/catalog", label: tCatalog("all") },
+                    ...CATEGORIES.map((category) => ({
+                      href: categoryPath(locale, category),
+                      label: tCatalog(CATEGORY_LABEL_KEY[category]),
+                    })),
+                  ].map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      className="text-body-md text-secondary hover:text-primary transition-colors capitalize"
+                    >
+                      {label}
+                    </Link>
+                  ))}
                 </div>
               </div>
 

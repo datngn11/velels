@@ -1,26 +1,24 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 
 interface ToastProps {
   message: string;
   visible: boolean;
   onDismiss: () => void;
-  duration?: number;
 }
 
-export function Toast({
-  message,
-  visible,
-  onDismiss,
-  duration = 3000,
-}: ToastProps) {
+export function Toast({ message, visible, onDismiss }: ToastProps) {
+  // An Effect Event, so a parent re-render with a new `onDismiss` does not
+  // restart the timer: the toast lasts 3 s from when it appears.
+  const dismiss = useEffectEvent(onDismiss);
+
   useEffect(() => {
     if (visible) {
-      const timer = setTimeout(onDismiss, duration);
+      const timer = setTimeout(dismiss, 3000);
       return () => clearTimeout(timer);
     }
-  }, [visible, onDismiss, duration]);
+  }, [visible]);
 
   // The live region stays mounted and only its content changes: a region that
   // appears together with its text is often not read out.

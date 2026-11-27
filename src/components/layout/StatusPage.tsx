@@ -25,16 +25,18 @@ export function StatusPage({ code, title, subtitle, actions }: StatusPageProps) 
         <Title
           className={`${
             code
-              ? "text-status-label text-primary mb-4 animate-fade-in-up delay-100"
+              ? "text-status-label text-primary mb-4 opacity-0 animate-fade-in-up [animation-delay:100ms]"
               : "text-status-title text-primary mb-6 animate-fade-in-up"
           }`}
         >
           {title}
         </Title>
-        <p className="text-status-body text-secondary max-w-[480px] mb-12 animate-fade-in-up delay-200">
+        {/* `opacity-0` hides each line until its delayed fade starts, as on the
+            hero. `delay-*` would not work here: it sets transition-delay. */}
+        <p className="text-status-body text-secondary max-w-[480px] mb-12 opacity-0 animate-fade-in-up [animation-delay:200ms]">
           {subtitle}
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-300">
+        <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up [animation-delay:300ms]">
           {actions}
         </div>
       </main>

@@ -57,9 +57,6 @@
 }
 
 /* ── Custom utilities ── */
-.aspect-4-5 {
-  aspect-ratio: 4 / 5;
-}
 
 /* Hide scrollbar for carousels */
 .no-scrollbar::-webkit-scrollbar {
@@ -157,7 +154,8 @@ body {
   transform: scale(0.97);
 }
 
-/* Delay classes for staggered reveals */
+/* Delay classes for staggered reveals. Not Tailwind's `delay-*`: those sit in
+   a cascade layer, so the unlayered `transition` shorthand above resets them. */
 .delay-100 {
   transition-delay: 100ms;
 }
@@ -220,8 +218,13 @@ body {
   }
 }
 
+/* Longhands, not the `animation` shorthand: the shorthand resets the delay, and
+   this unlayered rule would then beat the `[animation-delay:…]` utilities. */
 .animate-fade-in-up {
-  animation: fadeInUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-name: fadeInUp;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
 }
 
 /* ── Toast animation ── */
@@ -352,6 +355,9 @@ html[data-scroll-behavior="smooth"] {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    /* Staggered lines start at opacity 0; without this they would wait out
+       their delay blank. */
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

@@ -45,7 +45,7 @@ export default async function RootNotFound() {
         actions={
           <Link
             href={`/${locale}`}
-            className="inline-block bg-primary text-on-primary text-label-md px-8 py-4 animate-fade-in-up delay-300 hover:scale-105 transition-all duration-300"
+            className="inline-block bg-primary text-on-primary text-label-md px-8 py-4 hover:scale-105 transition-all duration-300"
           >
             {t("cta")}
           </Link>

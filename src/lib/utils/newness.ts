@@ -1,6 +1,6 @@
 import type { Product } from "@/lib/data/products";
 
-export const NEW_FOR_DAYS = 60;
+const NEW_FOR_DAYS = 60;
 
 const BUILD_DATE = process.env.NEXT_PUBLIC_BUILD_DATE ?? "";
 

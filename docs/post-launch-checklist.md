@@ -634,21 +634,20 @@ visitor downloads.
         synchronously, and using `writeText` only when it returns false avoids
         that. Test in Instagram's browser on a real phone. Low priority while
         nobody taps the button (N).
-      - **`SmoothScrollHandler` has little left to do.** No link in `src` has a
-        `#` in it, and the hero button calls `smoothScrollTo()` directly. What
-        remains is a re-scroll 150 ms after load when the URL carries a hash.
-        Check that `/uk#collection` still lands under the navbar without it,
-        then delete it and its mount in `src/app/layout.tsx`.
+      - ~~`SmoothScrollHandler` has little left to do.~~ *Deleted 2026-11-12.*
+        In headless Chrome, `/uk#collection` and the hero button both put the
+        grid's top at the navbar's bottom edge (64 px on a phone, 56 px on
+        desktop), the same as before.
       - **Hero height.** `HeroSection.tsx` uses `h-[90vh]`. In iOS Safari and
         Instagram's browser `vh` is the height with the toolbars hidden, so
         the hero is taller than the screen on first load. `svh` uses the
         height with the toolbars shown. Check on a real phone.
-      - **`InfoPage` types.** `info/[slug]/page.tsx` imports `getMessages`
-        dynamically and casts `section.list as unknown as string[]`. A typed
-        section interface removes both.
-      - **`INFO_SLUGS` exists twice**, in the info page and in `sitemap.ts`,
-        kept in step by a comment. Move it to `src/lib/data`: a `page.tsx` may
-        only export the names Next allows.
+      - ~~`InfoPage` types.~~ *Done 2026-11-12.* The page reads its sections
+        with `t.raw()` as a typed `InfoSection[]`. No `getMessages` call, no
+        cast on `list`.
+      - ~~`INFO_SLUGS` exists twice.~~ *Done 2026-11-12.* It lives in
+        `src/lib/data/infoPages.ts`, and both the page and `sitemap.ts`
+        import it.
       - **Size guide type.** Its four `<th>` and its title carry `uppercase
         tracking-wider text-xs` and similar raw classes where `AGENTS.md` asks
         for the label utilities. The catalogue heading is part of G10.
