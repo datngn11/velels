@@ -1,4 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { products } from "@/lib/data/products";
+import { priceView } from "@/lib/utils/price";
 import {
   organizationJsonLd,
   webSiteJsonLd,
@@ -34,11 +36,13 @@ export default async function HomePage({ params }: Props) {
     webSiteJsonLd(siteName),
   ];
 
+  const isSaleActive = products.some((p) => priceView(p).onSale);
+
   return (
     <>
       <Navbar />
       <main className="mt-16 md:mt-14">
-        <HeroSection />
+        <HeroSection isSaleActive={isSaleActive} />
         <ProductGrid />
         <EditorialFeature />
         <InstagramFeed />
