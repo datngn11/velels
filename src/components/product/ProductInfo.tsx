@@ -41,7 +41,8 @@ export function ProductInfo({
         {/* Price */}
         <Price
           product={product}
-          className="text-body-lg text-secondary mt-3 font-medium block"
+          showDiscount
+          className="text-body-lg text-primary mt-3 font-medium"
         />
       </div>
 

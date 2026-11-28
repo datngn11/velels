@@ -61,6 +61,7 @@ export const products: Product[] = [
     slug: "dimaya",
     category: "one-piece",
     price: 3400,
+    salePrice: 2890,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black", "white"],
     images: [
@@ -114,6 +115,7 @@ export const products: Product[] = [
     slug: "lendai",
     category: "one-piece",
     price: 3400,
+    salePrice: 2890,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -178,6 +180,7 @@ export const products: Product[] = [
     slug: "linear",
     category: "one-piece",
     price: 3750,
+    salePrice: 3190,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
     releasedAt: "2026-08-12",
@@ -212,6 +215,7 @@ export const products: Product[] = [
     slug: "azure",
     category: "one-piece",
     price: 3750,
+    salePrice: 3190,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black"],
     releasedAt: "2026-08-12",
@@ -266,6 +270,7 @@ export const products: Product[] = [
     slug: "lauri",
     category: "two-piece",
     price: 2900,
+    salePrice: 2320,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -335,6 +340,7 @@ export const products: Product[] = [
     slug: "ezra",
     category: "one-piece",
     price: 3350,
+    salePrice: 2850,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -395,6 +401,7 @@ export const products: Product[] = [
     slug: "naevi",
     category: "two-piece",
     price: 2700,
+    salePrice: 2160,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["black", "white"],
     images: [
@@ -449,6 +456,7 @@ export const products: Product[] = [
     slug: "glacier",
     category: "two-piece",
     price: 3100,
+    salePrice: 2480,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white"],
     releasedAt: "2026-08-12",
@@ -488,6 +496,7 @@ export const products: Product[] = [
     slug: "laydee",
     category: "one-piece",
     price: 3350,
+    salePrice: 2850,
     sizes: ["XXS", "XS", "S", "M", "L"],
     colors: ["white", "black"],
     images: [
@@ -537,6 +546,7 @@ export const products: Product[] = [
     slug: "lunar",
     category: "dresses",
     price: 5900,
+    salePrice: 5015,
     sizes: ["XS", "S", "M", "L"],
     colors: ["black", "white"],
     releasedAt: "2026-08-12",

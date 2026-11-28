@@ -7,6 +7,7 @@ describe("priceView", () => {
       onSale: false,
       current: 2400,
       original: null,
+      discountPercent: null,
     });
   });
 
@@ -15,6 +16,7 @@ describe("priceView", () => {
       onSale: true,
       current: 1900,
       original: 2400,
+      discountPercent: 21,
     });
   });
 
@@ -23,6 +25,7 @@ describe("priceView", () => {
       onSale: false,
       current: 2400,
       original: null,
+      discountPercent: null,
     });
   });
 
@@ -31,6 +34,31 @@ describe("priceView", () => {
       onSale: false,
       current: 2400,
       original: null,
+      discountPercent: null,
+    });
+  });
+
+  it("ignores a zero or negative sale price", () => {
+    expect(priceView({ price: 3400, salePrice: 0 })).toEqual({
+      onSale: false,
+      current: 3400,
+      original: null,
+      discountPercent: null,
+    });
+    expect(priceView({ price: 3400, salePrice: -100 })).toEqual({
+      onSale: false,
+      current: 3400,
+      original: null,
+      discountPercent: null,
+    });
+  });
+
+  it("omits the discount percentage when a tiny reduction rounds to zero", () => {
+    expect(priceView({ price: 3400, salePrice: 3390 })).toEqual({
+      onSale: true,
+      current: 3390,
+      original: 3400,
+      discountPercent: null,
     });
   });
 });

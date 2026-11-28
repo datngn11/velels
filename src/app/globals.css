@@ -470,3 +470,7 @@ html[data-scroll-behavior="smooth"] {
 @utility text-feed-heading {
   @apply font-sans text-[12px] leading-4 tracking-[0.3em] font-semibold uppercase;
 }
+
+@utility text-sale-badge {
+  @apply font-sans text-[10px] leading-3 tracking-[0.04em] font-medium uppercase;
+}

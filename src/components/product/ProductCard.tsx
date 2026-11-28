@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Product } from "@/lib/data/products";
 import { Price } from "@/components/product/Price";
 import { isNewRelease } from "@/lib/utils/newness";
+import { priceView } from "@/lib/utils/price";
 import { productImageAlt } from "@/lib/utils/productImageAlt";
 
 interface ProductCardProps {
@@ -42,6 +43,7 @@ export function ProductCard({
   const t = useTranslations("products");
   const tMeta = useTranslations("meta");
   const cover = product.images[0];
+  const { discountPercent } = priceView(product);
 
   return (
     <Link
@@ -49,10 +51,16 @@ export function ProductCard({
       className={`group flex flex-col gap-3 cursor-pointer ${className}`}
     >
       <div className="w-full aspect-4/5 bg-surface-container-low relative hover-image-zoom">
-        {isNewRelease(product) && (
-          <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 text-label-xs bg-primary text-on-primary border border-on-primary px-2.5 py-1">
-            {t("newBadge")}
+        {discountPercent !== null ? (
+          <span className="absolute top-2.5 left-2.5 md:top-3 md:left-3 z-10 text-sale-badge bg-error text-on-error px-1.5 py-0.5 rounded-[10px]">
+            -{discountPercent}%
           </span>
+        ) : (
+          isNewRelease(product) && (
+            <span className="absolute top-3 left-3 md:top-4 md:left-4 z-10 text-label-xs bg-primary text-on-primary border border-on-primary px-2.5 py-1">
+              {t("newBadge")}
+            </span>
+          )
         )}
         <Image
           src={cover.src}
@@ -68,13 +76,13 @@ export function ProductCard({
           loading={eager ? "eager" : undefined}
         />
       </div>
-      <div className="flex justify-between items-baseline px-1 gap-2">
+      <div className="flex flex-wrap justify-between items-baseline px-1 gap-x-2 gap-y-0.5">
         <Heading className="text-body-md text-primary tracking-wide font-medium">
           {t(`${product.slug}.name`)}
         </Heading>
         <Price
           product={product}
-          className="text-body-md text-secondary whitespace-nowrap"
+          className="text-body-md text-primary whitespace-nowrap"
         />
       </div>
     </Link>
